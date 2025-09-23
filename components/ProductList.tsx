@@ -21,49 +21,60 @@ export const ProductList: React.FC<ProductListProps> = ({ products, setProducts 
   };
 
   return (
-    <div className="bg-white p-6 rounded-lg shadow-md">
-       <div className="flex justify-between items-center mb-4">
-        <h2 className="text-2xl font-semibold">Products</h2>
-        <button 
-          onClick={() => navigate('/products/new')}
-          className="flex items-center bg-snowva-orange text-white px-4 py-2 rounded-md hover:bg-snowva-orange-dark transition-colors"
-        >
-          <PlusIcon />
-          <span className="ml-2">Add Product</span>
-        </button>
-      </div>
-      <div className="overflow-x-auto">
-        <table className="w-full text-left">
-          <thead>
-            <tr className="bg-slate-100">
-              <th className="p-3">Image</th>
-              <th className="p-3">Name</th>
-              <th className="p-3">Consumer Price (ex. VAT)</th>
-              <th className="p-3">Retail Price (ex. VAT)</th>
-              <th className="p-3">Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            {products.map(product => {
-              const currentPrice = getCurrentPrice(product);
-              return (
-              <tr key={product.id} className="border-b hover:bg-slate-50">
-                <td className="p-3">
-                  <img src={product.imageUrl || 'https://picsum.photos/seed/placeholder/50'} alt={product.name} className="w-12 h-12 rounded-md object-cover"/>
-                </td>
-                <td className="p-3 font-medium">{product.name}</td>
-                <td className="p-3">R {currentPrice ? currentPrice.consumer.toFixed(2) : 'N/A'}</td>
-                <td className="p-3">R {currentPrice ? currentPrice.retail.toFixed(2) : 'N/A'}</td>
-                <td className="p-3">
-                   <div className="flex space-x-2">
-                    <button onClick={() => navigate(`/products/${product.id}`)} className="text-blue-600 hover:text-blue-800"><PencilIcon /></button>
-                    <button onClick={() => handleDelete(product.id)} className="text-red-600 hover:text-red-800"><TrashIcon /></button>
-                  </div>
-                </td>
-              </tr>
-            )})}
-          </tbody>
-        </table>
+    <div className="bg-white p-6 rounded-xl border border-slate-200">
+       <div className="sm:flex sm:items-center sm:justify-between mb-6">
+            <div className="sm:flex-auto">
+                <h2 className="text-2xl font-semibold leading-6 text-slate-900">Products</h2>
+                <p className="mt-2 text-sm text-slate-700">A list of all products including their name and current pricing.</p>
+            </div>
+            <div className="mt-4 sm:ml-16 sm:mt-0 sm:flex-none">
+                <button 
+                    onClick={() => navigate('/products/new')}
+                    className="inline-flex items-center rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                >
+                    <PlusIcon className="w-5 h-5 mr-2" />
+                    Add Product
+                </button>
+            </div>
+        </div>
+      <div className="mt-8 flow-root">
+         <div className="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
+            <div className="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8">
+                <table className="min-w-full divide-y divide-slate-300">
+                <thead>
+                    <tr>
+                    <th scope="col" className="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-slate-900 sm:pl-0">Image</th>
+                    <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-slate-900">Name</th>
+                    <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-slate-900">Consumer Price (ex. VAT)</th>
+                    <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-slate-900">Retail Price (ex. VAT)</th>
+                    <th scope="col" className="relative py-3.5 pl-3 pr-4 sm:pr-0">
+                        <span className="sr-only">Edit</span>
+                    </th>
+                    </tr>
+                </thead>
+                <tbody className="divide-y divide-slate-200">
+                    {products.map(product => {
+                    const currentPrice = getCurrentPrice(product);
+                    return (
+                    <tr key={product.id} className="hover:bg-slate-50">
+                        <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-slate-900 sm:pl-0">
+                        <img src={product.imageUrl || 'https://picsum.photos/seed/placeholder/50'} alt={product.name} className="w-12 h-12 rounded-md object-cover"/>
+                        </td>
+                        <td className="whitespace-nowrap px-3 py-4 text-sm text-slate-900 font-medium">{product.name}</td>
+                        <td className="whitespace-nowrap px-3 py-4 text-sm text-slate-500">R {currentPrice ? currentPrice.consumer.toFixed(2) : 'N/A'}</td>
+                        <td className="whitespace-nowrap px-3 py-4 text-sm text-slate-500">R {currentPrice ? currentPrice.retail.toFixed(2) : 'N/A'}</td>
+                        <td className="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium">
+                        <div className="flex items-center justify-end space-x-4">
+                            <button onClick={() => navigate(`/products/${product.id}`)} className="text-indigo-600 hover:text-indigo-900"><PencilIcon className="w-5 h-5"/></button>
+                            <button onClick={() => handleDelete(product.id)} className="text-slate-400 hover:text-red-600"><TrashIcon className="w-5 h-5"/></button>
+                        </div>
+                        </td>
+                    </tr>
+                    )})}
+                </tbody>
+                </table>
+            </div>
+        </div>
       </div>
     </div>
   );

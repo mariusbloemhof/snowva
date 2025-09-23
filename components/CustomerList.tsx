@@ -89,10 +89,12 @@ export const CustomerList: React.FC<CustomerListProps> = ({ customers, setCustom
     }, [customers, searchTerm, filterType, sortConfig]);
 
     const SortableHeader: React.FC<{ columnKey: keyof Customer, title: string }> = ({ columnKey, title }) => (
-        <th className="p-3 text-left font-semibold text-sm cursor-pointer" onClick={() => requestSort(columnKey)}>
-            {title}
-            {sortConfig?.key === columnKey && <span>{sortConfig.direction === 'ascending' ? ' ▲' : ' ▼'}</span>}
-            {sortConfig?.key !== columnKey && <SelectorIcon />}
+        <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-slate-900 cursor-pointer" onClick={() => requestSort(columnKey)}>
+            <div className="flex items-center">
+                <span>{title}</span>
+                {sortConfig?.key === columnKey && <span>{sortConfig.direction === 'ascending' ? ' ▲' : ' ▼'}</span>}
+                {sortConfig?.key !== columnKey && <SelectorIcon />}
+            </div>
         </th>
     );
     
@@ -104,33 +106,33 @@ export const CustomerList: React.FC<CustomerListProps> = ({ customers, setCustom
 
        return (
         <>
-            <tr className="border-b border-ui-stroke hover:bg-slate-50">
-                <td className="p-3">
+            <tr className="hover:bg-slate-50">
+                <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm">
                     <div className="flex items-center" style={{ paddingLeft: `${level * 24}px` }}>
                        {hasChildren ? (
-                         <button onClick={() => toggleRow(customer.id)} className="mr-2">
-                            {isExpanded ? <ChevronDownIcon /> : <ChevronRightIcon />}
+                         <button onClick={() => toggleRow(customer.id)} className="mr-2 p-1 rounded-full hover:bg-slate-200">
+                            {isExpanded ? <ChevronDownIcon className="w-4 h-4" /> : <ChevronRightIcon className="w-4 h-4" />}
                          </button>
                        ) : (
                          <span className="w-8 inline-block"></span>
                        )}
-                        <span className="font-medium">{customer.name}</span>
-                        {hasCustomPricing && <CashIcon className="w-4 h-4 text-snowva-orange inline-block ml-2" title="This customer has custom pricing" />}
+                        <span className="font-medium text-slate-900">{customer.name}</span>
+                        {hasCustomPricing && <CashIcon className="w-4 h-4 text-yellow-500 inline-block ml-2" title="This customer has custom pricing" />}
                     </div>
                 </td>
-                <td className="p-3">
-                    <span className={`px-2 py-1 text-xs font-semibold rounded-full ${
-                        customer.type === CustomerType.B2B ? 'bg-blue-100 text-blue-800' : 'bg-green-100 text-green-800'
+                <td className="whitespace-nowrap px-3 py-4 text-sm text-slate-500">
+                    <span className={`inline-flex items-center rounded-md px-2 py-1 text-xs font-medium ring-1 ring-inset ${
+                        customer.type === CustomerType.B2B ? 'bg-blue-50 text-blue-700 ring-blue-600/20' : 'bg-green-50 text-green-700 ring-green-600/20'
                     }`}>
                         {customer.type}
                     </span>
                 </td>
-                <td className="p-3 text-text-secondary">{primaryAddress?.city || 'N/A'}</td>
-                <td className="p-3 text-text-secondary">{customer.contactEmail || 'N/A'}</td>
-                <td className="p-3">
-                  <div className="flex space-x-2">
-                    <button onClick={() => handleEdit(customer)} className="text-blue-600 hover:text-blue-800"><PencilIcon /></button>
-                    <button className="text-red-600 hover:text-red-800"><TrashIcon /></button>
+                <td className="whitespace-nowrap px-3 py-4 text-sm text-slate-500">{primaryAddress?.city || 'N/A'}</td>
+                <td className="whitespace-nowrap px-3 py-4 text-sm text-slate-500">{customer.contactEmail || 'N/A'}</td>
+                <td className="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium">
+                  <div className="flex items-center justify-end space-x-4">
+                    <button onClick={() => handleEdit(customer)} className="text-indigo-600 hover:text-indigo-900"><PencilIcon className="w-5 h-5" /></button>
+                    <button className="text-slate-400 hover:text-red-600"><TrashIcon className="w-5 h-5" /></button>
                   </div>
                 </td>
               </tr>
@@ -140,52 +142,63 @@ export const CustomerList: React.FC<CustomerListProps> = ({ customers, setCustom
     }
 
   return (
-    <div className="bg-white p-6 rounded-lg shadow-md">
-      <div className="flex flex-col md:flex-row justify-between items-center mb-4 gap-4">
-        <h2 className="text-2xl font-semibold text-text-primary">Customers</h2>
-        <div className="flex flex-col md:flex-row items-center gap-2 w-full md:w-auto">
-            <div className="relative w-full md:w-auto">
-                <span className="absolute inset-y-0 left-0 flex items-center pl-3"><SearchIcon/></span>
-                <input
-                    type="text"
-                    placeholder="Search customers..."
-                    value={searchTerm}
-                    onChange={(e) => setSearchTerm(e.target.value)}
-                    className="pl-10 pr-4 py-2 border border-ui-stroke rounded-md w-full md:w-64 focus:ring-snowva-blue focus:border-snowva-blue"
-                />
-            </div>
-            <select
-                value={filterType}
-                onChange={(e) => setFilterType(e.target.value as CustomerType | 'all')}
-                className="px-4 py-2 border border-ui-stroke rounded-md w-full md:w-auto focus:ring-snowva-blue focus:border-snowva-blue"
-            >
-                <option value="all">All Types</option>
-                <option value={CustomerType.B2B}>Retail</option>
-                <option value={CustomerType.B2C}>Consumer</option>
-            </select>
-            <button onClick={handleAddNew} className="flex items-center bg-snowva-orange text-white px-4 py-2 rounded-md hover:bg-snowva-orange-dark transition-colors w-full md:w-auto justify-center">
-              <PlusIcon />
-              <span className="ml-2">Add Customer</span>
+    <div className="bg-white p-6 rounded-xl border border-slate-200">
+      <div className="sm:flex sm:items-center sm:justify-between mb-6">
+        <div className="sm:flex-auto">
+            <h2 className="text-2xl font-semibold leading-6 text-slate-900">Customers</h2>
+            <p className="mt-2 text-sm text-slate-700">A list of all the customers in your account including their name, type, and location.</p>
+        </div>
+        <div className="mt-4 sm:ml-16 sm:mt-0 sm:flex-none">
+            <button onClick={handleAddNew} className="inline-flex items-center rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
+              <PlusIcon className="w-5 h-5 mr-2" />
+              Add Customer
             </button>
         </div>
       </div>
-      <div className="overflow-x-auto">
-        <table className="w-full text-left whitespace-nowrap">
-          <thead className="bg-slate-100">
-            <tr>
-              <SortableHeader columnKey="name" title="Name" />
-              <SortableHeader columnKey="type" title="Type" />
-              <th className="p-3 text-left font-semibold text-sm">Location</th>
-              <th className="p-3 text-left font-semibold text-sm">Contact Email</th>
-              <th className="p-3 text-left font-semibold text-sm">Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            {processedCustomers.map(customer => (
-                <CustomerRow key={customer.id} customer={customer} level={0}/>
-            ))}
-          </tbody>
-        </table>
+      <div className="flex flex-col md:flex-row justify-between items-center mb-4 gap-4">
+        <div className="relative w-full md:w-80">
+            <span className="absolute inset-y-0 left-0 flex items-center pl-3"><SearchIcon className="w-5 h-5 text-slate-400"/></span>
+            <input
+                type="text"
+                placeholder="Search customers..."
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                className="block w-full rounded-md border-0 py-1.5 pl-10 text-slate-900 ring-1 ring-inset ring-slate-300 placeholder:text-slate-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+            />
+        </div>
+        <select
+            value={filterType}
+            onChange={(e) => setFilterType(e.target.value as CustomerType | 'all')}
+            className="block w-full md:w-auto rounded-md border-0 py-1.5 text-slate-900 ring-1 ring-inset ring-slate-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+        >
+            <option value="all">All Types</option>
+            <option value={CustomerType.B2B}>Retail</option>
+            <option value={CustomerType.B2C}>Consumer</option>
+        </select>
+      </div>
+      <div className="mt-8 flow-root">
+        <div className="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
+            <div className="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8">
+                <table className="min-w-full divide-y divide-slate-300">
+                    <thead>
+                        <tr>
+                        <SortableHeader columnKey="name" title="Name" />
+                        <SortableHeader columnKey="type" title="Type" />
+                        <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-slate-900">Location</th>
+                        <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-slate-900">Contact Email</th>
+                        <th scope="col" className="relative py-3.5 pl-3 pr-4 sm:pr-0">
+                            <span className="sr-only">Edit</span>
+                        </th>
+                        </tr>
+                    </thead>
+                    <tbody className="divide-y divide-slate-200">
+                        {processedCustomers.map(customer => (
+                            <CustomerRow key={customer.id} customer={customer} level={0}/>
+                        ))}
+                    </tbody>
+                </table>
+             </div>
+         </div>
       </div>
     </div>
   );

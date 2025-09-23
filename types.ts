@@ -67,12 +67,19 @@ export interface Product {
   ecommerceLink?: string;
 }
 
+export enum LineItemPriority {
+  HIGH = 'High',
+  MEDIUM = 'Medium',
+  LOW = 'Low',
+}
+
 export interface LineItem {
   id: string;
   productId: string;
   description: string;
   quantity: number;
   unitPrice: number;
+  priority?: LineItemPriority;
 }
 
 export enum PaymentMethod {

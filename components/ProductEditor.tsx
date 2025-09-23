@@ -1,11 +1,11 @@
 
-
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Product, Price } from '../types';
 import { PlusIcon, SparklesIcon } from './Icons';
 import { getCurrentPrice } from '../utils';
 import { GoogleGenAI } from "@google/genai";
+import { useToast } from '../contexts/ToastContext';
 
 interface ProductEditorProps {
     products: Product[];
@@ -28,11 +28,18 @@ const emptyNewPrice = {
     retail: 0,
 };
 
+type FormErrors = {
+    name?: string;
+    itemCode?: string;
+}
+
 export const ProductEditor: React.FC<ProductEditorProps> = ({ products, setProducts, productId }) => {
     const navigate = useNavigate();
+    const { addToast } = useToast();
     const [formData, setFormData] = useState<Omit<Product, 'id'> & {id?: string}>(emptyProduct);
     const [newPrice, setNewPrice] = useState(emptyNewPrice);
     const [isFindingImage, setIsFindingImage] = useState(false);
+    const [errors, setErrors] = useState<FormErrors>({});
     
     useEffect(() => {
         if (productId) {
@@ -46,10 +53,17 @@ export const ProductEditor: React.FC<ProductEditorProps> = ({ products, setProdu
             setFormData(emptyProduct);
         }
     }, [productId, products, navigate]);
+    
+    const formElementClasses = "block w-full rounded-md border-0 py-1.5 text-slate-900 shadow-sm ring-1 ring-inset ring-slate-300 placeholder:text-slate-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6";
+    const labelClasses = "block text-sm font-medium leading-6 text-slate-900";
+
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         const { name, value } = e.target;
         setFormData(prev => ({ ...prev, [name]: value }));
+         if (errors[name as keyof FormErrors]) {
+            setErrors(prev => ({ ...prev, [name]: undefined }));
+        }
     };
 
     const handleNewPriceChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -59,7 +73,7 @@ export const ProductEditor: React.FC<ProductEditorProps> = ({ products, setProdu
 
     const handleAddPrice = () => {
         if (!newPrice.effectiveDate) {
-            alert('Please select an effective date.');
+            addToast('Please select an effective date.', 'error');
             return;
         }
         const newPriceWithId: Price = {
@@ -72,11 +86,23 @@ export const ProductEditor: React.FC<ProductEditorProps> = ({ products, setProdu
         }));
         setNewPrice(emptyNewPrice); // Reset for next entry
     };
+    
+    const validateForm = () => {
+        const newErrors: FormErrors = {};
+        if (!formData.name.trim()) newErrors.name = 'Product name is required.';
+        if (!formData.itemCode.trim()) newErrors.itemCode = 'Item code is required.';
+        setErrors(newErrors);
+        return Object.keys(newErrors).length === 0;
+    }
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
+        if (!validateForm()) {
+            addToast('Please fix the validation errors.', 'error');
+            return;
+        }
         if (formData.prices.length === 0) {
-            alert('Please add at least one price for the product.');
+            addToast('Please add at least one price for the product.', 'error');
             return;
         }
         if (formData.id) { // Existing product
@@ -84,15 +110,17 @@ export const ProductEditor: React.FC<ProductEditorProps> = ({ products, setProdu
         } else { // New product
             setProducts([...products, {...formData, id: `prod_${Date.now()}`} as Product]);
         }
+        addToast('Product saved successfully!', 'success');
         navigate('/products');
     };
     
     const findProductImage = async () => {
         if (!formData.name) {
-            alert("Please enter a product name first.");
+            addToast("Please enter a product name first.", 'error');
             return;
         }
         setIsFindingImage(true);
+        addToast('Searching for product image...', 'info');
         try {
             const ai = new GoogleGenAI({ apiKey: process.env.API_KEY as string });
             const prompt = `Search for the main product image for "${formData.name}" on the website snowva.com. Return only the full, direct URL to the image file (e.g., a URL ending in .jpg, .png, or .webp). If you find a relevant product page but not a direct image URL, provide the URL of the most prominent image on that page. If you cannot find a specific image for this product, return the text "NOT_FOUND".`;
@@ -106,12 +134,13 @@ export const ProductEditor: React.FC<ProductEditorProps> = ({ products, setProdu
 
             if (imageUrl && imageUrl !== 'NOT_FOUND' && imageUrl.startsWith('http')) {
                 setFormData(prev => ({ ...prev, imageUrl }));
+                addToast('Image found and updated!', 'success');
             } else {
-                alert(`Could not automatically find an image for "${formData.name}". Please provide a URL manually.`);
+                addToast(`Could not automatically find an image for "${formData.name}".`, 'error');
             }
         } catch (error) {
             console.error("Error finding product image:", error);
-            alert("An error occurred while trying to find the image.");
+            addToast("An error occurred while trying to find the image.", 'error');
         } finally {
             setIsFindingImage(false);
         }
@@ -121,88 +150,98 @@ export const ProductEditor: React.FC<ProductEditorProps> = ({ products, setProdu
     const currentPrice = getCurrentPrice(formData as Product);
 
     return (
-        <div className="bg-white p-6 rounded-lg shadow-md">
-            <form onSubmit={handleSubmit}>
-                <div className="flex justify-between items-center mb-6 border-b pb-4">
-                    <h2 className="text-2xl font-semibold text-text-primary">{productId ? 'Edit Product' : 'Add New Product'}</h2>
-                    <div className="flex justify-end space-x-4">
-                        <button type="button" onClick={() => navigate('/products')} className="px-4 py-2 bg-slate-200 text-text-primary rounded-md hover:bg-slate-300">Cancel</button>
-                        <button type="submit" className="px-4 py-2 bg-snowva-orange text-white rounded-md hover:bg-snowva-orange-dark">Save Product</button>
+        <div className="bg-white p-6 sm:p-8 rounded-xl border border-slate-200">
+            <form onSubmit={handleSubmit} noValidate>
+                 <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 border-b border-slate-200 pb-4">
+                    <div>
+                        <h2 className="text-2xl font-semibold leading-6 text-slate-900">{productId ? 'Edit Product' : 'Add New Product'}</h2>
+                        <p className="mt-1 text-sm text-slate-600">Manage product details, pricing, and media.</p>
+                    </div>
+                    <div className="flex items-center justify-end space-x-3 mt-4 sm:mt-0">
+                        <button type="button" onClick={() => navigate('/products')} className="rounded-md bg-white px-3 py-2 text-sm font-semibold text-slate-900 shadow-sm ring-1 ring-inset ring-slate-300 hover:bg-slate-50">Cancel</button>
+                        <button type="submit" className="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Save Product</button>
                     </div>
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
                     {/* Left column for product info */}
                     <div className="md:col-span-2 space-y-6">
                         <div>
-                            <label htmlFor="name" className="block text-sm font-medium text-text-secondary">Product Name</label>
-                            <input type="text" name="name" id="name" value={formData.name} onChange={handleChange} required className="mt-1 block w-full px-3 py-2 border border-ui-stroke rounded-md shadow-sm focus:outline-none focus:ring-snowva-blue focus:border-snowva-blue"/>
+                            <label htmlFor="name" className={labelClasses}>Product Name</label>
+                            <div className="mt-2">
+                                <input type="text" name="name" id="name" value={formData.name} onChange={handleChange} required className={`${formElementClasses} ${errors.name ? 'ring-red-500' : ''}`}/>
+                            </div>
+                            {errors.name && <p className="text-sm text-red-600 mt-1">{errors.name}</p>}
                         </div>
                         <div>
-                            <label htmlFor="itemCode" className="block text-sm font-medium text-text-secondary">Item Code</label>
-                            <input type="text" name="itemCode" id="itemCode" value={formData.itemCode} onChange={handleChange} required className="mt-1 block w-full px-3 py-2 border border-ui-stroke rounded-md shadow-sm focus:outline-none focus:ring-snowva-blue focus:border-snowva-blue"/>
+                            <label htmlFor="itemCode" className={labelClasses}>Item Code</label>
+                             <div className="mt-2">
+                                <input type="text" name="itemCode" id="itemCode" value={formData.itemCode} onChange={handleChange} required className={`${formElementClasses} ${errors.itemCode ? 'ring-red-500' : ''}`}/>
+                            </div>
+                             {errors.itemCode && <p className="text-sm text-red-600 mt-1">{errors.itemCode}</p>}
                         </div>
                          <div>
-                            <label htmlFor="description" className="block text-sm font-medium text-text-secondary">Description</label>
-                            <textarea name="description" id="description" rows={4} value={formData.description} onChange={handleChange} className="mt-1 block w-full px-3 py-2 border border-ui-stroke rounded-md shadow-sm focus:outline-none focus:ring-snowva-blue focus:border-snowva-blue"></textarea>
+                            <label htmlFor="description" className={labelClasses}>Description</label>
+                            <div className="mt-2">
+                                <textarea name="description" id="description" rows={4} value={formData.description} onChange={handleChange} className={formElementClasses}></textarea>
+                            </div>
                         </div>
-                        <fieldset className="border p-4 rounded-md">
-                            <legend className="text-lg font-medium text-text-primary px-1">Price Management</legend>
-                            <div className="space-y-4 pt-2">
-                                {/* Current Price Display */}
-                                <div className="p-3 bg-blue-50 border border-blue-200 rounded-md">
-                                    <h4 className="font-semibold text-blue-800">Current Effective Price</h4>
+                        <div className="border border-slate-200 rounded-lg">
+                            <h3 className="text-base font-semibold leading-6 text-slate-900 border-b border-slate-200 px-4 py-3">Price Management</h3>
+                            <div className="p-4 space-y-4">
+                                <div className="p-4 bg-indigo-50 border border-indigo-200 rounded-lg">
+                                    <h4 className="font-semibold text-indigo-800">Current Effective Price</h4>
                                     {currentPrice ? (
                                         <div className="flex justify-around mt-2 text-center">
                                             <div>
-                                                <p className="text-sm text-slate-500">Consumer (ex. VAT)</p>
+                                                <p className="text-sm text-slate-600">Consumer (ex. VAT)</p>
                                                 <p className="text-2xl font-bold text-slate-800">R {currentPrice.consumer.toFixed(2)}</p>
                                             </div>
                                             <div>
-                                                <p className="text-sm text-slate-500">Retail (ex. VAT)</p>
+                                                <p className="text-sm text-slate-600">Retail (ex. VAT)</p>
                                                 <p className="text-2xl font-bold text-slate-800">R {currentPrice.retail.toFixed(2)}</p>
                                             </div>
                                         </div>
                                     ) : (
-                                        <p className="text-slate-500 mt-2 text-center">No current price is set. Add a price below with an effective date in the past or today.</p>
+                                        <p className="text-slate-500 mt-2 text-center">No current price is set. Add a price below.</p>
                                     )}
                                 </div>
-                                {/* New Price Entry */}
-                                <div className="bg-slate-50 p-3 rounded-md">
-                                    <h4 className="font-semibold mb-2">Add New Price</h4>
+                                <div className="bg-slate-50 p-4 rounded-lg">
+                                    <h4 className="font-semibold text-slate-800 mb-2">Add New Price</h4>
                                     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 items-end">
-                                        <div>
-                                            <label htmlFor="effectiveDate" className="block text-sm font-medium text-text-secondary">Effective Date</label>
-                                            <input type="date" name="effectiveDate" id="effectiveDate" value={newPrice.effectiveDate} onChange={handleNewPriceChange} className="mt-1 block w-full px-3 py-2 border border-ui-stroke rounded-md"/>
+                                        <div className="md:col-span-2">
+                                            <label htmlFor="effectiveDate" className={`${labelClasses} text-xs`}>Effective Date</label>
+                                            <input type="date" name="effectiveDate" id="effectiveDate" value={newPrice.effectiveDate} onChange={handleNewPriceChange} className={`${formElementClasses} mt-1`}/>
                                         </div>
                                         <div>
-                                            <label htmlFor="consumer" className="block text-sm font-medium text-text-secondary">Consumer Price (ex. VAT)</label>
-                                            <input type="number" name="consumer" id="consumer" value={newPrice.consumer} onChange={handleNewPriceChange} step="0.01" className="mt-1 block w-full px-3 py-2 border border-ui-stroke rounded-md"/>
+                                            <label htmlFor="consumer" className={`${labelClasses} text-xs`}>Consumer</label>
+                                            <input type="number" name="consumer" id="consumer" value={newPrice.consumer} onChange={handleNewPriceChange} step="0.01" className={`${formElementClasses} mt-1`}/>
                                         </div>
                                         <div>
-                                            <label htmlFor="retail" className="block text-sm font-medium text-text-secondary">Retail Price (ex. VAT)</label>
-                                            <input type="number" name="retail" id="retail" value={newPrice.retail} onChange={handleNewPriceChange} step="0.01" className="mt-1 block w-full px-3 py-2 border border-ui-stroke rounded-md"/>
+                                            <label htmlFor="retail" className={`${labelClasses} text-xs`}>Retail</label>
+                                            <input type="number" name="retail" id="retail" value={newPrice.retail} onChange={handleNewPriceChange} step="0.01" className={`${formElementClasses} mt-1`}/>
                                         </div>
-                                        <button type="button" onClick={handleAddPrice} className="flex items-center justify-center bg-snowva-cyan text-white px-4 py-2 rounded-md hover:bg-snowva-blue transition-colors">
-                                            <PlusIcon /> <span className="ml-2">Add Price</span>
+                                        <div className="md:col-span-4">
+                                        <button type="button" onClick={handleAddPrice} className="inline-flex items-center justify-center w-full rounded-md bg-white px-3 py-2 text-sm font-semibold text-slate-900 shadow-sm ring-1 ring-inset ring-slate-300 hover:bg-slate-50">
+                                            <PlusIcon className="w-5 h-5 mr-2" /> Add Price
                                         </button>
+                                        </div>
                                     </div>
                                 </div>
-                                {/* Price History */}
                                 <div>
-                                    <h4 className="font-semibold mb-2 mt-4">Price History</h4>
+                                    <h4 className="font-semibold text-slate-800 mb-2 mt-4">Price History</h4>
                                     <div className="overflow-x-auto max-h-60 border rounded-md">
-                                        <table className="w-full text-left">
+                                        <table className="w-full text-left text-sm">
                                             <thead className="bg-slate-100 sticky top-0">
                                                 <tr>
-                                                    <th className="p-2 font-semibold text-sm">Effective Date</th>
-                                                    <th className="p-2 font-semibold text-sm text-right">Consumer Price</th>
-                                                    <th className="p-2 font-semibold text-sm text-right">Retail Price</th>
+                                                    <th className="p-2 font-semibold">Effective Date</th>
+                                                    <th className="p-2 font-semibold text-right">Consumer Price</th>
+                                                    <th className="p-2 font-semibold text-right">Retail Price</th>
                                                 </tr>
                                             </thead>
-                                            <tbody>
+                                            <tbody className="divide-y divide-slate-200">
                                                 {sortedPrices.map(price => (
-                                                    <tr key={price.id} className="border-b">
+                                                    <tr key={price.id}>
                                                         <td className="p-2">{price.effectiveDate}</td>
                                                         <td className="p-2 text-right">R {price.consumer.toFixed(2)}</td>
                                                         <td className="p-2 text-right">R {price.retail.toFixed(2)}</td>
@@ -216,35 +255,37 @@ export const ProductEditor: React.FC<ProductEditorProps> = ({ products, setProdu
                                     </div>
                                 </div>
                             </div>
-                        </fieldset>
+                        </div>
                     </div>
                     {/* Right column for image and links */}
                     <div className="space-y-6">
                         <div>
-                            <label htmlFor="imageUrl" className="block text-sm font-medium text-text-secondary">Image URL</label>
-                            <div className="flex items-center space-x-2 mt-1">
-                                <input type="text" name="imageUrl" id="imageUrl" value={formData.imageUrl || ''} onChange={handleChange} className="block w-full px-3 py-2 border border-ui-stroke rounded-md shadow-sm focus:outline-none focus:ring-snowva-blue focus:border-snowva-blue"/>
-                                <button type="button" onClick={findProductImage} disabled={isFindingImage || !formData.name} className="p-2 bg-snowva-cyan text-white rounded-md hover:bg-snowva-blue disabled:bg-slate-300 disabled:cursor-not-allowed">
+                            <label htmlFor="imageUrl" className={labelClasses}>Image URL</label>
+                            <div className="flex items-center space-x-2 mt-2">
+                                <input type="text" name="imageUrl" id="imageUrl" value={formData.imageUrl || ''} onChange={handleChange} className={formElementClasses}/>
+                                <button type="button" onClick={findProductImage} disabled={isFindingImage || !formData.name} className="p-2 rounded-md bg-indigo-600 text-white hover:bg-indigo-500 disabled:bg-slate-300 disabled:cursor-not-allowed">
                                     {isFindingImage ? (
                                         <svg className="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
                                             <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
                                             <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                                         </svg>
                                     ) : (
-                                       <SparklesIcon /> 
+                                       <SparklesIcon className="w-5 h-5"/> 
                                     )}
                                 </button>
                             </div>
-                            <p className="text-xs text-text-secondary mt-1">Or, click the magic wand to find an image automatically.</p>
+                            <p className="text-xs text-slate-500 mt-1">Or, click the magic wand to find an image automatically.</p>
                         </div>
                         {formData.imageUrl && (
                             <div className="mt-2">
-                                <img src={formData.imageUrl} alt="Product Preview" className="w-full h-auto rounded-lg shadow-md object-cover"/>
+                                <img src={formData.imageUrl} alt="Product Preview" className="w-full h-auto rounded-lg shadow-md object-cover border border-slate-200"/>
                             </div>
                         )}
                          <div>
-                            <label htmlFor="ecommerceLink" className="block text-sm font-medium text-text-secondary">E-commerce Link</label>
-                            <input type="text" name="ecommerceLink" id="ecommerceLink" value={formData.ecommerceLink || ''} onChange={handleChange} className="mt-1 block w-full px-3 py-2 border border-ui-stroke rounded-md shadow-sm focus:outline-none focus:ring-snowva-blue focus:border-snowva-blue"/>
+                            <label htmlFor="ecommerceLink" className={labelClasses}>E-commerce Link</label>
+                            <div className="mt-2">
+                                <input type="text" name="ecommerceLink" id="ecommerceLink" value={formData.ecommerceLink || ''} onChange={handleChange} className={formElementClasses}/>
+                            </div>
                         </div>
                     </div>
                 </div>

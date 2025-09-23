@@ -1,5 +1,5 @@
 
-import { Customer, Product, Invoice, Quote, CustomerType, DocumentStatus, LineItem, Address, Payment, PaymentMethod, PaymentTerm } from './types';
+import { Customer, Product, Invoice, Quote, CustomerType, DocumentStatus, LineItem, Address, Payment, PaymentMethod, PaymentTerm, LineItemPriority } from './types';
 
 export const VAT_RATE = 0.15;
 
@@ -86,13 +86,13 @@ export const products: Product[] = [
 ];
 
 const sampleLineItems1: LineItem[] = [
-    {id: 'li_001', productId: 'prod_003', description: 'Makabrai', quantity: 1, unitPrice: 652.17},
+    {id: 'li_001', productId: 'prod_003', description: 'Makabrai', quantity: 1, unitPrice: 652.17, priority: LineItemPriority.MEDIUM},
 ];
 
 const sampleLineItems2: LineItem[] = [
-    {id: 'li_002', productId: 'prod_001', description: 'Snowva Ultimate Ice Maker', quantity: 5, unitPrice: 187.83},
-    {id: 'li_003', productId: 'prod_005', description: 'Braai Grid - Small', quantity: 5, unitPrice: 365.22},
-    {id: 'li_004', productId: 'prod_006', description: 'BraaiTas', quantity: 10, unitPrice: 1043.48},
+    {id: 'li_002', productId: 'prod_001', description: 'Snowva Ultimate Ice Maker', quantity: 5, unitPrice: 187.83, priority: LineItemPriority.HIGH},
+    {id: 'li_003', productId: 'prod_005', description: 'Braai Grid - Small', quantity: 5, unitPrice: 365.22, priority: LineItemPriority.MEDIUM},
+    {id: 'li_004', productId: 'prod_006', description: 'BraaiTas', quantity: 10, unitPrice: 1043.48, priority: LineItemPriority.LOW},
 ];
 
 export const payments: Payment[] = [
@@ -103,7 +103,7 @@ export const payments: Payment[] = [
 export const invoices: Invoice[] = [
     { id: 'inv_001', invoiceNumber: '250707101', customerId: 'cust_008', date: '2025-07-07', dueDate: '2025-07-07', items: sampleLineItems1, status: DocumentStatus.PAID },
     { id: 'inv_002', invoiceNumber: '250827101', customerId: 'cust_009', date: '2025-08-27', dueDate: '2025-09-26', orderNumber: '#270801', items: sampleLineItems2, status: DocumentStatus.PARTIALLY_PAID },
-    { id: 'inv_003', invoiceNumber: '241007101', customerId: 'cust_005', date: '2024-10-07', dueDate: '2024-12-06', items: [{id: 'li_005', productId: 'prod_001', description: 'Snowva Ultimate Ice Maker', quantity: 1, unitPrice: 1520.00 / 1.15}], status: DocumentStatus.FINALIZED, notes: 'PO #12345' },
+    { id: 'inv_003', invoiceNumber: '241007101', customerId: 'cust_005', date: '2024-10-07', dueDate: '2024-12-06', items: [{id: 'li_005', productId: 'prod_001', description: 'Snowva Ultimate Ice Maker', quantity: 1, unitPrice: 1520.00 / 1.15, priority: LineItemPriority.MEDIUM}], status: DocumentStatus.FINALIZED, notes: 'PO #12345' },
     { id: 'inv_004', invoiceNumber: 'DRAFT-001', customerId: 'cust_001', date: new Date().toISOString().split('T')[0], items: [], status: DocumentStatus.DRAFT },
 ];
 

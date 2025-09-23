@@ -1,11 +1,11 @@
 
-
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Customer, CustomerType, Address, PaymentTerm } from '../types';
 import { customers as allCustomers } from '../constants';
 import { products as allProducts } from '../constants';
 import { CustomerPricingEditor } from './CustomerPricingEditor';
+import { useToast } from '../contexts/ToastContext';
 
 interface CustomerEditorProps {
     customers: Customer[];
@@ -19,45 +19,62 @@ const emptyCustomer: Omit<Customer, 'id'> = {
     addresses: [],
 };
 
+type FormErrors = {
+    name?: string;
+}
+
+const formElementClasses = "block w-full rounded-md border-0 py-1.5 text-slate-900 shadow-sm ring-1 ring-inset ring-slate-300 placeholder:text-slate-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6";
+const labelClasses = "block text-sm font-medium leading-6 text-slate-900";
+
+
 const AddressForm: React.FC<{
     address: Partial<Address>;
     onAddressChange: (field: keyof Address, value: string) => void;
     title: string;
-    isSameAs: boolean;
-    onSameAsChange: (checked: boolean) => void;
-    sameAsLabel: string;
-}> = ({ address, onAddressChange, title, isSameAs, onSameAsChange, sameAsLabel }) => {
+}> = ({ address, onAddressChange, title }) => {
     return (
-        <fieldset className="border p-4 rounded-md">
-            <legend className="text-lg font-medium text-text-primary px-1 flex justify-between items-center w-full">
-                {title}
-                <label className="flex items-center space-x-2 text-sm font-normal">
-                    <input type="checkbox" checked={isSameAs} onChange={(e) => onSameAsChange(e.target.checked)} className="h-4 w-4 rounded border-gray-300 text-snowva-blue focus:ring-snowva-blue" />
-                    <span>{sameAsLabel}</span>
-                </label>
-            </legend>
-            <div className="space-y-2 pt-2">
-                <input type="text" placeholder="Street Address" value={address.street || ''} onChange={(e) => onAddressChange('street', e.target.value)} disabled={isSameAs} className="mt-1 block w-full px-3 py-2 border border-ui-stroke rounded-md shadow-sm disabled:bg-slate-100 focus:outline-none focus:ring-snowva-blue focus:border-snowva-blue" />
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-2">
-                    <input type="text" placeholder="City" value={address.city || ''} onChange={(e) => onAddressChange('city', e.target.value)} disabled={isSameAs} className="mt-1 block w-full px-3 py-2 border border-ui-stroke rounded-md shadow-sm disabled:bg-slate-100 focus:outline-none focus:ring-snowva-blue focus:border-snowva-blue" />
-                    <input type="text" placeholder="Province" value={address.province || ''} onChange={(e) => onAddressChange('province', e.target.value)} disabled={isSameAs} className="mt-1 block w-full px-3 py-2 border border-ui-stroke rounded-md shadow-sm disabled:bg-slate-100 focus:outline-none focus:ring-snowva-blue focus:border-snowva-blue" />
-                    <input type="text" placeholder="Postal Code" value={address.postalCode || ''} onChange={(e) => onAddressChange('postalCode', e.target.value)} disabled={isSameAs} className="mt-1 block w-full px-3 py-2 border border-ui-stroke rounded-md shadow-sm disabled:bg-slate-100 focus:outline-none focus:ring-snowva-blue focus:border-snowva-blue" />
+        <div>
+            <h3 className="text-base font-semibold leading-7 text-slate-900">{title}</h3>
+            <div className="mt-4 grid grid-cols-1 gap-x-6 gap-y-4 sm:grid-cols-6">
+                <div className="col-span-full">
+                    <label htmlFor={`${title}-street`} className={labelClasses}>Street Address</label>
+                    <div className="mt-2">
+                        <input type="text" id={`${title}-street`} placeholder="Street Address" value={address.street || ''} onChange={(e) => onAddressChange('street', e.target.value)} className={formElementClasses} />
+                    </div>
+                </div>
+                 <div className="sm:col-span-2">
+                    <label htmlFor={`${title}-city`} className={labelClasses}>City</label>
+                    <div className="mt-2">
+                        <input type="text" id={`${title}-city`} placeholder="City" value={address.city || ''} onChange={(e) => onAddressChange('city', e.target.value)} className={formElementClasses} />
+                    </div>
+                </div>
+                 <div className="sm:col-span-2">
+                    <label htmlFor={`${title}-province`} className={labelClasses}>Province</label>
+                    <div className="mt-2">
+                        <input type="text" id={`${title}-province`} placeholder="Province" value={address.province || ''} onChange={(e) => onAddressChange('province', e.target.value)} className={formElementClasses} />
+                    </div>
+                </div>
+                 <div className="sm:col-span-2">
+                    <label htmlFor={`${title}-postalCode`} className={labelClasses}>Postal Code</label>
+                    <div className="mt-2">
+                        <input type="text" id={`${title}-postalCode`} placeholder="Postal Code" value={address.postalCode || ''} onChange={(e) => onAddressChange('postalCode', e.target.value)} className={formElementClasses} />
+                    </div>
                 </div>
             </div>
-        </fieldset>
+        </div>
     );
 };
 
 export const CustomerEditor: React.FC<CustomerEditorProps> = ({ customers, setCustomers, customerId }) => {
     const navigate = useNavigate();
+    const { addToast } = useToast();
     const [formData, setFormData] = useState<Omit<Customer, 'id'> & { id?: string }>(emptyCustomer);
     const [activeTab, setActiveTab] = useState<'details' | 'pricing'>('details');
+    const [errors, setErrors] = useState<FormErrors>({});
     
     const [billingAddress, setBillingAddress] = useState<Partial<Address>>({});
     const [deliveryAddress, setDeliveryAddress] = useState<Partial<Address>>({});
-    const [billingSameAsDelivery, setBillingSameAsDelivery] = useState(false);
-    const [deliverySameAsBilling, setDeliverySameAsBilling] = useState(false);
-
+    
     useEffect(() => {
         if (customerId) {
             const customerToEdit = customers.find(c => c.id === customerId);
@@ -74,21 +91,6 @@ export const CustomerEditor: React.FC<CustomerEditorProps> = ({ customers, setCu
             setFormData(emptyCustomer);
         }
     }, [customerId, customers, navigate]);
-    
-    useEffect(() => {
-        if(billingSameAsDelivery) {
-            setDeliverySameAsBilling(false);
-            setBillingAddress({ ...deliveryAddress, id: billingAddress.id || `addr_${Date.now()}`, type: 'billing' });
-        }
-    }, [billingSameAsDelivery, deliveryAddress]);
-
-    useEffect(() => {
-        if(deliverySameAsBilling) {
-            setBillingSameAsDelivery(false);
-            setDeliveryAddress({ ...billingAddress, id: deliveryAddress.id || `addr_${Date.now()}`, type: 'delivery' });
-        }
-    }, [deliverySameAsBilling, billingAddress]);
-
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
         const { name, value } = e.target;
@@ -108,6 +110,9 @@ export const CustomerEditor: React.FC<CustomerEditorProps> = ({ customers, setCu
             }
             return newState;
         });
+        if (errors[name as keyof FormErrors]) {
+            setErrors(prev => ({ ...prev, [name]: undefined }));
+        }
     };
     
     const handleCheckboxChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -122,9 +127,22 @@ export const CustomerEditor: React.FC<CustomerEditorProps> = ({ customers, setCu
     const handleDeliveryAddressChange = (field: keyof Address, value: string) => {
         setDeliveryAddress(prev => ({ ...prev, [field]: value }));
     };
+
+    const validateForm = () => {
+        const newErrors: FormErrors = {};
+        if (!formData.name.trim()) {
+            newErrors.name = 'Customer name is required.';
+        }
+        setErrors(newErrors);
+        return Object.keys(newErrors).length === 0;
+    }
     
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
+        if (!validateForm()) {
+            addToast('Please fix the errors before saving.', 'error');
+            return;
+        }
         
         const otherAddresses = (formData.addresses || []).filter(a => !a.isPrimary);
         const newAddresses = [...otherAddresses];
@@ -143,6 +161,7 @@ export const CustomerEditor: React.FC<CustomerEditorProps> = ({ customers, setCu
         } else { // New customer
             setCustomers([...customers, { ...finalFormData, id: `cust_${Date.now()}` } as Customer]);
         }
+        addToast('Customer saved successfully!', 'success');
         navigate('/customers');
     };
 
@@ -152,141 +171,182 @@ export const CustomerEditor: React.FC<CustomerEditorProps> = ({ customers, setCu
         <button
             type="button"
             onClick={() => setActiveTab(tab)}
-            className={`px-4 py-2 text-sm font-medium rounded-t-md ${activeTab === tab ? 'bg-white border-ui-stroke border-t border-x -mb-px' : 'bg-slate-100 text-text-secondary'}`}
+            className={`px-3 py-2 text-sm font-medium rounded-md ${activeTab === tab ? 'bg-white text-slate-900 shadow-sm' : 'bg-transparent text-slate-600 hover:text-slate-900'}`}
         >
             {label}
         </button>
     );
 
     return (
-        <div className="bg-white p-6 rounded-lg shadow-md">
-            <form onSubmit={handleSubmit}>
-                <div className="flex justify-between items-center mb-6 border-b pb-4">
-                    <h2 className="text-2xl font-semibold text-text-primary">{customerId ? 'Edit Customer' : 'Add New Customer'}</h2>
-                    <div className="flex justify-end space-x-4">
-                        <button type="button" onClick={() => navigate('/customers')} className="px-4 py-2 bg-slate-200 text-text-primary rounded-md hover:bg-slate-300">Cancel</button>
-                        <button type="submit" className="px-4 py-2 bg-snowva-orange text-white rounded-md hover:bg-snowva-orange-dark">Save Customer</button>
+        <div className="bg-white p-6 sm:p-8 rounded-xl border border-slate-200">
+            <form onSubmit={handleSubmit} noValidate>
+                 <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 border-b border-slate-200 pb-4">
+                    <div>
+                        <h2 className="text-2xl font-semibold leading-6 text-slate-900">{customerId ? 'Edit Customer' : 'Add New Customer'}</h2>
+                        <p className="mt-1 text-sm text-slate-600">Manage customer details, addresses, and billing information.</p>
+                    </div>
+                    <div className="flex items-center justify-end space-x-3 mt-4 sm:mt-0">
+                        <button type="button" onClick={() => navigate('/customers')} className="rounded-md bg-white px-3 py-2 text-sm font-semibold text-slate-900 shadow-sm ring-1 ring-inset ring-slate-300 hover:bg-slate-50">Cancel</button>
+                        <button type="submit" className="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Save Customer</button>
                     </div>
                 </div>
 
                 {formData.type === CustomerType.B2B && (
-                    <div className="border-b border-ui-stroke mb-6">
+                    <div className="mb-6 p-1 bg-slate-100 rounded-lg flex items-center space-x-1 max-w-xs">
                         <TabButton tab="details" label="Customer Details" />
                         <TabButton tab="pricing" label="Custom Product Pricing" />
                     </div>
                 )}
                 
                 <div className={activeTab === 'details' ? 'block' : 'hidden'}>
-                    <div className="space-y-6">
-                         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                            <div>
-                                <label htmlFor="name" className="block text-sm font-medium text-text-secondary">Customer Name</label>
-                                <input type="text" name="name" id="name" value={formData.name || ''} onChange={handleChange} required className="mt-1 block w-full px-3 py-2 border border-ui-stroke rounded-md shadow-sm focus:outline-none focus:ring-snowva-blue focus:border-snowva-blue" />
+                    <div className="space-y-10 divide-y divide-slate-200">
+                        <div className="grid grid-cols-1 gap-x-8 gap-y-8 md:grid-cols-3">
+                            <div className="px-4 sm:px-0">
+                                <h2 className="text-base font-semibold leading-7 text-slate-900">General Information</h2>
+                                <p className="mt-1 text-sm leading-6 text-slate-600">Basic details for the customer.</p>
                             </div>
-                            <div>
-                                <label htmlFor="type" className="block text-sm font-medium text-text-secondary">Customer Type</label>
-                                <select name="type" id="type" value={formData.type} onChange={handleChange} className="mt-1 block w-full px-3 py-2 border border-ui-stroke rounded-md shadow-sm focus:outline-none focus:ring-snowva-blue focus:border-snowva-blue">
-                                    <option value={CustomerType.B2C}>Consumer</option>
-                                    <option value={CustomerType.B2B}>Retail</option>
-                                </select>
+                            <div className="bg-white shadow-sm ring-1 ring-slate-900/5 sm:rounded-xl md:col-span-2">
+                                <div className="px-4 py-6 sm:p-8">
+                                    <div className="grid max-w-2xl grid-cols-1 gap-x-6 gap-y-6 sm:grid-cols-6">
+                                        <div className="sm:col-span-4">
+                                            <label htmlFor="name" className={labelClasses}>Customer Name</label>
+                                            <div className="mt-2">
+                                                <input type="text" name="name" id="name" value={formData.name || ''} onChange={handleChange} required className={`${formElementClasses} ${errors.name ? 'ring-red-500' : ''}`} />
+                                            </div>
+                                            {errors.name && <p className="text-sm text-red-600 mt-1">{errors.name}</p>}
+                                        </div>
+                                        <div className="sm:col-span-3">
+                                            <label htmlFor="type" className={labelClasses}>Customer Type</label>
+                                            <div className="mt-2">
+                                                <select name="type" id="type" value={formData.type} onChange={handleChange} className={formElementClasses}>
+                                                    <option value={CustomerType.B2C}>Consumer</option>
+                                                    <option value={CustomerType.B2B}>Retail</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        {formData.type === CustomerType.B2B && (
+                                        <>
+                                            <div className="sm:col-span-4">
+                                                <label htmlFor="parentCompanyId" className={labelClasses}>Parent Company (optional)</label>
+                                                <div className="mt-2">
+                                                    <select name="parentCompanyId" id="parentCompanyId" value={formData.parentCompanyId || ''} onChange={handleChange} className={formElementClasses}>
+                                                        <option value="">None (Is a Parent Company)</option>
+                                                        {parentCompanyCandidates.map(c => <option key={c.id} value={c.id}>{c.name}</option>)}
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div className="sm:col-span-2">
+                                                <label htmlFor="branchNumber" className={labelClasses}>Branch #</label>
+                                                <div className="mt-2">
+                                                <input type="text" name="branchNumber" id="branchNumber" value={formData.branchNumber || ''} onChange={handleChange} className={formElementClasses} />
+                                                </div>
+                                            </div>
+                                        </>
+                                        )}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                         <div className="grid grid-cols-1 gap-x-8 gap-y-8 pt-10 md:grid-cols-3">
+                            <div className="px-4 sm:px-0">
+                                <h2 className="text-base font-semibold leading-7 text-slate-900">Contact Information</h2>
+                                <p className="mt-1 text-sm leading-6 text-slate-600">How to get in touch with the customer.</p>
+                            </div>
+                            <div className="bg-white shadow-sm ring-1 ring-slate-900/5 sm:rounded-xl md:col-span-2">
+                                <div className="px-4 py-6 sm:p-8">
+                                     <div className="grid max-w-2xl grid-cols-1 gap-x-6 gap-y-6 sm:grid-cols-6">
+                                        <div className="sm:col-span-3">
+                                            <label htmlFor="contactPerson" className={labelClasses}>Contact Person</label>
+                                            <div className="mt-2"><input type="text" name="contactPerson" id="contactPerson" value={formData.contactPerson || ''} onChange={handleChange} className={formElementClasses} /></div>
+                                        </div>
+                                        <div className="sm:col-span-4">
+                                            <label htmlFor="contactEmail" className={labelClasses}>Contact Email</label>
+                                            <div className="mt-2"><input type="email" name="contactEmail" id="contactEmail" value={formData.contactEmail || ''} onChange={handleChange} className={formElementClasses} /></div>
+                                        </div>
+                                        <div className="sm:col-span-3">
+                                            <label htmlFor="contactPhone" className={labelClasses}>Contact Telephone</label>
+                                            <div className="mt-2"><input type="tel" name="contactPhone" id="contactPhone" value={formData.contactPhone || ''} onChange={handleChange} className={formElementClasses} /></div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
 
                         {formData.type === CustomerType.B2B && (
-                            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                <div>
-                                    <label htmlFor="parentCompanyId" className="block text-sm font-medium text-text-secondary">Parent Company (optional)</label>
-                                    <select name="parentCompanyId" id="parentCompanyId" value={formData.parentCompanyId || ''} onChange={handleChange} className="mt-1 block w-full px-3 py-2 border border-ui-stroke rounded-md shadow-sm focus:outline-none focus:ring-snowva-blue focus:border-snowva-blue">
-                                        <option value="">None (Is a Parent Company)</option>
-                                        {parentCompanyCandidates.map(c => <option key={c.id} value={c.id}>{c.name}</option>)}
-                                    </select>
+                            <div className="grid grid-cols-1 gap-x-8 gap-y-8 pt-10 md:grid-cols-3">
+                                <div className="px-4 sm:px-0">
+                                    <h2 className="text-base font-semibold leading-7 text-slate-900">Billing Information</h2>
+                                    <p className="mt-1 text-sm leading-6 text-slate-600">Details for invoicing and payments.</p>
                                 </div>
-                                <div>
-                                    <label htmlFor="branchNumber" className="block text-sm font-medium text-text-secondary">Branch #</label>
-                                    <input type="text" name="branchNumber" id="branchNumber" value={formData.branchNumber || ''} onChange={handleChange} className="mt-1 block w-full px-3 py-2 border border-ui-stroke rounded-md shadow-sm focus:outline-none focus:ring-snowva-blue focus:border-snowva-blue" />
-                                </div>
-                            </div>
-                        )}
-
-                        <fieldset className="border p-4 rounded-md">
-                            <legend className="text-lg font-medium text-text-primary px-1">Contact Information</legend>
-                            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 pt-2">
-                                <div>
-                                    <label htmlFor="contactPerson" className="block text-sm font-medium text-text-secondary">Contact Person</label>
-                                    <input type="text" name="contactPerson" id="contactPerson" value={formData.contactPerson || ''} onChange={handleChange} className="mt-1 block w-full px-3 py-2 border border-ui-stroke rounded-md shadow-sm focus:outline-none focus:ring-snowva-blue focus:border-snowva-blue" />
-                                </div>
-                                <div>
-                                    <label htmlFor="contactEmail" className="block text-sm font-medium text-text-secondary">Contact Email</label>
-                                    <input type="email" name="contactEmail" id="contactEmail" value={formData.contactEmail || ''} onChange={handleChange} className="mt-1 block w-full px-3 py-2 border border-ui-stroke rounded-md shadow-sm focus:outline-none focus:ring-snowva-blue focus:border-snowva-blue" />
-                                </div>
-                                <div>
-                                    <label htmlFor="contactPhone" className="block text-sm font-medium text-text-secondary">Contact Telephone</label>
-                                    <input type="tel" name="contactPhone" id="contactPhone" value={formData.contactPhone || ''} onChange={handleChange} className="mt-1 block w-full px-3 py-2 border border-ui-stroke rounded-md shadow-sm focus:outline-none focus:ring-snowva-blue focus:border-snowva-blue" />
-                                </div>
-                            </div>
-                        </fieldset>
-
-                        {formData.type === CustomerType.B2B && (
-                            <fieldset className="border p-4 rounded-md">
-                                <legend className="text-lg font-medium text-text-primary px-1">Billing Information</legend>
-                                <div className="space-y-4 pt-2">
-                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                        <div>
-                                            <label htmlFor="legalEntityName" className="block text-sm font-medium text-text-secondary">Bill To (Legal Entity Name)</label>
-                                            <input type="text" name="legalEntityName" id="legalEntityName" value={formData.legalEntityName || ''} onChange={handleChange} className="mt-1 block w-full px-3 py-2 border border-ui-stroke rounded-md shadow-sm focus:outline-none focus:ring-snowva-blue focus:border-snowva-blue" />
-                                        </div>
-                                        <div>
-                                            <label htmlFor="vatNumber" className="block text-sm font-medium text-text-secondary">VAT Number</label>
-                                            <input type="text" name="vatNumber" id="vatNumber" value={formData.vatNumber || ''} onChange={handleChange} className="mt-1 block w-full px-3 py-2 border border-ui-stroke rounded-md shadow-sm focus:outline-none focus:ring-snowva-blue focus:border-snowva-blue" />
-                                        </div>
-                                    </div>
-                                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                        <div>
-                                            <label htmlFor="paymentTerm" className="block text-sm font-medium text-text-secondary">Payment Terms</label>
-                                            <select name="paymentTerm" id="paymentTerm" value={formData.paymentTerm || ''} onChange={handleChange} className="mt-1 block w-full px-3 py-2 border border-ui-stroke rounded-md shadow-sm focus:outline-none focus:ring-snowva-blue focus:border-snowva-blue">
-                                                {Object.values(PaymentTerm).map((value) => <option key={value} value={value}>{value}</option>)}
-                                            </select>
-                                        </div>
-                                        {formData.parentCompanyId && (
-                                            <div className="flex items-end pb-2">
-                                                <label className="flex items-center space-x-3">
-                                                    <input 
-                                                        type="checkbox" 
-                                                        name="billToParent" 
-                                                        checked={formData.billToParent || false} 
-                                                        onChange={handleCheckboxChange}
-                                                        className="h-5 w-5 rounded border-gray-300 text-snowva-blue focus:ring-snowva-blue"
-                                                    />
-                                                    <span className="text-sm font-medium text-text-secondary">Bill to Parent Company</span>
-                                                </label>
+                                <div className="bg-white shadow-sm ring-1 ring-slate-900/5 sm:rounded-xl md:col-span-2">
+                                    <div className="px-4 py-6 sm:p-8">
+                                        <div className="grid max-w-2xl grid-cols-1 gap-x-6 gap-y-6 sm:grid-cols-6">
+                                            <div className="sm:col-span-4">
+                                                <label htmlFor="legalEntityName" className={labelClasses}>Bill To (Legal Entity Name)</label>
+                                                <div className="mt-2"><input type="text" name="legalEntityName" id="legalEntityName" value={formData.legalEntityName || ''} onChange={handleChange} className={formElementClasses} /></div>
                                             </div>
-                                        )}
-                                    </div>
-                                    <div>
-                                        <label htmlFor="defaultInvoiceNotes" className="block text-sm font-medium text-text-secondary">Default Invoice Notes/Codes</label>
-                                        <textarea name="defaultInvoiceNotes" id="defaultInvoiceNotes" rows={3} value={formData.defaultInvoiceNotes || ''} onChange={handleChange} className="mt-1 block w-full px-3 py-2 border border-ui-stroke rounded-md shadow-sm focus:outline-none focus:ring-snowva-blue focus:border-snowva-blue" placeholder="e.g., PO number required for all invoices."></textarea>
+                                            <div className="sm:col-span-3">
+                                                <label htmlFor="vatNumber" className={labelClasses}>VAT Number</label>
+                                                <div className="mt-2"><input type="text" name="vatNumber" id="vatNumber" value={formData.vatNumber || ''} onChange={handleChange} className={formElementClasses} /></div>
+                                            </div>
+                                            <div className="sm:col-span-3">
+                                                <label htmlFor="paymentTerm" className={labelClasses}>Payment Terms</label>
+                                                <div className="mt-2">
+                                                    <select name="paymentTerm" id="paymentTerm" value={formData.paymentTerm || ''} onChange={handleChange} className={formElementClasses}>
+                                                        {Object.values(PaymentTerm).map((value) => <option key={value} value={value}>{value}</option>)}
+                                                    </select>
+                                                </div>
+                                            </div>
+                                             {formData.parentCompanyId && (
+                                                <div className="sm:col-span-full">
+                                                    <div className="relative flex gap-x-3">
+                                                         <div className="flex h-6 items-center">
+                                                            <input 
+                                                                type="checkbox" 
+                                                                name="billToParent"
+                                                                id="billToParent"
+                                                                checked={formData.billToParent || false} 
+                                                                onChange={handleCheckboxChange}
+                                                                className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-600"
+                                                            />
+                                                        </div>
+                                                        <div className="text-sm leading-6">
+                                                            <label htmlFor="billToParent" className="font-medium text-slate-900">Bill to Parent Company</label>
+                                                            <p className="text-slate-500">If checked, all invoices for this branch will be assigned to the parent company.</p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            )}
+                                            <div className="col-span-full">
+                                                <label htmlFor="defaultInvoiceNotes" className={labelClasses}>Default Invoice Notes/Codes</label>
+                                                <div className="mt-2"><textarea name="defaultInvoiceNotes" id="defaultInvoiceNotes" rows={3} value={formData.defaultInvoiceNotes || ''} onChange={handleChange} className={formElementClasses} placeholder="e.g., PO number required for all invoices."></textarea></div>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
-                            </fieldset>
+                            </div>
                         )}
                         
-                        <div className="space-y-4">
-                            <AddressForm
-                                title="Billing Address"
-                                address={billingAddress}
-                                onAddressChange={handleBillingAddressChange}
-                                isSameAs={billingSameAsDelivery}
-                                onSameAsChange={setBillingSameAsDelivery}
-                                sameAsLabel="Same as Delivery"
-                            />
-                            <AddressForm
-                                title="Delivery Address"
-                                address={deliveryAddress}
-                                onAddressChange={handleDeliveryAddressChange}
-                                isSameAs={deliverySameAsBilling}
-                                onSameAsChange={setDeliverySameAsBilling}
-                                sameAsLabel="Same as Billing"
-                            />
+                        <div className="grid grid-cols-1 gap-x-8 gap-y-8 pt-10 md:grid-cols-3">
+                             <div className="px-4 sm:px-0">
+                                <h2 className="text-base font-semibold leading-7 text-slate-900">Addresses</h2>
+                                <p className="mt-1 text-sm leading-6 text-slate-600">Primary billing and delivery addresses.</p>
+                            </div>
+                             <div className="bg-white shadow-sm ring-1 ring-slate-900/5 sm:rounded-xl md:col-span-2">
+                                <div className="px-4 py-6 sm:p-8 space-y-8">
+                                    <AddressForm
+                                        title="Billing Address"
+                                        address={billingAddress}
+                                        onAddressChange={handleBillingAddressChange}
+                                    />
+                                    <AddressForm
+                                        title="Delivery Address"
+                                        address={deliveryAddress}
+                                        onAddressChange={handleDeliveryAddressChange}
+                                    />
+                                </div>
+                             </div>
                         </div>
                     </div>
                 </div>

@@ -1,3 +1,4 @@
+
 # Snowva Business Hub
 
 ## 1. Introduction
@@ -43,6 +44,7 @@ This is a cornerstone feature for B2B clients, offering exceptional flexibility.
 - **Invoicing:** Generate professional tax invoices. Drafts can be saved, and finalized invoices are assigned a unique, sequential invoice number.
 - **Payment Tracking:** Record full or partial payments against any finalized invoice. The invoice status (`Partially Paid`, `Paid`) updates automatically based on the balance due. A full payment history is maintained for each invoice.
 - **PDF & Print:** View, download as a PDF, or print any finalized document directly from the browser.
+- **Validation & Notifications:** The system features comprehensive inline form validation to prevent errors and a modern, non-intrusive toast notification system for clear feedback on actions like saving data or encountering an error.
 
 ---
 
@@ -65,6 +67,7 @@ This application is built using a modern, lightweight, and performant technology
 -   **Data Source:** All application data (customers, products, etc.) is currently mocked and stored in `constants.ts`. This simulates a backend API and allows the frontend to be fully self-contained. The data structures are strictly typed using TypeScript.
 
 -   **TypeScript:** The entire application is written in TypeScript, providing static typing for better code quality, maintainability, and developer experience.
+-   **State Management & Notifications:** A global notification system is implemented using **React Context** to provide toast messages (success, error, info) throughout the application, ensuring consistent user feedback.
 
 ---
 
@@ -81,13 +84,11 @@ The project is organized into a logical and maintainable structure.
 │   ├── Dashboard.tsx         # The main dashboard view
 │   ├── Icons.tsx             # Reusable SVG icon components
 │   ├── InvoiceEditor.tsx     # Form for creating/editing invoices
-│   ├── InvoiceList.tsx       # View for listing all invoices
-│   ├── InvoiceViewer.tsx     # View for a finalized invoice
-│   ├── ProductEditor.tsx     # Form for creating/editing products
-│   ├── ProductList.tsx       # View for listing all products
-│   ├── ProductSelector.tsx   # Reusable product search dropdown
-│   ├── QuoteEditor.tsx       # Form for creating/editing quotes
+│   ├── ToastContainer.tsx    # Renders active toast notifications
 │   └── ...                   # Other components
+│
+├── contexts/                 # React context providers
+│   └── ToastContext.tsx      # Global state for toast notifications
 │
 ├── App.tsx                   # Root component, handles routing and top-level state
 ├── constants.ts              # Mock data source for the application
@@ -136,4 +137,4 @@ The Google Gemini API functionality requires an API key. This is expected to be 
 -   **Quote-to-Invoice Conversion:** Add a feature to convert an accepted Quote into a new Invoice with a single click.
 -   **Email Integration:** Implement functionality to email quotes and invoices directly to customers from within the application.
 -   **Advanced Reporting:** Enhance the dashboard with more detailed reports, charts, and data filtering options.
--   **Global State Management:** As the app grows, introduce a global state management solution like React Context, Zustand, or Redux to mitigate prop drilling and better manage shared state.
+-   **Global State Management:** Continue to leverage React Context for other global state needs as the application grows to mitigate prop drilling.

@@ -1,9 +1,10 @@
 
-import React, { useMemo, useRef } from 'react';
+import React, { useMemo, useRef, useState } from 'react';
 import { useNavigate, useParams, Link } from 'react-router-dom';
 import { Customer, Invoice, Payment, Address, CustomerType } from '../types';
 import { getStatementDataForCustomer } from '../utils';
 import { MailIcon, PrintIcon, DownloadIcon, CashIcon } from './Icons';
+import { useToast } from '../contexts/ToastContext';
 
 // Declare global libraries
 declare const html2canvas: any;
@@ -27,6 +28,8 @@ export const StatementViewer: React.FC<StatementViewerProps> = ({ customers, inv
     const { id } = useParams<{ id: string }>();
     const navigate = useNavigate();
     const statementRef = useRef<HTMLDivElement>(null);
+    const { addToast } = useToast();
+    const [isEmailModalOpen, setIsEmailModalOpen] = useState(false);
 
     const statementData = useMemo(() => {
         if (!id) return null;
@@ -57,9 +60,12 @@ export const StatementViewer: React.FC<StatementViewerProps> = ({ customers, inv
     };
   
     const handleDownload = async () => {
+        addToast("Generating PDF...", "info");
         const pdf = await generatePdf();
         if (pdf) {
           pdf.save(`Statement-${statementData?.customer.name}.pdf`);
+        } else {
+            addToast("Failed to generate PDF.", "error");
         }
     };
   
@@ -67,7 +73,7 @@ export const StatementViewer: React.FC<StatementViewerProps> = ({ customers, inv
         try {
             const pdf = await generatePdf({ autoPrint: true });
             if (!pdf) {
-                alert("Failed to generate the statement PDF.");
+                addToast("Failed to generate the statement PDF.", "error");
                 return;
             }
             const blob = pdf.output('blob');
@@ -75,8 +81,37 @@ export const StatementViewer: React.FC<StatementViewerProps> = ({ customers, inv
             window.open(url);
         } catch (error) {
             console.error("Error during print preparation:", error);
-            alert("An error occurred while preparing the document for printing.");
+            addToast("An error occurred while preparing the document for printing.", "error");
         }
+    };
+    
+    const handleEmailButtonClick = () => {
+        if (!customer || !customer.contactEmail) {
+            addToast("This customer does not have an email address on file.", "error");
+            return;
+        }
+        setIsEmailModalOpen(true);
+    };
+    
+    const handleProceedWithEmail = async () => {
+        if (!customer || !customer.contactEmail) return;
+        
+        // 1. Download the PDF
+        await handleDownload();
+
+        // 2. Prepare and open mailto link
+        const subject = `Statement for ${customer.name} as of ${new Date().toISOString().split('T')[0]}`;
+        const body = `Dear ${customer.contactPerson || customer.name},\n\nPlease find your latest account statement attached.\n\nIf you have any questions, please don't hesitate to contact us.\n\nKind regards,\nThe Snowva™ Team`;
+        const mailtoLink = `mailto:${customer.contactEmail}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+        
+        try {
+            window.location.href = mailtoLink;
+        } catch (error) {
+            addToast("Could not open email client.", "error");
+            console.error("Mailto link error:", error);
+        }
+
+        setIsEmailModalOpen(false);
     };
 
 
@@ -89,123 +124,11 @@ export const StatementViewer: React.FC<StatementViewerProps> = ({ customers, inv
     const billingAddress = getPrimaryAddress(customer);
 
     return (
-        <div className="bg-white p-6 rounded-lg shadow-md max-w-5xl mx-auto">
-            <div className="flex justify-end space-x-4 mb-4 print:hidden">
-                <button onClick={() => navigate('/statements')} className="px-4 py-2 bg-slate-200 text-text-primary rounded-md hover:bg-slate-300">Back to List</button>
-                <button onClick={() => navigate('/payments/record', { state: { customerId: customer.id }})} className="flex items-center bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-600">
-                    <CashIcon /> <span className="ml-2">Record Payment</span>
-                </button>
-                <button onClick={handleDownload} className="flex items-center bg-snowva-orange text-white px-4 py-2 rounded-md hover:bg-snowva-orange-dark">
-                  <DownloadIcon /> <span className="ml-2">Download</span>
-                </button>
-                <button onClick={handlePrint} className="flex items-center bg-slate-500 text-white px-4 py-2 rounded-md hover:bg-slate-600">
-                  <PrintIcon /> <span className="ml-2">Print</span>
-               </button>
-                <button className="flex items-center bg-snowva-cyan text-white px-4 py-2 rounded-md hover:bg-snowva-blue">
-                  <MailIcon/> <span className="ml-2">Email</span>
-               </button>
-            </div>
-            
-            <div ref={statementRef} className="border border-gray-300 bg-white p-8">
-                <div className="flex justify-between items-start pb-4 border-b">
-                    <div>
-                        <h1 className="text-2xl font-bold text-snowva-blue">Snowva™ Trading Pty Ltd</h1>
-                        <p className="text-sm text-gray-600">2010/007043/07</p>
-                        <p className="text-sm text-gray-600">67 Wildevy Street, Lynnwood Manor, Pretoria</p>
-                    </div>
-                    <div className="text-right">
-                        <h2 className="text-4xl font-light text-gray-600 tracking-widest">STATEMENT</h2>
-                        <p className="mt-2"><span className="font-bold text-gray-700">Date:</span> {new Date().toISOString().split('T')[0]}</p>
-                        <p><span className="font-bold text-gray-700">Account:</span> {customer.name}</p>
-                    </div>
+        <div className="space-y-8">
+            <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center print:hidden">
+                <div>
+                    <h2 className="text-2xl font-semibold leading-6 text-slate-900">Statement for {customer.name}</h2>
+                    <p className="mt-1 text-sm text-slate-600">Review account history and outstanding balances.</p>
                 </div>
-
-                <div className="grid grid-cols-2 gap-8 py-6">
-                     <div>
-                        <h3 className="font-bold text-gray-700 mb-1">Statement For:</h3>
-                         <div className="text-sm text-gray-600">
-                            <p className="font-bold text-base text-gray-800">{customer.legalEntityName || customer.name}</p>
-                            {billingAddress && (
-                                <>
-                                <p>{billingAddress.street}</p>
-                                <p>{billingAddress.city}, {billingAddress.province}, {billingAddress.postalCode}</p>
-                                </>
-                            )}
-                         </div>
-                         {childCustomers.length > 0 && (
-                             <div className="text-xs mt-2 text-gray-500 italic">
-                                <p>This statement includes transactions for associated branches: {childCustomers.map(c => c.name).join(', ')}.</p>
-                             </div>
-                         )}
-                    </div>
-                </div>
-
-                 <div className="my-8 p-4 bg-slate-50 rounded-lg grid grid-cols-2 md:grid-cols-6 gap-4 text-center border">
-                    <div>
-                        <p className="text-sm font-medium text-slate-500">Total Balance</p>
-                        <p className="text-xl font-bold text-slate-800">{formatCurrency(totalBalance)}</p>
-                    </div>
-                    <div className="border-l">
-                        <p className="text-sm font-medium text-slate-500">Current</p>
-                        <p className="text-lg font-semibold text-slate-700">{formatCurrency(aging.current)}</p>
-                    </div>
-                     <div className="border-l">
-                        <p className="text-sm font-medium text-orange-500">30 Days</p>
-                        <p className="text-lg font-semibold text-orange-600">{formatCurrency(aging.days30)}</p>
-                    </div>
-                    <div className="border-l">
-                        <p className="text-sm font-medium text-red-500">60 Days</p>
-                        <p className="text-lg font-semibold text-red-600">{formatCurrency(aging.days60)}</p>
-                    </div>
-                     <div className="border-l">
-                        <p className="text-sm font-medium text-red-700">90 Days</p>
-                        <p className="text-lg font-semibold text-red-700">{formatCurrency(aging.days90)}</p>
-                    </div>
-                     <div className="border-l">
-                        <p className="text-sm font-medium text-red-800">120+ Days</p>
-                        <p className="text-lg font-semibold text-red-900">{formatCurrency(aging.days120plus)}</p>
-                    </div>
-                 </div>
-
-                <table className="w-full my-8">
-                    <thead>
-                        <tr className="bg-slate-700 text-white">
-                            <th className="p-3 text-left font-semibold text-sm w-28">Date</th>
-                            <th className="p-3 text-left font-semibold text-sm">Transaction Details</th>
-                            <th className="p-3 text-right font-semibold text-sm w-32">Debit</th>
-                            <th className="p-3 text-right font-semibold text-sm w-32">Credit</th>
-                            <th className="p-3 text-right font-semibold text-sm w-32">Balance</th>
-                        </tr>
-                    </thead>
-                    <tbody className="text-sm">
-                        {transactions.map((tx, index) => (
-                            <tr key={`${tx.sourceId}-${index}`} className="border-b last:border-b-0">
-                                <td className="p-2">{tx.date}</td>
-                                <td className="p-2">
-                                    <Link to={`/${tx.type === 'Invoice' ? 'invoices' : 'payments/edit'}/${tx.sourceId}`} className="text-snowva-blue hover:underline" title={`View ${tx.type}`}>
-                                        {tx.reference}
-                                    </Link>
-                                </td>
-                                <td className="p-2 text-right">{tx.debit > 0 ? formatCurrency(tx.debit) : ''}</td>
-                                <td className="p-2 text-right text-green-600">{tx.credit > 0 ? formatCurrency(tx.credit) : ''}</td>
-                                <td className="p-2 text-right">{formatCurrency(tx.balance)}</td>
-                            </tr>
-                        ))}
-                        {transactions.length === 0 && (
-                            <tr><td colSpan={5} className="h-24 text-center text-slate-500">No transactions in this period.</td></tr>
-                        )}
-                    </tbody>
-                </table>
-
-                 <div className="w-1/2 text-xs text-gray-600 pt-8 border-t">
-                    <h4 className="font-bold mb-1 text-sm">Banking details for EFT payments:</h4>
-                    <p>Bank: First National Bank</p>
-                    <p>Account Holder: Snowva Pty Ltd</p>
-                    <p>Account Number: 62264885082</p>
-                    <p>Branch Code: 250 655</p>
-                    <p>Please use your account name as reference.</p>
-                </div>
-            </div>
-        </div>
-    );
-};
+                <div className="flex items-center justify-end space-x-3 mt-4 sm:mt-0">
+                    <button onClick={() => navigate('/statements')} className="rounded-md bg-white px-3 py-2 text-sm font-semibold text-slate-900 shadow-sm

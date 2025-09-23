@@ -1,9 +1,10 @@
+
 import React, { useState, useEffect, useMemo } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { Customer, Invoice, Payment, PaymentMethod, DocumentStatus, LineItem, PaymentAllocation } from '../types';
 import { CheckCircleIcon } from './Icons';
 import { calculateBalanceDue, calculatePaid, calculateTotal } from '../utils';
-
+import { useToast } from '../contexts/ToastContext';
 
 interface PaymentRecorderProps {
     customers: Customer[];
@@ -17,9 +18,9 @@ interface PaymentRecorderProps {
 export const PaymentRecorder: React.FC<PaymentRecorderProps> = ({ customers, invoices, setInvoices, payments, setPayments, paymentId }) => {
     const location = useLocation();
     const navigate = useNavigate();
+    const { addToast } = useToast();
     const isEditMode = !!paymentId;
 
-    // FIX: Add type assertion to location.state to resolve destructuring error.
     const { customerId, invoiceId } = (isEditMode ? {} : (location.state || {})) as { customerId?: string; invoiceId?: string; };
     
     const [paymentDetails, setPaymentDetails] = useState({
@@ -125,9 +126,9 @@ export const PaymentRecorder: React.FC<PaymentRecorderProps> = ({ customers, inv
     const unallocatedAmount = paymentDetails.amount - totalAllocated;
 
     const handleSubmit = () => {
-        if (!customer) { alert('Error: No customer identified for this payment.'); return; }
-        if (paymentDetails.amount <= 0) { alert('Payment amount must be positive.'); return; }
-        if (Math.abs(unallocatedAmount) > 0.005) { alert('The total allocated amount must equal the payment amount.'); return; }
+        if (!customer) { addToast('Error: No customer identified for this payment.', 'error'); return; }
+        if (paymentDetails.amount <= 0) { addToast('Payment amount must be positive.', 'error'); return; }
+        if (Math.abs(unallocatedAmount) > 0.005) { addToast('The total allocated amount must equal the payment amount.', 'error'); return; }
 
         let validationError = '';
         Object.entries(allocations).forEach(([invId, amount]) => {
@@ -143,7 +144,7 @@ export const PaymentRecorder: React.FC<PaymentRecorderProps> = ({ customers, inv
                 }
             }
         });
-        if (validationError) { alert(validationError); return; }
+        if (validationError) { addToast(validationError, 'error'); return; }
 
         const newAllocations = Object.entries(allocations)
             .filter(([, amount]) => amount > 0)
@@ -180,106 +181,112 @@ export const PaymentRecorder: React.FC<PaymentRecorderProps> = ({ customers, inv
         });
         setInvoices(updatedInvoices);
         
-        alert(`Payment ${isEditMode ? 'updated' : 'recorded'} successfully!`);
+        addToast(`Payment ${isEditMode ? 'updated' : 'recorded'} successfully!`, 'success');
         navigate('/payments');
     };
 
     if (!customer) return <div className="bg-white p-6 rounded-lg shadow-md">Loading or invalid selection...</div>;
+    
+    const formElementClasses = "block w-full rounded-md border-0 py-1.5 text-slate-900 shadow-sm ring-1 ring-inset ring-slate-300 placeholder:text-slate-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6";
+    const labelClasses = "block text-sm font-medium leading-6 text-slate-900";
+
 
     return (
-        <div className="bg-white p-6 rounded-lg shadow-md max-w-5xl mx-auto space-y-6">
-            <div className="flex justify-between items-center border-b pb-4">
+        <div className="bg-white p-6 sm:p-8 rounded-xl border border-slate-200 max-w-5xl mx-auto space-y-8">
+            <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center border-b border-slate-200 pb-4">
                 <div>
-                    <h2 className="text-3xl font-semibold text-text-primary">{isEditMode ? 'Edit Payment' : 'Record Payment'}</h2>
-                    <p className="text-text-secondary">For: <span className="font-medium text-snowva-blue">{customer.name}</span></p>
+                    <h2 className="text-2xl font-semibold leading-6 text-slate-900">{isEditMode ? 'Edit Payment' : 'Record Payment'}</h2>
+                    <p className="mt-1 text-sm text-slate-600">For: <span className="font-medium text-indigo-600">{customer.name}</span></p>
                 </div>
-                <div className="flex space-x-2">
-                    <button onClick={() => navigate('/payments')} className="px-4 py-2 bg-slate-200 text-text-primary rounded-md hover:bg-slate-300">Cancel</button>
-                    <button onClick={handleSubmit} className="flex items-center bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-600">
-                       <CheckCircleIcon/> <span className="ml-2">{isEditMode ? 'Update Payment' : 'Record Payment'}</span>
+                <div className="flex items-center justify-end space-x-3 mt-4 sm:mt-0">
+                    <button type="button" onClick={() => navigate('/payments')} className="rounded-md bg-white px-3 py-2 text-sm font-semibold text-slate-900 shadow-sm ring-1 ring-inset ring-slate-300 hover:bg-slate-50">Cancel</button>
+                    <button type="button" onClick={handleSubmit} className="inline-flex items-center gap-x-2 rounded-md bg-green-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-green-500">
+                       <CheckCircleIcon className="w-5 h-5"/> <span>{isEditMode ? 'Update Payment' : 'Record Payment'}</span>
                     </button>
                 </div>
             </div>
 
-            <fieldset className="border p-4 rounded-md">
-                <legend className="text-lg font-medium text-text-primary px-1">Payment Details</legend>
-                <div className="grid grid-cols-1 md:grid-cols-4 gap-4 pt-2">
+            <div className="border border-slate-200 rounded-lg">
+                 <h3 className="text-base font-semibold leading-6 text-slate-900 border-b border-slate-200 px-4 py-3">Payment Details</h3>
+                <div className="p-4 grid grid-cols-1 md:grid-cols-4 gap-6">
                     <div>
-                        <label htmlFor="paymentAmount" className="block text-sm font-medium text-gray-700">Total Amount</label>
-                        <input type="number" name="amount" id="paymentAmount" value={paymentDetails.amount} onChange={handleDetailChange} step="0.01" min="0" className="mt-1 block w-full px-3 py-2 border border-ui-stroke rounded-md" />
+                        <label htmlFor="paymentAmount" className={labelClasses}>Total Amount</label>
+                        <div className="mt-2"><input type="number" name="amount" id="paymentAmount" value={paymentDetails.amount} onChange={handleDetailChange} step="0.01" min="0" className={formElementClasses} /></div>
                     </div>
                     <div>
-                        <label htmlFor="paymentDate" className="block text-sm font-medium text-gray-700">Payment Date</label>
-                        <input type="date" name="date" id="paymentDate" value={paymentDetails.date} onChange={handleDetailChange} className="mt-1 block w-full px-3 py-2 border border-ui-stroke rounded-md"/>
+                        <label htmlFor="paymentDate" className={labelClasses}>Payment Date</label>
+                        <div className="mt-2"><input type="date" name="date" id="paymentDate" value={paymentDetails.date} onChange={handleDetailChange} className={formElementClasses}/></div>
                     </div>
                     <div>
-                        <label htmlFor="paymentMethod" className="block text-sm font-medium text-gray-700">Method</label>
-                        <select name="method" id="paymentMethod" value={paymentDetails.method} onChange={handleDetailChange} className="mt-1 block w-full px-3 py-2 border border-ui-stroke rounded-md">
-                            {Object.values(PaymentMethod).map(method => <option key={method} value={method}>{method}</option>)}
-                        </select>
+                        <label htmlFor="paymentMethod" className={labelClasses}>Method</label>
+                        <div className="mt-2">
+                            <select name="method" id="paymentMethod" value={paymentDetails.method} onChange={handleDetailChange} className={formElementClasses}>
+                                {Object.values(PaymentMethod).map(method => <option key={method} value={method}>{method}</option>)}
+                            </select>
+                        </div>
                     </div>
                     <div>
-                        <label htmlFor="paymentReference" className="block text-sm font-medium text-gray-700">Reference</label>
-                        <input type="text" name="reference" id="paymentReference" value={paymentDetails.reference} onChange={handleDetailChange} placeholder="e.g., Bank reference" className="mt-1 block w-full px-3 py-2 border border-ui-stroke rounded-md"/>
+                        <label htmlFor="paymentReference" className={labelClasses}>Reference</label>
+                        <div className="mt-2"><input type="text" name="reference" id="paymentReference" value={paymentDetails.reference} onChange={handleDetailChange} placeholder="e.g., Bank reference" className={formElementClasses}/></div>
                     </div>
                 </div>
-            </fieldset>
+            </div>
 
-            <fieldset className="border p-4 rounded-md">
-                <legend className="text-lg font-medium text-text-primary px-1">Allocate Payment</legend>
+            <div className="border border-slate-200 rounded-lg">
+                <h3 className="text-base font-semibold leading-6 text-slate-900 border-b border-slate-200 px-4 py-3">Allocate Payment to Invoices</h3>
+                <div className="p-4">
                 {openInvoices.length > 0 ? (
-                    <div>
-                        <div className="overflow-x-auto max-h-96">
-                             <table className="w-full text-left">
-                                <thead className="bg-slate-100 sticky top-0">
+                    <div className="overflow-x-auto max-h-96">
+                            <table className="min-w-full divide-y divide-slate-300 text-sm">
+                                <thead>
                                     <tr>
-                                        <th className="p-2 font-semibold text-sm">Invoice #</th>
-                                        <th className="p-2 font-semibold text-sm">Customer</th>
-                                        <th className="p-2 font-semibold text-sm">Date</th>
-                                        <th className="p-2 font-semibold text-sm text-right">Balance Due</th>
-                                        <th className="p-2 font-semibold text-sm text-right w-1/4">Amount to Apply</th>
+                                        <th scope="col" className="py-3.5 pl-4 pr-3 text-left font-semibold text-slate-900 sm:pl-0">Invoice #</th>
+                                        <th scope="col" className="px-3 py-3.5 text-left font-semibold text-slate-900">Customer</th>
+                                        <th scope="col" className="px-3 py-3.5 text-left font-semibold text-slate-900">Date</th>
+                                        <th scope="col" className="px-3 py-3.5 text-right font-semibold text-slate-900">Balance Due</th>
+                                        <th scope="col" className="px-3 py-3.5 text-right font-semibold text-slate-900 w-1/4">Amount to Apply</th>
                                     </tr>
                                 </thead>
-                                <tbody>
+                                <tbody className="divide-y divide-slate-200">
                                     {openInvoices.map(inv => {
                                         const otherPayments = isEditMode ? payments.filter(p => p.id !== paymentId) : payments;
                                         const balance = calculateBalanceDue(inv, otherPayments);
                                         const invCustomer = customers.find(c => c.id === inv.customerId);
                                         return(
-                                        <tr key={inv.id} className="border-b last:border-0">
-                                            <td className="p-2 font-medium">{inv.invoiceNumber}</td>
-                                            <td className="p-2 text-sm">{invCustomer?.name ?? 'N/A'}</td>
-                                            <td className="p-2">{inv.date}</td>
-                                            <td className="p-2 text-right">R {balance.toFixed(2)}</td>
-                                            <td className="p-2 text-right">
-                                                <input type="number" value={allocations[inv.id] || ''} onChange={e => handleAllocationChange(inv.id, e.target.value)} placeholder="0.00" min="0" max={balance.toFixed(2)} step="0.01" className="w-full text-right p-1 border rounded-md"/>
+                                        <tr key={inv.id}>
+                                            <td className="whitespace-nowrap py-4 pl-4 pr-3 font-medium text-slate-900 sm:pl-0">{inv.invoiceNumber}</td>
+                                            <td className="whitespace-nowrap px-3 py-4 text-slate-500">{invCustomer?.name ?? 'N/A'}</td>
+                                            <td className="whitespace-nowrap px-3 py-4 text-slate-500">{inv.date}</td>
+                                            <td className="whitespace-nowrap px-3 py-4 text-slate-500 text-right">R {balance.toFixed(2)}</td>
+                                            <td className="whitespace-nowrap px-3 py-4">
+                                                <input type="number" value={allocations[inv.id] || ''} onChange={e => handleAllocationChange(inv.id, e.target.value)} placeholder="0.00" min="0" max={balance.toFixed(2)} step="0.01" className={`${formElementClasses} text-right`}/>
                                             </td>
                                         </tr>
                                     )})}
                                 </tbody>
                             </table>
                         </div>
-                    </div>
                 ) : (
-                    <p className="text-text-secondary italic p-4">This customer has no outstanding invoices.</p>
+                    <p className="text-slate-600 italic p-4">This customer has no outstanding invoices.</p>
                 )}
-            </fieldset>
+                </div>
+            </div>
 
             {openInvoices.length > 0 && (
                 <div className="p-4 rounded-lg bg-slate-50 border border-slate-200">
-                    <h3 className="text-lg font-semibold text-text-primary mb-3 text-center md:text-left">Allocation Summary</h3>
+                    <h3 className="text-lg font-semibold text-slate-900 mb-3 text-center md:text-left">Allocation Summary</h3>
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                        <div className="bg-white p-4 rounded-md border text-center">
-                            <p className="text-sm font-medium text-text-secondary">Total Payment</p>
-                            <p className="text-2xl font-bold text-text-primary">R {paymentDetails.amount.toFixed(2)}</p>
+                        <div className="bg-white p-4 rounded-lg border text-center">
+                            <p className="text-sm font-medium text-slate-600">Total Payment</p>
+                            <p className="text-2xl font-bold text-slate-900">R {paymentDetails.amount.toFixed(2)}</p>
                         </div>
-                        <div className="bg-white p-4 rounded-md border text-center">
-                            <p className="text-sm font-medium text-text-secondary">Total Allocated</p>
-                            <p className="text-2xl font-bold text-text-primary">R {totalAllocated.toFixed(2)}</p>
+                        <div className="bg-white p-4 rounded-lg border text-center">
+                            <p className="text-sm font-medium text-slate-600">Total Allocated</p>
+                            <p className="text-2xl font-bold text-slate-900">R {totalAllocated.toFixed(2)}</p>
                         </div>
-                        <div className={`p-4 rounded-md border text-center ${Math.abs(unallocatedAmount) > 0.005 ? 'bg-red-50 border-red-200' : 'bg-green-50 border-green-200'}`}>
-                            <p className={`text-sm font-medium ${Math.abs(unallocatedAmount) > 0.005 ? 'text-red-600' : 'text-green-600'}`}>Unallocated Amount</p>
-                            <p className={`text-2xl font-bold ${Math.abs(unallocatedAmount) > 0.005 ? 'text-red-700' : 'text-green-700'}`}>R {unallocatedAmount.toFixed(2)}</p>
+                        <div className={`p-4 rounded-lg border text-center ${Math.abs(unallocatedAmount) > 0.005 ? 'bg-red-50 border-red-200' : 'bg-green-50 border-green-200'}`}>
+                            <p className={`text-sm font-medium ${Math.abs(unallocatedAmount) > 0.005 ? 'text-red-700' : 'text-green-700'}`}>Unallocated Amount</p>
+                            <p className={`text-2xl font-bold ${Math.abs(unallocatedAmount) > 0.005 ? 'text-red-800' : 'text-green-800'}`}>R {unallocatedAmount.toFixed(2)}</p>
                         </div>
                     </div>
                 </div>
