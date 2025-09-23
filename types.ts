@@ -5,6 +5,13 @@ export enum CustomerType {
   B2B = 'Retail',
 }
 
+export enum PaymentTerm {
+  COD = 'Cash on Delivery',
+  DAYS_30 = '30 Days',
+  DAYS_60 = '60 Days',
+  EOM_30 = 'End of Month + 30 Days',
+}
+
 export interface Address {
   id: string;
   type: 'billing' | 'delivery';
@@ -39,6 +46,8 @@ export interface Customer {
   invoiceLevel?: 'parent' | 'branch';
   defaultInvoiceNotes?: string;
   customProductPricing?: CustomerProductPrice[];
+  paymentTerm?: PaymentTerm;
+  billToParent?: boolean;
 }
 
 export interface Price {
@@ -72,12 +81,19 @@ export enum PaymentMethod {
   CASH = 'Cash',
 }
 
+export interface PaymentAllocation {
+  invoiceId: string;
+  amount: number;
+}
+
 export interface Payment {
   id: string;
+  customerId: string;
   date: string;
-  amount: number;
+  totalAmount: number;
   method: PaymentMethod;
   reference?: string;
+  allocations: PaymentAllocation[];
 }
 
 export enum DocumentStatus {
@@ -94,11 +110,12 @@ export interface Invoice {
   invoiceNumber: string;
   customerId: string;
   date: string;
+  dueDate?: string;
   orderNumber?: string;
+  quoteId?: string;
   items: LineItem[];
   status: DocumentStatus;
   notes?: string;
-  payments: Payment[];
 }
 
 export interface Quote {
@@ -110,4 +127,22 @@ export interface Quote {
   items: LineItem[];
   status: DocumentStatus;
   notes?: string;
+}
+
+export interface StatementTransaction {
+  date: string;
+  type: 'Invoice' | 'Payment';
+  reference: string; // Invoice # or Payment Ref
+  sourceId: string; // The original ID of the invoice or payment
+  debit: number;
+  credit: number;
+  balance: number;
+}
+
+export interface AgingAnalysis {
+  current: number;
+  days30: number;
+  days60: number;
+  days90: number;
+  days120plus: number;
 }

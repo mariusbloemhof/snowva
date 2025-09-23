@@ -1,9 +1,12 @@
 
-import React, { useMemo, useRef, useState, useEffect } from 'react';
+
+
+
+import React, { useMemo, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Invoice, Customer, CustomerType, Address, Payment, PaymentMethod, DocumentStatus } from '../types';
+import { Invoice, Customer, CustomerType, Address, Payment, DocumentStatus } from '../types';
 import { customers, products, VAT_RATE } from '../constants';
-import { MailIcon, PrintIcon, DownloadIcon, PlusIcon } from './Icons';
+import { MailIcon, PrintIcon, DownloadIcon, CashIcon } from './Icons';
 import { getCustomerProductPrice } from '../utils';
 
 // Declare global libraries loaded from CDN
@@ -14,9 +17,11 @@ interface InvoiceViewerProps {
     invoice: Invoice;
     invoices: Invoice[];
     setInvoices: React.Dispatch<React.SetStateAction<Invoice[]>>;
+    payments: Payment[];
+    setPayments: React.Dispatch<React.SetStateAction<Payment[]>>;
 }
 
-const getPrimaryAddress = (customer: Customer | null): Address | undefined => {
+const getPrimaryAddress = (customer: Customer | null | undefined): Address | undefined => {
     if (!customer) return undefined;
     if (customer.type === CustomerType.B2B) {
       return customer.addresses.find(a => a.type === 'billing' && a.isPrimary) || customer.addresses.find(a => a.isPrimary);
@@ -29,69 +34,29 @@ const calculateTotal = (items: Invoice['items']) => {
     return subtotal * (1 + VAT_RATE);
 };
 
-export const InvoiceViewer: React.FC<InvoiceViewerProps> = ({ invoice, invoices, setInvoices }) => {
+export const InvoiceViewer: React.FC<InvoiceViewerProps> = ({ invoice, payments }) => {
   const navigate = useNavigate();
   const invoiceRef = useRef<HTMLDivElement>(null);
 
   const selectedCustomer = useMemo(() => customers.find(c => c.id === invoice.customerId) || null, [invoice.customerId]);
-  const primaryAddress = useMemo(() => getPrimaryAddress(selectedCustomer), [selectedCustomer]);
+  const isBilledToParent = selectedCustomer?.billToParent && selectedCustomer.parentCompanyId;
+  const billToCustomer = isBilledToParent ? customers.find(c => c.id === selectedCustomer.parentCompanyId) : selectedCustomer;
+
+  const billingAddress = useMemo(() => getPrimaryAddress(billToCustomer), [billToCustomer]);
+  const deliveryAddress = useMemo(() => getPrimaryAddress(selectedCustomer), [selectedCustomer]);
+  
+  const invoicePaymentAllocations = useMemo(() => {
+    return payments
+      .flatMap(p => p.allocations.map(a => ({ ...p, allocationAmount: a.amount, invoiceId: a.invoiceId })))
+      .filter(pa => pa.invoiceId === invoice.id);
+  }, [payments, invoice.id]);
 
   const total = useMemo(() => calculateTotal(invoice.items), [invoice.items]);
-  const amountPaid = useMemo(() => (invoice.payments || []).reduce((sum, p) => sum + p.amount, 0), [invoice.payments]);
+  const amountPaid = useMemo(() => invoicePaymentAllocations.reduce((sum, p) => sum + p.allocationAmount, 0), [invoicePaymentAllocations]);
   const balanceDue = useMemo(() => total - amountPaid, [total, amountPaid]);
 
   const isB2B = selectedCustomer?.type === CustomerType.B2B;
-
-  const [newPayment, setNewPayment] = useState({
-      date: new Date().toISOString().split('T')[0],
-      amount: balanceDue > 0 ? balanceDue : 0,
-      method: PaymentMethod.EFT,
-      reference: '',
-  });
-
-  useEffect(() => {
-    setNewPayment(prev => ({...prev, amount: balanceDue > 0 ? Number(balanceDue.toFixed(2)) : 0 }));
-  }, [balanceDue]);
-
-  const handleNewPaymentChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
-      const { name, value } = e.target;
-      setNewPayment(prev => ({...prev, [name]: name === 'amount' ? parseFloat(value) : value }));
-  };
-
-  const calculateBalanceDue = (inv: Invoice) => {
-    const invTotal = calculateTotal(inv.items);
-    const invPaid = (inv.payments || []).reduce((sum, p) => sum + p.amount, 0);
-    return invTotal - invPaid;
-  };
-
-  const handleAddPayment = () => {
-    if (newPayment.amount <= 0 || newPayment.amount > balanceDue + 0.005) { // Epsilon for float
-        alert('Please enter a valid payment amount up to the balance due.');
-        return;
-    }
-
-    const paymentToAdd: Payment = {
-        id: `pay_${Date.now()}`,
-        date: newPayment.date,
-        amount: newPayment.amount,
-        method: newPayment.method,
-        reference: newPayment.reference || undefined,
-    };
-
-    const updatedInvoice = { ...invoice, payments: [...(invoice.payments || []), paymentToAdd] };
-    const newBalance = calculateBalanceDue(updatedInvoice);
-
-    if (newBalance <= 0.005) {
-        updatedInvoice.status = DocumentStatus.PAID;
-    } else {
-        updatedInvoice.status = DocumentStatus.PARTIALLY_PAID;
-    }
-
-    const updatedInvoices = invoices.map(inv => inv.id === updatedInvoice.id ? updatedInvoice : inv);
-    setInvoices(updatedInvoices);
-  };
-
-
+  
   const generatePdf = async (options: { autoPrint?: boolean } = {}) => {
     const input = invoiceRef.current;
     if (!input) return null;
@@ -170,38 +135,51 @@ export const InvoiceViewer: React.FC<InvoiceViewerProps> = ({ invoice, invoices,
                         <div className="mt-2 text-sm space-y-1">
                             <p><span className="font-bold text-gray-700">Date:</span> {invoice.date}</p>
                             <p><span className="font-bold text-gray-700">Invoice #:</span> {invoice.invoiceNumber}</p>
+                            <p><span className="font-bold text-gray-700">Due Date:</span> {invoice.dueDate || invoice.date}</p>
                         </div>
                     </div>
                 </div>
                 <div className="grid grid-cols-2 gap-8 py-6 border-y border-gray-200">
-                    <div>
-                        <p className="font-bold">VAT #: <span className="font-normal">4100263500</span></p>
-                    </div>
-                    <div>
-                        <h3 className="font-bold text-gray-700 mb-1">Bill To:</h3>
+                     <div>
+                        <h3 className="font-bold text-gray-700 mb-1">{isBilledToParent ? "Deliver To:" : "Bill To & Deliver To:"}</h3>
                         {selectedCustomer ? (
-                            <div className="text-sm text-gray-600">
-                                <p className="font-bold text-base text-gray-800">{selectedCustomer.legalEntityName || selectedCustomer.name}</p>
-                                {primaryAddress && (
+                             <div className="text-sm text-gray-600">
+                                <p className="font-bold text-base text-gray-800">{selectedCustomer.name}</p>
+                                {deliveryAddress && (
                                     <>
-                                    <p>{primaryAddress.street}</p>
-                                    <p>{primaryAddress.city}, {primaryAddress.province}, {primaryAddress.postalCode}</p>
+                                    <p>{deliveryAddress.street}</p>
+                                    <p>{deliveryAddress.city}, {deliveryAddress.province}, {deliveryAddress.postalCode}</p>
                                     </>
                                 )}
-                                 <div className="mt-2">
-                                    {isB2B ? (
-                                        <>
-                                            <p><span className="font-bold">VAT #:</span> {selectedCustomer.vatNumber || 'N/A'}</p>
-                                            <p><span className="font-bold">Order #:</span> {invoice.orderNumber || 'N/A'}</p>
-                                        </>
-                                    ) : (
-                                        <p><span className="font-bold">Contact No:</span> {selectedCustomer.contactPhone || 'N/A'}</p>
-                                    )}
-                                </div>
-                            </div>
+                             </div>
                         ) : <p className="text-gray-500">N/A</p>}
                     </div>
+
+                    {isBilledToParent && (
+                        <div>
+                            <h3 className="font-bold text-gray-700 mb-1">Bill To:</h3>
+                            {billToCustomer ? (
+                                <div className="text-sm text-gray-600">
+                                    <p className="font-bold text-base text-gray-800">{billToCustomer.legalEntityName || billToCustomer.name}</p>
+                                    {billingAddress && (
+                                        <>
+                                        <p>{billingAddress.street}</p>
+                                        <p>{billingAddress.city}, {billingAddress.province}, {billingAddress.postalCode}</p>
+                                        </>
+                                    )}
+                                </div>
+                            ) : <p className="text-gray-500">N/A</p>}
+                        </div>
+                    )}
                 </div>
+                 <div className="py-2">
+                     {isB2B && (
+                        <>
+                            <p className="text-sm"><span className="font-bold">VAT #:</span> {billToCustomer?.vatNumber || 'N/A'}</p>
+                            <p className="text-sm"><span className="font-bold">Order #:</span> {invoice.orderNumber || 'N/A'}</p>
+                        </>
+                    )}
+                 </div>
                 <table className="w-full my-8">
                     <thead>
                         <tr className="bg-slate-700 text-white">
@@ -263,8 +241,8 @@ export const InvoiceViewer: React.FC<InvoiceViewerProps> = ({ invoice, invoices,
             <h3 className="text-xl font-semibold text-text-primary mb-4 border-b pb-2">Payment Management</h3>
             
             <div className="mb-6">
-                <h4 className="font-semibold mb-2 text-text-secondary">Payment History</h4>
-                {(invoice.payments || []).length > 0 ? (
+                <h4 className="font-semibold mb-2 text-text-secondary">Payment History for this Invoice</h4>
+                {invoicePaymentAllocations.length > 0 ? (
                     <div className="overflow-x-auto border rounded-md">
                         <table className="w-full text-left">
                             <thead className="bg-slate-100">
@@ -272,16 +250,16 @@ export const InvoiceViewer: React.FC<InvoiceViewerProps> = ({ invoice, invoices,
                                     <th className="p-3 font-semibold text-sm">Date</th>
                                     <th className="p-3 font-semibold text-sm">Method</th>
                                     <th className="p-3 font-semibold text-sm">Reference</th>
-                                    <th className="p-3 font-semibold text-sm text-right">Amount</th>
+                                    <th className="p-3 font-semibold text-sm text-right">Amount Allocated</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                {invoice.payments.map(p => (
+                                {invoicePaymentAllocations.map(p => (
                                     <tr key={p.id} className="border-b last:border-0 hover:bg-slate-50">
                                         <td className="p-3">{p.date}</td>
                                         <td className="p-3">{p.method}</td>
                                         <td className="p-3">{p.reference || 'N/A'}</td>
-                                        <td className="p-3 text-right">R {p.amount.toFixed(2)}</td>
+                                        <td className="p-3 text-right">R {p.allocationAmount.toFixed(2)}</td>
                                     </tr>
                                 ))}
                             </tbody>
@@ -293,32 +271,9 @@ export const InvoiceViewer: React.FC<InvoiceViewerProps> = ({ invoice, invoices,
             </div>
 
             {invoice.status !== DocumentStatus.PAID && (
-                <div>
-                    <h4 className="font-semibold mb-2 text-text-secondary">Record a New Payment</h4>
-                    <div className="bg-slate-50 p-4 rounded-md border grid grid-cols-1 md:grid-cols-5 gap-4 items-end">
-                        <div>
-                            <label htmlFor="paymentDate" className="block text-sm font-medium text-gray-700">Date</label>
-                            <input type="date" name="date" id="paymentDate" value={newPayment.date} onChange={handleNewPaymentChange} className="mt-1 block w-full px-3 py-2 border border-ui-stroke rounded-md"/>
-                        </div>
-                        <div>
-                            <label htmlFor="paymentAmount" className="block text-sm font-medium text-gray-700">Amount</label>
-                            <input type="number" name="amount" id="paymentAmount" value={newPayment.amount} onChange={handleNewPaymentChange} step="0.01" min="0.01" max={balanceDue.toFixed(2)} className="mt-1 block w-full px-3 py-2 border border-ui-stroke rounded-md"/>
-                        </div>
-                         <div>
-                            <label htmlFor="paymentMethod" className="block text-sm font-medium text-gray-700">Method</label>
-                            <select name="method" id="paymentMethod" value={newPayment.method} onChange={handleNewPaymentChange} className="mt-1 block w-full px-3 py-2 border border-ui-stroke rounded-md">
-                                {Object.values(PaymentMethod).map(method => <option key={method} value={method}>{method}</option>)}
-                            </select>
-                        </div>
-                         <div>
-                            <label htmlFor="paymentReference" className="block text-sm font-medium text-gray-700">Reference</label>
-                            <input type="text" name="reference" id="paymentReference" value={newPayment.reference} onChange={handleNewPaymentChange} className="mt-1 block w-full px-3 py-2 border border-ui-stroke rounded-md"/>
-                        </div>
-                        <button onClick={handleAddPayment} className="flex items-center justify-center bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-600 transition-colors w-full">
-                            <PlusIcon /> <span className="ml-2">Add Payment</span>
-                        </button>
-                    </div>
-                </div>
+                 <button onClick={() => navigate('/payments/record', { state: { invoiceId: invoice.id }})} className="flex items-center justify-center bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-600 transition-colors w-full md:w-auto">
+                    <CashIcon /> <span className="ml-2">Record Payment</span>
+                </button>
             )}
         </div>
     </div>

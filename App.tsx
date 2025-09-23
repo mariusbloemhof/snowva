@@ -1,4 +1,7 @@
 
+
+
+
 import React, { useState } from 'react';
 import { HashRouter, Routes, Route, NavLink, useParams } from 'react-router-dom';
 import { Dashboard } from './components/Dashboard';
@@ -7,23 +10,28 @@ import { ProductList } from './components/ProductList';
 import { InvoiceList } from './components/InvoiceList';
 import { QuoteList } from './components/QuoteList';
 import { StatementPage } from './components/StatementPage';
+import { PaymentList } from './components/PaymentList';
+import { PaymentPage } from './components/PaymentPage';
+import { PaymentRecorder } from './components/PaymentRecorder';
 import { InvoiceEditor } from './components/InvoiceEditor';
 import { InvoiceViewer } from './components/InvoiceViewer';
 import { QuoteEditor } from './components/QuoteEditor';
 import { CustomerEditor } from './components/CustomerEditor';
 import { ProductEditor } from './components/ProductEditor';
+import { StatementViewer } from './components/StatementViewer';
 import {
   HomeIcon, ChartBarIcon, UsersIcon, CubeIcon, DocumentTextIcon,
-  DocumentReportIcon, MenuIcon, XIcon, CollectionIcon
+  DocumentReportIcon, MenuIcon, XIcon, CollectionIcon, CashIcon
 } from './components/Icons';
-import { customers as allCustomers, products as allProducts, invoices as allInvoices } from './constants';
-import { Customer, Product, Invoice, DocumentStatus } from './types';
+import { customers as allCustomers, products as allProducts, invoices as allInvoices, payments as allPayments } from './constants';
+import { Customer, Product, Invoice, DocumentStatus, Payment } from './types';
 
 const App: React.FC = () => {
   const [isSidebarOpen, setSidebarOpen] = useState(true);
   const [customers, setCustomers] = useState<Customer[]>(allCustomers);
   const [products, setProducts] = useState<Product[]>(allProducts);
   const [invoices, setInvoices] = useState<Invoice[]>(allInvoices);
+  const [payments, setPayments] = useState<Payment[]>(allPayments);
 
   const navItems = [
     { to: "/", icon: <HomeIcon />, label: "Dashboard" },
@@ -31,6 +39,7 @@ const App: React.FC = () => {
     { to: "/products", icon: <CubeIcon />, label: "Products" },
     { to: "/quotes", icon: <DocumentTextIcon />, label: "Quotes" },
     { to: "/invoices", icon: <CollectionIcon />, label: "Invoices" },
+    { to: "/payments", icon: <CashIcon />, label: "Payments" },
     { to: "/statements", icon: <DocumentReportIcon />, label: "Statements" },
   ];
 
@@ -44,7 +53,7 @@ const App: React.FC = () => {
     if (invoice.status === DocumentStatus.DRAFT) {
         return <InvoiceEditor invoices={invoices} setInvoices={setInvoices} invoiceId={id} />;
     } else {
-        return <InvoiceViewer invoice={invoice} invoices={invoices} setInvoices={setInvoices} />;
+        return <InvoiceViewer invoice={invoice} invoices={invoices} setInvoices={setInvoices} payments={payments} setPayments={setPayments} />;
     }
   };
 
@@ -61,6 +70,15 @@ const App: React.FC = () => {
   const ProductEditorWrapper = () => {
     const { id } = useParams<{ id: string }>();
     return <ProductEditor products={products} setProducts={setProducts} productId={id} />;
+  };
+  
+  const PaymentRecorderWrapper = () => {
+    const { id } = useParams<{ id: string }>();
+    return <PaymentRecorder customers={customers} invoices={invoices} setInvoices={setInvoices} payments={payments} setPayments={setPayments} paymentId={id} />;
+  };
+  
+  const StatementViewerWrapper = () => {
+    return <StatementViewer customers={customers} invoices={invoices} payments={payments} />;
   };
 
 
@@ -112,10 +130,15 @@ const App: React.FC = () => {
               <Route path="/quotes" element={<QuoteList />} />
               <Route path="/quotes/new" element={<QuoteEditor />} />
               <Route path="/quotes/:id" element={<QuoteEditorWrapper />} />
-              <Route path="/invoices" element={<InvoiceList invoices={invoices} />} />
+              <Route path="/invoices" element={<InvoiceList invoices={invoices} payments={payments} />} />
               <Route path="/invoices/new" element={<InvoiceEditor invoices={invoices} setInvoices={setInvoices} />} />
               <Route path="/invoices/:id" element={<InvoicePageWrapper />} />
-              <Route path="/statements" element={<StatementPage />} />
+              <Route path="/payments" element={<PaymentList customers={customers} payments={payments} />} />
+              <Route path="/payments/new" element={<PaymentPage invoices={invoices} customers={customers} />} />
+              <Route path="/payments/record" element={<PaymentRecorder customers={customers} invoices={invoices} setInvoices={setInvoices} payments={payments} setPayments={setPayments} />} />
+              <Route path="/payments/edit/:id" element={<PaymentRecorderWrapper />} />
+              <Route path="/statements" element={<StatementPage customers={customers} invoices={invoices} payments={payments} />} />
+              <Route path="/statements/:id" element={<StatementViewerWrapper />} />
             </Routes>
           </main>
         </div>

@@ -1,8 +1,8 @@
-
 import React, { useState, useEffect, useMemo } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Quote, Customer, Product, LineItem, DocumentStatus, CustomerType, Address } from '../types';
 import { quotes as mockQuotes, customers, products, VAT_RATE } from '../constants';
-import { TrashIcon, PlusIcon, MailIcon, CheckCircleIcon, PrintIcon } from './Icons';
+import { TrashIcon, PlusIcon, MailIcon, CheckCircleIcon, PrintIcon, SwitchHorizontalIcon } from './Icons';
 import { getResolvedProductDetails } from '../utils';
 import { ProductSelector } from './ProductSelector';
 
@@ -23,6 +23,7 @@ const getBillingAddress = (customer: Customer | null): Address | undefined => {
 }
 
 export const QuoteEditor: React.FC<QuoteEditorProps> = ({ quoteId }) => {
+  const navigate = useNavigate();
   const [quote, setQuote] = useState<Quote | null>(null);
   const [selectedCustomer, setSelectedCustomer] = useState<Customer | null>(null);
   
@@ -111,6 +112,14 @@ export const QuoteEditor: React.FC<QuoteEditorProps> = ({ quoteId }) => {
         alert('Quote Finalized!');
     } else {
         alert('Please select a customer before finalizing.');
+    }
+  };
+
+  const handleConvertToInvoice = () => {
+    if (quote) {
+        navigate('/invoices/new', {
+            state: { fromQuote: quote }
+        });
     }
   };
 
@@ -223,6 +232,11 @@ export const QuoteEditor: React.FC<QuoteEditorProps> = ({ quoteId }) => {
                 </button>
             ) : (
                 <>
+                 {quote.status === DocumentStatus.ACCEPTED && (
+                    <button onClick={handleConvertToInvoice} className="flex items-center bg-snowva-orange text-white px-4 py-2 rounded-md hover:bg-snowva-orange-dark">
+                        <SwitchHorizontalIcon className="w-5 h-5"/> <span className="ml-2">Convert to Invoice</span>
+                    </button>
+                 )}
                  <button onClick={() => window.print()} className="flex items-center bg-slate-500 text-white px-4 py-2 rounded-md hover:bg-slate-600">
                    <PrintIcon className="w-5 h-5"/> <span className="ml-2">Print</span>
                 </button>

@@ -1,4 +1,5 @@
-import { Product, Price, Customer, CustomerType, CustomerProductPrice } from './types';
+import { Product, Price, Customer, CustomerType, CustomerProductPrice, PaymentTerm, StatementTransaction, AgingAnalysis, LineItem, Payment, Invoice, DocumentStatus } from './types';
+import { VAT_RATE } from './constants';
 
 export const getCurrentPrice = (product: { prices?: Price[] } | undefined): Price | null => {
     if (!product || !product.prices || product.prices.length === 0) {
@@ -65,4 +66,150 @@ export const getResolvedProductDetails = (
     unitPrice: standardUnitPrice,
     note: undefined,
   };
+};
+
+export const calculateDueDate = (invoiceDate: string, term: PaymentTerm): string => {
+  const date = new Date(invoiceDate);
+  // Setting time to noon to avoid timezone issues with date changes
+  date.setUTCHours(12, 0, 0, 0);
+
+  switch (term) {
+    case PaymentTerm.DAYS_30:
+      date.setDate(date.getDate() + 30);
+      break;
+    case PaymentTerm.DAYS_60:
+      date.setDate(date.getDate() + 60);
+      break;
+    case PaymentTerm.EOM_30:
+      // Last day of the current month
+      date.setMonth(date.getMonth() + 1, 0);
+      // Add 30 days
+      date.setDate(date.getDate() + 30);
+      break;
+    case PaymentTerm.COD:
+    default:
+      // Due date is the invoice date itself
+      break;
+  }
+  return date.toISOString().split('T')[0];
+};
+
+// --- Centralized Financial Calculations ---
+
+export const calculateTotal = (items: LineItem[]): number => {
+    const subtotal = items.reduce((sum, item) => sum + item.quantity * item.unitPrice, 0);
+    return subtotal * (1 + VAT_RATE);
+};
+
+export const calculatePaid = (invoiceId: string, allPayments: Payment[]): number => {
+    let totalPaid = 0;
+    for (const payment of allPayments) {
+        for (const allocation of payment.allocations) {
+            if (allocation.invoiceId === invoiceId) {
+                totalPaid += allocation.amount;
+            }
+        }
+    }
+    return totalPaid;
+};
+
+export const calculateBalanceDue = (invoice: Invoice, allPayments: Payment[]): number => {
+    const total = calculateTotal(invoice.items);
+    const paid = calculatePaid(invoice.id, allPayments);
+    // Return a value rounded to 2 decimal places to avoid floating point issues
+    return parseFloat((total - paid).toFixed(2));
+};
+
+
+// --- Statement and Aging Calculation ---
+
+export const getStatementDataForCustomer = (
+    customerId: string,
+    allCustomers: Customer[],
+    allInvoices: Invoice[],
+    allPayments: Payment[]
+): {
+    transactions: StatementTransaction[];
+    aging: AgingAnalysis;
+    totalBalance: number;
+    customer: Customer;
+    childCustomers: Customer[];
+} | null => {
+    const primaryCustomer = allCustomers.find(c => c.id === customerId);
+    if (!primaryCustomer) return null;
+
+    // 1. Identify all relevant customer IDs (primary + children who bill to parent)
+    const relevantCustomerIds = new Set<string>([customerId]);
+    const childCustomers = allCustomers.filter(
+        c => c.parentCompanyId === customerId && c.billToParent
+    );
+    childCustomers.forEach(c => relevantCustomerIds.add(c.id));
+    
+    // 2. Gather all invoices and payments for these customers
+    const relevantInvoices = allInvoices.filter(
+        inv => relevantCustomerIds.has(inv.customerId) && inv.status !== DocumentStatus.DRAFT
+    );
+    // Payments are only recorded against the parent/primary customer
+    const relevantPayments = allPayments.filter(p => p.customerId === customerId);
+
+    // 3. Create a unified, sorted list of transactions
+    const transactions: (Invoice | Payment)[] = [...relevantInvoices, ...relevantPayments];
+    transactions.sort((a, b) => a.date.localeCompare(b.date));
+
+    // 4. Calculate running balance and format for statement
+    let currentBalance = 0;
+    const statementTransactions: StatementTransaction[] = transactions.map(tx => {
+        if ('invoiceNumber' in tx) { // It's an Invoice
+            const invoiceTotal = calculateTotal(tx.items);
+            currentBalance += invoiceTotal;
+            return {
+                date: tx.date,
+                type: 'Invoice',
+                reference: tx.invoiceNumber,
+                sourceId: tx.id,
+                debit: invoiceTotal,
+                credit: 0,
+                balance: currentBalance,
+            };
+        } else { // It's a Payment
+            currentBalance -= tx.totalAmount;
+            return {
+                date: tx.date,
+                type: 'Payment',
+                reference: tx.reference || `Payment #${tx.id.slice(-4)}`,
+                sourceId: tx.id,
+                debit: 0,
+                credit: tx.totalAmount,
+                balance: currentBalance,
+            };
+        }
+    });
+
+    // 5. Calculate aging for all outstanding invoices
+    const aging: AgingAnalysis = { current: 0, days30: 0, days60: 0, days90: 0, days120plus: 0 };
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+
+    relevantInvoices.forEach(inv => {
+        const balanceDue = calculateBalanceDue(inv, allPayments);
+        if (balanceDue > 0.01) { // If there is a balance
+            const dueDate = new Date(inv.dueDate || inv.date);
+            dueDate.setHours(0, 0, 0, 0);
+            const daysOverdue = Math.floor((today.getTime() - dueDate.getTime()) / (1000 * 60 * 60 * 24));
+            
+            if (daysOverdue <= 0) aging.current += balanceDue;
+            else if (daysOverdue <= 30) aging.days30 += balanceDue;
+            else if (daysOverdue <= 60) aging.days60 += balanceDue;
+            else if (daysOverdue <= 90) aging.days90 += balanceDue;
+            else aging.days120plus += balanceDue;
+        }
+    });
+
+    return {
+        transactions: statementTransactions.reverse(), // Show most recent first
+        aging,
+        totalBalance: parseFloat(currentBalance.toFixed(2)),
+        customer: primaryCustomer,
+        childCustomers
+    };
 };

@@ -1,10 +1,9 @@
-
 import React, { useState, useEffect, useMemo } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { Invoice, Customer, Product, LineItem, DocumentStatus, CustomerType } from '../types';
+import { useNavigate, useLocation } from 'react-router-dom';
+import { Invoice, Customer, Product, LineItem, DocumentStatus, CustomerType, Quote, PaymentTerm } from '../types';
 import { customers, products, VAT_RATE } from '../constants';
 import { TrashIcon, PlusIcon, CheckCircleIcon } from './Icons';
-import { getResolvedProductDetails } from '../utils';
+import { getResolvedProductDetails, calculateDueDate } from '../utils';
 import { ProductSelector } from './ProductSelector';
 
 interface InvoiceEditorProps {
@@ -30,11 +29,29 @@ const getNextInvoiceNumber = (currentInvoices: Invoice[]) => {
 
 export const InvoiceEditor: React.FC<InvoiceEditorProps> = ({ invoices, setInvoices, invoiceId }) => {
   const navigate = useNavigate();
+  const location = useLocation();
   const [invoice, setInvoice] = useState<Invoice | null>(null);
   const [selectedCustomer, setSelectedCustomer] = useState<Customer | null>(null);
 
   useEffect(() => {
-    if (invoiceId) {
+    const quoteToConvert = location.state?.fromQuote as Quote | undefined;
+
+    if (quoteToConvert) {
+        const newInvoiceFromQuote: Invoice = {
+            id: `inv_${Date.now()}`,
+            invoiceNumber: `DRAFT-${Date.now()}`,
+            customerId: quoteToConvert.customerId,
+            date: new Date().toISOString().split('T')[0],
+            items: quoteToConvert.items.map((item, index) => ({...item, id: `li_${Date.now()}_${index}`})),
+            status: DocumentStatus.DRAFT,
+            notes: `Based on Quote #${quoteToConvert.quoteNumber}\n${quoteToConvert.notes || ''}`.trim(),
+            quoteId: quoteToConvert.id,
+        };
+        setInvoice(newInvoiceFromQuote);
+        setSelectedCustomer(customers.find(c => c.id === newInvoiceFromQuote.customerId) || null);
+        // Clear location state to prevent re-triggering on re-render
+        window.history.replaceState({}, document.title)
+    } else if (invoiceId) {
       const foundInvoice = invoices.find(inv => inv.id === invoiceId);
       if (foundInvoice) {
         setInvoice(foundInvoice);
@@ -49,11 +66,10 @@ export const InvoiceEditor: React.FC<InvoiceEditorProps> = ({ invoices, setInvoi
         items: [],
         status: DocumentStatus.DRAFT,
         notes: '',
-        payments: [],
       });
       setSelectedCustomer(null);
     }
-  }, [invoiceId, invoices]);
+  }, [invoiceId, invoices, location.state]);
 
   const handleFieldChange = (field: keyof Invoice, value: any) => {
     if (invoice) {
@@ -127,11 +143,24 @@ export const InvoiceEditor: React.FC<InvoiceEditorProps> = ({ invoices, setInvoi
 
   const finalizeInvoice = () => {
     if (invoice && invoice.customerId) {
+        const customer = customers.find(c => c.id === invoice.customerId);
+        if (!customer) {
+            alert('Could not find customer details.');
+            return;
+        }
+
+        const dueDate = calculateDueDate(
+            invoice.date, 
+            customer.paymentTerm || PaymentTerm.COD
+        );
+
         const finalInvoice = {
             ...invoice,
             status: DocumentStatus.FINALIZED as DocumentStatus,
-            invoiceNumber: getNextInvoiceNumber(invoices)
+            invoiceNumber: getNextInvoiceNumber(invoices),
+            dueDate: dueDate,
         };
+
         const invoiceIndex = invoices.findIndex(inv => inv.id === invoice.id);
         if (invoiceIndex > -1) {
             const updatedInvoices = [...invoices];

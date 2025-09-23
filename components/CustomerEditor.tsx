@@ -1,7 +1,8 @@
 
+
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Customer, CustomerType, Address } from '../types';
+import { Customer, CustomerType, Address, PaymentTerm } from '../types';
 import { customers as allCustomers } from '../constants';
 import { products as allProducts } from '../constants';
 import { CustomerPricingEditor } from './CustomerPricingEditor';
@@ -91,7 +92,27 @@ export const CustomerEditor: React.FC<CustomerEditorProps> = ({ customers, setCu
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
         const { name, value } = e.target;
-        setFormData(prev => ({ ...prev, [name]: value }));
+        setFormData(prev => {
+            const newState = { ...prev, [name]: value };
+            if (name === 'type') {
+                if (value === CustomerType.B2B && !newState.paymentTerm) {
+                    newState.paymentTerm = PaymentTerm.DAYS_30;
+                } else if (value === CustomerType.B2C) {
+                    delete newState.paymentTerm;
+                    newState.billToParent = false;
+                }
+            }
+            if (name === 'parentCompanyId' && !value) {
+                // If parent company is removed, can't bill to parent
+                newState.billToParent = false;
+            }
+            return newState;
+        });
+    };
+    
+    const handleCheckboxChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const { name, checked } = e.target;
+        setFormData(prev => ({...prev, [name]: checked}));
     };
 
     const handleBillingAddressChange = (field: keyof Address, value: string) => {
@@ -218,6 +239,28 @@ export const CustomerEditor: React.FC<CustomerEditorProps> = ({ customers, setCu
                                             <label htmlFor="vatNumber" className="block text-sm font-medium text-text-secondary">VAT Number</label>
                                             <input type="text" name="vatNumber" id="vatNumber" value={formData.vatNumber || ''} onChange={handleChange} className="mt-1 block w-full px-3 py-2 border border-ui-stroke rounded-md shadow-sm focus:outline-none focus:ring-snowva-blue focus:border-snowva-blue" />
                                         </div>
+                                    </div>
+                                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                        <div>
+                                            <label htmlFor="paymentTerm" className="block text-sm font-medium text-text-secondary">Payment Terms</label>
+                                            <select name="paymentTerm" id="paymentTerm" value={formData.paymentTerm || ''} onChange={handleChange} className="mt-1 block w-full px-3 py-2 border border-ui-stroke rounded-md shadow-sm focus:outline-none focus:ring-snowva-blue focus:border-snowva-blue">
+                                                {Object.values(PaymentTerm).map((value) => <option key={value} value={value}>{value}</option>)}
+                                            </select>
+                                        </div>
+                                        {formData.parentCompanyId && (
+                                            <div className="flex items-end pb-2">
+                                                <label className="flex items-center space-x-3">
+                                                    <input 
+                                                        type="checkbox" 
+                                                        name="billToParent" 
+                                                        checked={formData.billToParent || false} 
+                                                        onChange={handleCheckboxChange}
+                                                        className="h-5 w-5 rounded border-gray-300 text-snowva-blue focus:ring-snowva-blue"
+                                                    />
+                                                    <span className="text-sm font-medium text-text-secondary">Bill to Parent Company</span>
+                                                </label>
+                                            </div>
+                                        )}
                                     </div>
                                     <div>
                                         <label htmlFor="defaultInvoiceNotes" className="block text-sm font-medium text-text-secondary">Default Invoice Notes/Codes</label>

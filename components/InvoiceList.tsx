@@ -1,31 +1,22 @@
 
+
+
+
 import React, { useState, useMemo } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-import { Invoice, DocumentStatus, Payment, LineItem } from '../types';
-import { customers, VAT_RATE } from '../constants';
+import { Invoice, DocumentStatus, Payment } from '../types';
+import { customers } from '../constants';
 import { PencilIcon, EyeIcon, PlusIcon, SelectorIcon, SearchIcon } from './Icons';
+import { calculateBalanceDue } from '../utils';
 
 interface InvoiceListProps {
     invoices: Invoice[];
+    payments: Payment[];
 }
 
 type SortConfig = { key: keyof Invoice | 'customerName' | 'balanceDue'; direction: 'ascending' | 'descending'; } | null;
 
-const calculateTotal = (items: LineItem[]) => {
-    const subtotal = items.reduce((sum, item) => sum + item.quantity * item.unitPrice, 0);
-    return subtotal * (1 + VAT_RATE);
-};
-
-const calculatePaid = (payments: Payment[]) => (payments || []).reduce((sum, p) => sum + p.amount, 0);
-
-const calculateBalanceDue = (invoice: Invoice) => {
-    const total = calculateTotal(invoice.items);
-    const paid = calculatePaid(invoice.payments);
-    return total - paid;
-};
-
-
-export const InvoiceList: React.FC<InvoiceListProps> = ({ invoices }) => {
+export const InvoiceList: React.FC<InvoiceListProps> = ({ invoices, payments }) => {
     const navigate = useNavigate();
     const [searchTerm, setSearchTerm] = useState('');
     const [statusFilter, setStatusFilter] = useState<DocumentStatus | 'all'>('all');
@@ -66,8 +57,8 @@ export const InvoiceList: React.FC<InvoiceListProps> = ({ invoices }) => {
                     aValue = customers.find(c => c.id === a.customerId)?.name || '';
                     bValue = customers.find(c => c.id === b.customerId)?.name || '';
                 } else if (sortConfig.key === 'balanceDue') {
-                    aValue = calculateBalanceDue(a);
-                    bValue = calculateBalanceDue(b);
+                    aValue = calculateBalanceDue(a, payments);
+                    bValue = calculateBalanceDue(b, payments);
                 } else {
                     aValue = a[sortConfig.key as keyof Invoice];
                     bValue = b[sortConfig.key as keyof Invoice];
@@ -80,7 +71,7 @@ export const InvoiceList: React.FC<InvoiceListProps> = ({ invoices }) => {
         }
 
         return filteredInvoices;
-    }, [invoices, searchTerm, statusFilter, sortConfig]);
+    }, [invoices, searchTerm, statusFilter, sortConfig, payments]);
 
     const SortableHeader: React.FC<{ columnKey: SortConfig['key'], title: string }> = ({ columnKey, title }) => (
         <th className="p-3 text-left font-semibold text-sm cursor-pointer" onClick={() => requestSort(columnKey)}>
@@ -137,7 +128,7 @@ export const InvoiceList: React.FC<InvoiceListProps> = ({ invoices }) => {
                 <table className="w-full text-left whitespace-nowrap">
                     <thead>
                         <tr className="bg-slate-100">
-                            <SortableHeader columnKey="invoiceNumber" title="Invoice #" />
+                            <th className="p-3 text-left font-semibold text-sm">Invoice #</th>
                             <SortableHeader columnKey="customerName" title="Customer" />
                             <SortableHeader columnKey="date" title="Date" />
                             <SortableHeader columnKey="balanceDue" title="Balance Due" />
@@ -155,7 +146,7 @@ export const InvoiceList: React.FC<InvoiceListProps> = ({ invoices }) => {
                                 </td>
                                 <td className="p-3">{customers.find(c => c.id === invoice.customerId)?.name || 'N/A'}</td>
                                 <td className="p-3">{invoice.date}</td>
-                                <td className="p-3">R {calculateBalanceDue(invoice).toFixed(2)}</td>
+                                <td className="p-3">R {calculateBalanceDue(invoice, payments).toFixed(2)}</td>
                                 <td className="p-3">
                                     <span className={`px-2 py-1 text-xs font-semibold rounded-full ${getStatusClass(invoice.status)}`}>
                                         {invoice.status}

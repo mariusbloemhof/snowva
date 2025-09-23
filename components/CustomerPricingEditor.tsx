@@ -3,6 +3,7 @@ import { Customer, Product, CustomerProductPrice, Price } from '../types';
 import { ProductSelector } from './ProductSelector';
 import { PlusIcon, TrashIcon, PencilIcon } from './Icons';
 import { getCurrentPrice } from '../utils';
+import { CustomPriceEditorModal } from './CustomPriceEditorModal';
 
 interface CustomerPricingEditorProps {
     customer: Omit<Customer, 'id'> & { id?: string };
@@ -70,6 +71,14 @@ export const CustomerPricingEditor: React.FC<CustomerPricingEditorProps> = ({ cu
     const handleRemoveLocal = (priceId: string) => {
         const updatedPricing = (customer.customProductPricing || []).filter(p => p.id !== priceId);
         setCustomer(prev => ({ ...prev, customProductPricing: updatedPricing }));
+    };
+
+    const handleSaveCustomPrice = (updatedPrice: CustomerProductPrice) => {
+        const updatedPricing = (customer.customProductPricing || []).map(p => 
+            p.id === updatedPrice.id ? updatedPrice : p
+        );
+        setCustomer(prev => ({ ...prev, customProductPricing: updatedPricing }));
+        setEditingPrice(null); // Close modal
     };
 
     const getStatusBadge = (status: MergedPriceInfo['status']) => {
@@ -141,15 +150,13 @@ export const CustomerPricingEditor: React.FC<CustomerPricingEditorProps> = ({ cu
                 <PlusIcon /> <span className="ml-1">{isAdding ? 'Cancel' : 'Add Product Price Override'}</span>
             </button>
 
-            {/* A proper implementation would use a modal here for editing */}
             {editingPrice && (
-                <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
-                    <div className="bg-white p-6 rounded-lg shadow-xl w-full max-w-md">
-                        <h3 className="text-lg font-bold mb-4">Edit Custom Price for {products.find(p=>p.id===editingPrice.productId)!.name}</h3>
-                         <p className="text-center text-red-600">Editing form not implemented yet.</p>
-                        <button onClick={() => setEditingPrice(null)} className="mt-4 px-4 py-2 bg-slate-200 rounded-md">Close</button>
-                    </div>
-                </div>
+                <CustomPriceEditorModal
+                    product={products.find(p => p.id === editingPrice.productId)!}
+                    customerPrice={editingPrice}
+                    onSave={handleSaveCustomPrice}
+                    onClose={() => setEditingPrice(null)}
+                />
             )}
         </div>
     )
