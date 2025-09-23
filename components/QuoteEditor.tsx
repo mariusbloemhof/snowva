@@ -134,7 +134,7 @@ export const QuoteEditor: React.FC<QuoteEditorProps> = ({ quoteId }) => {
   const vatAmount = subtotal * VAT_RATE;
   const total = subtotal + vatAmount;
   
-  const formElementClasses = "block w-full rounded-md border-0 py-1.5 text-slate-900 ring-1 ring-inset ring-slate-300 placeholder:text-slate-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6";
+  const formElementClasses = "block w-full rounded-md border-0 py-1.5 px-3 text-slate-900 shadow-sm ring-1 ring-inset ring-slate-300 placeholder:text-slate-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6";
 
 
   if (!quote) return <div>Loading...</div>;
@@ -155,12 +155,12 @@ export const QuoteEditor: React.FC<QuoteEditorProps> = ({ quoteId }) => {
                         <span>{quote.quoteNumber}</span>
                     </div>
                     <div className="flex sm:justify-end items-center">
-                        <span className="font-semibold text-slate-700 w-24">Date:</span>
-                        <input type="date" value={quote.date} onChange={e => !isFinalized && setQuote({...quote, date: e.target.value})} disabled={isFinalized} className="p-1 border rounded-md disabled:bg-slate-50 disabled:border-slate-200"/>
+                        <label htmlFor="quoteDate" className="font-semibold text-slate-700 w-24">Date:</label>
+                        <input id="quoteDate" type="date" value={quote.date} onChange={e => !isFinalized && setQuote({...quote, date: e.target.value})} disabled={isFinalized} className={`${formElementClasses} w-auto p-1 disabled:bg-transparent disabled:ring-0 disabled:shadow-none`}/>
                     </div>
                      <div className="flex sm:justify-end items-center">
-                        <span className="font-semibold text-slate-700 w-24">Valid Until:</span>
-                        <input type="date" value={quote.validUntil} onChange={e => !isFinalized && setQuote({...quote, validUntil: e.target.value})} disabled={isFinalized} className="p-1 border rounded-md disabled:bg-slate-50 disabled:border-slate-200"/>
+                        <label htmlFor="validUntil" className="font-semibold text-slate-700 w-24">Valid Until:</label>
+                        <input id="validUntil" type="date" value={quote.validUntil} onChange={e => !isFinalized && setQuote({...quote, validUntil: e.target.value})} disabled={isFinalized} className={`${formElementClasses} w-auto p-1 disabled:bg-transparent disabled:ring-0 disabled:shadow-none`}/>
                     </div>
                 </div>
             </div>
@@ -168,7 +168,7 @@ export const QuoteEditor: React.FC<QuoteEditorProps> = ({ quoteId }) => {
 
         <div className="mb-8 p-4 border rounded-lg bg-slate-50">
             <h3 className="font-semibold text-slate-800 mb-2">Quote For:</h3>
-            {isFinalized || (!quoteId && !quote.customerId) ? (
+            {isFinalized ? (
                  <div className="text-sm">
                     <p className="font-bold text-slate-900">{selectedCustomer?.name}</p>
                     {billingAddress && (

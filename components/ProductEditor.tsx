@@ -54,7 +54,7 @@ export const ProductEditor: React.FC<ProductEditorProps> = ({ products, setProdu
         }
     }, [productId, products, navigate]);
     
-    const formElementClasses = "block w-full rounded-md border-0 py-1.5 text-slate-900 shadow-sm ring-1 ring-inset ring-slate-300 placeholder:text-slate-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6";
+    const formElementClasses = "block w-full rounded-md border-0 py-1.5 px-3 text-slate-900 shadow-sm ring-1 ring-inset ring-slate-300 placeholder:text-slate-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6";
     const labelClasses = "block text-sm font-medium leading-6 text-slate-900";
 
 
@@ -261,20 +261,22 @@ export const ProductEditor: React.FC<ProductEditorProps> = ({ products, setProdu
                     <div className="space-y-6">
                         <div>
                             <label htmlFor="imageUrl" className={labelClasses}>Image URL</label>
-                            <div className="flex items-center space-x-2 mt-2">
-                                <input type="text" name="imageUrl" id="imageUrl" value={formData.imageUrl || ''} onChange={handleChange} className={formElementClasses}/>
-                                <button type="button" onClick={findProductImage} disabled={isFindingImage || !formData.name} className="p-2 rounded-md bg-indigo-600 text-white hover:bg-indigo-500 disabled:bg-slate-300 disabled:cursor-not-allowed">
-                                    {isFindingImage ? (
-                                        <svg className="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                             <div className="relative mt-2 rounded-md shadow-sm">
+                                <input type="text" name="imageUrl" id="imageUrl" value={formData.imageUrl || ''} onChange={handleChange} className={`${formElementClasses} pr-14`} placeholder="https://..."/>
+                                <div className="absolute inset-y-0 right-0 flex py-1.5 pr-1.5">
+                                    <button type="button" onClick={findProductImage} disabled={isFindingImage || !formData.name} className="inline-flex items-center rounded-md px-2 text-sm font-semibold text-indigo-600 hover:bg-indigo-100 disabled:text-slate-400 disabled:cursor-not-allowed disabled:bg-transparent">
+                                         {isFindingImage ? (
+                                        <svg className="animate-spin h-5 w-5 text-indigo-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
                                             <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
                                             <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                                         </svg>
                                     ) : (
                                        <SparklesIcon className="w-5 h-5"/> 
                                     )}
-                                </button>
+                                    </button>
+                                </div>
                             </div>
-                            <p className="text-xs text-slate-500 mt-1">Or, click the magic wand to find an image automatically.</p>
+                            <p className="text-xs text-slate-500 mt-1">Click the magic wand to find an image automatically.</p>
                         </div>
                         {formData.imageUrl && (
                             <div className="mt-2">
