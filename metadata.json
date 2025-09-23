@@ -1,0 +1,5 @@
+{
+  "name": "Snowva Business Hub",
+  "description": "A comprehensive quote generation, invoicing, and statement management system for Snowva. This app handles B2C and B2B customers, payment tracking, and customer-specific configurations.",
+  "requestFramePermissions": []
+}

@@ -1,0 +1,37 @@
+
+import React from 'react';
+
+// FIX: Update Icon component to accept and spread any standard SVG attributes, and render a <title> element for tooltips.
+const Icon: React.FC<{ children: React.ReactNode, className?: string } & React.SVGAttributes<SVGSVGElement>> = ({ children, className, title, ...rest }) => (
+  <svg className={className || "w-6 h-6"} fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" {...rest}>
+    {title && <title>{title}</title>}
+    {children}
+  </svg>
+);
+
+// FIX: Update all Icon components to accept and forward SVG attributes.
+type IconProps = { className?: string } & React.SVGAttributes<SVGSVGElement>;
+
+export const HomeIcon = ({ className, ...rest }: IconProps) => <Icon className={className} {...rest}><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" /></Icon>;
+export const ChartBarIcon = ({ className, ...rest }: IconProps) => <Icon className={className} {...rest}><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" /></Icon>;
+export const UsersIcon = ({ className, ...rest }: IconProps) => <Icon className={className} {...rest}><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M15 21a6 6 0 00-9-5.197M15 21a6 6 0 006-6v-1a6 6 0 00-9-5.197" /></Icon>;
+export const CubeIcon = ({ className, ...rest }: IconProps) => <Icon className={className} {...rest}><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-14L4 7m0 10l8 4m-8-14v10" /></Icon>;
+export const DocumentTextIcon = ({ className, ...rest }: IconProps) => <Icon className={className} {...rest}><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" /></Icon>;
+export const CollectionIcon = ({ className, ...rest }: IconProps) => <Icon className={className} {...rest}><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" /></Icon>;
+export const DocumentReportIcon = ({ className, ...rest }: IconProps) => <Icon className={className} {...rest}><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" /></Icon>;
+export const MenuIcon = ({ className, ...rest }: IconProps) => <Icon className={className} {...rest}><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16m-7 6h7" /></Icon>;
+export const XIcon = ({ className, ...rest }: IconProps) => <Icon className={className} {...rest}><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" /></Icon>;
+export const PlusIcon = ({ className, ...rest }: IconProps) => <Icon className={className} {...rest}><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" /></Icon>;
+export const TrashIcon = ({ className, ...rest }: IconProps) => <Icon className={className} {...rest}><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" /></Icon>;
+export const PencilIcon = ({ className, ...rest }: IconProps) => <Icon className={className} {...rest}><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.5L15.232 5.232z" /></Icon>;
+export const PrintIcon = ({ className, ...rest }: IconProps) => <Icon className={className} {...rest}><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm7-14a2 2 0 01-2-2H9a2 2 0 01-2 2v2h10V7z" /></Icon>;
+export const MailIcon = ({ className, ...rest }: IconProps) => <Icon className={className} {...rest}><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></Icon>;
+export const DownloadIcon = ({ className, ...rest }: IconProps) => <Icon className={className} {...rest}><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" /></Icon>;
+export const CheckCircleIcon = ({ className, ...rest }: IconProps) => <Icon className={className} {...rest}><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></Icon>;
+export const EyeIcon = ({ className, ...rest }: IconProps) => <Icon className={className} {...rest}><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" /></Icon>;
+export const ChevronRightIcon = ({ className, ...rest }: IconProps) => <Icon className={className} {...rest}><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" /></Icon>;
+export const ChevronDownIcon = ({ className, ...rest }: IconProps) => <Icon className={className} {...rest}><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" /></Icon>;
+export const SelectorIcon = ({ className, ...rest }: IconProps) => <svg className={className || "w-4 h-4 inline-block ml-1 text-slate-400"} fill="none" stroke="currentColor" viewBox="0 0 24 24" {...rest}><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 9l4-4 4 4m0 6l-4 4-4-4"></path></svg>;
+export const SearchIcon = ({ className, ...rest }: IconProps) => <Icon className={className} {...rest}><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></Icon>;
+export const SparklesIcon = ({ className, ...rest }: IconProps) => <Icon className={className} {...rest}><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.293 2.293a1 1 0 010 1.414L13 12l-1.293 1.293a1 1 0 01-1.414 0L8 10.414a1 1 0 010-1.414L10.293 6.707a1 1 0 011.414 0L13 8l2.293-2.293a1 1 0 011.414 0L18 7.414m-5 9.586l-2.293-2.293a1 1 0 00-1.414 0L8 16l-1.293-1.293a1 1 0 00-1.414 0L3 17v-2.586l2.293-2.293a1 1 0 000-1.414L3 8.414V6m10 11.586l-2.293-2.293a1 1 0 00-1.414 0L11 16l-1.293-1.293a1 1 0 00-1.414 0L6 17" /></Icon>;
+export const CashIcon = ({ className, ...rest }: IconProps) => <Icon className={className} {...rest}><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8V6m0 12v-2m0-10a9 9 0 110 18 9 9 0 010-18z" /></Icon>;
