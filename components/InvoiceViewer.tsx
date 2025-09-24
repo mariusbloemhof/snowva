@@ -1,4 +1,3 @@
-
 import React, { useMemo, useRef, useState } from 'react';
 import { useNavigate, useParams, useOutletContext } from 'react-router-dom';
 import { Invoice, Customer, DocumentStatus, Payment, AppContextType } from '../types';
@@ -309,15 +308,7 @@ export const InvoiceViewer: React.FC = () => {
 
   const activityFeed = useMemo(() => {
     if (!invoice) return [];
-    // FIX: Removed `timeAgo` from the type definition of the intermediate `feed` array.
-    const feed: {
-        icon: React.ReactElement;
-        user: string;
-        text: string;
-        date: string;
-        details?: string;
-    }[] = [];
-
+    
     // Base events
     const createdEvent = {
         icon: <PencilIcon className="h-4 w-4 text-slate-500" />,
@@ -337,37 +328,29 @@ export const InvoiceViewer: React.FC = () => {
         details: `To: ${billToCustomer?.contactEmail || 'N/A'}`,
     };
 
-    // Special case for screenshot invoice
-    if (invoice.invoiceNumber === '250924001') {
-        return [
-            { ...sentEvent, timeAgo: '3w ago' },
-            { ...createdEvent, timeAgo: '3w ago' }
-        ];
-    }
-
-    // Generic logic for all other invoices
-    feed.push(createdEvent);
-    feed.push(sentEvent);
-
-    invoicePaymentAllocations.forEach(payment => {
+    const paymentEvents = invoicePaymentAllocations.flatMap(payment => {
         const viewDate = new Date(payment.date);
         viewDate.setMinutes(viewDate.getMinutes() - 10);
-        feed.push({
-            icon: <EyeIcon className="h-4 w-4 text-slate-500" />,
-            user: selectedCustomer?.name || 'Customer',
-            text: 'viewed the invoice.',
-            date: viewDate.toISOString(),
-        });
-        feed.push({
-            icon: <CheckCircleIcon className="h-4 w-4 text-green-500" />,
-            user: 'System',
-            text: `recorded a payment.`,
-            date: payment.date,
-            details: `R ${formatCurrency(payment.allocationAmount)} via ${payment.method}`,
-        });
+        return [
+            {
+                icon: <EyeIcon className="h-4 w-4 text-slate-500" />,
+                user: selectedCustomer?.name || 'Customer',
+                text: 'viewed the invoice.',
+                date: viewDate.toISOString(),
+            },
+            {
+                icon: <CheckCircleIcon className="h-4 w-4 text-green-500" />,
+                user: 'System',
+                text: `recorded a payment.`,
+                date: payment.date,
+                details: `R ${formatCurrency(payment.allocationAmount)} via ${payment.method}`,
+            }
+        ];
     });
 
-    return feed
+    const allEvents = [createdEvent, sentEvent, ...paymentEvents];
+
+    return allEvents
         .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
         .map(item => ({ ...item, timeAgo: formatDistanceToNow(item.date) }));
 
