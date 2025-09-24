@@ -1,12 +1,107 @@
 
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect, useMemo, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Quote, Customer, Product, LineItem, DocumentStatus, CustomerType, Address } from '../types';
 import { quotes as mockQuotes, products, VAT_RATE } from '../constants';
-import { TrashIcon, PlusIcon, MailIcon, CheckCircleIcon, PrintIcon, SwitchHorizontalIcon } from './Icons';
+import { TrashIcon, PlusIcon, MailIcon, CheckCircleIcon, PrintIcon, SwitchHorizontalIcon, DownloadIcon } from './Icons';
 import { getResolvedProductDetails } from '../utils';
 import { ProductSelector } from './ProductSelector';
 import { useToast } from '../contexts/ToastContext';
+
+// Declare global libraries loaded from CDN
+declare const html2canvas: any;
+declare const jspdf: any;
+
+interface QuoteTemplateProps {
+    quote: Quote;
+    customer: Customer | null;
+    subtotal: number;
+    vatAmount: number;
+    total: number;
+}
+
+const formatCurrencyTemplate = (amount: number) => {
+    return `R ${amount.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, " ")}`;
+};
+
+const QuoteTemplate: React.FC<QuoteTemplateProps> = ({ quote, customer, subtotal, vatAmount, total }) => {
+    const customerAddress = customer?.addresses.find(a => a.isPrimary) || customer?.addresses[0];
+
+    return (
+        <div className="bg-white text-slate-800 p-10 font-sans w-[210mm] min-h-[297mm]">
+            <div className="flex justify-between items-start mb-8">
+                <div>
+                    <p className="text-sm text-slate-600">Issued on {new Date(quote.date).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}</p>
+                    <p className="text-sm text-slate-600">Valid until {new Date(quote.validUntil).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}</p>
+                </div>
+                <h1 className="text-3xl font-bold">Quote</h1>
+            </div>
+
+            <div className="border-t border-slate-200 pt-8 mb-10">
+                <div className="flex justify-between">
+                    <div className="text-sm">
+                        <p className="font-bold mb-1">From</p>
+                        <p>Snowva™ Trading Pty Ltd</p>
+                        <p>67 Wildevy Street, Lynnwood Manor</p>
+                        <p>Pretoria, 0081</p>
+                    </div>
+                    <div className="text-sm text-right">
+                        <p className="font-bold mb-1">To</p>
+                        <p>{customer?.name}</p>
+                        {customerAddress && (
+                            <>
+                                <p>{customerAddress.addressLine1}</p>
+                                <p>{customerAddress.city}, {customerAddress.postalCode}</p>
+                            </>
+                        )}
+                    </div>
+                </div>
+            </div>
+
+            <table className="w-full text-sm">
+                <thead>
+                    <tr className="border-b border-slate-300 text-slate-500">
+                        <th className="text-left font-semibold py-3 pr-3">Description</th>
+                        <th className="text-right font-semibold py-3 px-3 w-24">Qty</th>
+                        <th className="text-right font-semibold py-3 px-3 w-32">Rate</th>
+                        <th className="text-right font-semibold py-3 pl-3 w-32">Price</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {quote.items.map(item => (
+                        <tr key={item.id} className="border-b border-slate-100">
+                            <td className="py-4 pr-3">
+                                <p className="font-medium text-slate-900">{item.description}</p>
+                                <p className="text-slate-600">Item description for product.</p>
+                            </td>
+                            <td className="text-right px-3">{item.quantity.toFixed(1)}</td>
+                            <td className="text-right px-3">{formatCurrencyTemplate(item.unitPrice)}</td>
+                            <td className="text-right pl-3 font-medium text-slate-900">{formatCurrencyTemplate(item.quantity * item.unitPrice)}</td>
+                        </tr>
+                    ))}
+                </tbody>
+            </table>
+
+            <div className="flex justify-end mt-8">
+                <div className="w-full max-w-xs text-sm">
+                    <div className="flex justify-between text-slate-600 py-2">
+                        <span>Subtotal</span>
+                        <span>{formatCurrencyTemplate(subtotal)}</span>
+                    </div>
+                    <div className="flex justify-between text-slate-600 py-2">
+                        <span>Tax (15%)</span>
+                        <span>{formatCurrencyTemplate(vatAmount)}</span>
+                    </div>
+                    <div className="flex justify-between font-bold text-slate-900 py-2 mt-2 border-t-2 border-slate-300">
+                        <span>Total</span>
+                        <span>{formatCurrencyTemplate(total)}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    );
+};
+
 
 interface QuoteEditorProps {
   quoteId?: string;
@@ -31,6 +126,7 @@ export const QuoteEditor: React.FC<QuoteEditorProps> = ({ quoteId, customers }) 
   const [quote, setQuote] = useState<Quote | null>(null);
   const [selectedCustomer, setSelectedCustomer] = useState<Customer | null>(null);
   const [customerError, setCustomerError] = useState<string | null>(null);
+  const quoteTemplateContainerRef = useRef<HTMLDivElement>(null);
   
   const isFinalized = useMemo(() => quote?.status !== DocumentStatus.DRAFT, [quote]);
   const billingAddress = useMemo(() => getBillingAddress(selectedCustomer), [selectedCustomer]);
@@ -129,6 +225,60 @@ export const QuoteEditor: React.FC<QuoteEditorProps> = ({ quoteId, customers }) 
         });
     }
   };
+  
+  const generatePdf = async (options: { autoPrint?: boolean } = {}) => {
+    const input = quoteTemplateContainerRef.current;
+    if (!input) return null;
+
+    addToast("Generating PDF...", "info");
+    const canvas = await html2canvas(input, { scale: 2 });
+    const imgData = canvas.toDataURL('image/png');
+    const pdf = new jspdf.jsPDF({
+        orientation: 'portrait', unit: 'mm', format: 'a4'
+    });
+    const pdfWidth = pdf.internal.pageSize.getWidth();
+    const pdfHeight = (canvas.height * pdfWidth) / canvas.width;
+    pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
+    if (options.autoPrint) pdf.autoPrint();
+    return pdf;
+  };
+  
+  const handleDownload = async () => {
+    const pdf = await generatePdf();
+    if (pdf) pdf.save(`Quote-${quote?.quoteNumber}.pdf`);
+    else addToast("Failed to generate PDF.", "error");
+  };
+
+  const handlePrint = async () => {
+    const pdf = await generatePdf({ autoPrint: true });
+    if (!pdf) { addToast("Failed to generate PDF.", "error"); return; }
+    const blob = pdf.output('blob');
+    const url = URL.createObjectURL(blob);
+    const iframe = document.createElement('iframe');
+    iframe.style.display = 'none';
+    iframe.src = url;
+    document.body.appendChild(iframe);
+    iframe.onload = () => {
+        setTimeout(() => {
+            iframe.contentWindow?.print();
+             setTimeout(() => {
+                document.body.removeChild(iframe);
+                URL.revokeObjectURL(url);
+            }, 100);
+        }, 1);
+    };
+  };
+  
+  const handleEmail = () => {
+    if (!selectedCustomer?.contactEmail) {
+        addToast("Customer has no email address.", "error");
+        return;
+    }
+    const subject = `Quote ${quote?.quoteNumber} from Snowva™`;
+    const body = `Dear ${selectedCustomer.name},\n\nPlease find your quote attached.\n\nKind regards,\nThe Snowva Team`;
+    window.location.href = `mailto:${selectedCustomer.contactEmail}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+  };
+
 
   const subtotal = useMemo(() => quote?.items.reduce((sum, item) => sum + (item.quantity * item.unitPrice), 0) || 0, [quote]);
   const vatAmount = subtotal * VAT_RATE;
@@ -140,6 +290,7 @@ export const QuoteEditor: React.FC<QuoteEditorProps> = ({ quoteId, customers }) 
   if (!quote) return <div>Loading...</div>;
 
   return (
+    <>
     <div className="bg-white p-6 sm:p-8 rounded-xl border border-slate-200 max-w-5xl mx-auto">
         <div className="flex flex-col sm:flex-row justify-between items-start mb-8">
             <div>
@@ -257,15 +408,33 @@ export const QuoteEditor: React.FC<QuoteEditorProps> = ({ quoteId, customers }) 
                         <SwitchHorizontalIcon className="w-5 h-5"/> <span>Convert to Invoice</span>
                     </button>
                  )}
-                 <button type="button" onClick={() => window.print()} className="inline-flex items-center gap-x-2 rounded-md bg-white px-3 py-2 text-sm font-semibold text-slate-900 shadow-sm ring-1 ring-inset ring-slate-300 hover:bg-slate-50">
+                 <button type="button" onClick={handleDownload} className="inline-flex items-center gap-x-2 rounded-md bg-white px-3 py-2 text-sm font-semibold text-slate-900 shadow-sm ring-1 ring-inset ring-slate-300 hover:bg-slate-50">
+                   <DownloadIcon className="w-5 h-5"/> <span>Download</span>
+                </button>
+                 <button type="button" onClick={handlePrint} className="inline-flex items-center gap-x-2 rounded-md bg-white px-3 py-2 text-sm font-semibold text-slate-900 shadow-sm ring-1 ring-inset ring-slate-300 hover:bg-slate-50">
                    <PrintIcon className="w-5 h-5"/> <span>Print</span>
                 </button>
-                 <button type="button" className="inline-flex items-center gap-x-2 rounded-md bg-white px-3 py-2 text-sm font-semibold text-slate-900 shadow-sm ring-1 ring-inset ring-slate-300 hover:bg-slate-50">
+                 <button type="button" onClick={handleEmail} className="inline-flex items-center gap-x-2 rounded-md bg-white px-3 py-2 text-sm font-semibold text-slate-900 shadow-sm ring-1 ring-inset ring-slate-300 hover:bg-slate-50">
                    <MailIcon className="w-5 h-5"/> <span>Email Quote</span>
                 </button>
                 </>
             )}
         </div>
     </div>
+    {/* Hidden container for PDF generation */}
+    {quote && (
+        <div className="absolute -left-[9999px] top-auto" aria-hidden="true">
+            <div ref={quoteTemplateContainerRef}>
+                <QuoteTemplate
+                    quote={quote}
+                    customer={selectedCustomer}
+                    subtotal={subtotal}
+                    vatAmount={vatAmount}
+                    total={total}
+                />
+            </div>
+        </div>
+    )}
+    </>
   );
 };

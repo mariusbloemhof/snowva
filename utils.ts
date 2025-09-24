@@ -128,7 +128,13 @@ export const formatDistanceToNow = (dateStr: string): string => {
   const diffTime = now.getTime() - date.getTime();
   const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
 
-  if (diffDays < 1) return 'today';
+  if (diffDays < 1) {
+    const diffHours = Math.floor(diffTime / (1000 * 60 * 60));
+    if (diffHours > 0) return `${diffHours}h ago`;
+    const diffMinutes = Math.floor(diffTime / (1000 * 60));
+    if (diffMinutes > 0) return `${diffMinutes}m ago`;
+    return 'just now';
+  }
   if (diffDays === 1) return '1d ago';
   if (diffDays < 7) return `${diffDays}d ago`;
   if (diffDays < 30) return `${Math.floor(diffDays / 7)}w ago`;
