@@ -16,10 +16,13 @@ export interface Address {
   id: string;
   type: 'billing' | 'delivery';
   isPrimary: boolean;
-  street: string;
+  addressLine1: string;
+  addressLine2?: string;
+  suburb?: string;
   city: string;
-  postalCode: string;
   province: string;
+  postalCode: string;
+  country: string;
 }
 
 export interface CustomerProductPrice {
@@ -67,19 +70,12 @@ export interface Product {
   ecommerceLink?: string;
 }
 
-export enum LineItemPriority {
-  HIGH = 'High',
-  MEDIUM = 'Medium',
-  LOW = 'Low',
-}
-
 export interface LineItem {
   id: string;
   productId: string;
   description: string;
   quantity: number;
   unitPrice: number;
-  priority?: LineItemPriority;
 }
 
 export enum PaymentMethod {

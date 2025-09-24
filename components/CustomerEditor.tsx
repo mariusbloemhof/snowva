@@ -1,11 +1,11 @@
-
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Customer, CustomerType, Address, PaymentTerm } from '../types';
 import { customers as allCustomers } from '../constants';
 import { products as allProducts } from '../constants';
 import { CustomerPricingEditor } from './CustomerPricingEditor';
 import { useToast } from '../contexts/ToastContext';
+import { UsersIcon, CashIcon } from './Icons';
 
 interface CustomerEditorProps {
     customers: Customer[];
@@ -23,6 +23,69 @@ type FormErrors = {
     name?: string;
 }
 
+interface NominatimResult {
+    display_name: string;
+    address: {
+        road?: string;
+        house_number?: string;
+        suburb?: string;
+        city?: string;
+        town?: string;
+        village?: string;
+        state?: string; // Province
+        postcode?: string;
+        country?: string;
+    }
+}
+
+interface FormattedAddress {
+    displayName: string;
+    addressLine1: string;
+    addressLine2?: string;
+    suburb: string;
+    city: string;
+    province: string;
+    postalCode: string;
+    country: string;
+}
+
+
+// Real-world address lookup using OpenStreetMap Nominatim API
+const addressLookup = async (query: string): Promise<FormattedAddress[]> => {
+    if (query.length < 3) return [];
+    
+    // Prioritize results in South Africa (ZA)
+    const url = `https://nominatim.openstreetmap.org/search?format=json&addressdetails=1&q=${encodeURIComponent(query)}&countrycodes=ZA&limit=5`;
+
+    try {
+        const response = await fetch(url);
+        if (!response.ok) {
+            console.error("Nominatim API request failed");
+            return [];
+        }
+        const results: NominatimResult[] = await response.json();
+        
+        return results.map(result => {
+            const addr = result.address;
+            const addressLine1 = [addr.house_number, addr.road].filter(Boolean).join(' ');
+            return {
+                displayName: result.display_name,
+                addressLine1: addressLine1 || '',
+                addressLine2: '', // Nominatim doesn't have a clear line 2
+                suburb: addr.suburb || '',
+                city: addr.city || addr.town || addr.village || '',
+                province: addr.state || '',
+                postalCode: addr.postcode || '',
+                country: addr.country || 'South Africa'
+            };
+        });
+    } catch (error) {
+        console.error("Error fetching address suggestions:", error);
+        return [];
+    }
+};
+
+
 const formElementClasses = "block w-full rounded-md border-0 py-1.5 px-3 text-slate-900 shadow-sm ring-1 ring-inset ring-slate-300 placeholder:text-slate-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6";
 const labelClasses = "block text-sm font-medium leading-6 text-slate-900";
 
@@ -32,33 +95,126 @@ const AddressForm: React.FC<{
     onAddressChange: (field: keyof Address, value: string) => void;
     title: string;
 }> = ({ address, onAddressChange, title }) => {
+    const [searchQuery, setSearchQuery] = useState('');
+    const [suggestions, setSuggestions] = useState<FormattedAddress[]>([]);
+    const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
+    const wrapperRef = useRef<HTMLDivElement>(null);
+
+    // Debounce search input
+    useEffect(() => {
+        setIsLoading(true);
+        const handler = setTimeout(() => {
+            if (searchQuery.length > 2) {
+                addressLookup(searchQuery).then(results => {
+                    setSuggestions(results);
+                    setIsDropdownOpen(results.length > 0);
+                    setIsLoading(false);
+                });
+            } else {
+                setSuggestions([]);
+                setIsDropdownOpen(false);
+                setIsLoading(false);
+            }
+        }, 300); // 300ms debounce delay
+
+        return () => {
+            clearTimeout(handler);
+        };
+    }, [searchQuery]);
+
+    // Handle clicks outside to close dropdown
+    useEffect(() => {
+        function handleClickOutside(event: MouseEvent) {
+            if (wrapperRef.current && !wrapperRef.current.contains(event.target as Node)) {
+                setIsDropdownOpen(false);
+            }
+        }
+        document.addEventListener("mousedown", handleClickOutside);
+        return () => document.removeEventListener("mousedown", handleClickOutside);
+    }, [wrapperRef]);
+
+    const handleSelectSuggestion = (suggestion: FormattedAddress) => {
+        onAddressChange('addressLine1', suggestion.addressLine1);
+        onAddressChange('suburb', suggestion.suburb);
+        onAddressChange('city', suggestion.city);
+        onAddressChange('province', suggestion.province);
+        onAddressChange('postalCode', suggestion.postalCode);
+        onAddressChange('country', suggestion.country);
+        setSearchQuery('');
+        setSuggestions([]);
+        setIsDropdownOpen(false);
+    };
+
     return (
-        <div>
+        <div ref={wrapperRef}>
             <h3 className="text-base font-semibold leading-7 text-slate-900">{title}</h3>
-            <div className="mt-4 grid grid-cols-1 gap-x-6 gap-y-4 sm:grid-cols-6">
-                <div className="col-span-full">
-                    <label htmlFor={`${title}-street`} className={labelClasses}>Street Address</label>
-                    <div className="mt-2">
-                        <input type="text" id={`${title}-street`} placeholder="Street Address" value={address.street || ''} onChange={(e) => onAddressChange('street', e.target.value)} className={formElementClasses} />
+            <div className="mt-6 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6 border-t border-slate-200 pt-10">
+                 <div className="sm:col-span-full relative">
+                    <label htmlFor={`${title}-search`} className={labelClasses}>Address Search</label>
+                    <div className="mt-2 relative">
+                        <input
+                            type="text"
+                            id={`${title}-search`}
+                            placeholder="Start typing an address..."
+                            value={searchQuery}
+                            onChange={(e) => setSearchQuery(e.target.value)}
+                            className={formElementClasses}
+                            autoComplete="off"
+                        />
+                        {isLoading && <div className="absolute inset-y-0 right-0 flex items-center pr-3"><div className="w-4 h-4 border-2 border-slate-400 border-t-transparent rounded-full animate-spin"></div></div>}
                     </div>
+                    <p className="text-xs text-slate-400 mt-1">Address search powered by © OpenStreetMap contributors.</p>
+                    {isDropdownOpen && (
+                        <div className="absolute z-10 w-full mt-1 bg-white border border-slate-300 rounded-md shadow-lg">
+                            <ul className="max-h-60 overflow-y-auto">
+                                {suggestions.map((suggestion, index) => (
+                                    <li
+                                        key={index}
+                                        onClick={() => handleSelectSuggestion(suggestion)}
+                                        className="px-4 py-2 cursor-pointer text-sm text-slate-700 hover:bg-indigo-600 hover:text-white"
+                                    >
+                                        {suggestion.displayName}
+                                    </li>
+                                ))}
+                            </ul>
+                        </div>
+                    )}
                 </div>
-                 <div className="sm:col-span-2">
+
+                <div className="sm:col-span-full">
+                    <label htmlFor={`${title}-addressLine1`} className={labelClasses}>Address Line 1</label>
+                    <div className="mt-2"><input type="text" id={`${title}-addressLine1`} placeholder="Street address" value={address.addressLine1 || ''} onChange={(e) => onAddressChange('addressLine1', e.target.value)} className={formElementClasses} /></div>
+                </div>
+
+                <div className="sm:col-span-full">
+                    <label htmlFor={`${title}-addressLine2`} className={labelClasses}>Address Line 2 <span className="text-slate-500">(optional)</span></label>
+                    <div className="mt-2"><input type="text" id={`${title}-addressLine2`} placeholder="e.g. The Factory, Unit 5" value={address.addressLine2 || ''} onChange={(e) => onAddressChange('addressLine2', e.target.value)} className={formElementClasses} /></div>
+                </div>
+
+                <div className="sm:col-span-full">
+                    <label htmlFor={`${title}-suburb`} className={labelClasses}>Suburb</label>
+                    <div className="mt-2"><input type="text" id={`${title}-suburb`} placeholder="Suburb" value={address.suburb || ''} onChange={(e) => onAddressChange('suburb', e.target.value)} className={formElementClasses} /></div>
+                </div>
+
+                <div className="sm:col-span-2">
                     <label htmlFor={`${title}-city`} className={labelClasses}>City</label>
-                    <div className="mt-2">
-                        <input type="text" id={`${title}-city`} placeholder="City" value={address.city || ''} onChange={(e) => onAddressChange('city', e.target.value)} className={formElementClasses} />
-                    </div>
+                    <div className="mt-2"><input type="text" id={`${title}-city`} placeholder="City" value={address.city || ''} onChange={(e) => onAddressChange('city', e.target.value)} className={formElementClasses} /></div>
                 </div>
-                 <div className="sm:col-span-2">
+
+                <div className="sm:col-span-2">
                     <label htmlFor={`${title}-province`} className={labelClasses}>Province</label>
-                    <div className="mt-2">
-                        <input type="text" id={`${title}-province`} placeholder="Province" value={address.province || ''} onChange={(e) => onAddressChange('province', e.target.value)} className={formElementClasses} />
-                    </div>
+                    <div className="mt-2"><input type="text" id={`${title}-province`} placeholder="Province" value={address.province || ''} onChange={(e) => onAddressChange('province', e.target.value)} className={formElementClasses} /></div>
                 </div>
-                 <div className="sm:col-span-2">
+                 
+                <div className="sm:col-span-2">
                     <label htmlFor={`${title}-postalCode`} className={labelClasses}>Postal Code</label>
-                    <div className="mt-2">
-                        <input type="text" id={`${title}-postalCode`} placeholder="Postal Code" value={address.postalCode || ''} onChange={(e) => onAddressChange('postalCode', e.target.value)} className={formElementClasses} />
-                    </div>
+                    <div className="mt-2"><input type="text" id={`${title}-postalCode`} placeholder="Postal Code" value={address.postalCode || ''} onChange={(e) => onAddressChange('postalCode', e.target.value)} className={formElementClasses} /></div>
+                </div>
+
+                <div className="sm:col-span-full">
+                    <label htmlFor={`${title}-country`} className={labelClasses}>Country</label>
+                    <div className="mt-2"><input type="text" id={`${title}-country`} placeholder="Country" value={address.country || ''} onChange={(e) => onAddressChange('country', e.target.value)} className={formElementClasses} /></div>
                 </div>
             </div>
         </div>
@@ -167,12 +323,18 @@ export const CustomerEditor: React.FC<CustomerEditorProps> = ({ customers, setCu
 
     const parentCompanyCandidates = customers.filter(c => c.type === CustomerType.B2B && !c.parentCompanyId);
 
-    const TabButton: React.FC<{ tab: 'details' | 'pricing', label: string }> = ({ tab, label }) => (
+    // FIX: Correctly type the 'icon' prop to allow 'className', resolving an error with React.cloneElement.
+    const TabButton: React.FC<{ tab: 'details' | 'pricing', label: string, icon: React.ReactElement<{ className?: string }> }> = ({ tab, label, icon }) => (
         <button
             type="button"
             onClick={() => setActiveTab(tab)}
-            className={`px-3 py-2 text-sm font-medium rounded-md ${activeTab === tab ? 'bg-white text-slate-900 shadow-sm' : 'bg-transparent text-slate-600 hover:text-slate-900'}`}
+            className={`flex items-center gap-x-2 whitespace-nowrap border-b-2 py-4 px-1 text-sm font-medium transition-colors duration-200 focus:outline-none ${
+                activeTab === tab
+                    ? 'border-indigo-500 text-indigo-600'
+                    : 'border-transparent text-slate-500 hover:border-slate-300 hover:text-slate-700'
+            }`}
         >
+            {React.cloneElement(icon, { className: 'h-5 w-5' })}
             {label}
         </button>
     );
@@ -192,161 +354,134 @@ export const CustomerEditor: React.FC<CustomerEditorProps> = ({ customers, setCu
                 </div>
 
                 {formData.type === CustomerType.B2B && (
-                    <div className="mb-6 p-1 bg-slate-100 rounded-lg flex items-center space-x-1 max-w-xs">
-                        <TabButton tab="details" label="Customer Details" />
-                        <TabButton tab="pricing" label="Custom Product Pricing" />
+                    <div className="mb-8 border-b border-slate-200">
+                        <nav className="-mb-px flex space-x-8" aria-label="Tabs">
+                            <TabButton tab="details" label="Customer Details" icon={<UsersIcon />} />
+                            <TabButton tab="pricing" label="Custom Product Pricing" icon={<CashIcon />} />
+                        </nav>
                     </div>
                 )}
                 
                 <div className={activeTab === 'details' ? 'block' : 'hidden'}>
-                    <div className="space-y-10 divide-y divide-slate-200">
-                        <div className="grid grid-cols-1 gap-x-8 gap-y-8 md:grid-cols-3">
-                            <div className="px-4 sm:px-0">
-                                <h2 className="text-base font-semibold leading-7 text-slate-900">General Information</h2>
-                                <p className="mt-1 text-sm leading-6 text-slate-600">Basic details for the customer.</p>
-                            </div>
-                            <div className="bg-white shadow-sm ring-1 ring-slate-900/5 sm:rounded-xl md:col-span-2">
-                                <div className="px-4 py-6 sm:p-8">
-                                    <div className="grid max-w-2xl grid-cols-1 gap-x-6 gap-y-6 sm:grid-cols-6">
-                                        <div className="sm:col-span-4">
-                                            <label htmlFor="name" className={labelClasses}>Customer Name</label>
-                                            <div className="mt-2">
-                                                <input type="text" name="name" id="name" value={formData.name || ''} onChange={handleChange} required className={`${formElementClasses} ${errors.name ? 'ring-red-500' : ''}`} />
-                                            </div>
-                                            {errors.name && <p className="text-sm text-red-600 mt-1">{errors.name}</p>}
-                                        </div>
-                                        <div className="sm:col-span-3">
-                                            <label htmlFor="type" className={labelClasses}>Customer Type</label>
-                                            <div className="mt-2">
-                                                <select name="type" id="type" value={formData.type} onChange={handleChange} className={formElementClasses}>
-                                                    <option value={CustomerType.B2C}>Consumer</option>
-                                                    <option value={CustomerType.B2B}>Retail</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                        {formData.type === CustomerType.B2B && (
-                                        <>
-                                            <div className="sm:col-span-4">
-                                                <label htmlFor="parentCompanyId" className={labelClasses}>Parent Company (optional)</label>
-                                                <div className="mt-2">
-                                                    <select name="parentCompanyId" id="parentCompanyId" value={formData.parentCompanyId || ''} onChange={handleChange} className={formElementClasses}>
-                                                        <option value="">None (Is a Parent Company)</option>
-                                                        {parentCompanyCandidates.map(c => <option key={c.id} value={c.id}>{c.name}</option>)}
-                                                    </select>
-                                                </div>
-                                            </div>
-                                            <div className="sm:col-span-2">
-                                                <label htmlFor="branchNumber" className={labelClasses}>Branch #</label>
-                                                <div className="mt-2">
-                                                <input type="text" name="branchNumber" id="branchNumber" value={formData.branchNumber || ''} onChange={handleChange} className={formElementClasses} />
-                                                </div>
-                                            </div>
-                                        </>
-                                        )}
+                    <div className="space-y-12">
+                        <div className="border-b border-slate-200 pb-12">
+                            <h2 className="text-base font-semibold leading-7 text-slate-900">General Information</h2>
+                            <p className="mt-1 text-sm leading-6 text-slate-600">Basic details for the customer.</p>
+                            <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
+                                <div className="sm:col-span-4">
+                                    <label htmlFor="name" className={labelClasses}>Customer Name</label>
+                                    <div className="mt-2">
+                                        <input type="text" name="name" id="name" value={formData.name || ''} onChange={handleChange} required className={`${formElementClasses} ${errors.name ? 'ring-red-500' : ''}`} />
+                                    </div>
+                                    {errors.name && <p className="text-sm text-red-600 mt-1">{errors.name}</p>}
+                                </div>
+                                 <div className="sm:col-span-4">
+                                    <label htmlFor="type" className={labelClasses}>Customer Type</label>
+                                    <div className="mt-2">
+                                        <select name="type" id="type" value={formData.type} onChange={handleChange} className={formElementClasses}>
+                                            <option value={CustomerType.B2C}>Consumer</option>
+                                            <option value={CustomerType.B2B}>Retail</option>
+                                        </select>
                                     </div>
                                 </div>
+                                {formData.type === CustomerType.B2B && (
+                                <>
+                                <div className="sm:col-span-3">
+                                    <label htmlFor="parentCompanyId" className={labelClasses}>Parent Company <span className="text-slate-500">(optional)</span></label>
+                                    <div className="mt-2">
+                                        <select name="parentCompanyId" id="parentCompanyId" value={formData.parentCompanyId || ''} onChange={handleChange} className={formElementClasses}>
+                                            <option value="">None (Is a Parent Company)</option>
+                                            {parentCompanyCandidates.map(c => <option key={c.id} value={c.id}>{c.name}</option>)}
+                                        </select>
+                                    </div>
+                                </div>
+                                <div className="sm:col-span-3">
+                                    <label htmlFor="branchNumber" className={labelClasses}>Branch #</label>
+                                    <div className="mt-2">
+                                        <input type="text" name="branchNumber" id="branchNumber" value={formData.branchNumber || ''} onChange={handleChange} className={formElementClasses} />
+                                    </div>
+                                </div>
+                                </>
+                                )}
                             </div>
                         </div>
-
-                         <div className="grid grid-cols-1 gap-x-8 gap-y-8 pt-10 md:grid-cols-3">
-                            <div className="px-4 sm:px-0">
-                                <h2 className="text-base font-semibold leading-7 text-slate-900">Contact Information</h2>
-                                <p className="mt-1 text-sm leading-6 text-slate-600">How to get in touch with the customer.</p>
-                            </div>
-                            <div className="bg-white shadow-sm ring-1 ring-slate-900/5 sm:rounded-xl md:col-span-2">
-                                <div className="px-4 py-6 sm:p-8">
-                                     <div className="grid max-w-2xl grid-cols-1 gap-x-6 gap-y-6 sm:grid-cols-6">
-                                        <div className="sm:col-span-3">
-                                            <label htmlFor="contactPerson" className={labelClasses}>Contact Person</label>
-                                            <div className="mt-2"><input type="text" name="contactPerson" id="contactPerson" value={formData.contactPerson || ''} onChange={handleChange} className={formElementClasses} /></div>
-                                        </div>
-                                        <div className="sm:col-span-4">
-                                            <label htmlFor="contactEmail" className={labelClasses}>Contact Email</label>
-                                            <div className="mt-2"><input type="email" name="contactEmail" id="contactEmail" value={formData.contactEmail || ''} onChange={handleChange} className={formElementClasses} /></div>
-                                        </div>
-                                        <div className="sm:col-span-3">
-                                            <label htmlFor="contactPhone" className={labelClasses}>Contact Telephone</label>
-                                            <div className="mt-2"><input type="tel" name="contactPhone" id="contactPhone" value={formData.contactPhone || ''} onChange={handleChange} className={formElementClasses} /></div>
-                                        </div>
-                                    </div>
+                        
+                        <div className="border-b border-slate-200 pb-12">
+                            <h2 className="text-base font-semibold leading-7 text-slate-900">Contact Information</h2>
+                            <p className="mt-1 text-sm leading-6 text-slate-600">How to get in touch with the customer.</p>
+                            <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
+                                <div className="sm:col-span-4">
+                                    <label htmlFor="contactPerson" className={labelClasses}>Contact Person</label>
+                                    <div className="mt-2"><input type="text" name="contactPerson" id="contactPerson" value={formData.contactPerson || ''} onChange={handleChange} className={formElementClasses} /></div>
+                                </div>
+                                <div className="sm:col-span-4">
+                                    <label htmlFor="contactEmail" className={labelClasses}>Contact Email</label>
+                                    <div className="mt-2"><input type="email" name="contactEmail" id="contactEmail" value={formData.contactEmail || ''} onChange={handleChange} className={formElementClasses} /></div>
+                                </div>
+                                <div className="sm:col-span-4">
+                                    <label htmlFor="contactPhone" className={labelClasses}>Contact Telephone</label>
+                                    <div className="mt-2"><input type="tel" name="contactPhone" id="contactPhone" value={formData.contactPhone || ''} onChange={handleChange} className={formElementClasses} /></div>
                                 </div>
                             </div>
                         </div>
 
                         {formData.type === CustomerType.B2B && (
-                            <div className="grid grid-cols-1 gap-x-8 gap-y-8 pt-10 md:grid-cols-3">
-                                <div className="px-4 sm:px-0">
-                                    <h2 className="text-base font-semibold leading-7 text-slate-900">Billing Information</h2>
-                                    <p className="mt-1 text-sm leading-6 text-slate-600">Details for invoicing and payments.</p>
-                                </div>
-                                <div className="bg-white shadow-sm ring-1 ring-slate-900/5 sm:rounded-xl md:col-span-2">
-                                    <div className="px-4 py-6 sm:p-8">
-                                        <div className="grid max-w-2xl grid-cols-1 gap-x-6 gap-y-6 sm:grid-cols-6">
-                                            <div className="sm:col-span-4">
-                                                <label htmlFor="legalEntityName" className={labelClasses}>Bill To (Legal Entity Name)</label>
-                                                <div className="mt-2"><input type="text" name="legalEntityName" id="legalEntityName" value={formData.legalEntityName || ''} onChange={handleChange} className={formElementClasses} /></div>
+                            <div className="border-b border-slate-200 pb-12">
+                                <h2 className="text-base font-semibold leading-7 text-slate-900">Billing Information</h2>
+                                <p className="mt-1 text-sm leading-6 text-slate-600">Details for invoicing and payments.</p>
+                                <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
+                                    <div className="sm:col-span-4">
+                                        <label htmlFor="legalEntityName" className={labelClasses}>Bill To (Legal Entity Name)</label>
+                                        <div className="mt-2"><input type="text" name="legalEntityName" id="legalEntityName" value={formData.legalEntityName || ''} onChange={handleChange} className={formElementClasses} /></div>
+                                    </div>
+                                    <div className="sm:col-span-4">
+                                        <label htmlFor="vatNumber" className={labelClasses}>VAT Number</label>
+                                        <div className="mt-2"><input type="text" name="vatNumber" id="vatNumber" value={formData.vatNumber || ''} onChange={handleChange} className={formElementClasses} /></div>
+                                    </div>
+                                    <div className="sm:col-span-4">
+                                        <label htmlFor="paymentTerm" className={labelClasses}>Payment Terms</label>
+                                        <div className="mt-2">
+                                            <select name="paymentTerm" id="paymentTerm" value={formData.paymentTerm || ''} onChange={handleChange} className={formElementClasses}>
+                                                {Object.values(PaymentTerm).map((value) => <option key={value} value={value}>{value}</option>)}
+                                            </select>
+                                        </div>
+                                    </div>
+                                    {formData.parentCompanyId && (
+                                    <div className="sm:col-span-full">
+                                        <div className="relative flex gap-x-3">
+                                            <div className="flex h-6 items-center">
+                                            <input type="checkbox" name="billToParent" id="billToParent" checked={formData.billToParent || false} onChange={handleCheckboxChange} className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-600" />
                                             </div>
-                                            <div className="sm:col-span-3">
-                                                <label htmlFor="vatNumber" className={labelClasses}>VAT Number</label>
-                                                <div className="mt-2"><input type="text" name="vatNumber" id="vatNumber" value={formData.vatNumber || ''} onChange={handleChange} className={formElementClasses} /></div>
-                                            </div>
-                                            <div className="sm:col-span-3">
-                                                <label htmlFor="paymentTerm" className={labelClasses}>Payment Terms</label>
-                                                <div className="mt-2">
-                                                    <select name="paymentTerm" id="paymentTerm" value={formData.paymentTerm || ''} onChange={handleChange} className={formElementClasses}>
-                                                        {Object.values(PaymentTerm).map((value) => <option key={value} value={value}>{value}</option>)}
-                                                    </select>
-                                                </div>
-                                            </div>
-                                             {formData.parentCompanyId && (
-                                                <div className="sm:col-span-full">
-                                                    <div className="relative flex gap-x-3">
-                                                         <div className="flex h-6 items-center">
-                                                            <input 
-                                                                type="checkbox" 
-                                                                name="billToParent"
-                                                                id="billToParent"
-                                                                checked={formData.billToParent || false} 
-                                                                onChange={handleCheckboxChange}
-                                                                className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-600"
-                                                            />
-                                                        </div>
-                                                        <div className="text-sm leading-6">
-                                                            <label htmlFor="billToParent" className="font-medium text-slate-900">Bill to Parent Company</label>
-                                                            <p className="text-slate-500">If checked, all invoices for this branch will be assigned to the parent company.</p>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            )}
-                                            <div className="col-span-full">
-                                                <label htmlFor="defaultInvoiceNotes" className={labelClasses}>Default Invoice Notes/Codes</label>
-                                                <div className="mt-2"><textarea name="defaultInvoiceNotes" id="defaultInvoiceNotes" rows={3} value={formData.defaultInvoiceNotes || ''} onChange={handleChange} className={formElementClasses} placeholder="e.g., PO number required for all invoices."></textarea></div>
+                                            <div className="text-sm leading-6">
+                                            <label htmlFor="billToParent" className="font-medium text-slate-900">Bill to Parent Company</label>
+                                            <p className="text-slate-500">If checked, all invoices for this branch will be assigned to the parent company.</p>
                                             </div>
                                         </div>
+                                    </div>
+                                    )}
+                                    <div className="sm:col-span-full">
+                                        <label htmlFor="defaultInvoiceNotes" className={labelClasses}>Default Invoice Notes/Codes</label>
+                                        <div className="mt-2"><textarea name="defaultInvoiceNotes" id="defaultInvoiceNotes" rows={3} value={formData.defaultInvoiceNotes || ''} onChange={handleChange} className={formElementClasses} placeholder="e.g., PO number required for all invoices."></textarea></div>
                                     </div>
                                 </div>
                             </div>
                         )}
                         
-                        <div className="grid grid-cols-1 gap-x-8 gap-y-8 pt-10 md:grid-cols-3">
-                             <div className="px-4 sm:px-0">
-                                <h2 className="text-base font-semibold leading-7 text-slate-900">Addresses</h2>
-                                <p className="mt-1 text-sm leading-6 text-slate-600">Primary billing and delivery addresses.</p>
+                        <div>
+                            <h2 className="text-base font-semibold leading-7 text-slate-900">Addresses</h2>
+                            <p className="mt-1 text-sm leading-6 text-slate-600">Primary billing and delivery addresses.</p>
+                             <div className="mt-10 space-y-12">
+                                <AddressForm
+                                    title="Billing Address"
+                                    address={billingAddress}
+                                    onAddressChange={handleBillingAddressChange}
+                                />
+                                <AddressForm
+                                    title="Delivery Address"
+                                    address={deliveryAddress}
+                                    onAddressChange={handleDeliveryAddressChange}
+                                />
                             </div>
-                             <div className="bg-white shadow-sm ring-1 ring-slate-900/5 sm:rounded-xl md:col-span-2">
-                                <div className="px-4 py-6 sm:p-8 space-y-8">
-                                    <AddressForm
-                                        title="Billing Address"
-                                        address={billingAddress}
-                                        onAddressChange={handleBillingAddressChange}
-                                    />
-                                    <AddressForm
-                                        title="Delivery Address"
-                                        address={deliveryAddress}
-                                        onAddressChange={handleDeliveryAddressChange}
-                                    />
-                                </div>
-                             </div>
                         </div>
                     </div>
                 </div>

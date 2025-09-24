@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Product, Price } from '../types';
@@ -163,130 +162,143 @@ export const ProductEditor: React.FC<ProductEditorProps> = ({ products, setProdu
                     </div>
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-                    {/* Left column for product info */}
-                    <div className="md:col-span-2 space-y-6">
-                        <div>
-                            <label htmlFor="name" className={labelClasses}>Product Name</label>
-                            <div className="mt-2">
-                                <input type="text" name="name" id="name" value={formData.name} onChange={handleChange} required className={`${formElementClasses} ${errors.name ? 'ring-red-500' : ''}`}/>
-                            </div>
-                            {errors.name && <p className="text-sm text-red-600 mt-1">{errors.name}</p>}
-                        </div>
-                        <div>
-                            <label htmlFor="itemCode" className={labelClasses}>Item Code</label>
-                             <div className="mt-2">
-                                <input type="text" name="itemCode" id="itemCode" value={formData.itemCode} onChange={handleChange} required className={`${formElementClasses} ${errors.itemCode ? 'ring-red-500' : ''}`}/>
-                            </div>
-                             {errors.itemCode && <p className="text-sm text-red-600 mt-1">{errors.itemCode}</p>}
-                        </div>
-                         <div>
-                            <label htmlFor="description" className={labelClasses}>Description</label>
-                            <div className="mt-2">
-                                <textarea name="description" id="description" rows={4} value={formData.description} onChange={handleChange} className={formElementClasses}></textarea>
-                            </div>
-                        </div>
-                        <div className="border border-slate-200 rounded-lg">
-                            <h3 className="text-base font-semibold leading-6 text-slate-900 border-b border-slate-200 px-4 py-3">Price Management</h3>
-                            <div className="p-4 space-y-4">
-                                <div className="p-4 bg-indigo-50 border border-indigo-200 rounded-lg">
-                                    <h4 className="font-semibold text-indigo-800">Current Effective Price</h4>
-                                    {currentPrice ? (
-                                        <div className="flex justify-around mt-2 text-center">
-                                            <div>
-                                                <p className="text-sm text-slate-600">Consumer (ex. VAT)</p>
-                                                <p className="text-2xl font-bold text-slate-800">R {currentPrice.consumer.toFixed(2)}</p>
-                                            </div>
-                                            <div>
-                                                <p className="text-sm text-slate-600">Retail (ex. VAT)</p>
-                                                <p className="text-2xl font-bold text-slate-800">R {currentPrice.retail.toFixed(2)}</p>
-                                            </div>
-                                        </div>
-                                    ) : (
-                                        <p className="text-slate-500 mt-2 text-center">No current price is set. Add a price below.</p>
-                                    )}
+                <div className="space-y-12">
+                    <div className="border-b border-slate-200 pb-12">
+                        <h2 className="text-base font-semibold leading-7 text-slate-900">Product Details</h2>
+                        <p className="mt-1 text-sm leading-6 text-slate-600">Basic information including name, item code, and description.</p>
+                        <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
+                            <div className="sm:col-span-4">
+                                <label htmlFor="name" className={labelClasses}>Product Name</label>
+                                <div className="mt-2">
+                                    <input type="text" name="name" id="name" value={formData.name} onChange={handleChange} required className={`${formElementClasses} ${errors.name ? 'ring-red-500' : ''}`}/>
                                 </div>
-                                <div className="bg-slate-50 p-4 rounded-lg">
-                                    <h4 className="font-semibold text-slate-800 mb-2">Add New Price</h4>
-                                    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 items-end">
-                                        <div className="md:col-span-2">
-                                            <label htmlFor="effectiveDate" className={`${labelClasses} text-xs`}>Effective Date</label>
-                                            <input type="date" name="effectiveDate" id="effectiveDate" value={newPrice.effectiveDate} onChange={handleNewPriceChange} className={`${formElementClasses} mt-1`}/>
-                                        </div>
-                                        <div>
-                                            <label htmlFor="consumer" className={`${labelClasses} text-xs`}>Consumer</label>
-                                            <input type="number" name="consumer" id="consumer" value={newPrice.consumer} onChange={handleNewPriceChange} step="0.01" className={`${formElementClasses} mt-1`}/>
-                                        </div>
-                                        <div>
-                                            <label htmlFor="retail" className={`${labelClasses} text-xs`}>Retail</label>
-                                            <input type="number" name="retail" id="retail" value={newPrice.retail} onChange={handleNewPriceChange} step="0.01" className={`${formElementClasses} mt-1`}/>
-                                        </div>
-                                        <div className="md:col-span-4">
-                                        <button type="button" onClick={handleAddPrice} className="inline-flex items-center justify-center w-full rounded-md bg-white px-3 py-2 text-sm font-semibold text-slate-900 shadow-sm ring-1 ring-inset ring-slate-300 hover:bg-slate-50">
-                                            <PlusIcon className="w-5 h-5 mr-2" /> Add Price
-                                        </button>
-                                        </div>
-                                    </div>
+                                {errors.name && <p className="text-sm text-red-600 mt-1">{errors.name}</p>}
+                            </div>
+                             <div className="sm:col-span-4">
+                                <label htmlFor="itemCode" className={labelClasses}>Item Code</label>
+                                <div className="mt-2">
+                                    <input type="text" name="itemCode" id="itemCode" value={formData.itemCode} onChange={handleChange} required className={`${formElementClasses} ${errors.itemCode ? 'ring-red-500' : ''}`}/>
                                 </div>
-                                <div>
-                                    <h4 className="font-semibold text-slate-800 mb-2 mt-4">Price History</h4>
-                                    <div className="overflow-x-auto max-h-60 border rounded-md">
-                                        <table className="w-full text-left text-sm">
-                                            <thead className="bg-slate-100 sticky top-0">
-                                                <tr>
-                                                    <th className="p-2 font-semibold">Effective Date</th>
-                                                    <th className="p-2 font-semibold text-right">Consumer Price</th>
-                                                    <th className="p-2 font-semibold text-right">Retail Price</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody className="divide-y divide-slate-200">
-                                                {sortedPrices.map(price => (
-                                                    <tr key={price.id}>
-                                                        <td className="p-2">{price.effectiveDate}</td>
-                                                        <td className="p-2 text-right">R {price.consumer.toFixed(2)}</td>
-                                                        <td className="p-2 text-right">R {price.retail.toFixed(2)}</td>
-                                                    </tr>
-                                                ))}
-                                                {sortedPrices.length === 0 && (
-                                                    <tr><td colSpan={3} className="text-center p-4 text-slate-500">No prices added yet.</td></tr>
-                                                )}
-                                            </tbody>
-                                        </table>
-                                    </div>
+                                {errors.itemCode && <p className="text-sm text-red-600 mt-1">{errors.itemCode}</p>}
+                            </div>
+                            <div className="sm:col-span-full">
+                                <label htmlFor="description" className={labelClasses}>Description</label>
+                                <div className="mt-2">
+                                    <textarea name="description" id="description" rows={4} value={formData.description} onChange={handleChange} className={formElementClasses}></textarea>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    {/* Right column for image and links */}
-                    <div className="space-y-6">
-                        <div>
-                            <label htmlFor="imageUrl" className={labelClasses}>Image URL</label>
-                             <div className="relative mt-2 rounded-md shadow-sm">
-                                <input type="text" name="imageUrl" id="imageUrl" value={formData.imageUrl || ''} onChange={handleChange} className={`${formElementClasses} pr-14`} placeholder="https://..."/>
-                                <div className="absolute inset-y-0 right-0 flex py-1.5 pr-1.5">
-                                    <button type="button" onClick={findProductImage} disabled={isFindingImage || !formData.name} className="inline-flex items-center rounded-md px-2 text-sm font-semibold text-indigo-600 hover:bg-indigo-100 disabled:text-slate-400 disabled:cursor-not-allowed disabled:bg-transparent">
-                                         {isFindingImage ? (
-                                        <svg className="animate-spin h-5 w-5 text-indigo-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                                            <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                                            <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                                        </svg>
-                                    ) : (
-                                       <SparklesIcon className="w-5 h-5"/> 
+                    
+                    <div className="border-b border-slate-200 pb-12">
+                        <h2 className="text-base font-semibold leading-7 text-slate-900">Pricing</h2>
+                        <p className="mt-1 text-sm leading-6 text-slate-600">Manage the product's price points and their effective dates.</p>
+                        <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8">
+                             <div className="space-y-4">
+                                <div className="p-4 bg-indigo-50 border border-indigo-200 rounded-lg">
+                                        <h4 className="font-semibold text-indigo-800">Current Effective Price</h4>
+                                        {currentPrice ? (
+                                            <div className="flex justify-around mt-2 text-center">
+                                                <div>
+                                                    <p className="text-sm text-slate-600">Consumer (ex. VAT)</p>
+                                                    <p className="text-2xl font-bold text-slate-800">R {currentPrice.consumer.toFixed(2)}</p>
+                                                </div>
+                                                <div>
+                                                    <p className="text-sm text-slate-600">Retail (ex. VAT)</p>
+                                                    <p className="text-2xl font-bold text-slate-800">R {currentPrice.retail.toFixed(2)}</p>
+                                                </div>
+                                            </div>
+                                        ) : (
+                                            <p className="text-slate-500 mt-2 text-center">No current price is set. Add a price below.</p>
+                                        )}
+                                    </div>
+                                    <div className="bg-slate-50 p-4 rounded-lg">
+                                        <h4 className="font-semibold text-slate-800 mb-2">Add New Price</h4>
+                                        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 items-end">
+                                            <div className="md:col-span-2">
+                                                <label htmlFor="effectiveDate" className={`${labelClasses} text-xs`}>Effective Date</label>
+                                                <input type="date" name="effectiveDate" id="effectiveDate" value={newPrice.effectiveDate} onChange={handleNewPriceChange} className={`${formElementClasses} mt-1`}/>
+                                            </div>
+                                            <div>
+                                                <label htmlFor="consumer" className={`${labelClasses} text-xs`}>Consumer</label>
+                                                <input type="number" name="consumer" id="consumer" value={newPrice.consumer} onChange={handleNewPriceChange} step="0.01" className={`${formElementClasses} mt-1`}/>
+                                            </div>
+                                            <div>
+                                                <label htmlFor="retail" className={`${labelClasses} text-xs`}>Retail</label>
+                                                <input type="number" name="retail" id="retail" value={newPrice.retail} onChange={handleNewPriceChange} step="0.01" className={`${formElementClasses} mt-1`}/>
+                                            </div>
+                                            <div className="md:col-span-4">
+                                            <button type="button" onClick={handleAddPrice} className="inline-flex items-center justify-center w-full rounded-md bg-white px-3 py-2 text-sm font-semibold text-slate-900 shadow-sm ring-1 ring-inset ring-slate-300 hover:bg-slate-50">
+                                                <PlusIcon className="w-5 h-5 mr-2" /> Add Price
+                                            </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <h4 className="font-semibold text-slate-800 mb-2 mt-4">Price History</h4>
+                                        <div className="overflow-x-auto max-h-60 border rounded-md">
+                                            <table className="w-full text-left text-sm">
+                                                <thead className="bg-slate-100 sticky top-0">
+                                                    <tr>
+                                                        <th className="p-2 font-semibold">Effective Date</th>
+                                                        <th className="p-2 font-semibold text-right">Consumer Price</th>
+                                                        <th className="p-2 font-semibold text-right">Retail Price</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody className="divide-y divide-slate-200">
+                                                    {sortedPrices.map(price => (
+                                                        <tr key={price.id}>
+                                                            <td className="p-2">{price.effectiveDate}</td>
+                                                            <td className="p-2 text-right">R {price.consumer.toFixed(2)}</td>
+                                                            <td className="p-2 text-right">R {price.retail.toFixed(2)}</td>
+                                                        </tr>
+                                                    ))}
+                                                    {sortedPrices.length === 0 && (
+                                                        <tr><td colSpan={3} className="text-center p-4 text-slate-500">No prices added yet.</td></tr>
+                                                    )}
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                             </div>
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <h2 className="text-base font-semibold leading-7 text-slate-900">Media & Links</h2>
+                        <p className="mt-1 text-sm leading-6 text-slate-600">Add a product image and a link to the e-commerce page.</p>
+                        <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
+                            <div className="sm:col-span-4">
+                                <label htmlFor="imageUrl" className={labelClasses}>Image URL</label>
+                                <div className="mt-2">
+                                    <div className="relative rounded-md shadow-sm">
+                                        <input type="text" name="imageUrl" id="imageUrl" value={formData.imageUrl || ''} onChange={handleChange} className={`${formElementClasses} pr-14`} placeholder="https://..."/>
+                                        <div className="absolute inset-y-0 right-0 flex py-1.5 pr-1.5">
+                                            <button type="button" onClick={findProductImage} disabled={isFindingImage || !formData.name} className="inline-flex items-center rounded-md px-2 text-sm font-semibold text-indigo-600 hover:bg-indigo-100 disabled:text-slate-400 disabled:cursor-not-allowed disabled:bg-transparent">
+                                                {isFindingImage ? (
+                                                <svg className="animate-spin h-5 w-5 text-indigo-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                                                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                                                </svg>
+                                            ) : (
+                                            <SparklesIcon className="w-5 h-5"/> 
+                                            )}
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <p className="text-xs text-slate-500 mt-1">Click the magic wand to find an image automatically.</p>
+                                     {formData.imageUrl && (
+                                        <div className="mt-4">
+                                            <img src={formData.imageUrl} alt="Product Preview" className="w-full h-auto max-w-xs rounded-lg shadow-md object-cover border border-slate-200"/>
+                                        </div>
                                     )}
-                                    </button>
                                 </div>
                             </div>
-                            <p className="text-xs text-slate-500 mt-1">Click the magic wand to find an image automatically.</p>
-                        </div>
-                        {formData.imageUrl && (
-                            <div className="mt-2">
-                                <img src={formData.imageUrl} alt="Product Preview" className="w-full h-auto rounded-lg shadow-md object-cover border border-slate-200"/>
-                            </div>
-                        )}
-                         <div>
-                            <label htmlFor="ecommerceLink" className={labelClasses}>E-commerce Link</label>
-                            <div className="mt-2">
-                                <input type="text" name="ecommerceLink" id="ecommerceLink" value={formData.ecommerceLink || ''} onChange={handleChange} className={formElementClasses}/>
+                             <div className="sm:col-span-4">
+                                <label htmlFor="ecommerceLink" className={labelClasses}>E-commerce Link</label>
+                                <div className="mt-2">
+                                    <input type="text" name="ecommerceLink" id="ecommerceLink" value={formData.ecommerceLink || ''} onChange={handleChange} className={formElementClasses}/>
+                                </div>
                             </div>
                         </div>
                     </div>

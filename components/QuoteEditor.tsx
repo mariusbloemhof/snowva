@@ -1,8 +1,8 @@
 
 import React, { useState, useEffect, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Quote, Customer, Product, LineItem, DocumentStatus, CustomerType, Address, LineItemPriority } from '../types';
-import { quotes as mockQuotes, customers, products, VAT_RATE } from '../constants';
+import { Quote, Customer, Product, LineItem, DocumentStatus, CustomerType, Address } from '../types';
+import { quotes as mockQuotes, products, VAT_RATE } from '../constants';
 import { TrashIcon, PlusIcon, MailIcon, CheckCircleIcon, PrintIcon, SwitchHorizontalIcon } from './Icons';
 import { getResolvedProductDetails } from '../utils';
 import { ProductSelector } from './ProductSelector';
@@ -10,6 +10,7 @@ import { useToast } from '../contexts/ToastContext';
 
 interface QuoteEditorProps {
   quoteId?: string;
+  customers: Customer[];
 }
 
 const getNextQuoteNumber = () => {
@@ -24,7 +25,7 @@ const getBillingAddress = (customer: Customer | null): Address | undefined => {
     return customer.addresses.find(a => a.type === 'billing' && a.isPrimary) || customer.addresses.find(a => a.isPrimary);
 }
 
-export const QuoteEditor: React.FC<QuoteEditorProps> = ({ quoteId }) => {
+export const QuoteEditor: React.FC<QuoteEditorProps> = ({ quoteId, customers }) => {
   const navigate = useNavigate();
   const { addToast } = useToast();
   const [quote, setQuote] = useState<Quote | null>(null);
@@ -54,7 +55,7 @@ export const QuoteEditor: React.FC<QuoteEditorProps> = ({ quoteId }) => {
       });
       setSelectedCustomer(null);
     }
-  }, [quoteId]);
+  }, [quoteId, customers]);
 
   const handleCustomerChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const cust = customers.find(c => c.id === e.target.value);
@@ -81,7 +82,6 @@ export const QuoteEditor: React.FC<QuoteEditorProps> = ({ quoteId }) => {
             description: 'Select a product...',
             quantity: 1,
             unitPrice: 0,
-            priority: LineItemPriority.MEDIUM,
         };
         setQuote({ ...quote, items: [...quote.items, newItem] });
     }
@@ -173,8 +173,14 @@ export const QuoteEditor: React.FC<QuoteEditorProps> = ({ quoteId }) => {
                     <p className="font-bold text-slate-900">{selectedCustomer?.name}</p>
                     {billingAddress && (
                         <div className="text-slate-600">
-                        <p>{billingAddress.street}</p>
-                        <p>{billingAddress.city}, {billingAddress.province} {billingAddress.postalCode}</p>
+                            <p>{billingAddress.addressLine1}</p>
+                            {billingAddress.addressLine2 && <p>{billingAddress.addressLine2}</p>}
+                            <p>
+                                {billingAddress.suburb && `${billingAddress.suburb}, `}
+                                {billingAddress.city}
+                            </p>
+                            <p>{billingAddress.province}, {billingAddress.postalCode}</p>
+                            <p>{billingAddress.country}</p>
                         </div>
                     )}
                 </div>
@@ -193,7 +199,6 @@ export const QuoteEditor: React.FC<QuoteEditorProps> = ({ quoteId }) => {
             <thead >
                 <tr className="bg-slate-800 text-white">
                     <th className="p-3 text-left font-semibold">Description</th>
-                    <th className="p-3 text-left font-semibold w-32">Priority</th>
                     <th className="p-3 text-right font-semibold w-24">Qty</th>
                     <th className="p-3 text-right font-semibold w-32">Unit Price</th>
                     <th className="p-3 text-right font-semibold w-32">Total (Excl VAT)</th>
@@ -211,28 +216,6 @@ export const QuoteEditor: React.FC<QuoteEditorProps> = ({ quoteId }) => {
                                  onSelectProduct={(product) => handleProductSelection(index, product)}
                                />
                             }
-                        </td>
-                        <td className="p-2 align-top">
-                            {!isFinalized ? (
-                                <select
-                                    value={item.priority || LineItemPriority.MEDIUM}
-                                    onChange={e => handleItemChange(index, 'priority', e.target.value as LineItemPriority)}
-                                    className={formElementClasses}
-                                    disabled={isFinalized}
-                                >
-                                    <option value={LineItemPriority.HIGH}>High</option>
-                                    <option value={LineItemPriority.MEDIUM}>Medium</option>
-                                    <option value={LineItemPriority.LOW}>Low</option>
-                                </select>
-                            ) : item.priority && (
-                                <span className={`inline-flex items-center rounded-md px-2 py-1 text-xs font-medium ring-1 ring-inset ${
-                                    item.priority === LineItemPriority.HIGH ? 'bg-red-50 text-red-700 ring-red-600/20' :
-                                    item.priority === LineItemPriority.MEDIUM ? 'bg-yellow-50 text-yellow-800 ring-yellow-600/20' :
-                                    'bg-slate-50 text-slate-600 ring-slate-500/20'
-                                }`}>
-                                    {item.priority}
-                                </span>
-                            )}
                         </td>
                         <td className="p-2 align-top"><input type="number" value={item.quantity} onChange={e => handleItemChange(index, 'quantity', parseInt(e.target.value))} className={`${formElementClasses} text-right`} disabled={isFinalized}/></td>
                         <td className="p-2 align-top"><input type="number" step="0.01" value={item.unitPrice.toFixed(2)} onChange={e => handleItemChange(index, 'unitPrice', parseFloat(e.target.value))} className={`${formElementClasses} text-right`} disabled={isFinalized}/></td>

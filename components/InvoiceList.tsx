@@ -1,12 +1,8 @@
-
-
-
-
-import React, { useState, useMemo } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
+import React, { useState, useMemo, useEffect } from 'react';
+import { useNavigate, Link, useLocation } from 'react-router-dom';
 import { Invoice, DocumentStatus, Payment } from '../types';
 import { customers } from '../constants';
-import { PencilIcon, EyeIcon, PlusIcon, SelectorIcon, SearchIcon } from './Icons';
+import { PencilIcon, EyeIcon, PlusIcon, SelectorIcon, SearchIcon, ChevronUpIcon, ChevronDownIcon } from './Icons';
 import { calculateBalanceDue } from '../utils';
 
 interface InvoiceListProps {
@@ -18,9 +14,16 @@ type SortConfig = { key: keyof Invoice | 'customerName' | 'balanceDue'; directio
 
 export const InvoiceList: React.FC<InvoiceListProps> = ({ invoices, payments }) => {
     const navigate = useNavigate();
+    const location = useLocation();
     const [searchTerm, setSearchTerm] = useState('');
-    const [statusFilter, setStatusFilter] = useState<DocumentStatus | 'all'>('all');
+    const [statusFilter, setStatusFilter] = useState<DocumentStatus | 'all' | 'open' | 'overdue'>('all');
     const [sortConfig, setSortConfig] = useState<SortConfig>({ key: 'date', direction: 'descending' });
+    
+    useEffect(() => {
+        if (location.state?.preFilter) {
+            setStatusFilter(location.state.preFilter);
+        }
+    }, [location.state]);
 
     const requestSort = (key: SortConfig['key']) => {
         let direction: 'ascending' | 'descending' = 'ascending';
@@ -34,7 +37,17 @@ export const InvoiceList: React.FC<InvoiceListProps> = ({ invoices, payments }) 
         let filteredInvoices = [...invoices];
 
         if (statusFilter !== 'all') {
-            filteredInvoices = filteredInvoices.filter(inv => inv.status === statusFilter);
+             const todayStr = new Date().toISOString().split('T')[0];
+            
+            filteredInvoices = filteredInvoices.filter(inv => {
+                if (statusFilter === 'open') {
+                    return inv.status === DocumentStatus.FINALIZED || inv.status === DocumentStatus.PARTIALLY_PAID;
+                }
+                if (statusFilter === 'overdue') {
+                    return inv.dueDate && inv.dueDate < todayStr && inv.status !== DocumentStatus.PAID;
+                }
+                return inv.status === statusFilter
+            });
         }
 
         if (searchTerm) {
@@ -73,14 +86,24 @@ export const InvoiceList: React.FC<InvoiceListProps> = ({ invoices, payments }) 
         return filteredInvoices;
     }, [invoices, searchTerm, statusFilter, sortConfig, payments]);
 
-    const SortableHeader: React.FC<{ columnKey: SortConfig['key'], title: string }> = ({ columnKey, title }) => (
-        <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-slate-900 cursor-pointer" onClick={() => requestSort(columnKey)}>
-             <div className="flex items-center">
-                <span>{title}</span>
-                {sortConfig?.key === columnKey ? (sortConfig.direction === 'ascending' ? ' ▲' : ' ▼') : <SelectorIcon />}
-            </div>
-        </th>
-    );
+    const SortableHeader: React.FC<{ columnKey: SortConfig['key'], title: string }> = ({ columnKey, title }) => {
+        const isActive = sortConfig?.key === columnKey;
+
+        return (
+            <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-slate-900 cursor-pointer group" onClick={() => requestSort(columnKey)}>
+                 <div className="flex items-center">
+                    <span className={isActive ? 'text-indigo-600' : 'text-slate-900 group-hover:text-slate-700'}>{title}</span>
+                    {isActive ? (
+                        sortConfig?.direction === 'ascending' ? 
+                            <ChevronUpIcon className="w-4 h-4 ml-1 text-indigo-600" /> : 
+                            <ChevronDownIcon className="w-4 h-4 ml-1 text-indigo-600" />
+                    ) : (
+                        <SelectorIcon className="w-4 h-4 ml-1 text-slate-400" />
+                    )}
+                </div>
+            </th>
+        );
+    };
 
     const getStatusClass = (status: DocumentStatus) => {
         switch (status) {
@@ -121,10 +144,12 @@ export const InvoiceList: React.FC<InvoiceListProps> = ({ invoices, payments }) 
                 </div>
                 <select
                     value={statusFilter}
-                    onChange={(e) => setStatusFilter(e.target.value as DocumentStatus | 'all')}
+                    onChange={(e) => setStatusFilter(e.target.value as any)}
                     className="block w-full md:w-auto rounded-md border-0 py-1.5 px-3 text-slate-900 ring-1 ring-inset ring-slate-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                 >
                     <option value="all">All Statuses</option>
+                    <option value="open">Open</option>
+                    <option value="overdue">Overdue</option>
                     <option value={DocumentStatus.DRAFT}>Draft</option>
                     <option value={DocumentStatus.FINALIZED}>Finalized</option>
                     <option value={DocumentStatus.PARTIALLY_PAID}>Partially Paid</option>
@@ -150,12 +175,16 @@ export const InvoiceList: React.FC<InvoiceListProps> = ({ invoices, payments }) 
                             <tbody className="divide-y divide-slate-200">
                                 {processedInvoices.map(invoice => (
                                     <tr key={invoice.id} className="hover:bg-slate-50">
-                                        <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-slate-900 sm:pl-0">
-                                            <Link to={`/invoices/${invoice.id}`} className="text-indigo-600 hover:text-indigo-900">
+                                        <td className="whitespace-nowrap p-0">
+                                            <Link to={`/invoices/${invoice.id}`} className="block py-4 pl-4 pr-3 text-sm font-medium text-indigo-600 hover:text-indigo-900 sm:pl-0">
                                                 {invoice.invoiceNumber}
                                             </Link>
                                         </td>
-                                        <td className="whitespace-nowrap px-3 py-4 text-sm text-slate-500">{customers.find(c => c.id === invoice.customerId)?.name || 'N/A'}</td>
+                                        <td className="whitespace-nowrap p-0">
+                                            <Link to={`/customers/${invoice.customerId}`} className="block px-3 py-4 text-sm text-slate-500 hover:text-indigo-600">
+                                                {customers.find(c => c.id === invoice.customerId)?.name || 'N/A'}
+                                            </Link>
+                                        </td>
                                         <td className="whitespace-nowrap px-3 py-4 text-sm text-slate-500">{invoice.date}</td>
                                         <td className="whitespace-nowrap px-3 py-4 text-sm text-slate-500">R {calculateBalanceDue(invoice, payments).toFixed(2)}</td>
                                         <td className="whitespace-nowrap px-3 py-4 text-sm text-slate-500">

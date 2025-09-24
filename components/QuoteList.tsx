@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { quotes, customers, VAT_RATE } from '../constants';
 import { DocumentStatus } from '../types';
 import { PencilIcon, EyeIcon, PlusIcon } from './Icons';
@@ -48,8 +48,16 @@ export const QuoteList: React.FC = () => {
                             <tbody className="divide-y divide-slate-200">
                                 {quotes.map(quote => (
                                     <tr key={quote.id} className="hover:bg-slate-50">
-                                        <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-slate-900 sm:pl-0">{quote.quoteNumber}</td>
-                                        <td className="whitespace-nowrap px-3 py-4 text-sm text-slate-500">{customers.find(c => c.id === quote.customerId)?.name}</td>
+                                        <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-slate-900 sm:pl-0">
+                                            <Link to={`/quotes/${quote.id}`} className="text-indigo-600 hover:text-indigo-900">
+                                                {quote.quoteNumber}
+                                            </Link>
+                                        </td>
+                                        <td className="whitespace-nowrap px-3 py-4 text-sm text-slate-500">
+                                            <Link to={`/customers/${quote.customerId}`} className="text-slate-500 hover:text-indigo-600">
+                                                {customers.find(c => c.id === quote.customerId)?.name}
+                                            </Link>
+                                        </td>
                                         <td className="whitespace-nowrap px-3 py-4 text-sm text-slate-500">{quote.date}</td>
                                         <td className="whitespace-nowrap px-3 py-4 text-sm text-slate-500">R {calculateTotal(quote.items).toFixed(2)}</td>
                                         <td className="whitespace-nowrap px-3 py-4 text-sm text-slate-500">

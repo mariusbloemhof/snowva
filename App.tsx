@@ -50,15 +50,15 @@ const App: React.FC = () => {
     if (!invoice) return <div>Invoice not found</div>;
 
     if (invoice.status === DocumentStatus.DRAFT) {
-        return <InvoiceEditor invoices={invoices} setInvoices={setInvoices} invoiceId={id} />;
+        return <InvoiceEditor invoices={invoices} setInvoices={setInvoices} customers={customers} invoiceId={id} />;
     } else {
-        return <InvoiceViewer invoice={invoice} invoices={invoices} setInvoices={setInvoices} payments={payments} setPayments={setPayments} />;
+        return <InvoiceViewer invoice={invoice} invoices={invoices} setInvoices={setInvoices} payments={payments} setPayments={setPayments} customers={customers} />;
     }
   };
 
   const QuoteEditorWrapper = () => {
     const { id } = useParams<{ id: string }>();
-    return <QuoteEditor quoteId={id} />;
+    return <QuoteEditor quoteId={id} customers={customers} />;
   };
 
   const CustomerEditorWrapper = () => {
@@ -128,10 +128,10 @@ const App: React.FC = () => {
                 <Route path="/products/new" element={<ProductEditor products={products} setProducts={setProducts} />} />
                 <Route path="/products/:id" element={<ProductEditorWrapper />} />
                 <Route path="/quotes" element={<QuoteList />} />
-                <Route path="/quotes/new" element={<QuoteEditor />} />
+                <Route path="/quotes/new" element={<QuoteEditor customers={customers} />} />
                 <Route path="/quotes/:id" element={<QuoteEditorWrapper />} />
                 <Route path="/invoices" element={<InvoiceList invoices={invoices} payments={payments} />} />
-                <Route path="/invoices/new" element={<InvoiceEditor invoices={invoices} setInvoices={setInvoices} />} />
+                <Route path="/invoices/new" element={<InvoiceEditor invoices={invoices} setInvoices={setInvoices} customers={customers} />} />
                 <Route path="/invoices/:id" element={<InvoicePageWrapper />} />
                 <Route path="/payments" element={<PaymentList customers={customers} payments={payments} />} />
                 <Route path="/payments/new" element={<PaymentPage invoices={invoices} customers={customers} />} />

@@ -1,6 +1,6 @@
 
 import React, { useState, useMemo } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { Payment, Customer } from '../types';
 import { PencilIcon, PlusIcon, SelectorIcon, SearchIcon } from './Icons';
 
@@ -117,7 +117,11 @@ export const PaymentList: React.FC<PaymentListProps> = ({ payments, customers })
                                 {processedPayments.map(payment => (
                                     <tr key={payment.id} className="hover:bg-slate-50">
                                         <td className="whitespace-nowrap px-3 py-4 text-sm text-slate-500">{payment.date}</td>
-                                        <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-slate-900 sm:pl-0">{customers.find(c => c.id === payment.customerId)?.name || 'N/A'}</td>
+                                        <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-slate-900 sm:pl-0">
+                                            <Link to={`/customers/${payment.customerId}`} className="text-indigo-600 hover:text-indigo-900">
+                                                {customers.find(c => c.id === payment.customerId)?.name || 'N/A'}
+                                            </Link>
+                                        </td>
                                         <td className="whitespace-nowrap px-3 py-4 text-sm text-slate-500">R {payment.totalAmount.toFixed(2)}</td>
                                         <td className="whitespace-nowrap px-3 py-4 text-sm text-slate-500">{payment.method}</td>
                                         <td className="whitespace-nowrap px-3 py-4 text-sm text-slate-500">{payment.reference || 'N/A'}</td>

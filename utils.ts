@@ -1,3 +1,4 @@
+
 import { Product, Price, Customer, CustomerType, CustomerProductPrice, PaymentTerm, StatementTransaction, AgingAnalysis, LineItem, Payment, Invoice, DocumentStatus } from './types';
 import { VAT_RATE } from './constants';
 
@@ -118,6 +119,21 @@ export const calculateBalanceDue = (invoice: Invoice, allPayments: Payment[]): n
     const paid = calculatePaid(invoice.id, allPayments);
     // Return a value rounded to 2 decimal places to avoid floating point issues
     return parseFloat((total - paid).toFixed(2));
+};
+
+export const formatDistanceToNow = (dateStr: string): string => {
+  if (!dateStr) return '';
+  const date = new Date(dateStr);
+  const now = new Date();
+  const diffTime = now.getTime() - date.getTime();
+  const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+
+  if (diffDays < 1) return 'today';
+  if (diffDays === 1) return '1d ago';
+  if (diffDays < 7) return `${diffDays}d ago`;
+  if (diffDays < 30) return `${Math.floor(diffDays / 7)}w ago`;
+  if (diffDays < 365) return `${Math.floor(diffDays / 30)}m ago`;
+  return `${Math.floor(diffDays / 365)}y ago`;
 };
 
 

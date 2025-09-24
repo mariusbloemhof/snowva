@@ -1,8 +1,8 @@
 
 import React, { useState, useEffect, useMemo } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { Invoice, Customer, Product, LineItem, DocumentStatus, CustomerType, Quote, PaymentTerm, LineItemPriority } from '../types';
-import { customers, products, VAT_RATE } from '../constants';
+import { Invoice, Customer, Product, LineItem, DocumentStatus, CustomerType, Quote, PaymentTerm } from '../types';
+import { products, VAT_RATE } from '../constants';
 import { TrashIcon, PlusIcon, CheckCircleIcon } from './Icons';
 import { getResolvedProductDetails, calculateDueDate } from '../utils';
 import { ProductSelector } from './ProductSelector';
@@ -11,6 +11,7 @@ import { useToast } from '../contexts/ToastContext';
 interface InvoiceEditorProps {
     invoices: Invoice[];
     setInvoices: React.Dispatch<React.SetStateAction<Invoice[]>>;
+    customers: Customer[];
     invoiceId?: string;
 }
 
@@ -34,7 +35,7 @@ const getNextInvoiceNumber = (currentInvoices: Invoice[]) => {
     return `${prefix}${(lastNumForToday + 1).toString().padStart(3, '0')}`;
 };
 
-export const InvoiceEditor: React.FC<InvoiceEditorProps> = ({ invoices, setInvoices, invoiceId }) => {
+export const InvoiceEditor: React.FC<InvoiceEditorProps> = ({ invoices, setInvoices, customers, invoiceId }) => {
   const navigate = useNavigate();
   const location = useLocation();
   const { addToast } = useToast();
@@ -78,7 +79,7 @@ export const InvoiceEditor: React.FC<InvoiceEditorProps> = ({ invoices, setInvoi
       });
       setSelectedCustomer(null);
     }
-  }, [invoiceId, invoices, location.state]);
+  }, [invoiceId, invoices, location.state, customers]);
 
   const handleFieldChange = (field: keyof Invoice, value: any) => {
     if (invoice) {
@@ -112,7 +113,6 @@ export const InvoiceEditor: React.FC<InvoiceEditorProps> = ({ invoices, setInvoi
             description: 'Select a product...',
             quantity: 1,
             unitPrice: 0,
-            priority: LineItemPriority.MEDIUM,
         };
         setInvoice({ ...invoice, items: [...invoice.items, newItem] });
         if (errors.items) setErrors(prev => ({...prev, items: undefined}));
@@ -210,6 +210,7 @@ export const InvoiceEditor: React.FC<InvoiceEditorProps> = ({ invoices, setInvoi
   const formElementClasses = "block w-full rounded-md border-0 py-1.5 px-3 text-slate-900 shadow-sm ring-1 ring-inset ring-slate-300 placeholder:text-slate-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6";
   const labelClasses = "block text-sm font-medium leading-6 text-slate-900";
 
+
   return (
     <div className="bg-white p-6 sm:p-8 rounded-xl border border-slate-200">
         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 border-b border-slate-200 pb-4">
@@ -228,108 +229,109 @@ export const InvoiceEditor: React.FC<InvoiceEditorProps> = ({ invoices, setInvoi
             </div>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6 mb-8">
-            <div>
-                <label htmlFor="customer" className={labelClasses}>Customer</label>
-                <select id="customer" value={selectedCustomer?.id || ''} onChange={handleCustomerChange} className={`${formElementClasses} mt-2 ${errors.customerId ? 'ring-red-500' : ''}`}>
-                    <option value="">Select a customer...</option>
-                    {customers.map(c => <option key={c.id} value={c.id}>{c.name}</option>)}
-                </select>
-                {errors.customerId && <p className="text-sm text-red-600 mt-1">{errors.customerId}</p>}
-            </div>
-            <div className="grid grid-cols-2 gap-6">
-                 <div>
-                    <label htmlFor="date" className={labelClasses}>Invoice Date</label>
-                    <input type="date" id="date" value={invoice.date} onChange={e => handleFieldChange('date', e.target.value)} className={`${formElementClasses} mt-2`}/>
+        <div className="space-y-12">
+            <div className="border-b border-slate-200 pb-12">
+                <h2 className="text-base font-semibold leading-7 text-slate-900">Invoice Details</h2>
+                <p className="mt-1 text-sm leading-6 text-slate-600">Set the customer, date, and other primary details.</p>
+                <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
+                    <div className="sm:col-span-4">
+                        <label htmlFor="customer" className={labelClasses}>Customer</label>
+                        <div className="mt-2">
+                             <select id="customer" value={selectedCustomer?.id || ''} onChange={handleCustomerChange} className={`${formElementClasses} ${errors.customerId ? 'ring-red-500' : ''}`}>
+                                <option value="">Select a customer...</option>
+                                {customers.map(c => <option key={c.id} value={c.id}>{c.name}</option>)}
+                            </select>
+                        </div>
+                        {errors.customerId && <p className="text-sm text-red-600 mt-1">{errors.customerId}</p>}
+                    </div>
+                    <div className="sm:col-span-3">
+                         <label htmlFor="date" className={labelClasses}>Invoice Date</label>
+                        <div className="mt-2">
+                            <input type="date" id="date" value={invoice.date} onChange={e => handleFieldChange('date', e.target.value)} className={formElementClasses}/>
+                        </div>
+                    </div>
+                    <div className="sm:col-span-3">
+                         <label htmlFor="orderNumber" className={labelClasses}>Order # <span className="text-slate-500">(optional)</span></label>
+                         <div className="mt-2">
+                             <input type="text" id="orderNumber" value={invoice.orderNumber || ''} onChange={e => handleFieldChange('orderNumber', e.target.value)} className={formElementClasses}/>
+                        </div>
+                    </div>
                 </div>
-                 <div>
-                    <label htmlFor="orderNumber" className={labelClasses}>Order # (optional)</label>
-                    <input type="text" id="orderNumber" value={invoice.orderNumber || ''} onChange={e => handleFieldChange('orderNumber', e.target.value)} className={`${formElementClasses} mt-2`}/>
-                </div>
             </div>
-        </div>
 
-        <div className={`border rounded-lg ${errors.items ? 'border-red-500' : 'border-slate-200'}`}>
-            <h3 className="text-base font-semibold leading-6 text-slate-900 border-b border-slate-200 px-4 py-3">Line Items</h3>
-            <div className="p-4">
-                <div className="overflow-x-auto">
-                    <table className="min-w-full">
-                        <thead className="sr-only">
-                            <tr>
-                                <th className="w-2/5">Product</th>
-                                <th className="w-1/6">Priority</th>
-                                <th className="w-[10%]">Quantity</th>
-                                <th className="w-1/6">Unit Price</th>
-                                <th className="w-1/6">Total</th>
-                                <th>Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody className="divide-y divide-slate-200">
-                            {invoice.items.map((item, index) => (
-                                <tr key={item.id} className="align-top">
-                                    <td className="p-2 w-2/5">
-                                        {index === 0 && <label className={`${labelClasses} sm:hidden mb-1`}>Product</label>}
-                                        <ProductSelector 
-                                        products={products}
-                                        initialProductId={item.productId}
-                                        onSelectProduct={(product) => handleProductSelection(index, product)}
-                                        />
-                                    </td>
-                                    <td className="p-2 w-1/6">
-                                        {index === 0 && <label className={`${labelClasses} sm:hidden mb-1`}>Priority</label>}
-                                        <select 
-                                            value={item.priority || LineItemPriority.MEDIUM} 
-                                            onChange={e => handleItemChange(index, 'priority', e.target.value as LineItemPriority)} 
-                                            className={formElementClasses}
-                                        >
-                                            <option value={LineItemPriority.HIGH}>High</option>
-                                            <option value={LineItemPriority.MEDIUM}>Medium</option>
-                                            <option value={LineItemPriority.LOW}>Low</option>
-                                        </select>
-                                    </td>
-                                    <td className="p-2 w-[10%]">
-                                        {index === 0 && <label className={`${labelClasses} sm:hidden mb-1`}>Qty</label>}
-                                        <input type="number" value={item.quantity} onChange={e => handleItemChange(index, 'quantity', parseInt(e.target.value) || 1)} className={`${formElementClasses} text-right`}/>
-                                    </td>
-                                    <td className="p-2 w-1/6">
-                                        {index === 0 && <label className={`${labelClasses} sm:hidden mb-1`}>Unit Price</label>}
-                                        <input type="number" step="0.01" value={item.unitPrice.toFixed(2)} onChange={e => handleItemChange(index, 'unitPrice', parseFloat(e.target.value) || 0)} className={`${formElementClasses} text-right`}/>
-                                    </td>
-                                    <td className="p-2 w-1/6 text-right pt-4">
-                                        {index === 0 && <label className={`${labelClasses} sm:hidden mb-1`}>Total</label>}
-                                        <span className="text-sm text-slate-700">R {(item.quantity * item.unitPrice).toFixed(2)}</span>
-                                    </td>
-                                    <td className="p-2 text-center pt-4">
-                                        {index === 0 && <label className={`${labelClasses} sm:hidden mb-1`}>&nbsp;</label>}
-                                        <button type="button" onClick={() => removeLineItem(index)} className="text-slate-400 hover:text-red-600 p-2"><TrashIcon className="w-5 h-5" /></button>
-                                    </td>
-                                </tr>
-                            ))}
-                        </tbody>
-                    </table>
+            <div className="border-b border-slate-200 pb-12">
+                <h2 className="text-base font-semibold leading-7 text-slate-900">Line Items</h2>
+                <p className="mt-1 text-sm leading-6 text-slate-600">Add products to the invoice. The price will be determined based on the selected customer.</p>
+                <div className="mt-10">
+                    <div className={`-mx-4 ring-1 ${errors.items ? 'ring-red-500' : 'ring-slate-200'} sm:mx-0 sm:rounded-lg`}>
+                            <table className="min-w-full">
+                                <thead className="sr-only sm:table-header-group">
+                                    <tr>
+                                        <th className="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-slate-900 sm:pl-6 w-1/2">Product</th>
+                                        <th className="px-3 py-3.5 text-right text-sm font-semibold text-slate-900 w-[15%]">Quantity</th>
+                                        <th className="px-3 py-3.5 text-right text-sm font-semibold text-slate-900 w-1/4">Unit Price</th>
+                                        <th className="py-3.5 pl-3 pr-4 text-right text-sm font-semibold text-slate-900 sm:pr-6">Total</th>
+                                        <th><span className="sr-only">Actions</span></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {invoice.items.map((item, index) => (
+                                        <tr key={item.id} className="border-b border-slate-200">
+                                            <td className="p-2 sm:pl-6">
+                                                <ProductSelector 
+                                                products={products}
+                                                initialProductId={item.productId}
+                                                onSelectProduct={(product) => handleProductSelection(index, product)}
+                                                />
+                                            </td>
+                                            <td className="p-2">
+                                                <input type="number" value={item.quantity} onChange={e => handleItemChange(index, 'quantity', parseInt(e.target.value) || 1)} className={`${formElementClasses} text-right`}/>
+                                            </td>
+                                            <td className="p-2">
+                                                <input type="number" step="0.01" value={item.unitPrice.toFixed(2)} onChange={e => handleItemChange(index, 'unitPrice', parseFloat(e.target.value) || 0)} className={`${formElementClasses} text-right`}/>
+                                            </td>
+                                            <td className="p-2 text-right sm:pr-6">
+                                                <span className="text-sm text-slate-700">R {(item.quantity * item.unitPrice).toFixed(2)}</span>
+                                            </td>
+                                            <td className="p-2 text-center">
+                                                <button type="button" onClick={() => removeLineItem(index)} className="text-slate-400 hover:text-red-600 p-2"><TrashIcon className="w-5 h-5" /></button>
+                                            </td>
+                                        </tr>
+                                    ))}
+                                </tbody>
+                            </table>
+                            <div className="p-4 border-t border-slate-200">
+                                <button 
+                                    type="button"
+                                    onClick={addLineItem} 
+                                    disabled={!selectedCustomer}
+                                    className="inline-flex items-center gap-x-2 rounded-md bg-white px-3 py-2 text-sm font-semibold text-slate-900 shadow-sm ring-1 ring-inset ring-slate-300 hover:bg-slate-50 disabled:text-gray-400 disabled:cursor-not-allowed"
+                                >
+                                    <PlusIcon className="w-5 h-5"/> Add Item
+                                </button>
+                                {errors.items && <p className="text-sm text-red-600 mt-2">{errors.items}</p>}
+                            </div>
+                        </div>
                 </div>
-                 <button 
-                    type="button"
-                    onClick={addLineItem} 
-                    disabled={!selectedCustomer}
-                    className="inline-flex items-center gap-x-2 rounded-md bg-white px-3 py-2 mt-4 text-sm font-semibold text-slate-900 shadow-sm ring-1 ring-inset ring-slate-300 hover:bg-slate-50 disabled:text-gray-400 disabled:cursor-not-allowed"
-                >
-                    <PlusIcon className="w-5 h-5"/> Add Item
-                 </button>
-                 {errors.items && <p className="text-sm text-red-600 mt-2">{errors.items}</p>}
             </div>
-        </div>
-        
-        <div className="mt-8 grid grid-cols-1 md:grid-cols-2 gap-8">
+            
             <div>
-                 <label htmlFor="notes" className={labelClasses}>Notes / Remarks</label>
-                 <textarea id="notes" rows={4} value={invoice.notes || ''} onChange={(e) => handleFieldChange('notes', e.target.value)} className={`${formElementClasses} mt-2`} placeholder="Add any notes for the customer..."></textarea>
-            </div>
-            <div className="flex justify-end items-end">
-                <div className="w-full max-w-sm space-y-2 bg-slate-50 p-4 rounded-lg">
-                    <div className="flex justify-between text-sm"><span>Subtotal</span><span className="font-medium text-slate-700">R {subtotal.toFixed(2)}</span></div>
-                    <div className="flex justify-between text-sm"><span>VAT ({VAT_RATE * 100}%)</span><span className="font-medium text-slate-700">R {vatAmount.toFixed(2)}</span></div>
-                    <div className="flex justify-between pt-2 mt-2 border-t border-slate-200 font-semibold text-base"><span>Total</span><span>R {total.toFixed(2)}</span></div>
+                <h2 className="text-base font-semibold leading-7 text-slate-900">Summary</h2>
+                <p className="mt-1 text-sm leading-6 text-slate-600">Add any final notes and review the totals before finalizing.</p>
+                 <div className="mt-10 grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <div>
+                        <label htmlFor="notes" className={labelClasses}>Notes / Remarks</label>
+                        <div className="mt-2">
+                            <textarea id="notes" rows={4} value={invoice.notes || ''} onChange={(e) => handleFieldChange('notes', e.target.value)} className={`${formElementClasses}`} placeholder="Add any notes for the customer..."></textarea>
+                        </div>
+                    </div>
+                    <div className="flex justify-end items-start">
+                        <div className="w-full max-w-sm space-y-2 bg-slate-50 p-4 rounded-lg">
+                            <div className="flex justify-between text-sm"><span>Subtotal</span><span className="font-medium text-slate-700">R {subtotal.toFixed(2)}</span></div>
+                            <div className="flex justify-between text-sm"><span>VAT ({VAT_RATE * 100}%)</span><span className="font-medium text-slate-700">R {vatAmount.toFixed(2)}</span></div>
+                            <div className="flex justify-between pt-2 mt-2 border-t border-slate-200 font-semibold text-base"><span>Total</span><span>R {total.toFixed(2)}</span></div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

@@ -1,6 +1,6 @@
 
 import React, { useState, useMemo } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { Customer, CustomerType } from '../types';
 import { PencilIcon, TrashIcon, PlusIcon, ChevronRightIcon, ChevronDownIcon, SelectorIcon, SearchIcon, CashIcon } from './Icons';
 
@@ -116,7 +116,7 @@ export const CustomerList: React.FC<CustomerListProps> = ({ customers, setCustom
                        ) : (
                          <span className="w-8 inline-block"></span>
                        )}
-                        <span className="font-medium text-slate-900">{customer.name}</span>
+                        <Link to={`/customers/${customer.id}`} className="font-medium text-slate-900 hover:text-indigo-600">{customer.name}</Link>
                         {hasCustomPricing && <CashIcon className="w-4 h-4 text-yellow-500 inline-block ml-2" title="This customer has custom pricing" />}
                     </div>
                 </td>
