@@ -39,19 +39,16 @@ export const InvoiceEditor: React.FC = () => {
   const [errors, setErrors] = useState<FormErrors>({});
 
   const [isDirty, setIsDirty] = useState(false);
-  const [isSaving, setIsSaving] = useState(false);
   const initialState = React.useRef<string>('');
   const initialDataLoaded = React.useRef(false);
   const [showUnsavedChangesPrompt, setShowUnsavedChangesPrompt] = useState(false);
+  const [finalizedInvoiceId, setFinalizedInvoiceId] = useState<string | null>(null);
 
-  // FIX: Defer navigation to a useEffect to prevent race condition with useBlocker
-  const [navigateTo, setNavigateTo] = useState<string | null>(null);
   useEffect(() => {
-    // Only navigate after the component has re-rendered with isSaving = true.
-    if (navigateTo && isSaving) {
-        navigate(navigateTo);
+    if (finalizedInvoiceId) {
+        navigate(`/invoices/${finalizedInvoiceId}`);
     }
-  }, [navigateTo, isSaving, navigate]);
+  }, [finalizedInvoiceId, navigate]);
 
   useEffect(() => {
     // Reset on ID change
@@ -108,7 +105,7 @@ export const InvoiceEditor: React.FC = () => {
     }
   }, [invoice]);
 
-  const blocker = useBlocker(isDirty && !isSaving);
+  const blocker = useBlocker(isDirty);
 
   useEffect(() => {
     if (blocker.state === 'blocked') {
@@ -198,7 +195,6 @@ export const InvoiceEditor: React.FC = () => {
 
   const saveInvoice = () => {
     if (!invoice) return;
-    setIsSaving(true);
     const invoiceIndex = invoices.findIndex(inv => inv.id === invoice.id);
     if (invoiceIndex > -1) {
       const updatedInvoices = [...invoices];
@@ -208,9 +204,9 @@ export const InvoiceEditor: React.FC = () => {
       setInvoices([...invoices, invoice]);
     }
     addToast('Draft saved successfully!', 'success');
+    
     initialState.current = JSON.stringify(invoice);
     setIsDirty(false);
-    setIsSaving(false);
   };
 
   const validateForFinalize = () => {
@@ -249,7 +245,6 @@ export const InvoiceEditor: React.FC = () => {
         dueDate: dueDate,
     };
 
-    setIsSaving(true);
     const invoiceIndex = invoices.findIndex(inv => inv.id === invoice.id);
     if (invoiceIndex > -1) {
         const updatedInvoices = [...invoices];
@@ -259,8 +254,10 @@ export const InvoiceEditor: React.FC = () => {
         setInvoices([...invoices, finalInvoice]);
     }
     addToast('Invoice finalized successfully!', 'success');
-    // FIX: Trigger navigation via useEffect
-    setNavigateTo(`/invoices/${finalInvoice.id}`);
+    
+    initialState.current = JSON.stringify(finalInvoice);
+    setIsDirty(false);
+    setFinalizedInvoiceId(finalInvoice.id);
   };
 
   const subtotal = useMemo(() => {

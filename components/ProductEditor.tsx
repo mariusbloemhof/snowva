@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate, useBlocker, useParams, useOutletContext } from 'react-router-dom';
 import { Product, Price, AppContextType } from '../types';
 import { PlusIcon, SparklesIcon } from './Icons';
@@ -37,19 +37,16 @@ export const ProductEditor: React.FC = () => {
     const [errors, setErrors] = useState<FormErrors>({});
     
     const [isDirty, setIsDirty] = useState(false);
-    const [isSaving, setIsSaving] = useState(false);
-    const initialState = React.useRef<string>('');
-    const initialDataLoaded = React.useRef(false);
+    const initialState = useRef<string>('');
+    const initialDataLoaded = useRef(false);
     const [showUnsavedChangesPrompt, setShowUnsavedChangesPrompt] = useState(false);
+    const [isSaveComplete, setIsSaveComplete] = useState(false);
 
-    // FIX: Defer navigation to a useEffect to prevent race condition with useBlocker
-    const [shouldNavigate, setShouldNavigate] = useState(false);
     useEffect(() => {
-        // Only navigate after the component has re-rendered with isSaving = true.
-        if (shouldNavigate && isSaving) {
+        if (isSaveComplete) {
             navigate('/products');
         }
-    }, [shouldNavigate, isSaving, navigate]);
+    }, [isSaveComplete, navigate]);
 
     useEffect(() => {
         // Reset on ID change
@@ -79,7 +76,7 @@ export const ProductEditor: React.FC = () => {
         setIsDirty(currentState !== initialState.current);
     }, [formData, newPrice, productId]);
 
-    const blocker = useBlocker(isDirty && !isSaving);
+    const blocker = useBlocker(isDirty);
 
     useEffect(() => {
         if (blocker.state === 'blocked') {
@@ -152,16 +149,20 @@ export const ProductEditor: React.FC = () => {
             return;
         }
 
-        setIsSaving(true);
+        const finalProductData = formData.id ? (formData as Product) : ({...formData, id: `prod_${Date.now()}`} as Product);
 
-        if (formData.id) { // Existing product
-            setProducts(products.map(p => p.id === formData.id ? (formData as Product) : p));
-        } else { // New product
-            setProducts([...products, {...formData, id: `prod_${Date.now()}`} as Product]);
+        if (formData.id) {
+            setProducts(products.map(p => p.id === finalProductData.id ? finalProductData : p));
+        } else {
+            setProducts([...products, finalProductData]);
         }
+        
         addToast('Product saved successfully!', 'success');
-        // FIX: Trigger navigation via useEffect
-        setShouldNavigate(true);
+        
+        // Reset dirty state and trigger navigation via useEffect
+        initialState.current = JSON.stringify({ formData: finalProductData, newPrice: emptyNewPrice });
+        setIsDirty(false);
+        setIsSaveComplete(true);
     };
     
     const findProductImage = async () => {

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect, useMemo, useRef } from 'react';
 import { useNavigate, useBlocker, useParams, useOutletContext } from 'react-router-dom';
 import { Quote, Customer, Product, LineItem, DocumentStatus, AppContextType } from '../types';
 import { products as allProducts, VAT_RATE } from '../constants';
@@ -30,18 +30,16 @@ export const QuoteEditor: React.FC = () => {
   const [errors, setErrors] = useState<FormErrors>({});
   
   const [isDirty, setIsDirty] = useState(false);
-  const [isSaving, setIsSaving] = useState(false);
-  const initialState = React.useRef<string>('');
-  const initialDataLoaded = React.useRef(false);
+  const initialState = useRef<string>('');
+  const initialDataLoaded = useRef(false);
   const [showUnsavedChangesPrompt, setShowUnsavedChangesPrompt] = useState(false);
+  const [finalizedQuoteId, setFinalizedQuoteId] = useState<string | null>(null);
   
-  interface NavOptions { path: string; options?: { state: any; replace?: boolean } }
-  const [navigateTo, setNavigateTo] = useState<NavOptions | null>(null);
   useEffect(() => {
-    if (navigateTo && isSaving) {
-        navigate(navigateTo.path, navigateTo.options);
+    if (finalizedQuoteId) {
+        navigate(`/quotes/${finalizedQuoteId}`);
     }
-  }, [navigateTo, isSaving, navigate]);
+  }, [finalizedQuoteId, navigate]);
 
   useEffect(() => {
     // Reset on ID change
@@ -80,7 +78,7 @@ export const QuoteEditor: React.FC = () => {
     }
   }, [quote]);
 
-    const blocker = useBlocker(isDirty && !isSaving);
+    const blocker = useBlocker(isDirty);
 
     useEffect(() => {
         if (blocker.state === 'blocked') {
@@ -180,7 +178,6 @@ export const QuoteEditor: React.FC = () => {
   
   const saveDraft = () => {
     if (!quote) return;
-    setIsSaving(true);
     const quoteIndex = quotes.findIndex(q => q.id === quote.id);
     if (quoteIndex > -1) {
       const updatedQuotes = [...quotes];
@@ -190,9 +187,9 @@ export const QuoteEditor: React.FC = () => {
       setQuotes([...quotes, quote]);
     }
     addToast('Draft saved successfully!', 'success');
+    
     initialState.current = JSON.stringify(quote);
     setIsDirty(false);
-    setIsSaving(false);
   };
 
   const finalizeQuote = () => {
@@ -207,7 +204,6 @@ export const QuoteEditor: React.FC = () => {
           quoteNumber: getNextQuoteNumber(quotes),
       };
       
-      setIsSaving(true);
       const quoteIndex = quotes.findIndex(q => q.id === finalQuote.id);
       if (quoteIndex > -1) {
           const updatedQuotes = [...quotes];
@@ -218,7 +214,10 @@ export const QuoteEditor: React.FC = () => {
       }
       
       addToast('Quote finalized successfully!', 'success');
-      setNavigateTo({ path: `/quotes/${finalQuote.id}` });
+      
+      initialState.current = JSON.stringify(finalQuote);
+      setIsDirty(false);
+      setFinalizedQuoteId(finalQuote.id);
   };
   
   const subtotal = useMemo(() => {

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect, useMemo, useRef } from 'react';
 import { useLocation, useNavigate, useBlocker, useParams, useOutletContext } from 'react-router-dom';
 import { Customer, Invoice, Payment, PaymentMethod, DocumentStatus, LineItem, PaymentAllocation, AppContextType } from '../types';
 import { CheckCircleIcon } from './Icons';
@@ -25,19 +25,16 @@ export const PaymentRecorder: React.FC = () => {
     const [allocations, setAllocations] = useState<Record<string, number>>({});
     
     const [isDirty, setIsDirty] = useState(false);
-    const [isSaving, setIsSaving] = useState(false);
-    const initialState = React.useRef<string>('');
-    const initialDataLoaded = React.useRef(false);
+    const initialState = useRef<string>('');
+    const initialDataLoaded = useRef(false);
     const [showUnsavedChangesPrompt, setShowUnsavedChangesPrompt] = useState(false);
+    const [isSaveComplete, setIsSaveComplete] = useState(false);
 
-    // FIX: Defer navigation to a useEffect to prevent race condition with useBlocker
-    const [shouldNavigate, setShouldNavigate] = useState(false);
     useEffect(() => {
-        // Only navigate after the component has re-rendered with isSaving = true.
-        if (shouldNavigate && isSaving) {
+        if (isSaveComplete) {
             navigate('/payments');
         }
-    }, [shouldNavigate, isSaving, navigate]);
+    }, [isSaveComplete, navigate]);
 
     const existingPayment = useMemo(() => {
         if (!paymentId) return null;
@@ -104,7 +101,7 @@ export const PaymentRecorder: React.FC = () => {
     }, [paymentDetails, allocations, customer]);
 
 
-    const blocker = useBlocker(isDirty && !isSaving);
+    const blocker = useBlocker(isDirty);
 
     useEffect(() => {
         if (blocker.state === 'blocked') {
@@ -206,15 +203,15 @@ export const PaymentRecorder: React.FC = () => {
             .filter(([, amount]) => amount > 0)
             .map(([invoiceId, amount]) => ({ invoiceId, amount }));
 
+        let finalPayment: Payment;
         let newPayments: Payment[];
-        setIsSaving(true);
 
         if (isEditMode && existingPayment) {
-            const updatedPayment: Payment = { ...existingPayment, ...paymentDetails, totalAmount: paymentDetails.amount, reference: paymentDetails.reference || undefined, allocations: newAllocations };
-            newPayments = payments.map(p => p.id === paymentId ? updatedPayment : p);
+            finalPayment = { ...existingPayment, ...paymentDetails, totalAmount: paymentDetails.amount, reference: paymentDetails.reference || undefined, allocations: newAllocations };
+            newPayments = payments.map(p => p.id === paymentId ? finalPayment : p);
         } else {
-            const newPayment: Payment = { id: `pay_${Date.now()}`, paymentNumber: getNextPaymentNumber(payments), customerId: customer.id, ...paymentDetails, totalAmount: paymentDetails.amount, reference: paymentDetails.reference || undefined, allocations: newAllocations };
-            newPayments = [...payments, newPayment];
+            finalPayment = { id: `pay_${Date.now()}`, paymentNumber: getNextPaymentNumber(payments), customerId: customer.id, ...paymentDetails, totalAmount: paymentDetails.amount, reference: paymentDetails.reference || undefined, allocations: newAllocations };
+            newPayments = [...payments, finalPayment];
         }
         setPayments(newPayments);
 
@@ -225,7 +222,6 @@ export const PaymentRecorder: React.FC = () => {
         const updatedInvoices = invoices.map((inv: Invoice) => {
             if (affectedInvoiceIds.has(inv.id)) {
                 const paid: number = calculatePaid(inv.id, newPayments);
-                // FIX: Pass the entire invoice object to calculateTotal, not just the items array.
                 const total: number = calculateTotal(inv);
                 const balance: number = total - paid;
                 let newStatus = inv.status;
@@ -241,8 +237,21 @@ export const PaymentRecorder: React.FC = () => {
         setInvoices(updatedInvoices);
         
         addToast(`Payment ${isEditMode ? 'updated' : 'recorded'} successfully!`, 'success');
-        // FIX: Trigger navigation via useEffect
-        setShouldNavigate(true);
+
+        const finalPaymentDetails = {
+            date: finalPayment.date,
+            amount: finalPayment.totalAmount,
+            method: finalPayment.method,
+            reference: finalPayment.reference || '',
+        };
+        const finalAllocations = finalPayment.allocations.reduce((acc, alloc) => {
+            acc[alloc.invoiceId] = alloc.amount;
+            return acc;
+        }, {} as Record<string, number>);
+
+        initialState.current = JSON.stringify({ paymentDetails: finalPaymentDetails, allocations: finalAllocations });
+        setIsDirty(false);
+        setIsSaveComplete(true);
     };
 
     if (!customer) return <div className="bg-white p-6 rounded-lg shadow-md">Loading or invalid selection...</div>;

@@ -225,22 +225,19 @@ export const CustomerEditor: React.FC = () => {
     const [errors, setErrors] = useState<FormErrors>({});
     
     const [isDirty, setIsDirty] = useState(false);
-    const [isSaving, setIsSaving] = useState(false);
     const [billingAddress, setBillingAddress] = useState<Partial<Address>>({});
     const [deliveryAddress, setDeliveryAddress] = useState<Partial<Address>>({});
     
     const initialState = useRef<string>('');
     const initialDataLoaded = useRef(false);
     const [showUnsavedChangesPrompt, setShowUnsavedChangesPrompt] = useState(false);
+    const [isSaveComplete, setIsSaveComplete] = useState(false);
 
-    // FIX: Defer navigation to a useEffect to prevent race condition with useBlocker
-    const [shouldNavigate, setShouldNavigate] = useState(false);
     useEffect(() => {
-        // Only navigate after the component has re-rendered with isSaving = true.
-        if (shouldNavigate && isSaving) {
+        if (isSaveComplete) {
             navigate('/customers');
         }
-    }, [shouldNavigate, isSaving, navigate]);
+    }, [isSaveComplete, navigate]);
 
     useEffect(() => {
         // Reset whenever customerId changes to handle navigation between customers
@@ -280,7 +277,7 @@ export const CustomerEditor: React.FC = () => {
     }, [formData, billingAddress, deliveryAddress, customerId]);
 
 
-    const blocker = useBlocker(isDirty && !isSaving);
+    const blocker = useBlocker(isDirty);
 
     useEffect(() => {
         if (blocker.state === 'blocked') {
@@ -365,15 +362,20 @@ export const CustomerEditor: React.FC = () => {
 
         const finalFormData = { ...formData, addresses: newAddresses };
 
-        setIsSaving(true);
-        if (finalFormData.id) { // Existing customer
-            setCustomers(customers.map(c => c.id === finalFormData.id ? (finalFormData as Customer) : c));
-        } else { // New customer
-            setCustomers([...customers, { ...finalFormData, id: `cust_${Date.now()}` } as Customer]);
+        const finalCustomerData = finalFormData.id ? (finalFormData as Customer) : ({ ...finalFormData, id: `cust_${Date.now()}` } as Customer);
+        
+        if (customerId) {
+            setCustomers(customers.map(c => c.id === finalCustomerData.id ? finalCustomerData : c));
+        } else {
+            setCustomers([...customers, finalCustomerData]);
         }
+        
         addToast('Customer saved successfully!', 'success');
-        // FIX: Trigger navigation via useEffect
-        setShouldNavigate(true);
+
+        // Reset dirty state and trigger navigation via useEffect
+        initialState.current = JSON.stringify({ formData: finalCustomerData, billingAddress, deliveryAddress });
+        setIsDirty(false);
+        setIsSaveComplete(true);
     };
 
     const parentCompanyCandidates = customers.filter(c => c.type === CustomerType.B2B && !c.parentCompanyId);
