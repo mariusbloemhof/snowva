@@ -1,18 +1,14 @@
 
 import React from 'react';
 import { useNavigate, Link, useOutletContext } from 'react-router-dom';
-import { customers, VAT_RATE } from '../constants';
+import { customers } from '../constants';
 import { DocumentStatus, Quote, AppContextType } from '../types';
 import { PencilIcon, EyeIcon, PlusIcon } from './Icons';
+import { calculateTotal } from '../utils';
 
 export const QuoteList: React.FC = () => {
     const { quotes } = useOutletContext<AppContextType>();
     const navigate = useNavigate();
-
-    const calculateTotal = (items: any[]) => {
-        const subtotal = items.reduce((sum, item) => sum + item.quantity * item.unitPrice, 0);
-        return subtotal * (1 + VAT_RATE);
-    };
 
     return (
         <div className="bg-white p-6 rounded-xl border border-slate-200">
@@ -60,7 +56,7 @@ export const QuoteList: React.FC = () => {
                                             </Link>
                                         </td>
                                         <td className="whitespace-nowrap px-3 py-4 text-sm text-slate-500">{quote.date}</td>
-                                        <td className="whitespace-nowrap px-3 py-4 text-sm text-slate-500">R {calculateTotal(quote.items).toFixed(2)}</td>
+                                        <td className="whitespace-nowrap px-3 py-4 text-sm text-slate-500">R {calculateTotal(quote).toFixed(2)}</td>
                                         <td className="whitespace-nowrap px-3 py-4 text-sm text-slate-500">
                                             <span className={`inline-flex items-center rounded-md px-2 py-1 text-xs font-medium ring-1 ring-inset ${
                                                 quote.status === DocumentStatus.ACCEPTED ? 'bg-green-50 text-green-700 ring-green-600/20' :

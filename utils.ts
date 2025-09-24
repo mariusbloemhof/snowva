@@ -110,9 +110,9 @@ export const getNextPaymentNumber = (currentPayments: Payment[]): string => {
     return `${prefix}${(lastNumForYear + 1).toString().padStart(3, '0')}`;
 };
 
-export const calculateTotal = (invoice: Pick<Invoice, 'items' | 'shipping'>): number => {
-    const itemsTotal = invoice.items.reduce((sum, item) => sum + item.quantity * item.unitPrice, 0);
-    const subtotal = itemsTotal + (invoice.shipping || 0);
+export const calculateTotal = (doc: { items: LineItem[], shipping?: number }): number => {
+    const itemsTotal = doc.items.reduce((sum, item) => sum + item.quantity * item.unitPrice, 0);
+    const subtotal = itemsTotal + (doc.shipping || 0);
     return subtotal * (1 + VAT_RATE);
 };
 

@@ -1,4 +1,3 @@
-
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { createHashRouter, RouterProvider, useParams, useOutletContext } from 'react-router-dom';
@@ -17,6 +16,7 @@ import { PaymentRecorder } from './components/PaymentRecorder';
 import { InvoiceEditor } from './components/InvoiceEditor';
 import { InvoiceViewer } from './components/InvoiceViewer';
 import { QuoteEditor } from './components/QuoteEditor';
+import { QuoteViewer } from './components/QuoteViewer';
 import { CustomerEditor } from './components/CustomerEditor';
 import { ProductEditor } from './components/ProductEditor';
 import { StatementViewer } from './components/StatementViewer';
@@ -34,6 +34,17 @@ const InvoicePageWrapper = () => {
   return invoice.status === DocumentStatus.DRAFT ? <InvoiceEditor /> : <InvoiceViewer />;
 };
 
+const QuotePageWrapper = () => {
+  const { id } = useParams<{ id: string }>();
+  const { quotes } = useOutletContext<AppContextType>();
+  if (!id) return <div>Invalid Quote ID</div>;
+
+  const quote = quotes.find(q => q.id === id);
+  if (!quote) return <div>Quote not found</div>;
+
+  return quote.status === DocumentStatus.DRAFT ? <QuoteEditor /> : <QuoteViewer />;
+};
+
 const router = createHashRouter([
   {
     path: '/',
@@ -48,7 +59,7 @@ const router = createHashRouter([
       { path: "/products/:id", element: <ProductEditor /> },
       { path: "/quotes", element: <QuoteList /> },
       { path: "/quotes/new", element: <QuoteEditor /> },
-      { path: "/quotes/:id", element: <QuoteEditor /> },
+      { path: "/quotes/:id", element: <QuotePageWrapper /> },
       { path: "/invoices", element: <InvoiceList /> },
       { path: "/invoices/new", element: <InvoiceEditor /> },
       { path: "/invoices/:id", element: <InvoicePageWrapper /> },

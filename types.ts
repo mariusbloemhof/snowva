@@ -133,6 +133,7 @@ export interface Quote {
   items: LineItem[];
   status: DocumentStatus;
   notes?: string;
+  shipping?: number;
 }
 
 export interface StatementTransaction {
