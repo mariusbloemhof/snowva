@@ -105,6 +105,6 @@ export const quotes: Quote[] = [
 ];
 
 export const payments: Payment[] = [
-  { id: 'pay_001', customerId: 'cust_008', date: '2025-07-08', totalAmount: 862.50, method: PaymentMethod.EFT, reference: 'INV 250707101', allocations: [{ invoiceId: 'inv_002', amount: 862.50 }] },
-  { id: 'pay_002', customerId: 'cust_004', date: '2024-11-01', totalAmount: 500.00, method: PaymentMethod.EFT, reference: 'Deposit', allocations: [{ invoiceId: 'inv_003', amount: 500.00 }] },
+  { id: 'pay_001', paymentNumber: 'P25-001', customerId: 'cust_008', date: '2025-07-08', totalAmount: 862.50, method: PaymentMethod.EFT, reference: 'INV 250707101', allocations: [{ invoiceId: 'inv_002', amount: 862.50 }] },
+  { id: 'pay_002', paymentNumber: 'P24-001', customerId: 'cust_004', date: '2024-11-01', totalAmount: 500.00, method: PaymentMethod.EFT, reference: 'Deposit', allocations: [{ invoiceId: 'inv_003', amount: 500.00 }] },
 ];

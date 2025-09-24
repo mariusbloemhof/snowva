@@ -92,6 +92,7 @@ export interface PaymentAllocation {
 
 export interface Payment {
   id: string;
+  paymentNumber: string;
   customerId: string;
   date: string;
   totalAmount: number;
@@ -137,7 +138,7 @@ export interface Quote {
 export interface StatementTransaction {
   date: string;
   type: 'Invoice' | 'Payment';
-  reference: string; // Invoice # or Payment Ref
+  reference: string; // Invoice # or Payment #
   sourceId: string; // The original ID of the invoice or payment
   debit: number;
   credit: number;

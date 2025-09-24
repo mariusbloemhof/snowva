@@ -1,4 +1,3 @@
-
 import React, { useMemo } from 'react';
 import { useNavigate, useParams, useOutletContext } from 'react-router-dom';
 import { Customer, Invoice, DocumentStatus, Payment, Address, StatementTransaction, AppContextType } from '../types';
@@ -264,6 +263,8 @@ export const StatementViewer: React.FC = () => {
                                             <td className="whitespace-nowrap px-3 py-4 text-sm font-medium">
                                                 {tx.type === 'Invoice' ? (
                                                      <button onClick={() => navigate(`/invoices/${tx.sourceId}`)} className="text-indigo-600 hover:underline">{tx.reference}</button>
+                                                ) : tx.type === 'Payment' ? (
+                                                     <button onClick={() => navigate(`/payments/edit/${tx.sourceId}`)} className="text-indigo-600 hover:underline">{tx.reference}</button>
                                                 ) : (
                                                     <span className="text-slate-700">{tx.reference}</span>
                                                 )}

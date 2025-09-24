@@ -2,7 +2,7 @@ import React, { useState, useEffect, useMemo } from 'react';
 import { useLocation, useNavigate, useBlocker, useParams, useOutletContext } from 'react-router-dom';
 import { Customer, Invoice, Payment, PaymentMethod, DocumentStatus, LineItem, PaymentAllocation, AppContextType } from '../types';
 import { CheckCircleIcon } from './Icons';
-import { calculateBalanceDue, calculatePaid, calculateTotal } from '../utils';
+import { calculateBalanceDue, calculatePaid, calculateTotal, getNextPaymentNumber } from '../utils';
 import { useToast } from '../contexts/ToastContext';
 
 export const PaymentRecorder: React.FC = () => {
@@ -213,7 +213,7 @@ export const PaymentRecorder: React.FC = () => {
             const updatedPayment: Payment = { ...existingPayment, ...paymentDetails, totalAmount: paymentDetails.amount, reference: paymentDetails.reference || undefined, allocations: newAllocations };
             newPayments = payments.map(p => p.id === paymentId ? updatedPayment : p);
         } else {
-            const newPayment: Payment = { id: `pay_${Date.now()}`, customerId: customer.id, ...paymentDetails, totalAmount: paymentDetails.amount, reference: paymentDetails.reference || undefined, allocations: newAllocations };
+            const newPayment: Payment = { id: `pay_${Date.now()}`, paymentNumber: getNextPaymentNumber(payments), customerId: customer.id, ...paymentDetails, totalAmount: paymentDetails.amount, reference: paymentDetails.reference || undefined, allocations: newAllocations };
             newPayments = [...payments, newPayment];
         }
         setPayments(newPayments);
@@ -270,7 +270,7 @@ export const PaymentRecorder: React.FC = () => {
             <div className="bg-white p-6 sm:p-8 rounded-xl border border-slate-200 max-w-5xl mx-auto space-y-8">
                 <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center border-b border-slate-200 pb-4">
                     <div>
-                        <h2 className="text-2xl font-semibold leading-6 text-slate-900">{isEditMode ? 'Edit Payment' : 'Record Payment'}</h2>
+                        <h2 className="text-2xl font-semibold leading-6 text-slate-900">{isEditMode ? `Edit Payment ${existingPayment?.paymentNumber}` : 'Record Payment'}</h2>
                         <p className="mt-1 text-sm text-slate-600">For: <span className="font-medium text-indigo-600">{customer.name}</span></p>
                     </div>
                     <div className="flex items-center justify-end space-x-3 mt-4 sm:mt-0">

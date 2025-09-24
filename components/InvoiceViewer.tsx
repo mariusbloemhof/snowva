@@ -341,7 +341,7 @@ export const InvoiceViewer: React.FC = () => {
                 user: 'System',
                 text: `recorded a payment.`,
                 date: payment.date,
-                details: `R ${formatCurrency(payment.allocationAmount)} via ${payment.method}`,
+                details: `Payment ${payment.paymentNumber} for R ${formatCurrency(payment.allocationAmount)} via ${payment.method}`,
             }
         ];
     });

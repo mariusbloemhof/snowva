@@ -1,4 +1,3 @@
-
 import React, { useState, useMemo } from 'react';
 import { useNavigate, Link, useOutletContext } from 'react-router-dom';
 import { Payment, Customer, AppContextType } from '../types';
@@ -29,6 +28,7 @@ export const PaymentList: React.FC = () => {
             filteredPayments = filteredPayments.filter(p => {
                 const customer = customers.find(c => c.id === p.customerId);
                 return (
+                    p.paymentNumber.toLowerCase().includes(lowercasedFilter) ||
                     customer?.name.toLowerCase().includes(lowercasedFilter) ||
                     p.reference?.toLowerCase().includes(lowercasedFilter)
                 );
@@ -87,7 +87,7 @@ export const PaymentList: React.FC = () => {
                     <span className="absolute inset-y-0 left-0 flex items-center pl-3"><SearchIcon className="w-5 h-5 text-slate-400"/></span>
                     <input
                         type="text"
-                        placeholder="Search by customer or reference..."
+                        placeholder="Search by #, customer, or reference..."
                         value={searchTerm}
                         onChange={(e) => setSearchTerm(e.target.value)}
                         className="block w-full rounded-md border-0 py-1.5 pl-10 pr-3 text-slate-900 ring-1 ring-inset ring-slate-300 placeholder:text-slate-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
@@ -100,6 +100,7 @@ export const PaymentList: React.FC = () => {
                         <table className="min-w-full divide-y divide-slate-300">
                             <thead>
                                 <tr>
+                                    <SortableHeader columnKey="paymentNumber" title="Payment #" />
                                     <SortableHeader columnKey="date" title="Payment Date" />
                                     <SortableHeader columnKey="customerName" title="Customer" />
                                     <SortableHeader columnKey="totalAmount" title="Amount" />
@@ -113,8 +114,13 @@ export const PaymentList: React.FC = () => {
                             <tbody className="divide-y divide-slate-200">
                                 {processedPayments.map(payment => (
                                     <tr key={payment.id} className="hover:bg-slate-50">
+                                        <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium sm:pl-0">
+                                            <Link to={`/payments/edit/${payment.id}`} className="text-indigo-600 hover:text-indigo-900">
+                                                {payment.paymentNumber}
+                                            </Link>
+                                        </td>
                                         <td className="whitespace-nowrap px-3 py-4 text-sm text-slate-500">{payment.date}</td>
-                                        <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-slate-900 sm:pl-0">
+                                        <td className="whitespace-nowrap px-3 py-4 text-sm font-medium text-slate-900">
                                             <Link to={`/customers/${payment.customerId}`} className="text-indigo-600 hover:text-indigo-900">
                                                 {customers.find(c => c.id === payment.customerId)?.name || 'N/A'}
                                             </Link>

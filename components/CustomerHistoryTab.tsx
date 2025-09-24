@@ -52,7 +52,7 @@ export const CustomerHistoryTab: React.FC<CustomerHistoryTabProps> = ({ customer
                 id: p.id,
                 date: p.date,
                 type: 'Payment',
-                reference: p.reference || `PAY-${p.id.slice(-4)}`,
+                reference: p.paymentNumber,
                 amount: p.totalAmount,
                 status: 'Completed',
                 link: `/payments/edit/${p.id}`

@@ -97,6 +97,19 @@ export const calculateDueDate = (invoiceDate: string, term: PaymentTerm): string
 
 // --- Centralized Financial Calculations ---
 
+export const getNextPaymentNumber = (currentPayments: Payment[]): string => {
+    const today = new Date();
+    const year = today.getFullYear().toString().slice(-2);
+    const prefix = `P${year}-`;
+
+    const lastNumForYear = currentPayments
+        .filter(p => p.paymentNumber.startsWith(prefix))
+        .map(p => parseInt(p.paymentNumber.slice(-3), 10))
+        .reduce((max, num) => Math.max(max, num), 0);
+    
+    return `${prefix}${(lastNumForYear + 1).toString().padStart(3, '0')}`;
+};
+
 export const calculateTotal = (invoice: Pick<Invoice, 'items' | 'shipping'>): number => {
     const itemsTotal = invoice.items.reduce((sum, item) => sum + item.quantity * item.unitPrice, 0);
     const subtotal = itemsTotal + (invoice.shipping || 0);
@@ -199,7 +212,7 @@ export const getStatementDataForCustomer = (
             return {
                 date: tx.date,
                 type: 'Payment',
-                reference: tx.reference || `Payment #${tx.id.slice(-4)}`,
+                reference: tx.paymentNumber,
                 sourceId: tx.id,
                 debit: 0,
                 credit: tx.totalAmount,
