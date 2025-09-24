@@ -72,7 +72,8 @@ export const PaymentRecorder: React.FC<PaymentRecorderProps> = ({ customers, inv
         // Use a Set to remove duplicates in case an invoice is somehow included twice
         const uniqueInvoices = Array.from(new Map(relevantInvoices.map(item => [item.id, item])).values());
         
-        return uniqueInvoices.sort((a,b) => a.date.localeCompare(b.date));
+        // FIX: Add explicit types to sort callback parameters to prevent 'unknown' type error.
+        return uniqueInvoices.sort((a: Invoice, b: Invoice) => a.date.localeCompare(b.date));
     }, [customer, invoices, isEditMode, allocations, customers]);
 
     useEffect(() => {
@@ -109,7 +110,8 @@ export const PaymentRecorder: React.FC<PaymentRecorderProps> = ({ customers, inv
         if (!invoice) return;
 
         const otherPayments = isEditMode ? payments.filter(p => p.id !== paymentId) : payments;
-        const balance = calculateBalanceDue(invoice, otherPayments);
+        // FIX: Add explicit type annotation to resolve 'unknown' type error.
+        const balance: number = calculateBalanceDue(invoice, otherPayments);
 
         if (amount < 0) {
             amount = 0;
@@ -122,7 +124,8 @@ export const PaymentRecorder: React.FC<PaymentRecorderProps> = ({ customers, inv
         setAllocations(prev => ({ ...prev, [invoiceId]: amount }));
     };
 
-    const totalAllocated = useMemo(() => Object.values(allocations).reduce((sum, val) => sum + (val || 0), 0), [allocations]);
+    // FIX: Add explicit type hint to useMemo and reduce callback to ensure correct type inference.
+    const totalAllocated = useMemo<number>(() => Object.values(allocations).reduce((sum: number, val: number) => sum + (val || 0), 0), [allocations]);
     const unallocatedAmount = paymentDetails.amount - totalAllocated;
 
     const handleSubmit = () => {
@@ -137,7 +140,8 @@ export const PaymentRecorder: React.FC<PaymentRecorderProps> = ({ customers, inv
                 if (!invoice) { validationError = `Error: Could not find invoice with ID ${invId}.`; return; }
                 
                 const otherPayments = isEditMode ? payments.filter(p => p.id !== paymentId) : payments;
-                const balance = calculateBalanceDue(invoice, otherPayments);
+                // FIX: Add explicit type annotation to resolve 'unknown' type error.
+                const balance: number = calculateBalanceDue(invoice, otherPayments);
 
                 if (amount > balance + 0.005) {
                     validationError = `Allocation for invoice ${invoice.invoiceNumber} (R ${amount.toFixed(2)}) exceeds its balance of R ${balance.toFixed(2)}.`;
@@ -164,11 +168,12 @@ export const PaymentRecorder: React.FC<PaymentRecorderProps> = ({ customers, inv
         if(isEditMode && existingPayment) existingPayment.allocations.forEach(a => affectedInvoiceIds.add(a.invoiceId));
         newAllocations.forEach(a => affectedInvoiceIds.add(a.invoiceId));
 
-        const updatedInvoices = invoices.map(inv => {
+        const updatedInvoices = invoices.map((inv: Invoice) => {
             if (affectedInvoiceIds.has(inv.id)) {
-                const paid = calculatePaid(inv.id, newPayments);
-                const total = calculateTotal(inv.items);
-                const balance = total - paid;
+                // FIX: Add explicit type annotations to resolve 'unknown' type errors for numeric operations.
+                const paid: number = calculatePaid(inv.id, newPayments);
+                const total: number = calculateTotal(inv.items);
+                const balance: number = total - paid;
                 let newStatus = inv.status;
 
                 if (balance <= 0.005 && paid > 0) newStatus = DocumentStatus.PAID;

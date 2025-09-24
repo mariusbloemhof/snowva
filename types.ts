@@ -76,6 +76,7 @@ export interface LineItem {
   description: string;
   quantity: number;
   unitPrice: number;
+  itemCode?: string;
 }
 
 export enum PaymentMethod {

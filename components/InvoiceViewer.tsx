@@ -2,106 +2,13 @@
 import React, { useMemo, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Invoice, Customer, DocumentStatus, Payment } from '../types';
-import { VAT_RATE } from '../constants';
+import { VAT_RATE, SNOWVA_DETAILS } from '../constants';
 import { DownloadIcon, CheckCircleIcon, UsersIcon, PencilIcon, MailIcon, EyeIcon, PrintIcon, CashIcon } from './Icons';
 import { formatDistanceToNow } from '../utils';
 import { useToast } from '../contexts/ToastContext';
 
 // Declare global libraries loaded from CDN
-declare const html2canvas: any;
 declare const jspdf: any;
-
-interface InvoiceTemplateProps {
-    invoice: Invoice;
-    customer: Customer | null;
-    billToCustomer: Customer | null;
-    subtotal: number;
-    vatAmount: number;
-    total: number;
-}
-
-const formatCurrencyTemplate = (amount: number) => {
-    return `R ${amount.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, " ")}`;
-};
-
-const InvoiceTemplate: React.FC<InvoiceTemplateProps> = ({ invoice, billToCustomer, subtotal, vatAmount, total }) => {
-    const billToAddress = billToCustomer?.addresses.find(a => a.isPrimary) || billToCustomer?.addresses[0];
-
-    return (
-        <div className="bg-white text-slate-800 p-10 font-sans w-[210mm] min-h-[297mm]">
-            <div className="flex justify-between items-start mb-8">
-                <div>
-                    <p className="text-sm text-slate-600">Issued on {new Date(invoice.date).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}</p>
-                    {invoice.dueDate && <p className="text-sm text-slate-600">Due on {new Date(invoice.dueDate).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}</p>}
-                </div>
-                <h1 className="text-3xl font-bold">Invoice</h1>
-            </div>
-
-            <div className="border-t border-slate-200 pt-8 mb-10">
-                <div className="flex justify-between">
-                    <div className="text-sm">
-                        <p className="font-bold mb-1">From</p>
-                        <p>Snowva™ Trading Pty Ltd</p>
-                        <p>67 Wildevy Street, Lynnwood Manor</p>
-                        <p>Pretoria, 0081</p>
-                    </div>
-                    <div className="text-sm text-right">
-                        <p className="font-bold mb-1">To</p>
-                        <p>{billToCustomer?.name}</p>
-                        {billToAddress && (
-                            <>
-                                <p>{billToAddress.addressLine1}</p>
-                                <p>{billToAddress.city}, {billToAddress.postalCode}</p>
-                            </>
-                        )}
-                    </div>
-                </div>
-            </div>
-
-            <table className="w-full text-sm">
-                <thead>
-                    <tr className="border-b border-slate-300 text-slate-500">
-                        <th className="text-left font-semibold py-3 pr-3">Projects</th>
-                        <th className="text-right font-semibold py-3 px-3 w-24">Hours</th>
-                        <th className="text-right font-semibold py-3 px-3 w-32">Rate</th>
-                        <th className="text-right font-semibold py-3 pl-3 w-32">Price</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {invoice.items.map(item => (
-                        <tr key={item.id} className="border-b border-slate-100">
-                            <td className="py-4 pr-3">
-                                <p className="font-medium text-slate-900">{item.description}</p>
-                                <p className="text-slate-600">Item description for product.</p>
-                            </td>
-                            <td className="text-right px-3">{item.quantity.toFixed(1)}</td>
-                            <td className="text-right px-3">{formatCurrencyTemplate(item.unitPrice)}</td>
-                            <td className="text-right pl-3 font-medium text-slate-900">{formatCurrencyTemplate(item.quantity * item.unitPrice)}</td>
-                        </tr>
-                    ))}
-                </tbody>
-            </table>
-
-            <div className="flex justify-end mt-8">
-                <div className="w-full max-w-xs text-sm">
-                    <div className="flex justify-between text-slate-600 py-2">
-                        <span>Subtotal</span>
-                        <span>{formatCurrencyTemplate(subtotal)}</span>
-                    </div>
-                    <div className="flex justify-between text-slate-600 py-2">
-                        <span>Tax (15%)</span>
-                        <span>{formatCurrencyTemplate(vatAmount)}</span>
-                    </div>
-                    <div className="flex justify-between font-bold text-slate-900 py-2 mt-2 border-t-2 border-slate-300">
-                        <span>Total</span>
-                        <span>{formatCurrencyTemplate(total)}</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-    );
-};
-
 
 interface InvoiceViewerProps {
     invoice: Invoice;
@@ -119,12 +26,12 @@ const getPrimaryAddress = (customer: Customer | null | undefined) => {
 }
 
 const formatCurrency = (amount: number) => {
+    // This function adds spaces as thousand separators
     return amount.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, " ");
 };
 
 export const InvoiceViewer: React.FC<InvoiceViewerProps> = ({ invoice, invoices, setInvoices, payments, setPayments, customers }) => {
   const navigate = useNavigate();
-  const invoiceTemplateContainerRef = useRef<HTMLDivElement>(null);
   const { addToast } = useToast();
   const [isEmailModalOpen, setIsEmailModalOpen] = useState(false);
 
@@ -143,28 +50,189 @@ export const InvoiceViewer: React.FC<InvoiceViewerProps> = ({ invoice, invoices,
   const subtotal = useMemo(() => invoice.items.reduce((sum, item) => sum + item.quantity * item.unitPrice, 0), [invoice.items]);
   const vatAmount = subtotal * VAT_RATE;
   const total = subtotal + vatAmount;
-  
-  const generatePdf = async (options: { autoPrint?: boolean } = {}) => {
-    const input = invoiceTemplateContainerRef.current;
-    if (!input) return null;
 
+  const formatDate = (dateString: string) => {
+    if (!dateString) return '';
+    const d = new Date(dateString);
+    const userTimezoneOffset = d.getTimezoneOffset() * 60000;
+    const correctedDate = new Date(d.getTime() + userTimezoneOffset);
+    return correctedDate.toLocaleDateString('en-ZA').replace(/-/g, '/'); // YYYY/MM/DD
+  };
+  
+ const generatePdf = async () => {
     addToast("Generating PDF...", "info");
-    const canvas = await html2canvas(input, { scale: 2 });
-    const imgData = canvas.toDataURL('image/png');
-    const pdf = new jspdf.jsPDF({
-        orientation: 'portrait',
-        unit: 'mm',
-        format: 'a4',
+    const { jsPDF } = jspdf;
+    const pdf = new jsPDF({ orientation: 'p', unit: 'mm', format: 'a4' });
+    const margin = 20;
+    const pageWidth = pdf.internal.pageSize.getWidth();
+
+    // --- HEADER ---
+    pdf.setFont("helvetica", "bold");
+    pdf.setFontSize(10);
+    pdf.text(SNOWVA_DETAILS.name, margin, 20);
+
+    pdf.setFont("helvetica", "normal");
+    pdf.setFontSize(9);
+    pdf.text(SNOWVA_DETAILS.regNo, margin, 25);
+    pdf.text(SNOWVA_DETAILS.address[0], margin, 30);
+    pdf.text(SNOWVA_DETAILS.address[1], margin, 34);
+    pdf.text(SNOWVA_DETAILS.address[2], margin, 38);
+
+    pdf.setFontSize(24);
+    pdf.setFont("helvetica", "bold");
+    pdf.text("TAX INVOICE", pageWidth - margin, 25, { align: "right" });
+
+    // Header Details Table (right side)
+    const headerDetailsX = pageWidth - margin - 65;
+    pdf.setFontSize(9);
+    pdf.setFont("helvetica", "normal");
+    pdf.text("Date:", headerDetailsX, 38);
+    pdf.text("Invoice #:", headerDetailsX, 43);
+    pdf.text("For:", headerDetailsX, 48);
+
+    pdf.text(formatDate(invoice.date), headerDetailsX + 20, 38);
+    pdf.text(invoice.invoiceNumber, headerDetailsX + 20, 43);
+    pdf.text(selectedCustomer?.name || '', headerDetailsX + 20, 48);
+
+    // --- BILLING INFO ---
+    let yPos = 68; 
+
+    pdf.text(`VAT #: ${SNOWVA_DETAILS.vatNo}`, margin, yPos);
+
+    const billToX = pageWidth / 2 - 10;
+    pdf.setFont("helvetica", "bold");
+    pdf.text("Bill To:", billToX, yPos);
+    
+    pdf.setFont("helvetica", "normal");
+    const billToAddressLines = [
+        billToCustomer?.legalEntityName || billToCustomer?.name,
+        billingAddress?.addressLine1,
+        billingAddress?.addressLine2,
+        billingAddress?.suburb,
+        `${billingAddress?.city || ''} ${billingAddress?.postalCode || ''}`.trim(),
+        `${billingAddress?.province || ''}`.trim(),
+        billingAddress?.country
+    ].filter(line => line && line.trim()).map(line => line!.trim());
+
+    pdf.text(billToAddressLines, billToX + 20, yPos);
+    
+    // Dynamically calculate y position after address block
+    const addressBlockHeight = billToAddressLines.length * 4;
+    yPos += addressBlockHeight + 10;
+    
+    if (billToCustomer?.vatNumber) {
+        pdf.setFont("helvetica", "normal");
+        pdf.text("VAT #:", billToX, yPos);
+        pdf.text(billToCustomer.vatNumber, billToX + 20, yPos);
+        yPos += 5;
+    }
+     if (invoice.orderNumber) {
+        pdf.setFont("helvetica", "normal");
+        pdf.text("Order #:", billToX, yPos);
+        pdf.text(invoice.orderNumber, billToX + 20, yPos);
+        yPos += 5;
+    }
+
+    // --- TABLE ---
+    const tableStartY = yPos + 10;
+    const tableBody = invoice.items.map(item => [
+        item.description,
+        item.itemCode,
+        item.quantity,
+        'R',
+        formatCurrency(item.unitPrice),
+        'R',
+        formatCurrency(item.quantity * item.unitPrice)
+    ]);
+    
+    // Add Delivery Fee if it exists
+    const deliveryFeeItem = invoice.items.find(item => item.description.toLowerCase() === 'delivery fee');
+    if (deliveryFeeItem) {
+        // Special handling if needed, otherwise it's in the loop.
+        // For this template, it seems it might be price-less.
+        const deliveryRowIndex = invoice.items.indexOf(deliveryFeeItem);
+        if (deliveryFeeItem.unitPrice === 0) {
+             tableBody[deliveryRowIndex] = [
+                deliveryFeeItem.description,
+                deliveryFeeItem.itemCode,
+                deliveryFeeItem.quantity,
+                'R',
+                '-',
+                'R',
+                '-'
+            ];
+        }
+    }
+
+
+    (pdf as any).autoTable({
+        startY: tableStartY,
+        head: [['Description', 'Item Code', 'Qty', { content: 'Unit Price', colSpan: 2 }, { content: 'Total (Excl VAT)', colSpan: 2 }]],
+        body: tableBody,
+        theme: 'grid',
+        headStyles: {
+            fillColor: [220, 220, 220], // Light Grey
+            textColor: [50, 50, 50], // Dark Grey Text
+            fontStyle: 'normal'
+        },
+        columnStyles: {
+            0: { cellWidth: 60 }, // Description
+            2: { halign: 'right' }, // Qty
+            3: { cellWidth: 5, halign: 'left' }, // Currency Symbol (Unit Price)
+            4: { halign: 'right' }, // Value (Unit Price)
+            5: { cellWidth: 5, halign: 'left' }, // Currency Symbol (Total)
+            6: { halign: 'right' }, // Value (Total)
+        },
+        margin: { left: margin, right: margin }
     });
 
-    const pdfWidth = pdf.internal.pageSize.getWidth();
-    const pdfHeight = (canvas.height * pdfWidth) / canvas.width;
-    
-    pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
-    
-    if (options.autoPrint) {
-        pdf.autoPrint();
+    // --- TOTALS & FOOTER ---
+    const finalY = (pdf as any).autoTable.previous.finalY;
+    let footerY = finalY + 15;
+    if (footerY > 250) { // Add new page if content is too low
+        pdf.addPage();
+        footerY = 30;
     }
+
+    // Banking Details
+    pdf.setFontSize(9);
+    pdf.setFont("helvetica", "bold");
+    pdf.text("Banking details:", margin, footerY);
+
+    pdf.setFont("helvetica", "normal");
+    pdf.text(SNOWVA_DETAILS.name, margin, footerY + 5);
+    pdf.text(SNOWVA_DETAILS.banking.bankName, margin, footerY + 10);
+    pdf.text(`Branch code ${SNOWVA_DETAILS.banking.branchCode}`, margin, footerY + 15);
+    pdf.text(`Account number ${SNOWVA_DETAILS.banking.accountNumber}`, margin, footerY + 20);
+
+    // Totals on the right
+    const totalsLabelX = pageWidth / 2 + 15;
+    const totalsValueX = pageWidth - margin;
+    const currencySymbolX = totalsValueX - 35;
+    
+    pdf.setLineWidth(0.2);
+    pdf.line(totalsLabelX - 5, footerY - 2, totalsValueX, footerY - 2); 
+
+    pdf.text("SUBTOTAL", totalsLabelX, footerY);
+    pdf.text(`R`, currencySymbolX, footerY);
+    pdf.text(formatCurrency(subtotal), totalsValueX, footerY, { align: 'right' });
+
+    pdf.text("VAT Rate", totalsLabelX, footerY + 5);
+    pdf.text(`${(VAT_RATE * 100).toFixed(0)}%`, totalsValueX, footerY + 5, { align: 'right' });
+
+    pdf.line(totalsLabelX - 5, footerY + 7, totalsValueX, footerY + 7);
+
+    pdf.text("Vat Amount", totalsLabelX, footerY + 10);
+    pdf.text(`R`, currencySymbolX, footerY + 10);
+    pdf.text(formatCurrency(vatAmount), totalsValueX, footerY + 10, { align: 'right' });
+    
+    pdf.setFont("helvetica", "bold");
+    pdf.text("TOTAL", totalsLabelX, footerY + 18);
+    pdf.text(`R`, currencySymbolX, footerY + 18);
+    pdf.text(formatCurrency(total), totalsValueX, footerY + 18, { align: 'right' });
+    
+    pdf.setLineWidth(0.8);
+    pdf.line(totalsLabelX - 5, footerY + 20, totalsValueX, footerY + 20);
     
     return pdf;
   };
@@ -180,7 +248,7 @@ export const InvoiceViewer: React.FC<InvoiceViewerProps> = ({ invoice, invoices,
 
   const handlePrint = async () => {
     try {
-        const pdf = await generatePdf({ autoPrint: true });
+        const pdf = await generatePdf();
         if (!pdf) {
             addToast("Failed to generate the invoice PDF.", "error");
             return;
@@ -191,13 +259,16 @@ export const InvoiceViewer: React.FC<InvoiceViewerProps> = ({ invoice, invoices,
         iframe.style.display = 'none';
         iframe.src = url;
         document.body.appendChild(iframe);
+
         iframe.onload = () => {
             setTimeout(() => {
-                iframe.contentWindow?.print();
-                 setTimeout(() => {
-                    document.body.removeChild(iframe);
-                    URL.revokeObjectURL(url);
-                }, 100);
+                if (iframe.contentWindow) {
+                    iframe.contentWindow.print();
+                    setTimeout(() => {
+                        document.body.removeChild(iframe);
+                        URL.revokeObjectURL(url);
+                    }, 100);
+                }
             }, 1);
         };
     } catch (error) {
@@ -344,9 +415,8 @@ export const InvoiceViewer: React.FC<InvoiceViewerProps> = ({ invoice, invoices,
                     <div className="mt-8 grid grid-cols-2 gap-8 border-t border-slate-100 pt-8">
                          <div>
                             <p className="text-sm font-semibold text-slate-800">From</p>
-                            <p className="mt-2 text-sm text-slate-600">Snowva™ Trading Pty Ltd</p>
-                            <p className="text-sm text-slate-600">67 Wildevy Street, Lynnwood Manor</p>
-                            <p className="text-sm text-slate-600">Pretoria, 0081</p>
+                            <p className="mt-2 text-sm text-slate-600">{SNOWVA_DETAILS.name}</p>
+                            {SNOWVA_DETAILS.address.map(line => <p className="text-sm text-slate-600" key={line}>{line}</p>)}
                         </div>
                         <div className="text-right">
                             <p className="text-sm font-semibold text-slate-800">To</p>
@@ -364,8 +434,8 @@ export const InvoiceViewer: React.FC<InvoiceViewerProps> = ({ invoice, invoices,
                                     <table className="min-w-full">
                                         <thead className="text-sm font-semibold text-slate-900 border-b border-slate-200">
                                             <tr>
-                                                <th scope="col" className="py-3.5 pl-4 pr-3 text-left sm:pl-6 lg:pl-8">Projects</th>
-                                                <th scope="col" className="py-3.5 px-3 text-right">Hours</th>
+                                                <th scope="col" className="py-3.5 pl-4 pr-3 text-left sm:pl-6 lg:pl-8">Description</th>
+                                                <th scope="col" className="py-3.5 px-3 text-right">Qty</th>
                                                 <th scope="col" className="py-3.5 px-3 text-right">Rate</th>
                                                 <th scope="col" className="py-3.5 pl-3 pr-4 text-right sm:pr-6 lg:pr-8">Price</th>
                                             </tr>
@@ -375,7 +445,6 @@ export const InvoiceViewer: React.FC<InvoiceViewerProps> = ({ invoice, invoices,
                                                 <tr key={item.id}>
                                                     <td className="py-4 pl-4 pr-3 text-sm sm:pl-6 lg:pl-8">
                                                         <p className="font-medium text-slate-900">{item.description}</p>
-                                                        <p className="text-slate-500">Item description for product.</p>
                                                     </td>
                                                     <td className="px-3 py-4 text-sm text-slate-500 text-right">{item.quantity.toFixed(1)}</td>
                                                     <td className="px-3 py-4 text-sm text-slate-500 text-right">R {formatCurrency(item.unitPrice)}</td>
@@ -490,20 +559,6 @@ export const InvoiceViewer: React.FC<InvoiceViewerProps> = ({ invoice, invoices,
                 </div>
             </div>
         )}
-    </div>
-
-    {/* Hidden container for PDF generation */}
-    <div className="absolute -left-[9999px] top-auto" aria-hidden="true">
-        <div ref={invoiceTemplateContainerRef}>
-            <InvoiceTemplate
-                invoice={invoice}
-                customer={selectedCustomer}
-                billToCustomer={billToCustomer}
-                subtotal={subtotal}
-                vatAmount={vatAmount}
-                total={total}
-            />
-        </div>
     </div>
     </>
   );

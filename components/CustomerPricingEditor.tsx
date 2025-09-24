@@ -37,13 +37,15 @@ export const CustomerPricingEditor: React.FC<CustomerPricingEditorProps> = ({ cu
             const localOverride = localPricingMap.get(parentPrice.productId);
             if (localOverride) {
                 localPricingMap.delete(parentPrice.productId);
-                return { ...localOverride, status: 'overridden', parentPrice };
+                // FIX: Replaced Object.assign with spread syntax for better type inference.
+                return { ...localOverride, status: 'overridden', parentPrice: parentPrice };
             } else {
                 return { ...parentPrice, status: 'inherited' };
             }
         });
 
         localPricingMap.forEach(localPrice => {
+            // FIX: Replaced Object.assign with spread syntax to resolve incorrect type inference.
             merged.push({ ...localPrice, status: 'local' });
         });
 
