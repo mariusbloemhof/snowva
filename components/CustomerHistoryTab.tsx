@@ -41,7 +41,7 @@ export const CustomerHistoryTab: React.FC<CustomerHistoryTabProps> = ({ customer
                 date: i.date,
                 type: 'Invoice',
                 reference: i.invoiceNumber,
-                amount: calculateTotal(i.items),
+                amount: calculateTotal(i),
                 status: i.status,
                 link: `/invoices/${i.id}`
             }));
@@ -65,7 +65,7 @@ export const CustomerHistoryTab: React.FC<CustomerHistoryTabProps> = ({ customer
                 date: q.date,
                 type: 'Quote',
                 reference: q.quoteNumber,
-                amount: calculateTotal(q.items),
+                amount: calculateTotal(q),
                 status: q.status,
                 link: `/quotes/${q.id}`
             }));

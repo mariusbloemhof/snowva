@@ -1,4 +1,3 @@
-
 import { Dispatch, SetStateAction } from 'react';
 
 export enum CustomerType {
@@ -121,6 +120,7 @@ export interface Invoice {
   items: LineItem[];
   status: DocumentStatus;
   notes?: string;
+  shipping?: number;
 }
 
 export interface Quote {

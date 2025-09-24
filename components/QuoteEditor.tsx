@@ -1,5 +1,4 @@
-
-import React, { useState, useEffect, useMemo, useRef } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { useNavigate, useBlocker, useParams, useOutletContext } from 'react-router-dom';
 import { Quote, Customer, Product, LineItem, DocumentStatus, Address, AppContextType } from '../types';
 import { products as allProducts, VAT_RATE, SNOWVA_DETAILS } from '../constants';
@@ -33,22 +32,36 @@ export const QuoteEditor: React.FC = () => {
   const [customerError, setCustomerError] = useState<string | null>(null);
   const [isEmailModalOpen, setIsEmailModalOpen] = useState(false);
   
-  const [initialState, setInitialState] = useState<string>('');
   const [isDirty, setIsDirty] = useState(false);
-  const isSaving = useRef(false);
-
+  const [isSaving, setIsSaving] = useState(false);
+  const initialState = React.useRef<string>('');
+  const initialDataLoaded = React.useRef(false);
+  const [showUnsavedChangesPrompt, setShowUnsavedChangesPrompt] = useState(false);
   
+  // FIX: Defer navigation to a useEffect to prevent race condition with useBlocker
+  interface NavOptions { path: string; options?: { state: any; replace?: boolean } }
+  const [navigateTo, setNavigateTo] = useState<NavOptions | null>(null);
+  useEffect(() => {
+    // Only navigate after the component has re-rendered with isSaving = true.
+    if (navigateTo && isSaving) {
+        navigate(navigateTo.path, navigateTo.options);
+    }
+  }, [navigateTo, isSaving, navigate]);
+
   const isFinalized = useMemo(() => quote?.status !== DocumentStatus.DRAFT, [quote]);
   const billingAddress = useMemo(() => getBillingAddress(selectedCustomer), [selectedCustomer]);
 
 
   useEffect(() => {
+    // Reset on ID change
+    initialDataLoaded.current = false;
+    setIsDirty(false);
+
     if (quoteId) {
       const foundQuote = quotes.find(q => q.id === quoteId);
       if (foundQuote) {
         setQuote(foundQuote);
         setSelectedCustomer(customers.find(c => c.id === foundQuote.customerId) || null);
-        setInitialState(JSON.stringify(foundQuote));
       }
     } else {
       const newQuote = {
@@ -62,28 +75,31 @@ export const QuoteEditor: React.FC = () => {
       };
       setQuote(newQuote);
       setSelectedCustomer(null);
-      setInitialState(JSON.stringify(newQuote));
     }
   }, [quoteId, customers, quotes]);
 
-    useEffect(() => {
-        if (initialState && quote && !isFinalized) {
-            const currentState = JSON.stringify(quote);
-            setIsDirty(currentState !== initialState);
-        } else if (isFinalized) {
+  useEffect(() => {
+    if (quote && !initialDataLoaded.current) {
+        initialState.current = JSON.stringify(quote);
+        initialDataLoaded.current = true;
+    }
+    if (quote) {
+        if (isFinalized) {
             setIsDirty(false);
+        } else {
+            const currentState = JSON.stringify(quote);
+            setIsDirty(currentState !== initialState.current);
         }
-    }, [quote, initialState, isFinalized]);
+    }
+  }, [quote, isFinalized]);
 
-    const blocker = useBlocker(isDirty && !isSaving.current);
+    const blocker = useBlocker(isDirty && !isSaving);
 
     useEffect(() => {
         if (blocker.state === 'blocked') {
-            if (window.confirm('You have unsaved changes. Are you sure you want to leave?')) {
-                blocker.proceed();
-            } else {
-                blocker.reset();
-            }
+            setShowUnsavedChangesPrompt(true);
+        } else {
+            setShowUnsavedChangesPrompt(false);
         }
     }, [blocker]);
 
@@ -180,20 +196,24 @@ export const QuoteEditor: React.FC = () => {
   }
 
   const finalizeQuote = () => {
+      setIsSaving(true);
       const finalizedQuote = saveQuote(true);
       if (finalizedQuote) {
-          setInitialState(JSON.stringify(finalizedQuote));
+          initialState.current = JSON.stringify(finalizedQuote);
           setQuote(finalizedQuote);
           addToast('Quote finalized successfully!', 'success');
+          // FIX: Trigger navigation via useEffect
+          setNavigateTo({ path: `/quotes/${finalizedQuote.id}` });
+      } else {
+        setIsSaving(false); // Reset if save failed
       }
   };
 
   const handleConvertToInvoice = () => {
     if (quote) {
-        isSaving.current = true;
-        navigate('/invoices/new', {
-            state: { fromQuote: quote }
-        });
+        setIsSaving(true);
+        // FIX: Trigger navigation via useEffect
+        setNavigateTo({ path: '/invoices/new', options: { state: { fromQuote: quote } } });
     }
   };
   
@@ -351,6 +371,20 @@ export const QuoteEditor: React.FC = () => {
 
   return (
     <>
+    {showUnsavedChangesPrompt && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50 p-4">
+            <div className="bg-white p-6 rounded-lg shadow-xl w-full max-w-lg">
+                <h3 className="text-lg font-bold mb-2 text-slate-900">Unsaved Changes</h3>
+                <p className="text-sm text-slate-600 mb-4">
+                    You have unsaved changes. Are you sure you want to leave? Your changes will be lost.
+                </p>
+                <div className="mt-6 flex justify-end space-x-4">
+                    <button onClick={() => blocker.reset?.()} className="rounded-md bg-white px-3 py-2 text-sm font-semibold text-slate-900 shadow-sm ring-1 ring-inset ring-slate-300 hover:bg-slate-50">Stay</button>
+                    <button onClick={() => blocker.proceed?.()} className="rounded-md bg-red-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-red-500">Leave</button>
+                </div>
+            </div>
+        </div>
+    )}
     <div className="bg-white p-6 sm:p-8 rounded-xl border border-slate-200 max-w-5xl mx-auto">
         <div className="flex flex-col sm:flex-row justify-between items-start mb-8">
             <div>

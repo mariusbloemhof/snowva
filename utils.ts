@@ -1,4 +1,3 @@
-
 import { Product, Price, Customer, CustomerType, CustomerProductPrice, PaymentTerm, StatementTransaction, AgingAnalysis, LineItem, Payment, Invoice, DocumentStatus } from './types';
 import { VAT_RATE } from './constants';
 
@@ -9,6 +8,7 @@ export const getCurrentPrice = (product: { prices?: Price[] } | undefined): Pric
     const today = new Date().toISOString().split('T')[0];
     const effectivePrices = product.prices
       .filter(p => p.effectiveDate <= today)
+      // FIX: Corrected localeCompare arguments to compare date strings.
       .sort((a, b) => b.effectiveDate.localeCompare(a.effectiveDate));
     return effectivePrices.length > 0 ? effectivePrices[0] : null;
 };
@@ -97,8 +97,9 @@ export const calculateDueDate = (invoiceDate: string, term: PaymentTerm): string
 
 // --- Centralized Financial Calculations ---
 
-export const calculateTotal = (items: LineItem[]): number => {
-    const subtotal = items.reduce((sum, item) => sum + item.quantity * item.unitPrice, 0);
+export const calculateTotal = (invoice: Pick<Invoice, 'items' | 'shipping'>): number => {
+    const itemsTotal = invoice.items.reduce((sum, item) => sum + item.quantity * item.unitPrice, 0);
+    const subtotal = itemsTotal + (invoice.shipping || 0);
     return subtotal * (1 + VAT_RATE);
 };
 
@@ -115,7 +116,7 @@ export const calculatePaid = (invoiceId: string, allPayments: Payment[]): number
 };
 
 export const calculateBalanceDue = (invoice: Invoice, allPayments: Payment[]): number => {
-    const total = calculateTotal(invoice.items);
+    const total = calculateTotal(invoice);
     const paid = calculatePaid(invoice.id, allPayments);
     // Return a value rounded to 2 decimal places to avoid floating point issues
     return parseFloat((total - paid).toFixed(2));
@@ -182,7 +183,7 @@ export const getStatementDataForCustomer = (
     let currentBalance = 0;
     const statementTransactions: StatementTransaction[] = transactions.map(tx => {
         if ('invoiceNumber' in tx) { // It's an Invoice
-            const invoiceTotal = calculateTotal(tx.items);
+            const invoiceTotal = calculateTotal(tx);
             currentBalance += invoiceTotal;
             return {
                 date: tx.date,

@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Link } from 'react-router-dom';
 import {
@@ -84,7 +83,8 @@ export const Dashboard: React.FC = () => {
         .sort((a, b) => (a.dueDate || a.date).localeCompare(b.dueDate || b.date))
         .slice(0, 5);
         
-    const getDaysOverdue = (dueDate: string) => {
+    const getDaysOverdue = (dueDate?: string) => {
+        if (!dueDate) return 0;
         const due = new Date(dueDate);
         const today = new Date();
         const diffTime = Math.max(0, today.getTime() - due.getTime());
@@ -146,7 +146,7 @@ export const Dashboard: React.FC = () => {
                                             <p className="text-sm text-slate-500 truncate">{customers.find(c => c.id === inv.customerId)?.name}</p>
                                         </div>
                                         <div className="text-right flex-shrink-0">
-                                            <p className="font-medium text-slate-800">{formatCurrency(calculateTotal(inv.items))}</p>
+                                            <p className="font-medium text-slate-800">{formatCurrency(calculateTotal(inv))}</p>
                                              <span className={`mt-1 inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium ${getStatusClass(inv.status)}`}>
                                                 {inv.status}
                                             </span>
@@ -170,7 +170,7 @@ export const Dashboard: React.FC = () => {
                                             <p className="text-sm text-slate-500 truncate">{customers.find(c => c.id === q.customerId)?.name}</p>
                                         </div>
                                         <div className="text-right flex-shrink-0">
-                                            <p className="font-medium text-slate-800">{formatCurrency(calculateTotal(q.items))}</p>
+                                            <p className="font-medium text-slate-800">{formatCurrency(calculateTotal(q))}</p>
                                              <span className={`mt-1 inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium ${getStatusClass(q.status)}`}>
                                                 {q.status}
                                             </span>
@@ -198,7 +198,7 @@ export const Dashboard: React.FC = () => {
                                         </div>
                                         <div className="mt-1 flex items-center justify-between gap-x-4 text-sm">
                                             <p className="text-slate-500 truncate">{inv.invoiceNumber}</p>
-                                            <p className="font-semibold text-red-500">{getDaysOverdue(inv.dueDate!)} days overdue</p>
+                                            <p className="font-semibold text-red-500">{getDaysOverdue(inv.dueDate)} days overdue</p>
                                         </div>
                                     </Link>
                                 </li>

@@ -42,7 +42,11 @@ export const InvoiceViewer: React.FC = () => {
       .filter(pa => pa.invoiceId === invoice.id);
   }, [payments, invoice]);
 
-  const subtotal = useMemo(() => invoice?.items.reduce((sum, item) => sum + item.quantity * item.unitPrice, 0) || 0, [invoice]);
+  const subtotal = useMemo(() => {
+    const itemsTotal = invoice?.items.reduce((sum, item) => sum + item.quantity * item.unitPrice, 0) || 0;
+    const shippingCost = invoice?.shipping || 0;
+    return itemsTotal + shippingCost;
+  }, [invoice]);
   const vatAmount = subtotal * VAT_RATE;
   const total = subtotal + vatAmount;
 
@@ -142,22 +146,16 @@ export const InvoiceViewer: React.FC = () => {
     ]);
     
     // Add Delivery Fee if it exists
-    const deliveryFeeItem = invoice.items.find(item => item.description.toLowerCase() === 'delivery fee');
-    if (deliveryFeeItem) {
-        // Special handling if needed, otherwise it's in the loop.
-        // For this template, it seems it might be price-less.
-        const deliveryRowIndex = invoice.items.indexOf(deliveryFeeItem);
-        if (deliveryFeeItem.unitPrice === 0) {
-             tableBody[deliveryRowIndex] = [
-                deliveryFeeItem.description,
-                deliveryFeeItem.itemCode,
-                deliveryFeeItem.quantity,
-                'R',
-                '-',
-                'R',
-                '-'
-            ];
-        }
+    if (invoice.shipping && invoice.shipping > 0) {
+        tableBody.push([
+            'Shipping',
+            '',
+            1,
+            'R',
+            formatCurrency(invoice.shipping),
+            'R',
+            formatCurrency(invoice.shipping)
+        ]);
     }
 
 
@@ -396,7 +394,12 @@ export const InvoiceViewer: React.FC = () => {
                     <div className="flex justify-between items-start">
                         <div>
                             <p className="text-sm text-slate-500">Issued on {new Date(invoice.date).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}</p>
-                            <p className="text-sm text-slate-500">Due on {new Date(invoice.dueDate!).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}</p>
+                            <p className="text-sm text-slate-500">
+                                {invoice.dueDate
+                                    ? `Due on ${new Date(invoice.dueDate).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}`
+                                    : 'No due date specified'
+                                }
+                            </p>
                         </div>
                         <h1 className="text-2xl font-bold text-slate-800">Invoice</h1>
                     </div>
@@ -449,7 +452,17 @@ export const InvoiceViewer: React.FC = () => {
 
                     <div className="mt-8 flex justify-end border-t border-slate-100 pt-8">
                         <div className="w-full max-w-sm text-sm text-slate-600">
-                            <div className="flex justify-between">
+                             <div className="flex justify-between">
+                                <span>Items Total</span>
+                                <span>R {formatCurrency(subtotal - (invoice.shipping || 0))}</span>
+                            </div>
+                            {invoice.shipping && invoice.shipping > 0 && (
+                                <div className="mt-2 flex justify-between">
+                                    <span>Shipping</span>
+                                    <span>R {formatCurrency(invoice.shipping)}</span>
+                                </div>
+                            )}
+                            <div className="mt-2 flex justify-between pt-2 border-t border-slate-200">
                                 <span>Subtotal</span>
                                 <span>R {formatCurrency(subtotal)}</span>
                             </div>

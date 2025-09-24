@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate, useBlocker, useParams, useOutletContext } from 'react-router-dom';
 import { Customer, CustomerType, Address, PaymentTerm, AppContextType } from '../types';
@@ -225,24 +224,37 @@ export const CustomerEditor: React.FC = () => {
     const [activeTab, setActiveTab] = useState<'details' | 'pricing' | 'history'>('details');
     const [errors, setErrors] = useState<FormErrors>({});
     
-    const [initialState, setInitialState] = useState<string>('');
     const [isDirty, setIsDirty] = useState(false);
-    const isSaving = useRef(false);
+    const [isSaving, setIsSaving] = useState(false);
     const [billingAddress, setBillingAddress] = useState<Partial<Address>>({});
     const [deliveryAddress, setDeliveryAddress] = useState<Partial<Address>>({});
     
+    const initialState = useRef<string>('');
+    const initialDataLoaded = useRef(false);
+    const [showUnsavedChangesPrompt, setShowUnsavedChangesPrompt] = useState(false);
+
+    // FIX: Defer navigation to a useEffect to prevent race condition with useBlocker
+    const [shouldNavigate, setShouldNavigate] = useState(false);
     useEffect(() => {
+        // Only navigate after the component has re-rendered with isSaving = true.
+        if (shouldNavigate && isSaving) {
+            navigate('/customers');
+        }
+    }, [shouldNavigate, isSaving, navigate]);
+
+    useEffect(() => {
+        // Reset whenever customerId changes to handle navigation between customers
+        initialDataLoaded.current = false;
+        setIsDirty(false);
+
         if (customerId) {
             const customerToEdit = customers.find(c => c.id === customerId);
             if (customerToEdit) {
                 setFormData(customerToEdit);
                 const primaryBilling = customerToEdit.addresses.find(a => a.type === 'billing' && a.isPrimary);
                 const primaryDelivery = customerToEdit.addresses.find(a => a.type === 'delivery' && a.isPrimary);
-                const billing = primaryBilling || {};
-                const delivery = primaryDelivery || {};
-                setBillingAddress(billing);
-                setDeliveryAddress(delivery);
-                setInitialState(JSON.stringify({ formData: customerToEdit, billingAddress: billing, deliveryAddress: delivery }));
+                setBillingAddress(primaryBilling || {});
+                setDeliveryAddress(primaryDelivery || {});
             } else {
                 navigate('/customers');
             }
@@ -250,25 +262,31 @@ export const CustomerEditor: React.FC = () => {
             setFormData(emptyCustomer);
             setBillingAddress({});
             setDeliveryAddress({});
-            setInitialState(JSON.stringify({ formData: emptyCustomer, billingAddress: {}, deliveryAddress: {} }));
         }
     }, [customerId, customers, navigate]);
 
     useEffect(() => {
-        if (!initialState) return;
-        const currentState = JSON.stringify({ formData, billingAddress, deliveryAddress });
-        setIsDirty(currentState !== initialState);
-    }, [formData, billingAddress, deliveryAddress, initialState]);
+        // After data is set from the effect above, capture the initial state string.
+        // This runs after every render, but we only set it once per customer load.
+        if (!initialDataLoaded.current && (formData.id || !customerId)) {
+            initialState.current = JSON.stringify({ formData, billingAddress, deliveryAddress });
+            initialDataLoaded.current = true;
+        }
 
-    const blocker = useBlocker(isDirty && !isSaving.current);
+        // Now, check for dirtiness against the captured initial state.
+        const currentState = JSON.stringify({ formData, billingAddress, deliveryAddress });
+        setIsDirty(currentState !== initialState.current);
+        
+    }, [formData, billingAddress, deliveryAddress, customerId]);
+
+
+    const blocker = useBlocker(isDirty && !isSaving);
 
     useEffect(() => {
         if (blocker.state === 'blocked') {
-            if (window.confirm('You have unsaved changes. Are you sure you want to leave?')) {
-                blocker.proceed();
-            } else {
-                blocker.reset();
-            }
+            setShowUnsavedChangesPrompt(true);
+        } else {
+            setShowUnsavedChangesPrompt(false);
         }
     }, [blocker]);
 
@@ -347,14 +365,15 @@ export const CustomerEditor: React.FC = () => {
 
         const finalFormData = { ...formData, addresses: newAddresses };
 
+        setIsSaving(true);
         if (finalFormData.id) { // Existing customer
             setCustomers(customers.map(c => c.id === finalFormData.id ? (finalFormData as Customer) : c));
         } else { // New customer
             setCustomers([...customers, { ...finalFormData, id: `cust_${Date.now()}` } as Customer]);
         }
         addToast('Customer saved successfully!', 'success');
-        isSaving.current = true;
-        navigate('/customers');
+        // FIX: Trigger navigation via useEffect
+        setShouldNavigate(true);
     };
 
     const parentCompanyCandidates = customers.filter(c => c.type === CustomerType.B2B && !c.parentCompanyId);
@@ -375,173 +394,189 @@ export const CustomerEditor: React.FC = () => {
     );
 
     return (
-        <div className="bg-white p-6 sm:p-8 rounded-xl border border-slate-200">
-            <form onSubmit={handleSubmit} noValidate>
-                 <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 border-b border-slate-200 pb-4">
-                    <div>
-                        <h2 className="text-2xl font-semibold leading-6 text-slate-900">{customerId ? 'Edit Customer' : 'Add New Customer'}</h2>
-                        <p className="mt-1 text-sm text-slate-600">Manage customer details, addresses, and billing information.</p>
-                    </div>
-                    <div className="flex items-center justify-end space-x-3 mt-4 sm:mt-0">
-                        <button type="button" onClick={() => navigate('/customers')} className="rounded-md bg-white px-3 py-2 text-sm font-semibold text-slate-900 shadow-sm ring-1 ring-inset ring-slate-300 hover:bg-slate-50">Cancel</button>
-                        <button type="submit" className="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Save Customer</button>
+        <>
+            {showUnsavedChangesPrompt && (
+                <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50 p-4">
+                    <div className="bg-white p-6 rounded-lg shadow-xl w-full max-w-lg">
+                        <h3 className="text-lg font-bold mb-2 text-slate-900">Unsaved Changes</h3>
+                        <p className="text-sm text-slate-600 mb-4">
+                            You have unsaved changes. Are you sure you want to leave? Your changes will be lost.
+                        </p>
+                        <div className="mt-6 flex justify-end space-x-4">
+                            <button onClick={() => blocker.reset?.()} className="rounded-md bg-white px-3 py-2 text-sm font-semibold text-slate-900 shadow-sm ring-1 ring-inset ring-slate-300 hover:bg-slate-50">Stay</button>
+                            <button onClick={() => blocker.proceed?.()} className="rounded-md bg-red-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-red-500">Leave</button>
+                        </div>
                     </div>
                 </div>
-
-                {formData.id && (
-                    <div className="mb-8 border-b border-slate-200">
-                        <nav className="-mb-px flex space-x-8" aria-label="Tabs">
-                            <TabButton tab="details" label="Customer Details" icon={<UsersIcon />} />
-                            {formData.type === CustomerType.B2B && (
-                                <TabButton tab="pricing" label="Custom Product Pricing" icon={<CashIcon />} />
-                            )}
-                            <TabButton tab="history" label="History" icon={<DocumentReportIcon />} />
-                        </nav>
+            )}
+            <div className="bg-white p-6 sm:p-8 rounded-xl border border-slate-200">
+                <form onSubmit={handleSubmit} noValidate>
+                    <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 border-b border-slate-200 pb-4">
+                        <div>
+                            <h2 className="text-2xl font-semibold leading-6 text-slate-900">{customerId ? 'Edit Customer' : 'Add New Customer'}</h2>
+                            <p className="mt-1 text-sm text-slate-600">Manage customer details, addresses, and billing information.</p>
+                        </div>
+                        <div className="flex items-center justify-end space-x-3 mt-4 sm:mt-0">
+                            <button type="button" onClick={() => navigate('/customers')} className="rounded-md bg-white px-3 py-2 text-sm font-semibold text-slate-900 shadow-sm ring-1 ring-inset ring-slate-300 hover:bg-slate-50">Cancel</button>
+                            <button type="submit" className="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Save Customer</button>
+                        </div>
                     </div>
-                )}
-                
-                <div className={activeTab === 'details' ? 'block' : 'hidden'}>
-                    <div className="space-y-12">
-                        <div className="border-b border-slate-200 pb-12">
-                            <h2 className="text-base font-semibold leading-7 text-slate-900">General Information</h2>
-                            <p className="mt-1 text-sm leading-6 text-slate-600">Basic details for the customer.</p>
-                            <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
-                                <div className="sm:col-span-4">
-                                    <label htmlFor="name" className={labelClasses}>Customer Name</label>
-                                    <div className="mt-2">
-                                        <input type="text" name="name" id="name" value={formData.name || ''} onChange={handleChange} required className={`${formElementClasses} ${errors.name ? 'ring-red-500' : ''}`} />
-                                    </div>
-                                    {errors.name && <p className="text-sm text-red-600 mt-1">{errors.name}</p>}
-                                </div>
-                                 <div className="sm:col-span-4">
-                                    <label htmlFor="type" className={labelClasses}>Customer Type</label>
-                                    <div className="mt-2">
-                                        <select name="type" id="type" value={formData.type} onChange={handleChange} className={formElementClasses}>
-                                            <option value={CustomerType.B2C}>Consumer</option>
-                                            <option value={CustomerType.B2B}>Retail</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                {formData.type === CustomerType.B2B && (
-                                <>
-                                <div className="sm:col-span-3">
-                                    <label htmlFor="parentCompanyId" className={labelClasses}>Parent Company <span className="text-slate-500">(optional)</span></label>
-                                    <div className="mt-2">
-                                        <select name="parentCompanyId" id="parentCompanyId" value={formData.parentCompanyId || ''} onChange={handleChange} className={formElementClasses}>
-                                            <option value="">None (Is a Parent Company)</option>
-                                            {parentCompanyCandidates.map(c => <option key={c.id} value={c.id}>{c.name}</option>)}
-                                        </select>
-                                    </div>
-                                </div>
-                                <div className="sm:col-span-3">
-                                    <label htmlFor="branchNumber" className={labelClasses}>Branch #</label>
-                                    <div className="mt-2">
-                                        <input type="text" name="branchNumber" id="branchNumber" value={formData.branchNumber || ''} onChange={handleChange} className={formElementClasses} />
-                                    </div>
-                                </div>
-                                </>
-                                )}
-                            </div>
-                        </div>
-                        
-                        <div className="border-b border-slate-200 pb-12">
-                            <h2 className="text-base font-semibold leading-7 text-slate-900">Contact Information</h2>
-                            <p className="mt-1 text-sm leading-6 text-slate-600">How to get in touch with the customer.</p>
-                            <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
-                                <div className="sm:col-span-4">
-                                    <label htmlFor="contactPerson" className={labelClasses}>Contact Person</label>
-                                    <div className="mt-2"><input type="text" name="contactPerson" id="contactPerson" value={formData.contactPerson || ''} onChange={handleChange} className={formElementClasses} /></div>
-                                </div>
-                                <div className="sm:col-span-4">
-                                    <label htmlFor="contactEmail" className={labelClasses}>Contact Email</label>
-                                    <div className="mt-2"><input type="email" name="contactEmail" id="contactEmail" value={formData.contactEmail || ''} onChange={handleChange} className={formElementClasses} /></div>
-                                </div>
-                                <div className="sm:col-span-4">
-                                    <label htmlFor="contactPhone" className={labelClasses}>Contact Telephone</label>
-                                    <div className="mt-2"><input type="tel" name="contactPhone" id="contactPhone" value={formData.contactPhone || ''} onChange={handleChange} className={formElementClasses} /></div>
-                                </div>
-                            </div>
-                        </div>
 
-                        {formData.type === CustomerType.B2B && (
+                    {formData.id && (
+                        <div className="mb-8 border-b border-slate-200">
+                            <nav className="-mb-px flex space-x-8" aria-label="Tabs">
+                                <TabButton tab="details" label="Customer Details" icon={<UsersIcon />} />
+                                {formData.type === CustomerType.B2B && (
+                                    <TabButton tab="pricing" label="Custom Product Pricing" icon={<CashIcon />} />
+                                )}
+                                <TabButton tab="history" label="History" icon={<DocumentReportIcon />} />
+                            </nav>
+                        </div>
+                    )}
+                    
+                    <div className={activeTab === 'details' ? 'block' : 'hidden'}>
+                        <div className="space-y-12">
                             <div className="border-b border-slate-200 pb-12">
-                                <h2 className="text-base font-semibold leading-7 text-slate-900">Billing Information</h2>
-                                <p className="mt-1 text-sm leading-6 text-slate-600">Details for invoicing and payments.</p>
+                                <h2 className="text-base font-semibold leading-7 text-slate-900">General Information</h2>
+                                <p className="mt-1 text-sm leading-6 text-slate-600">Basic details for the customer.</p>
                                 <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
                                     <div className="sm:col-span-4">
-                                        <label htmlFor="legalEntityName" className={labelClasses}>Bill To (Legal Entity Name)</label>
-                                        <div className="mt-2"><input type="text" name="legalEntityName" id="legalEntityName" value={formData.legalEntityName || ''} onChange={handleChange} className={formElementClasses} /></div>
-                                    </div>
-                                    <div className="sm:col-span-4">
-                                        <label htmlFor="vatNumber" className={labelClasses}>VAT Number</label>
-                                        <div className="mt-2"><input type="text" name="vatNumber" id="vatNumber" value={formData.vatNumber || ''} onChange={handleChange} className={formElementClasses} /></div>
-                                    </div>
-                                    <div className="sm:col-span-4">
-                                        <label htmlFor="paymentTerm" className={labelClasses}>Payment Terms</label>
+                                        <label htmlFor="name" className={labelClasses}>Customer Name</label>
                                         <div className="mt-2">
-                                            <select name="paymentTerm" id="paymentTerm" value={formData.paymentTerm || ''} onChange={handleChange} className={formElementClasses}>
-                                                {Object.values(PaymentTerm).map((value) => <option key={value} value={value}>{value}</option>)}
+                                            <input type="text" name="name" id="name" value={formData.name || ''} onChange={handleChange} required className={`${formElementClasses} ${errors.name ? 'ring-red-500' : ''}`} />
+                                        </div>
+                                        {errors.name && <p className="text-sm text-red-600 mt-1">{errors.name}</p>}
+                                    </div>
+                                    <div className="sm:col-span-4">
+                                        <label htmlFor="type" className={labelClasses}>Customer Type</label>
+                                        <div className="mt-2">
+                                            <select name="type" id="type" value={formData.type} onChange={handleChange} className={formElementClasses}>
+                                                <option value={CustomerType.B2C}>Consumer</option>
+                                                <option value={CustomerType.B2B}>Retail</option>
                                             </select>
                                         </div>
                                     </div>
-                                    {formData.parentCompanyId && (
-                                    <div className="sm:col-span-full">
-                                        <div className="relative flex gap-x-3">
-                                            <div className="flex h-6 items-center">
-                                            <input type="checkbox" name="billToParent" id="billToParent" checked={formData.billToParent || false} onChange={handleCheckboxChange} className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-600" />
-                                            </div>
-                                            <div className="text-sm leading-6">
-                                            <label htmlFor="billToParent" className="font-medium text-slate-900">Bill to Parent Company</label>
-                                            <p className="text-slate-500">If checked, all invoices for this branch will be assigned to the parent company.</p>
-                                            </div>
+                                    {formData.type === CustomerType.B2B && (
+                                    <>
+                                    <div className="sm:col-span-3">
+                                        <label htmlFor="parentCompanyId" className={labelClasses}>Parent Company <span className="text-slate-500">(optional)</span></label>
+                                        <div className="mt-2">
+                                            <select name="parentCompanyId" id="parentCompanyId" value={formData.parentCompanyId || ''} onChange={handleChange} className={formElementClasses}>
+                                                <option value="">None (Is a Parent Company)</option>
+                                                {parentCompanyCandidates.map(c => <option key={c.id} value={c.id}>{c.name}</option>)}
+                                            </select>
                                         </div>
                                     </div>
+                                    <div className="sm:col-span-3">
+                                        <label htmlFor="branchNumber" className={labelClasses}>Branch #</label>
+                                        <div className="mt-2">
+                                            <input type="text" name="branchNumber" id="branchNumber" value={formData.branchNumber || ''} onChange={handleChange} className={formElementClasses} />
+                                        </div>
+                                    </div>
+                                    </>
                                     )}
-                                    <div className="sm:col-span-full">
-                                        <label htmlFor="defaultInvoiceNotes" className={labelClasses}>Default Invoice Notes/Codes</label>
-                                        <div className="mt-2"><textarea name="defaultInvoiceNotes" id="defaultInvoiceNotes" rows={3} value={formData.defaultInvoiceNotes || ''} onChange={handleChange} className={formElementClasses} placeholder="e.g., PO number required for all invoices."></textarea></div>
+                                </div>
+                            </div>
+                            
+                            <div className="border-b border-slate-200 pb-12">
+                                <h2 className="text-base font-semibold leading-7 text-slate-900">Contact Information</h2>
+                                <p className="mt-1 text-sm leading-6 text-slate-600">How to get in touch with the customer.</p>
+                                <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
+                                    <div className="sm:col-span-4">
+                                        <label htmlFor="contactPerson" className={labelClasses}>Contact Person</label>
+                                        <div className="mt-2"><input type="text" name="contactPerson" id="contactPerson" value={formData.contactPerson || ''} onChange={handleChange} className={formElementClasses} /></div>
+                                    </div>
+                                    <div className="sm:col-span-4">
+                                        <label htmlFor="contactEmail" className={labelClasses}>Contact Email</label>
+                                        <div className="mt-2"><input type="email" name="contactEmail" id="contactEmail" value={formData.contactEmail || ''} onChange={handleChange} className={formElementClasses} /></div>
+                                    </div>
+                                    <div className="sm:col-span-4">
+                                        <label htmlFor="contactPhone" className={labelClasses}>Contact Telephone</label>
+                                        <div className="mt-2"><input type="tel" name="contactPhone" id="contactPhone" value={formData.contactPhone || ''} onChange={handleChange} className={formElementClasses} /></div>
                                     </div>
                                 </div>
                             </div>
-                        )}
-                        
-                        <div>
-                            <h2 className="text-base font-semibold leading-7 text-slate-900">Addresses</h2>
-                            <p className="mt-1 text-sm leading-6 text-slate-600">Primary billing and delivery addresses.</p>
-                             <div className="mt-10 space-y-12">
-                                <AddressForm
-                                    title="Billing Address"
-                                    address={billingAddress}
-                                    onAddressChange={handleBillingAddressChange}
-                                />
-                                <AddressForm
-                                    title="Delivery Address"
-                                    address={deliveryAddress}
-                                    onAddressChange={handleDeliveryAddressChange}
-                                />
+
+                            {formData.type === CustomerType.B2B && (
+                                <div className="border-b border-slate-200 pb-12">
+                                    <h2 className="text-base font-semibold leading-7 text-slate-900">Billing Information</h2>
+                                    <p className="mt-1 text-sm leading-6 text-slate-600">Details for invoicing and payments.</p>
+                                    <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
+                                        <div className="sm:col-span-4">
+                                            <label htmlFor="legalEntityName" className={labelClasses}>Bill To (Legal Entity Name)</label>
+                                            <div className="mt-2"><input type="text" name="legalEntityName" id="legalEntityName" value={formData.legalEntityName || ''} onChange={handleChange} className={formElementClasses} /></div>
+                                        </div>
+                                        <div className="sm:col-span-4">
+                                            <label htmlFor="vatNumber" className={labelClasses}>VAT Number</label>
+                                            <div className="mt-2"><input type="text" name="vatNumber" id="vatNumber" value={formData.vatNumber || ''} onChange={handleChange} className={formElementClasses} /></div>
+                                        </div>
+                                        <div className="sm:col-span-4">
+                                            <label htmlFor="paymentTerm" className={labelClasses}>Payment Terms</label>
+                                            <div className="mt-2">
+                                                <select name="paymentTerm" id="paymentTerm" value={formData.paymentTerm || ''} onChange={handleChange} className={formElementClasses}>
+                                                    {Object.values(PaymentTerm).map((value) => <option key={value} value={value}>{value}</option>)}
+                                                </select>
+                                            </div>
+                                        </div>
+                                        {formData.parentCompanyId && (
+                                        <div className="sm:col-span-full">
+                                            <div className="relative flex gap-x-3">
+                                                <div className="flex h-6 items-center">
+                                                <input type="checkbox" name="billToParent" id="billToParent" checked={formData.billToParent || false} onChange={handleCheckboxChange} className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-600" />
+                                                </div>
+                                                <div className="text-sm leading-6">
+                                                <label htmlFor="billToParent" className="font-medium text-slate-900">Bill to Parent Company</label>
+                                                <p className="text-slate-500">If checked, all invoices for this branch will be assigned to the parent company.</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        )}
+                                        <div className="sm:col-span-full">
+                                            <label htmlFor="defaultInvoiceNotes" className={labelClasses}>Default Invoice Notes/Codes</label>
+                                            <div className="mt-2"><textarea name="defaultInvoiceNotes" id="defaultInvoiceNotes" rows={3} value={formData.defaultInvoiceNotes || ''} onChange={handleChange} className={formElementClasses} placeholder="e.g., PO number required for all invoices."></textarea></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            )}
+                            
+                            <div>
+                                <h2 className="text-base font-semibold leading-7 text-slate-900">Addresses</h2>
+                                <p className="mt-1 text-sm leading-6 text-slate-600">Primary billing and delivery addresses.</p>
+                                <div className="mt-10 space-y-12">
+                                    <AddressForm
+                                        title="Billing Address"
+                                        address={billingAddress}
+                                        onAddressChange={handleBillingAddressChange}
+                                    />
+                                    <AddressForm
+                                        title="Delivery Address"
+                                        address={deliveryAddress}
+                                        onAddressChange={handleDeliveryAddressChange}
+                                    />
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
 
-                <div className={activeTab === 'pricing' ? 'block' : 'hidden'}>
-                    <CustomerPricingEditor 
-                        customer={formData}
-                        setCustomer={setFormData}
-                        customers={customers}
-                        products={allProducts}
-                    />
-                </div>
-                <div className={activeTab === 'history' ? 'block' : 'hidden'}>
-                    <CustomerHistoryTab
-                        customer={formData}
-                        customers={customers}
-                        invoices={invoices}
-                        quotes={quotes}
-                        payments={payments}
-                    />
-                </div>
-            </form>
-        </div>
+                    <div className={activeTab === 'pricing' ? 'block' : 'hidden'}>
+                        <CustomerPricingEditor 
+                            customer={formData}
+                            setCustomer={setFormData}
+                            customers={customers}
+                            products={allProducts}
+                        />
+                    </div>
+                    <div className={activeTab === 'history' ? 'block' : 'hidden'}>
+                        <CustomerHistoryTab
+                            customer={formData}
+                            customers={customers}
+                            invoices={invoices}
+                            quotes={quotes}
+                            payments={payments}
+                        />
+                    </div>
+                </form>
+            </div>
+        </>
     );
 };

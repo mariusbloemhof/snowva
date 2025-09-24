@@ -1,4 +1,3 @@
-
 import React, { useState, useMemo } from 'react';
 import { Customer, Product, CustomerProductPrice, Price } from '../types';
 import { ProductSelector } from './ProductSelector';
@@ -109,6 +108,8 @@ export const CustomerPricingEditor: React.FC<CustomerPricingEditorProps> = ({ cu
         }
     };
     
+    const editingProduct = editingPrice ? products.find(p => p.id === editingPrice.productId) : null;
+    
     return (
         <div className="space-y-4">
              <div className="flow-root">
@@ -137,7 +138,7 @@ export const CustomerPricingEditor: React.FC<CustomerPricingEditorProps> = ({ cu
                                         <td className="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium">
                                             <div className="flex items-center justify-end space-x-4">
                                             {priceInfo.status === 'inherited' && (
-                                                <button type="button" onClick={() => handleSelectProductToAdd(product!)} className="text-indigo-600 hover:text-indigo-900">Override</button>
+                                                <button type="button" onClick={() => product && handleSelectProductToAdd(product)} className="text-indigo-600 hover:text-indigo-900">Override</button>
                                             )}
                                             {(priceInfo.status === 'overridden' || priceInfo.status === 'local') && (
                                                 <button type="button" onClick={() => setEditingPrice(priceInfo)} className="text-indigo-600 hover:text-indigo-900"><PencilIcon className="w-5 h-5"/></button>
@@ -173,9 +174,9 @@ export const CustomerPricingEditor: React.FC<CustomerPricingEditorProps> = ({ cu
                 <PlusIcon className="w-5 h-5" /> <span>{isAdding ? 'Cancel' : 'Add Product Price Override'}</span>
             </button>
 
-            {editingPrice && (
+            {editingPrice && editingProduct && (
                 <CustomPriceEditorModal
-                    product={products.find(p => p.id === editingPrice.productId)!}
+                    product={editingProduct}
                     customerPrice={editingPrice}
                     onSave={handleSaveCustomPrice}
                     onClose={() => setEditingPrice(null)}
