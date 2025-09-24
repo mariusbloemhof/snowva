@@ -1,0 +1,638 @@
+import React, { useMemo, useState } from 'react';
+import { useNavigate, useOutletContext, useParams } from 'react-router-dom';
+import { pdf } from '@react-pdf/renderer';
+import { SNOWVA_DETAILS, VAT_RATE } from '../constants';
+import { useToast } from '../contexts/ToastContext';
+import { AppContextType, Customer, DocumentStatus } from '../types';
+import { formatDistanceToNow } from '../utils';
+import { CashIcon, CheckCircleIcon, DownloadIcon, EyeIcon, MailIcon, PencilIcon, PrintIcon, UsersIcon } from './Icons';
+import { InvoicePDF } from './InvoicePDF';
+
+const getPrimaryAddress = (customer: Customer | null | undefined) => {
+    if (!customer) return undefined;
+    // B2B primary is billing, B2C is any primary
+    return customer.addresses.find(a => a.type === 'billing' && a.isPrimary) || customer.addresses.find(a => a.isPrimary);
+}
+
+const formatCurrency = (amount: number) => {
+    // This function adds spaces as thousand separators
+    return amount.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+};
+
+export const InvoiceViewer: React.FC = () => {
+  const { id } = useParams<{ id: string }>();
+  const { invoices, payments, customers } = useOutletContext<AppContextType>();
+  const navigate = useNavigate();
+  const { addToast } = useToast();
+  const [isEmailModalOpen, setIsEmailModalOpen] = useState(false);
+
+  const invoice = useMemo(() => invoices.find(inv => inv.id === id), [id, invoices]);
+
+  const selectedCustomer = useMemo(() => customers.find(c => c.id === invoice?.customerId) || null, [invoice, customers]);
+  const isBilledToParent = selectedCustomer?.billToParent && selectedCustomer.parentCompanyId;
+  const billToCustomer = isBilledToParent ? customers.find(c => c.id === selectedCustomer.parentCompanyId) : selectedCustomer;
+
+  const billingAddress = useMemo(() => getPrimaryAddress(billToCustomer), [billToCustomer]);
+  
+  const invoicePaymentAllocations = useMemo(() => {
+    if (!invoice) return [];
+    return payments
+      .flatMap(p => p.allocations.map(a => ({ ...p, allocationAmount: a.amount, invoiceId: a.invoiceId })))
+      .filter(pa => pa.invoiceId === invoice.id);
+  }, [payments, invoice]);
+
+  const subtotal = useMemo(() => {
+    const itemsTotal = invoice?.items.reduce((sum, item) => sum + item.quantity * item.unitPrice, 0) || 0;
+    const shippingCost = invoice?.shipping || 0;
+    return itemsTotal + shippingCost;
+  }, [invoice]);
+  const vatAmount = subtotal * VAT_RATE;
+  const total = subtotal + vatAmount;
+
+  const formatDate = (dateString?: string) => {
+    if (!dateString) return '';
+    const d = new Date(dateString);
+    const userTimezoneOffset = d.getTimezoneOffset() * 60000;
+    const correctedDate = new Date(d.getTime() + userTimezoneOffset);
+    // Format as YYYY/MM/DD to match the target template
+    const day = correctedDate.getDate().toString().padStart(2, '0');
+    const month = (correctedDate.getMonth() + 1).toString().padStart(2, '0');
+    const year = correctedDate.getFullYear();
+    return `${year}/${month}/${day}`;
+  };
+  
+ const generatePdf = async () => {
+    if (!invoice || !billToCustomer) return null;
+    
+    try {
+      addToast("Generating PDF...", "info");
+      
+      const pdfBlob = await pdf(
+        <InvoicePDF
+          invoice={invoice}
+          billToCustomer={billToCustomer}
+          billingAddress={billingAddress}
+          subtotal={subtotal}
+          vatAmount={vatAmount}
+          total={total}
+        />
+      ).toBlob();
+      
+      addToast("PDF generated successfully!", "success");
+      return pdfBlob;
+    } catch (error) {
+      console.error("PDF generation failed:", error);
+      addToast("Failed to generate PDF", "error");
+      return null;
+    }
+  };
+  
+  const handleDownload = async () => {
+    const pageHeight = pdf.internal.pageSize.getHeight(); // 297mm
+    const margin = 20;
+    const contentWidth = pageWidth - (2 * margin); // 170mm
+
+    // ===== HEADER SECTION =====
+    // Company info (top-left)
+    pdf.setFont("helvetica", "bold");
+    pdf.setFontSize(11);
+    pdf.text(SNOWVA_DETAILS.name, margin, 25);
+    
+    pdf.setFont("helvetica", "normal");
+    pdf.setFontSize(9);
+    pdf.text(SNOWVA_DETAILS.regNo, margin, 31);
+    pdf.text(SNOWVA_DETAILS.address[0], margin, 37);
+    pdf.text(SNOWVA_DETAILS.address[1], margin, 42);
+    pdf.text(SNOWVA_DETAILS.address[2], margin, 47);
+    
+    // TAX INVOICE title (top-right)
+    pdf.setFont("helvetica", "bold");
+    pdf.setFontSize(20);
+    pdf.text("TAX INVOICE", pageWidth - margin, 30, { align: "right" });
+    
+    // Invoice details (right side, below title)
+    pdf.setFont("helvetica", "normal");
+    pdf.setFontSize(9);
+    const labelX = pageWidth - 70;
+    const valueX = pageWidth - margin;
+    
+    pdf.text("Date:", labelX, 42);
+    pdf.text("Invoice #:", labelX, 47);
+    pdf.text("For:", labelX, 52);
+    
+    pdf.text(formatDate(invoice.date), valueX, 42, { align: "right" });
+    pdf.text(invoice.invoiceNumber, valueX, 47, { align: "right" });
+    pdf.text(selectedCustomer?.name || '', valueX, 52, { align: "right" });
+    
+    // ===== VAT & BILLING SECTION =====
+    const vatSectionY = 65;
+    
+    // Company VAT (left side)
+    pdf.text(`VAT #: ${SNOWVA_DETAILS.vatNo}`, margin, vatSectionY);
+    
+    // Bill To section (right side)
+    pdf.setFont("helvetica", "bold");
+    pdf.text("Bill To:", labelX, vatSectionY);
+    
+    // Customer details
+    pdf.setFont("helvetica", "normal");
+    const customerName = billToCustomer?.legalEntityName || billToCustomer?.name || '';
+    let billToY = vatSectionY + 6;
+    
+    // Build and display customer address
+    const addressLines = [
+        customerName,
+        billingAddress?.addressLine1,
+        billingAddress?.addressLine2,
+        billingAddress?.suburb,
+        `${billingAddress?.city || ''} ${billingAddress?.postalCode || ''}`.trim(),
+        billingAddress?.province,
+        billingAddress?.country
+    ].filter(line => line && line.trim());
+    
+    addressLines.forEach(line => {
+        if (line) {
+            pdf.text(line, labelX + 20, billToY);
+            billToY += 4;
+        }
+    });
+    
+    // Customer VAT and Order number
+    billToY += 2;
+    if (billToCustomer?.vatNumber) {
+        pdf.text("VAT #:", labelX, billToY);
+        pdf.text(billToCustomer.vatNumber, labelX + 20, billToY);
+        billToY += 4;
+    }
+    
+    if (invoice.orderNumber) {
+        pdf.text("Order #:", labelX, billToY);
+        pdf.text(invoice.orderNumber, labelX + 20, billToY);
+        billToY += 4;
+    }
+    
+    // ===== TABLE SECTION =====
+    const tableStartY = Math.max(billToY + 10, 120);
+    
+    // Prepare table data with proper structure
+    const tableBody = invoice.items.map(item => [
+        item.description,
+        item.itemCode, 
+        item.quantity.toString(),
+        'R',
+        formatCurrency(item.unitPrice),
+        'R', 
+        formatCurrency(item.quantity * item.unitPrice)
+    ]);
+    
+    // Add shipping if exists
+    if (invoice.shipping && invoice.shipping > 0) {
+        tableBody.push([
+            'Delivery Fee',
+            '',
+            '1',
+            'R',
+            formatCurrency(invoice.shipping),
+            'R',
+            formatCurrency(invoice.shipping)
+        ]);
+    }
+
+    // Create table with precise column control
+    (pdf as any).autoTable({
+        startY: tableStartY,
+        head: [['Description', 'Item Code', 'Qty', { content: 'Unit Price', colSpan: 2 }, { content: 'Total (Excl VAT)', colSpan: 2 }]],
+        body: tableBody,
+        theme: 'grid',
+        tableLineColor: [0, 0, 0], // Black grid lines
+        tableLineWidth: 0.1,
+        headStyles: {
+            fillColor: [230, 230, 230], // Light grey header
+            textColor: [0, 0, 0],
+            fontStyle: 'bold',
+            fontSize: 9,
+            halign: 'center',
+            valign: 'middle'
+        },
+        bodyStyles: {
+            fontSize: 9,
+            textColor: [0, 0, 0]
+        },
+        columnStyles: {
+            0: { cellWidth: 70, halign: 'left' },    // Description
+            1: { cellWidth: 25, halign: 'center' },  // Item Code  
+            2: { cellWidth: 15, halign: 'center' },  // Qty
+            3: { cellWidth: 8, halign: 'center' },   // R (Unit Price)
+            4: { cellWidth: 25, halign: 'right' },   // Unit Price
+            5: { cellWidth: 8, halign: 'center' },   // R (Total)
+            6: { cellWidth: 27, halign: 'right' },   // Total
+        },
+        margin: { left: margin, right: margin },
+        alternateRowStyles: {
+            fillColor: [255, 255, 255] // White rows
+        }
+    });
+
+    // ===== FOOTER SECTION (FIXED POSITION AT BOTTOM) =====
+    const tableEndY = (pdf as any).autoTable.previous.finalY;
+    
+    // Calculate footer position - always at bottom of page with enough space
+    const footerHeight = 35; // Height needed for banking + totals
+    const minFooterY = Math.max(tableEndY + 20, pageHeight - margin - footerHeight);
+    let footerY = minFooterY;
+    
+    // Add new page if table goes too far down
+    if (tableEndY > pageHeight - 80) {
+        pdf.addPage();
+        footerY = pageHeight - margin - footerHeight;
+    }
+    
+    // ===== BANKING DETAILS (LEFT SIDE) =====
+    pdf.setFont("helvetica", "bold");
+    pdf.setFontSize(9);
+    pdf.text("Banking details:", margin, footerY);
+    
+    pdf.setFont("helvetica", "normal");
+    pdf.text(SNOWVA_DETAILS.name, margin, footerY + 5);
+    pdf.text(SNOWVA_DETAILS.banking.bankName, margin, footerY + 10);
+    pdf.text(`Branch code ${SNOWVA_DETAILS.banking.branchCode}`, margin, footerY + 15);
+    pdf.text(`Account number ${SNOWVA_DETAILS.banking.accountNumber}`, margin, footerY + 20);
+    
+    // ===== TOTALS SECTION (RIGHT SIDE) =====
+    const totalsBoxX = pageWidth - margin - 70;
+    const totalsLabelX = totalsBoxX + 5;
+    const amountX = pageWidth - margin - 5;
+    const currencyX = amountX - 30;
+    
+    pdf.setFont("helvetica", "normal");
+    pdf.setFontSize(9);
+    
+    // Draw totals box outline
+    pdf.setDrawColor(0, 0, 0);
+    pdf.setLineWidth(0.2);
+    pdf.rect(totalsBoxX, footerY - 5, 70, 30);
+    
+    // Horizontal lines for totals structure
+    pdf.line(totalsBoxX, footerY + 7, totalsBoxX + 70, footerY + 7);   // After VAT Rate
+    pdf.line(totalsBoxX, footerY + 17, totalsBoxX + 70, footerY + 17); // Before TOTAL
+    
+    // SUBTOTAL
+    pdf.text("SUBTOTAL", totalsLabelX, footerY + 2);
+    pdf.text("R", currencyX, footerY + 2);
+    pdf.text(formatCurrency(subtotal), amountX, footerY + 2, { align: 'right' });
+    
+    // VAT Rate
+    pdf.text("VAT Rate", totalsLabelX, footerY + 12);
+    pdf.text(`${(VAT_RATE * 100).toFixed(0)}%`, amountX, footerY + 12, { align: 'right' });
+    
+    // VAT Amount  
+    pdf.text("Vat Amount", totalsLabelX, footerY + 22);
+    pdf.text("R", currencyX, footerY + 22);
+    pdf.text(formatCurrency(vatAmount), amountX, footerY + 22, { align: 'right' });
+    
+    // TOTAL (bold with thicker line)
+    pdf.setFont("helvetica", "bold");
+    pdf.setLineWidth(0.5);
+    pdf.line(totalsBoxX, footerY + 25, totalsBoxX + 70, footerY + 25);
+    
+    pdf.text("TOTAL", totalsLabelX, footerY + 30);
+    pdf.text("R", currencyX, footerY + 30);
+    pdf.text(formatCurrency(total), amountX, footerY + 30, { align: 'right' });
+    
+    return pdf;
+  };
+  
+  const handleDownload = async () => {
+    const pdf = await generatePdf();
+    if (pdf) {
+      pdf.save(`Invoice-${invoice?.invoiceNumber}.pdf`);
+    } else {
+        addToast("Failed to generate PDF.", "error");
+    }
+  };
+
+  const handlePrint = async () => {
+    try {
+        const pdf = await generatePdf();
+        if (!pdf) {
+            addToast("Failed to generate the invoice PDF.", "error");
+            return;
+        }
+        const blob = pdf.output('blob');
+        const url = URL.createObjectURL(blob);
+        const iframe = document.createElement('iframe');
+        iframe.style.display = 'none';
+        iframe.src = url;
+        document.body.appendChild(iframe);
+
+        iframe.onload = () => {
+            setTimeout(() => {
+                if (iframe.contentWindow) {
+                    iframe.contentWindow.print();
+                    setTimeout(() => {
+                        document.body.removeChild(iframe);
+                        URL.revokeObjectURL(url);
+                    }, 100);
+                }
+            }, 1);
+        };
+    } catch (error) {
+        console.error("Error during print preparation:", error);
+        addToast("An error occurred while preparing the document for printing.", "error");
+    }
+  };
+  
+  const handleEmailButtonClick = () => {
+    if (!billToCustomer || !billToCustomer.contactEmail) {
+        addToast("This customer does not have an email address on file.", "error");
+        return;
+    }
+    setIsEmailModalOpen(true);
+  };
+  
+  const handleProceedWithEmail = () => {
+      if (!billToCustomer || !billToCustomer.contactEmail || !invoice) return;
+
+      const subject = `Invoice ${invoice.invoiceNumber} from Snowva™ Trading Pty Ltd`;
+      const body = `Dear ${billToCustomer.contactPerson || billToCustomer.name},\n\nPlease find your invoice attached.\n\nTotal Amount: R ${total.toFixed(2)}\nDue Date: ${invoice.dueDate}\n\nTo view your invoice, please download the attached PDF.\n\nKind regards,\nThe Snowva™ Team`;
+      const mailtoLink = `mailto:${billToCustomer.contactEmail}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+      
+      try {
+          window.location.href = mailtoLink;
+      } catch (error) {
+          addToast("Could not open email client.", "error");
+          console.error("Mailto link error:", error);
+      }
+
+      setIsEmailModalOpen(false);
+  };
+
+  const getStatusInfo = (status: DocumentStatus): { text: string; className: string } => {
+    switch (status) {
+        case DocumentStatus.PAID: return { text: 'Paid', className: 'bg-green-100 text-green-700' };
+        case DocumentStatus.PARTIALLY_PAID: return { text: 'Partially Paid', className: 'bg-orange-100 text-orange-700' };
+        default: return { text: 'Due', className: 'bg-yellow-100 text-yellow-800' };
+    }
+  };
+
+  const activityFeed = useMemo(() => {
+    if (!invoice) return [];
+    
+    // Base events
+    const createdEvent = {
+        icon: <PencilIcon className="h-4 w-4 text-slate-500" />,
+        user: 'System',
+        text: 'created this invoice.',
+        date: invoice.date,
+        details: `Total: R ${formatCurrency(total)}`,
+    };
+
+    const sentDate = new Date(invoice.date);
+    sentDate.setHours(sentDate.getHours() + 1); // 1 hour after creation
+    const sentEvent = {
+        icon: <MailIcon className="h-4 w-4 text-slate-500" />,
+        user: 'System',
+        text: 'sent the invoice to the customer.',
+        date: sentDate.toISOString(),
+        details: `To: ${billToCustomer?.contactEmail || 'N/A'}`,
+    };
+
+    const paymentEvents = invoicePaymentAllocations.flatMap(payment => {
+        const viewDate = new Date(payment.date);
+        viewDate.setMinutes(viewDate.getMinutes() - 10);
+        return [
+            {
+                icon: <EyeIcon className="h-4 w-4 text-slate-500" />,
+                user: selectedCustomer?.name || 'Customer',
+                text: 'viewed the invoice.',
+                date: viewDate.toISOString(),
+            },
+            {
+                icon: <CheckCircleIcon className="h-4 w-4 text-green-500" />,
+                user: 'System',
+                text: `recorded a payment.`,
+                date: payment.date,
+                details: `Payment ${payment.paymentNumber} for R ${formatCurrency(payment.allocationAmount)} via ${payment.method}`,
+            }
+        ];
+    });
+
+    const allEvents = [createdEvent, sentEvent, ...paymentEvents];
+
+    return allEvents
+        .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
+        .map(item => ({ ...item, timeAgo: formatDistanceToNow(item.date) }));
+
+}, [invoice, total, invoicePaymentAllocations, selectedCustomer, billToCustomer]);
+
+  if (!invoice || !selectedCustomer) return <div>Loading...</div>;
+
+  const statusInfo = getStatusInfo(invoice.status);
+
+  return (
+    <>
+    <div className="space-y-6">
+       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 border-b border-slate-200 pb-4 print:hidden">
+            <div>
+                <h2 className="text-2xl font-semibold leading-6 text-slate-900">Invoice {invoice.invoiceNumber}</h2>
+                <p className="mt-1 text-sm text-slate-600">for <span className="font-medium text-indigo-600">{billToCustomer?.name}</span></p>
+            </div>
+            <div className="flex items-center justify-end space-x-3 mt-4 sm:mt-0">
+                {invoice.status !== DocumentStatus.PAID && (
+                    <button
+                        onClick={() => navigate('/payments/record', { state: { invoiceId: invoice.id } })}
+                        className="inline-flex items-center gap-x-2 rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500"
+                    >
+                        <CashIcon className="w-5 h-5"/> <span>Record Payment</span>
+                    </button>
+                )}
+                <button onClick={handleDownload} className="inline-flex items-center gap-x-2 rounded-md bg-white px-3 py-2 text-sm font-semibold text-slate-900 shadow-sm ring-1 ring-inset ring-slate-300 hover:bg-slate-50">
+                    <DownloadIcon className="w-5 h-5"/> <span>Download</span>
+                </button>
+                <button onClick={handlePrint} className="inline-flex items-center gap-x-2 rounded-md bg-white px-3 py-2 text-sm font-semibold text-slate-900 shadow-sm ring-1 ring-inset ring-slate-300 hover:bg-slate-50">
+                    <PrintIcon className="w-5 h-5"/> <span>Print</span>
+                </button>
+                <button onClick={handleEmailButtonClick} className="inline-flex items-center gap-x-2 rounded-md bg-white px-3 py-2 text-sm font-semibold text-slate-900 shadow-sm ring-1 ring-inset ring-slate-300 hover:bg-slate-50">
+                    <MailIcon className="w-5 h-5"/> <span>Email</span>
+                </button>
+            </div>
+        </div>
+
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
+            {/* Left Column: Invoice UI */}
+            <div className="lg:col-span-2 bg-white rounded-2xl border border-slate-200/80 shadow-sm">
+                 <div className="p-8 sm:p-10">
+                    <div className="flex justify-between items-start">
+                        <div>
+                            <p className="text-sm text-slate-500">Issued on {new Date(invoice.date).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}</p>
+                            <p className="text-sm text-slate-500">
+                                {invoice.dueDate
+                                    ? `Due on ${new Date(invoice.dueDate).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}`
+                                    : 'No due date specified'
+                                }
+                            </p>
+                        </div>
+                        <h1 className="text-2xl font-bold text-slate-800">Invoice</h1>
+                    </div>
+                    
+                    <div className="mt-8 grid grid-cols-2 gap-8 border-t border-slate-100 pt-8">
+                         <div>
+                            <p className="text-sm font-semibold text-slate-800">From</p>
+                            <p className="mt-2 text-sm text-slate-600">{SNOWVA_DETAILS.name}</p>
+                            {SNOWVA_DETAILS.address.map(line => <p className="text-sm text-slate-600" key={line}>{line}</p>)}
+                        </div>
+                        <div className="text-right">
+                            <p className="text-sm font-semibold text-slate-800">To</p>
+                            <p className="mt-2 text-sm text-slate-600 font-medium">{billToCustomer?.name}</p>
+                            {billingAddress && (
+                               <p className="text-sm text-slate-600">{billingAddress.addressLine1}, {billingAddress.city}</p>
+                            )}
+                        </div>
+                    </div>
+
+                    <div className="mt-10">
+                        <div className="flow-root">
+                            <div className="-mx-4 -my-2 sm:-mx-6 lg:-mx-8">
+                                <div className="inline-block min-w-full py-2 align-middle">
+                                    <table className="min-w-full">
+                                        <thead className="text-sm font-semibold text-slate-900 border-b border-slate-200">
+                                            <tr>
+                                                <th scope="col" className="py-3.5 pl-4 pr-3 text-left sm:pl-6 lg:pl-8">Description</th>
+                                                <th scope="col" className="py-3.5 px-3 text-left">Item Code</th>
+                                                <th scope="col" className="py-3.5 px-3 text-right">Qty</th>
+                                                <th scope="col" className="py-3.5 pl-3 pr-4 text-right sm:pr-6 lg:pr-8">Price</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody className="divide-y divide-slate-100">
+                                            {invoice.items.map(item => (
+                                                <tr key={item.id}>
+                                                    <td className="py-4 pl-4 pr-3 text-sm font-medium text-slate-900 sm:pl-6 lg:pl-8">
+                                                        {item.description}
+                                                    </td>
+                                                    <td className="px-3 py-4 text-sm text-slate-500">{item.itemCode}</td>
+                                                    <td className="px-3 py-4 text-sm text-slate-500 text-right">{item.quantity.toFixed(1)}</td>
+                                                    <td className="py-4 pl-3 pr-4 text-sm font-medium text-slate-800 text-right sm:pr-6 lg:pr-8">R {formatCurrency(item.quantity * item.unitPrice)}</td>
+                                                </tr>
+                                            ))}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div className="mt-8 flex justify-end border-t border-slate-100 pt-8">
+                        <div className="w-full max-w-sm text-sm text-slate-600">
+                             <div className="flex justify-between">
+                                <span>Items Total</span>
+                                <span>R {formatCurrency(subtotal - (invoice.shipping || 0))}</span>
+                            </div>
+                            {invoice.shipping && invoice.shipping > 0 && (
+                                <div className="mt-2 flex justify-between">
+                                    <span>Shipping</span>
+                                    <span>R {formatCurrency(invoice.shipping)}</span>
+                                </div>
+                            )}
+                            <div className="mt-2 flex justify-between pt-2 border-t border-slate-200">
+                                <span>Subtotal</span>
+                                <span>R {formatCurrency(subtotal)}</span>
+                            </div>
+                            <div className="mt-2 flex justify-between">
+                                <span>Tax ({(VAT_RATE * 100).toFixed(0)}%)</span>
+                                <span>R {formatCurrency(vatAmount)}</span>
+                            </div>
+                            <div className="mt-4 pt-4 border-t border-slate-200 flex justify-between font-semibold text-slate-900">
+                                <span>Total</span>
+                                <span>R {formatCurrency(total)}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            {/* Right Column: Sidebar */}
+            <div className="lg:col-span-1 space-y-6">
+                <div className="bg-white p-6 rounded-2xl border border-slate-200/80 shadow-sm">
+                    <div className="flex justify-between items-center">
+                        <p className="text-sm font-semibold text-slate-800">Amount</p>
+                        <span className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium ${statusInfo.className}`}>{statusInfo.text}</span>
+                    </div>
+                    <p className="mt-1 text-3xl font-bold text-slate-900">R {formatCurrency(total)}</p>
+                    
+                    <div className="mt-6 space-y-3 text-sm border-t border-slate-100 pt-4">
+                        <div className="flex items-center gap-3">
+                            <UsersIcon className="w-5 h-5 text-slate-400" />
+                            <span className="text-slate-600 font-medium">{billToCustomer?.name}</span>
+                        </div>
+                        <div className="flex items-center gap-3">
+                            <CheckCircleIcon className="w-5 h-5 text-slate-400" />
+                            <span className="text-slate-600">Paid with EFT</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div className="bg-white p-6 rounded-2xl border border-slate-200/80 shadow-sm">
+                    <h3 className="text-sm font-semibold text-slate-800 mb-4">Activity</h3>
+                    <ul className="space-y-6">
+                        {activityFeed.map((item, index) => (
+                            <li key={index} className="relative flex gap-x-4">
+                                {/* Vertical line connecting the dots */}
+                                {index < activityFeed.length - 1 && (
+                                    <div className="absolute left-3 top-6 -bottom-6 w-px bg-slate-200" aria-hidden="true" />
+                                )}
+
+                                {/* Icon */}
+                                <div className="relative flex h-6 w-6 flex-none items-center justify-center rounded-full bg-slate-100 ring-1 ring-slate-200">
+                                    {item.icon}
+                                </div>
+                                
+                                {/* Content */}
+                                <div className="flex-auto pt-0.5">
+                                    <div className="flex justify-between gap-x-4">
+                                        <p className="text-sm leading-5 text-slate-600">
+                                            <span className="font-medium text-slate-900">{item.user}</span> {item.text}
+                                        </p>
+                                        <time dateTime={item.date} className="flex-none text-xs leading-5 text-slate-500" title={new Date(item.date).toLocaleString()}>
+                                            {item.timeAgo}
+                                        </time>
+                                    </div>
+                                    {item.details && <p className="text-xs text-slate-500 mt-1">{item.details}</p>}
+                                </div>
+                            </li>
+                        ))}
+                    </ul>
+                    <div className="mt-6">
+                        <div className="relative">
+                            <textarea rows={3} placeholder="Add your comment..." className="block w-full rounded-lg border-0 bg-slate-50 py-2.5 pr-10 text-slate-900 ring-1 ring-inset ring-slate-200 placeholder:text-slate-400 focus:ring-2 focus:ring-inset focus:ring-indigo-500 sm:text-sm sm:leading-6"></textarea>
+                             <div className="absolute bottom-2 right-2 flex gap-2">
+                                <button className="text-slate-400 hover:text-indigo-600"><PencilIcon className="w-5 h-5"/></button>
+                            </div>
+                        </div>
+                        <div className="flex justify-end pt-3">
+                            <button className="rounded-lg bg-indigo-600 px-3 py-1.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500">Comment</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {isEmailModalOpen && billToCustomer && (
+            <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50 p-4">
+                <div className="bg-white p-6 rounded-lg shadow-xl w-full max-w-lg">
+                    <h3 className="text-lg font-bold mb-2 text-slate-900">Confirm Email</h3>
+                    <p className="text-sm text-slate-600 mb-4">
+                        This will open your default email client. First, use the 'Download' button to save the PDF, then attach it to the email.
+                    </p>
+                    <p className="text-sm text-slate-600 mb-4">
+                        Recipient: <span className="font-semibold text-indigo-600">{billToCustomer.contactEmail}</span>
+                    </p>
+                    <div className="mt-6 flex justify-end space-x-4">
+                        <button onClick={() => setIsEmailModalOpen(false)} className="rounded-md bg-white px-3 py-2 text-sm font-semibold text-slate-900 shadow-sm ring-1 ring-inset ring-slate-300 hover:bg-slate-50">Cancel</button>
+                        <button onClick={handleProceedWithEmail} className="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500">Proceed</button>
+                    </div>
+                </div>
+            </div>
+        )}
+    </div>
+    </>
+  );
+};

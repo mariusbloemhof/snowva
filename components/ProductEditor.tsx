@@ -1,10 +1,10 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { useNavigate, useBlocker, useParams, useOutletContext } from 'react-router-dom';
-import { Product, Price, AppContextType } from '../types';
-import { PlusIcon, SparklesIcon } from './Icons';
-import { getCurrentPrice } from '../utils';
 import { GoogleGenAI } from "@google/genai";
+import React, { useEffect, useRef, useState } from 'react';
+import { useBlocker, useNavigate, useOutletContext, useParams } from 'react-router-dom';
 import { useToast } from '../contexts/ToastContext';
+import { AppContextType, Price, Product } from '../types';
+import { getCurrentPrice } from '../utils';
+import { PlusIcon, SparklesIcon } from './Icons';
 
 const emptyProduct: Omit<Product, 'id'> = {
     name: '',
@@ -38,9 +38,28 @@ export const ProductEditor: React.FC = () => {
     
     const [isDirty, setIsDirty] = useState(false);
     const initialState = useRef<string>('');
+    const isSaving = useRef(false);
     const initialDataLoaded = useRef(false);
     const [showUnsavedChangesPrompt, setShowUnsavedChangesPrompt] = useState(false);
     const [isSaveComplete, setIsSaveComplete] = useState(false);
+
+    // Navigate immediately after save without using state
+    const navigateAfterSave = () => {
+        // Set flag to bypass blocker
+        isSaving.current = true;
+        // Navigate immediately
+        navigate('/products');
+    };
+
+    // Handle cancel - discard changes and navigate away
+    const handleCancel = () => {
+        // Reset dirty state first
+        setIsDirty(false);
+        // Use setTimeout to ensure state update is processed before navigation
+        setTimeout(() => {
+            navigate('/products');
+        }, 0);
+    };
 
     useEffect(() => {
         if (isSaveComplete) {
@@ -76,7 +95,7 @@ export const ProductEditor: React.FC = () => {
         setIsDirty(currentState !== initialState.current);
     }, [formData, newPrice, productId]);
 
-    const blocker = useBlocker(isDirty);
+    const blocker = useBlocker(isDirty && !isSaving.current);
 
     useEffect(() => {
         if (blocker.state === 'blocked') {
@@ -159,10 +178,14 @@ export const ProductEditor: React.FC = () => {
         
         addToast('Product saved successfully!', 'success');
         
-        // Reset dirty state and trigger navigation via useEffect
+        // Reset dirty state and navigate
         initialState.current = JSON.stringify({ formData: finalProductData, newPrice: emptyNewPrice });
         setIsDirty(false);
-        setIsSaveComplete(true);
+        
+        // Navigate after a brief delay to ensure state is updated
+        setTimeout(() => {
+            navigateAfterSave();
+        }, 0);
     };
     
     const findProductImage = async () => {
@@ -224,7 +247,7 @@ export const ProductEditor: React.FC = () => {
                             <p className="mt-1 text-sm text-slate-600">Manage product details, pricing, and media.</p>
                         </div>
                         <div className="flex items-center justify-end space-x-3 mt-4 sm:mt-0">
-                            <button type="button" onClick={() => navigate('/products')} className="rounded-md bg-white px-3 py-2 text-sm font-semibold text-slate-900 shadow-sm ring-1 ring-inset ring-slate-300 hover:bg-slate-50">Cancel</button>
+                            <button type="button" onClick={handleCancel} className="rounded-md bg-white px-3 py-2 text-sm font-semibold text-slate-900 shadow-sm ring-1 ring-inset ring-slate-300 hover:bg-slate-50">Cancel</button>
                             <button type="submit" className="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Save Product</button>
                         </div>
                     </div>

@@ -1,12 +1,12 @@
-import React, { useState, useEffect, useMemo } from 'react';
-import { useNavigate, useLocation, useBlocker, useParams, useOutletContext } from 'react-router-dom';
-import { Invoice, Customer, Product, LineItem, DocumentStatus, CustomerType, Quote, PaymentTerm, AppContextType } from '../types';
+import React, { useEffect, useMemo, useState } from 'react';
+import { useBlocker, useLocation, useNavigate, useOutletContext, useParams } from 'react-router-dom';
+import { AppContextType, Customer, DocumentStatus, Invoice, LineItem, PaymentTerm, Product, Quote } from '../types';
 // FIX: Import VAT_RATE to resolve undefined variable errors.
 import { products as allProducts, VAT_RATE } from '../constants';
-import { TrashIcon, PlusIcon, CheckCircleIcon } from './Icons';
-import { getResolvedProductDetails, calculateDueDate } from '../utils';
-import { ProductSelector } from './ProductSelector';
 import { useToast } from '../contexts/ToastContext';
+import { calculateDueDate, getResolvedProductDetails } from '../utils';
+import { CheckCircleIcon, PlusIcon, TrashIcon } from './Icons';
+import { ProductSelector } from './ProductSelector';
 
 interface FormErrors {
     customerId?: string;
@@ -41,8 +41,19 @@ export const InvoiceEditor: React.FC = () => {
   const [isDirty, setIsDirty] = useState(false);
   const initialState = React.useRef<string>('');
   const initialDataLoaded = React.useRef(false);
+  const isSaving = React.useRef(false);
   const [showUnsavedChangesPrompt, setShowUnsavedChangesPrompt] = useState(false);
   const [finalizedInvoiceId, setFinalizedInvoiceId] = useState<string | null>(null);
+
+  // Handle cancel - discard changes and navigate away
+  const handleCancel = () => {
+    // Reset dirty state first
+    setIsDirty(false);
+    // Use setTimeout to ensure state update is processed before navigation
+    setTimeout(() => {
+      navigate('/invoices');
+    }, 0);
+  };
 
   useEffect(() => {
     if (finalizedInvoiceId) {
@@ -105,7 +116,7 @@ export const InvoiceEditor: React.FC = () => {
     }
   }, [invoice]);
 
-  const blocker = useBlocker(isDirty);
+  const blocker = useBlocker(isDirty && !isSaving.current);
 
   useEffect(() => {
     if (blocker.state === 'blocked') {
@@ -257,6 +268,9 @@ export const InvoiceEditor: React.FC = () => {
     
     initialState.current = JSON.stringify(finalInvoice);
     setIsDirty(false);
+    
+    // Set flag to bypass blocker during navigation
+    isSaving.current = true;
     setFinalizedInvoiceId(finalInvoice.id);
   };
 
@@ -299,7 +313,7 @@ export const InvoiceEditor: React.FC = () => {
                   <p className="mt-1 text-sm text-slate-600">Fill in the details below to create or update an invoice.</p>
               </div>
               <div className="flex items-center justify-end space-x-3 mt-4 sm:mt-0">
-                  <button type="button" onClick={() => navigate('/invoices')} className="rounded-md bg-white px-3 py-2 text-sm font-semibold text-slate-900 shadow-sm ring-1 ring-inset ring-slate-300 hover:bg-slate-50">Cancel</button>
+                  <button type="button" onClick={handleCancel} className="rounded-md bg-white px-3 py-2 text-sm font-semibold text-slate-900 shadow-sm ring-1 ring-inset ring-slate-300 hover:bg-slate-50">Cancel</button>
                   <button type="button" onClick={saveInvoice} className="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Save Draft</button>
                   <button type="button" onClick={finalizeInvoice} className="inline-flex items-center gap-x-2 rounded-md bg-green-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-green-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-green-600">
                       <CheckCircleIcon className="w-5 h-5"/> <span>Finalize Invoice</span>

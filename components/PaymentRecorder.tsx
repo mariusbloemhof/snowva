@@ -1,9 +1,9 @@
-import React, { useState, useEffect, useMemo, useRef } from 'react';
-import { useLocation, useNavigate, useBlocker, useParams, useOutletContext } from 'react-router-dom';
-import { Customer, Invoice, Payment, PaymentMethod, DocumentStatus, LineItem, PaymentAllocation, AppContextType } from '../types';
-import { CheckCircleIcon } from './Icons';
-import { calculateBalanceDue, calculatePaid, calculateTotal, getNextPaymentNumber } from '../utils';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
+import { useBlocker, useLocation, useNavigate, useOutletContext, useParams } from 'react-router-dom';
 import { useToast } from '../contexts/ToastContext';
+import { AppContextType, DocumentStatus, Invoice, Payment, PaymentMethod } from '../types';
+import { calculateBalanceDue, calculatePaid, calculateTotal, getNextPaymentNumber } from '../utils';
+import { CheckCircleIcon } from './Icons';
 
 export const PaymentRecorder: React.FC = () => {
     const { id: paymentId } = useParams<{ id: string }>();
@@ -27,14 +27,26 @@ export const PaymentRecorder: React.FC = () => {
     const [isDirty, setIsDirty] = useState(false);
     const initialState = useRef<string>('');
     const initialDataLoaded = useRef(false);
+    const isSaving = useRef(false);
     const [showUnsavedChangesPrompt, setShowUnsavedChangesPrompt] = useState(false);
-    const [isSaveComplete, setIsSaveComplete] = useState(false);
 
-    useEffect(() => {
-        if (isSaveComplete) {
+    // Navigate immediately after save without using state
+    const navigateAfterSave = () => {
+        // Set flag to bypass blocker
+        isSaving.current = true;
+        // Navigate immediately
+        navigate('/payments');
+    };
+
+    // Handle cancel - discard changes and navigate away
+    const handleCancel = () => {
+        // Reset dirty state first
+        setIsDirty(false);
+        // Use setTimeout to ensure state update is processed before navigation
+        setTimeout(() => {
             navigate('/payments');
-        }
-    }, [isSaveComplete, navigate]);
+        }, 0);
+    };
 
     const existingPayment = useMemo(() => {
         if (!paymentId) return null;
@@ -67,41 +79,59 @@ export const PaymentRecorder: React.FC = () => {
             }, {} as Record<string, number>);
             setPaymentDetails(details);
             setAllocations(allocs);
+            
+            // Capture initial state immediately after setting the data
+            setTimeout(() => {
+                initialState.current = JSON.stringify({ paymentDetails: details, allocations: allocs });
+                initialDataLoaded.current = true;
+            }, 0);
 
         } else if (invoiceId) {
             const targetInvoice = invoices.find(i => i.id === invoiceId);
             if (targetInvoice) {
                 const balance = calculateBalanceDue(targetInvoice, payments);
                 const finalBalance = parseFloat(balance.toFixed(2));
-                setPaymentDetails(prev => ({...prev, amount: finalBalance}));
-                setAllocations({ [targetInvoice.id]: finalBalance });
+                const newDetails = {...paymentDetails, amount: finalBalance};
+                const newAllocations = { [targetInvoice.id]: finalBalance };
+                setPaymentDetails(newDetails);
+                setAllocations(newAllocations);
+                
+                // Capture initial state immediately after setting the data
+                setTimeout(() => {
+                    initialState.current = JSON.stringify({ paymentDetails: newDetails, allocations: newAllocations });
+                    initialDataLoaded.current = true;
+                }, 0);
             }
         } else {
              // Reset to default for a new payment for a customer
-            setPaymentDetails({
+            const newDetails = {
                 date: new Date().toISOString().split('T')[0],
                 amount: 0,
                 method: PaymentMethod.EFT,
                 reference: '',
-            });
-            setAllocations({});
+            };
+            const newAllocations = {};
+            setPaymentDetails(newDetails);
+            setAllocations(newAllocations);
+            
+            // Capture initial state immediately after setting the data
+            setTimeout(() => {
+                initialState.current = JSON.stringify({ paymentDetails: newDetails, allocations: newAllocations });
+                initialDataLoaded.current = true;
+            }, 0);
         }
     }, [isEditMode, existingPayment, invoiceId, customerId, invoices, payments]);
 
     useEffect(() => {
-        // Capture initial state once data is loaded
-        if (!initialDataLoaded.current && customer) {
-            initialState.current = JSON.stringify({ paymentDetails, allocations });
-            initialDataLoaded.current = true;
+        // Only check for changes if initial state has been captured
+        if (initialDataLoaded.current) {
+            const currentState = JSON.stringify({ paymentDetails, allocations });
+            setIsDirty(currentState !== initialState.current);
         }
-        
-        const currentState = JSON.stringify({ paymentDetails, allocations });
-        setIsDirty(currentState !== initialState.current);
-
-    }, [paymentDetails, allocations, customer]);
+    }, [paymentDetails, allocations]);
 
 
-    const blocker = useBlocker(isDirty);
+    const blocker = useBlocker(isDirty && !isSaving.current);
 
     useEffect(() => {
         if (blocker.state === 'blocked') {
@@ -251,7 +281,11 @@ export const PaymentRecorder: React.FC = () => {
 
         initialState.current = JSON.stringify({ paymentDetails: finalPaymentDetails, allocations: finalAllocations });
         setIsDirty(false);
-        setIsSaveComplete(true);
+        
+        // Navigate after a brief delay to ensure state is updated
+        setTimeout(() => {
+            navigateAfterSave();
+        }, 0);
     };
 
     if (!customer) return <div className="bg-white p-6 rounded-lg shadow-md">Loading or invalid selection...</div>;
@@ -283,7 +317,7 @@ export const PaymentRecorder: React.FC = () => {
                         <p className="mt-1 text-sm text-slate-600">For: <span className="font-medium text-indigo-600">{customer.name}</span></p>
                     </div>
                     <div className="flex items-center justify-end space-x-3 mt-4 sm:mt-0">
-                        <button type="button" onClick={() => navigate('/payments')} className="rounded-md bg-white px-3 py-2 text-sm font-semibold text-slate-900 shadow-sm ring-1 ring-inset ring-slate-300 hover:bg-slate-50">Cancel</button>
+                        <button type="button" onClick={handleCancel} className="rounded-md bg-white px-3 py-2 text-sm font-semibold text-slate-900 shadow-sm ring-1 ring-inset ring-slate-300 hover:bg-slate-50">Cancel</button>
                         <button type="button" onClick={handleSubmit} className="inline-flex items-center gap-x-2 rounded-md bg-green-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-green-500">
                         <CheckCircleIcon className="w-5 h-5"/> <span>{isEditMode ? 'Update Payment' : 'Record Payment'}</span>
                         </button>

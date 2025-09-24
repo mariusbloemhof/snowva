@@ -1,11 +1,11 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { useNavigate, useBlocker, useParams, useOutletContext } from 'react-router-dom';
-import { Customer, CustomerType, Address, PaymentTerm, AppContextType } from '../types';
+import React, { useEffect, useRef, useState } from 'react';
+import { useBlocker, useNavigate, useOutletContext, useParams } from 'react-router-dom';
 import { products as allProducts } from '../constants';
-import { CustomerPricingEditor } from './CustomerPricingEditor';
 import { useToast } from '../contexts/ToastContext';
-import { UsersIcon, CashIcon, DocumentReportIcon } from './Icons';
+import { Address, AppContextType, Customer, CustomerType, PaymentTerm } from '../types';
 import { CustomerHistoryTab } from './CustomerHistoryTab';
+import { CustomerPricingEditor } from './CustomerPricingEditor';
+import { CashIcon, DocumentReportIcon, UsersIcon } from './Icons';
 
 const emptyCustomer: Omit<Customer, 'id'> = {
     name: '',
@@ -230,14 +230,26 @@ export const CustomerEditor: React.FC = () => {
     
     const initialState = useRef<string>('');
     const initialDataLoaded = useRef(false);
+    const isSaving = useRef(false);
     const [showUnsavedChangesPrompt, setShowUnsavedChangesPrompt] = useState(false);
-    const [isSaveComplete, setIsSaveComplete] = useState(false);
 
-    useEffect(() => {
-        if (isSaveComplete) {
+    // Navigate immediately after save without using state
+    const navigateAfterSave = () => {
+        // Set flag to bypass blocker
+        isSaving.current = true;
+        // Navigate immediately
+        navigate('/customers');
+    };
+
+    // Handle cancel - discard changes and navigate away
+    const handleCancel = () => {
+        // Reset dirty state first
+        setIsDirty(false);
+        // Use setTimeout to ensure state update is processed before navigation
+        setTimeout(() => {
             navigate('/customers');
-        }
-    }, [isSaveComplete, navigate]);
+        }, 0);
+    };
 
     useEffect(() => {
         // Reset whenever customerId changes to handle navigation between customers
@@ -277,7 +289,7 @@ export const CustomerEditor: React.FC = () => {
     }, [formData, billingAddress, deliveryAddress, customerId]);
 
 
-    const blocker = useBlocker(isDirty);
+    const blocker = useBlocker(isDirty && !isSaving.current);
 
     useEffect(() => {
         if (blocker.state === 'blocked') {
@@ -372,10 +384,14 @@ export const CustomerEditor: React.FC = () => {
         
         addToast('Customer saved successfully!', 'success');
 
-        // Reset dirty state and trigger navigation via useEffect
+        // Reset dirty state and navigate immediately
         initialState.current = JSON.stringify({ formData: finalCustomerData, billingAddress, deliveryAddress });
         setIsDirty(false);
-        setIsSaveComplete(true);
+        
+        // Navigate after a brief delay to ensure state is updated
+        setTimeout(() => {
+            navigateAfterSave();
+        }, 0);
     };
 
     const parentCompanyCandidates = customers.filter(c => c.type === CustomerType.B2B && !c.parentCompanyId);
@@ -419,7 +435,7 @@ export const CustomerEditor: React.FC = () => {
                             <p className="mt-1 text-sm text-slate-600">Manage customer details, addresses, and billing information.</p>
                         </div>
                         <div className="flex items-center justify-end space-x-3 mt-4 sm:mt-0">
-                            <button type="button" onClick={() => navigate('/customers')} className="rounded-md bg-white px-3 py-2 text-sm font-semibold text-slate-900 shadow-sm ring-1 ring-inset ring-slate-300 hover:bg-slate-50">Cancel</button>
+                            <button type="button" onClick={handleCancel} className="rounded-md bg-white px-3 py-2 text-sm font-semibold text-slate-900 shadow-sm ring-1 ring-inset ring-slate-300 hover:bg-slate-50">Cancel</button>
                             <button type="submit" className="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Save Customer</button>
                         </div>
                     </div>
