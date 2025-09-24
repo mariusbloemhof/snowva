@@ -1,17 +1,12 @@
+
 import React, { useState, useEffect, useRef } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { Customer, CustomerType, Address, PaymentTerm } from '../types';
-import { customers as allCustomers } from '../constants';
+import { useNavigate, useBlocker, useParams, useOutletContext } from 'react-router-dom';
+import { Customer, CustomerType, Address, PaymentTerm, AppContextType } from '../types';
 import { products as allProducts } from '../constants';
 import { CustomerPricingEditor } from './CustomerPricingEditor';
 import { useToast } from '../contexts/ToastContext';
-import { UsersIcon, CashIcon } from './Icons';
-
-interface CustomerEditorProps {
-    customers: Customer[];
-    setCustomers: React.Dispatch<React.SetStateAction<Customer[]>>;
-    customerId?: string;
-}
+import { UsersIcon, CashIcon, DocumentReportIcon } from './Icons';
+import { CustomerHistoryTab } from './CustomerHistoryTab';
 
 const emptyCustomer: Omit<Customer, 'id'> = {
     name: '',
@@ -221,13 +216,18 @@ const AddressForm: React.FC<{
     );
 };
 
-export const CustomerEditor: React.FC<CustomerEditorProps> = ({ customers, setCustomers, customerId }) => {
+export const CustomerEditor: React.FC = () => {
+    const { id: customerId } = useParams<{ id: string }>();
+    const { customers, setCustomers, invoices, quotes, payments } = useOutletContext<AppContextType>();
     const navigate = useNavigate();
     const { addToast } = useToast();
     const [formData, setFormData] = useState<Omit<Customer, 'id'> & { id?: string }>(emptyCustomer);
-    const [activeTab, setActiveTab] = useState<'details' | 'pricing'>('details');
+    const [activeTab, setActiveTab] = useState<'details' | 'pricing' | 'history'>('details');
     const [errors, setErrors] = useState<FormErrors>({});
     
+    const [initialState, setInitialState] = useState<string>('');
+    const [isDirty, setIsDirty] = useState(false);
+    const isSaving = useRef(false);
     const [billingAddress, setBillingAddress] = useState<Partial<Address>>({});
     const [deliveryAddress, setDeliveryAddress] = useState<Partial<Address>>({});
     
@@ -238,15 +238,50 @@ export const CustomerEditor: React.FC<CustomerEditorProps> = ({ customers, setCu
                 setFormData(customerToEdit);
                 const primaryBilling = customerToEdit.addresses.find(a => a.type === 'billing' && a.isPrimary);
                 const primaryDelivery = customerToEdit.addresses.find(a => a.type === 'delivery' && a.isPrimary);
-                setBillingAddress(primaryBilling || {});
-                setDeliveryAddress(primaryDelivery || {});
+                const billing = primaryBilling || {};
+                const delivery = primaryDelivery || {};
+                setBillingAddress(billing);
+                setDeliveryAddress(delivery);
+                setInitialState(JSON.stringify({ formData: customerToEdit, billingAddress: billing, deliveryAddress: delivery }));
             } else {
                 navigate('/customers');
             }
         } else {
             setFormData(emptyCustomer);
+            setBillingAddress({});
+            setDeliveryAddress({});
+            setInitialState(JSON.stringify({ formData: emptyCustomer, billingAddress: {}, deliveryAddress: {} }));
         }
     }, [customerId, customers, navigate]);
+
+    useEffect(() => {
+        if (!initialState) return;
+        const currentState = JSON.stringify({ formData, billingAddress, deliveryAddress });
+        setIsDirty(currentState !== initialState);
+    }, [formData, billingAddress, deliveryAddress, initialState]);
+
+    const blocker = useBlocker(isDirty && !isSaving.current);
+
+    useEffect(() => {
+        if (blocker.state === 'blocked') {
+            if (window.confirm('You have unsaved changes. Are you sure you want to leave?')) {
+                blocker.proceed();
+            } else {
+                blocker.reset();
+            }
+        }
+    }, [blocker]);
+
+    useEffect(() => {
+        const handleBeforeUnload = (event: BeforeUnloadEvent) => {
+            if (isDirty) {
+                event.preventDefault();
+                event.returnValue = ''; // Required for Chrome
+            }
+        };
+        window.addEventListener('beforeunload', handleBeforeUnload);
+        return () => window.removeEventListener('beforeunload', handleBeforeUnload);
+    }, [isDirty]);
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
         const { name, value } = e.target;
@@ -318,13 +353,13 @@ export const CustomerEditor: React.FC<CustomerEditorProps> = ({ customers, setCu
             setCustomers([...customers, { ...finalFormData, id: `cust_${Date.now()}` } as Customer]);
         }
         addToast('Customer saved successfully!', 'success');
+        isSaving.current = true;
         navigate('/customers');
     };
 
     const parentCompanyCandidates = customers.filter(c => c.type === CustomerType.B2B && !c.parentCompanyId);
 
-    // FIX: Correctly type the 'icon' prop to allow 'className', resolving an error with React.cloneElement.
-    const TabButton: React.FC<{ tab: 'details' | 'pricing', label: string, icon: React.ReactElement<{ className?: string }> }> = ({ tab, label, icon }) => (
+    const TabButton: React.FC<{ tab: 'details' | 'pricing' | 'history', label: string, icon: React.ReactElement<{ className?: string }> }> = ({ tab, label, icon }) => (
         <button
             type="button"
             onClick={() => setActiveTab(tab)}
@@ -353,11 +388,14 @@ export const CustomerEditor: React.FC<CustomerEditorProps> = ({ customers, setCu
                     </div>
                 </div>
 
-                {formData.type === CustomerType.B2B && (
+                {formData.id && (
                     <div className="mb-8 border-b border-slate-200">
                         <nav className="-mb-px flex space-x-8" aria-label="Tabs">
                             <TabButton tab="details" label="Customer Details" icon={<UsersIcon />} />
-                            <TabButton tab="pricing" label="Custom Product Pricing" icon={<CashIcon />} />
+                            {formData.type === CustomerType.B2B && (
+                                <TabButton tab="pricing" label="Custom Product Pricing" icon={<CashIcon />} />
+                            )}
+                            <TabButton tab="history" label="History" icon={<DocumentReportIcon />} />
                         </nav>
                     </div>
                 )}
@@ -490,8 +528,17 @@ export const CustomerEditor: React.FC<CustomerEditorProps> = ({ customers, setCu
                     <CustomerPricingEditor 
                         customer={formData}
                         setCustomer={setFormData}
-                        customers={allCustomers}
+                        customers={customers}
                         products={allProducts}
+                    />
+                </div>
+                <div className={activeTab === 'history' ? 'block' : 'hidden'}>
+                    <CustomerHistoryTab
+                        customer={formData}
+                        customers={customers}
+                        invoices={invoices}
+                        quotes={quotes}
+                        payments={payments}
                     />
                 </div>
             </form>

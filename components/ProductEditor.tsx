@@ -1,16 +1,11 @@
-import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { Product, Price } from '../types';
+
+import React, { useState, useEffect, useRef } from 'react';
+import { useNavigate, useBlocker, useParams, useOutletContext } from 'react-router-dom';
+import { Product, Price, AppContextType } from '../types';
 import { PlusIcon, SparklesIcon } from './Icons';
 import { getCurrentPrice } from '../utils';
 import { GoogleGenAI } from "@google/genai";
 import { useToast } from '../contexts/ToastContext';
-
-interface ProductEditorProps {
-    products: Product[];
-    setProducts: React.Dispatch<React.SetStateAction<Product[]>>;
-    productId?: string;
-}
 
 const emptyProduct: Omit<Product, 'id'> = {
     name: '',
@@ -32,7 +27,9 @@ type FormErrors = {
     itemCode?: string;
 }
 
-export const ProductEditor: React.FC<ProductEditorProps> = ({ products, setProducts, productId }) => {
+export const ProductEditor: React.FC = () => {
+    const { id: productId } = useParams<{ id: string }>();
+    const { products, setProducts } = useOutletContext<AppContextType>();
     const navigate = useNavigate();
     const { addToast } = useToast();
     const [formData, setFormData] = useState<Omit<Product, 'id'> & {id?: string}>(emptyProduct);
@@ -40,19 +37,54 @@ export const ProductEditor: React.FC<ProductEditorProps> = ({ products, setProdu
     const [isFindingImage, setIsFindingImage] = useState(false);
     const [errors, setErrors] = useState<FormErrors>({});
     
+    const [initialState, setInitialState] = useState<string>('');
+    const [isDirty, setIsDirty] = useState(false);
+    const isSaving = useRef(false);
+
     useEffect(() => {
         if (productId) {
             const productToEdit = products.find(p => p.id === productId);
             if (productToEdit) {
                 setFormData(productToEdit);
+                setInitialState(JSON.stringify(productToEdit));
             } else {
                 navigate('/products');
             }
         } else {
             setFormData(emptyProduct);
+            setInitialState(JSON.stringify(emptyProduct));
         }
     }, [productId, products, navigate]);
     
+    useEffect(() => {
+        if (!initialState) return;
+        const currentState = JSON.stringify(formData);
+        setIsDirty(currentState !== initialState);
+    }, [formData, initialState]);
+
+    const blocker = useBlocker(isDirty && !isSaving.current);
+
+    useEffect(() => {
+        if (blocker.state === 'blocked') {
+            if (window.confirm('You have unsaved changes. Are you sure you want to leave?')) {
+                blocker.proceed();
+            } else {
+                blocker.reset();
+            }
+        }
+    }, [blocker]);
+
+    useEffect(() => {
+        const handleBeforeUnload = (event: BeforeUnloadEvent) => {
+            if (isDirty) {
+                event.preventDefault();
+                event.returnValue = '';
+            }
+        };
+        window.addEventListener('beforeunload', handleBeforeUnload);
+        return () => window.removeEventListener('beforeunload', handleBeforeUnload);
+    }, [isDirty]);
+
     const formElementClasses = "block w-full rounded-md border-0 py-1.5 px-3 text-slate-900 shadow-sm ring-1 ring-inset ring-slate-300 placeholder:text-slate-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6";
     const labelClasses = "block text-sm font-medium leading-6 text-slate-900";
 
@@ -110,6 +142,7 @@ export const ProductEditor: React.FC<ProductEditorProps> = ({ products, setProdu
             setProducts([...products, {...formData, id: `prod_${Date.now()}`} as Product]);
         }
         addToast('Product saved successfully!', 'success');
+        isSaving.current = true;
         navigate('/products');
     };
     

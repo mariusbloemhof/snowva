@@ -1,33 +1,24 @@
+
 import React, { useMemo } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
-import { Customer, Invoice, DocumentStatus, Payment, Address, StatementTransaction } from '../types';
+import { useNavigate, useParams, useOutletContext } from 'react-router-dom';
+import { Customer, Invoice, DocumentStatus, Payment, Address, StatementTransaction, AppContextType } from '../types';
 import { getStatementDataForCustomer } from '../utils';
 import { MailIcon, PrintIcon, DownloadIcon } from './Icons';
 import { useToast } from '../contexts/ToastContext';
-// FIX: Removed data imports that are now passed as props.
 import { SNOWVA_DETAILS } from '../constants';
 
 // Declare global libraries
 declare const jspdf: any;
 
-
-interface StatementViewerProps {
-    customers: Customer[];
-    invoices: Invoice[];
-    payments: Payment[];
-}
-
-// FIX: Updated component to accept props for customers, invoices, and payments.
-export const StatementViewer: React.FC<StatementViewerProps> = ({ customers, invoices, payments }) => {
+export const StatementViewer: React.FC = () => {
     const { id: customerId } = useParams<{ id: string }>();
+    const { customers, invoices, payments } = useOutletContext<AppContextType>();
     const { addToast } = useToast();
     const navigate = useNavigate();
 
     const statementData = useMemo(() => {
         if (!customerId) return null;
-        // FIX: Using props for data source instead of constants.
         return getStatementDataForCustomer(customerId, customers, invoices, payments);
-    // FIX: Added props to dependency array.
     }, [customerId, customers, invoices, payments]);
 
     const customer = statementData?.customer;
@@ -35,9 +26,7 @@ export const StatementViewer: React.FC<StatementViewerProps> = ({ customers, inv
     const billToCustomer = useMemo(() => {
         if (!customer) return null;
         const isBilledToParent = customer.billToParent && customer.parentCompanyId;
-        // FIX: Using props for data source instead of constants.
         return isBilledToParent ? customers.find(c => c.id === customer.parentCompanyId) : customer;
-    // FIX: Added customers prop to dependency array.
     }, [customer, customers]);
 
     const billingAddress = useMemo((): Address | undefined => {

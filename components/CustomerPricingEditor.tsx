@@ -23,34 +23,51 @@ export const CustomerPricingEditor: React.FC<CustomerPricingEditorProps> = ({ cu
     const [isAdding, setIsAdding] = useState(false);
     const [editingPrice, setEditingPrice] = useState<CustomerProductPrice | null>(null);
 
-    const parent = useMemo(() => {
-        if (!customer.parentCompanyId) return null;
-        return customers.find(c => c.id === customer.parentCompanyId);
-    }, [customer.parentCompanyId, customers]);
-
     const mergedPricing = useMemo((): MergedPriceInfo[] => {
-        const parentPricing = parent?.customProductPricing || [];
-        const localPricing = customer.customProductPricing || [];
-        const localPricingMap = new Map(localPricing.map(p => [p.productId, p]));
+        const pricingMap: Map<string, MergedPriceInfo> = new Map();
+        const parent = customers.find(c => c.id === customer.parentCompanyId);
 
-        const merged: MergedPriceInfo[] = parentPricing.map(parentPrice => {
-            const localOverride = localPricingMap.get(parentPrice.productId);
-            if (localOverride) {
-                localPricingMap.delete(parentPrice.productId);
-                // FIX: Replaced Object.assign with spread syntax for better type inference.
-                return { ...localOverride, status: 'overridden', parentPrice: parentPrice };
-            } else {
-                return { ...parentPrice, status: 'inherited' };
-            }
+        // 1. Add all parent pricing as 'inherited'
+        if (parent?.customProductPricing) {
+            parent.customProductPricing.forEach(parentPrice => {
+                pricingMap.set(parentPrice.productId, {
+                    ...parentPrice,
+                    status: 'inherited'
+                });
+            });
+        }
+
+        // 2. Add/override with local pricing
+        if (customer.customProductPricing) {
+            customer.customProductPricing.forEach(localPrice => {
+                const existing = pricingMap.get(localPrice.productId);
+                if (existing && existing.status === 'inherited') {
+                    // It's an override
+                    pricingMap.set(localPrice.productId, {
+                        ...localPrice,
+                        status: 'overridden',
+                        parentPrice: existing
+                    });
+                } else {
+                    // It's a new local price
+                    pricingMap.set(localPrice.productId, {
+                        ...localPrice,
+                        status: 'local'
+                    });
+                }
+            });
+        }
+        
+        const result = Array.from(pricingMap.values());
+        
+        return result.sort((a,b) => {
+            const productA = products.find(p => p.id === a.productId)?.name || '';
+            const productB = products.find(p => p.id === b.productId)?.name || '';
+            return productA.localeCompare(productB);
         });
 
-        localPricingMap.forEach(localPrice => {
-            // FIX: Replaced Object.assign with spread syntax to resolve incorrect type inference.
-            merged.push({ ...localPrice, status: 'local' });
-        });
+    }, [customer.parentCompanyId, customer.customProductPricing, customers, products]);
 
-        return merged.sort((a,b) => products.find(p=>p.id===a.productId)!.name.localeCompare(products.find(p=>p.id===b.productId)!.name));
-    }, [parent, customer.customProductPricing, products]);
 
     const handleSelectProductToAdd = (product: Product) => {
         const standardPrice = getCurrentPrice(product);

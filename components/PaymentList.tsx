@@ -1,17 +1,14 @@
 
 import React, { useState, useMemo } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
-import { Payment, Customer } from '../types';
+import { useNavigate, Link, useOutletContext } from 'react-router-dom';
+import { Payment, Customer, AppContextType } from '../types';
 import { PencilIcon, PlusIcon, SelectorIcon, SearchIcon } from './Icons';
-
-interface PaymentListProps {
-    payments: Payment[];
-    customers: Customer[];
-}
 
 type SortConfig = { key: keyof Payment | 'customerName'; direction: 'ascending' | 'descending'; } | null;
 
-export const PaymentList: React.FC<PaymentListProps> = ({ payments, customers }) => {
+export const PaymentList: React.FC = () => {
+    // FIX: Use useOutletContext to get payments and customers, aligning with other list components and fixing prop error.
+    const { payments, customers } = useOutletContext<AppContextType>();
     const navigate = useNavigate();
     const [searchTerm, setSearchTerm] = useState('');
     const [sortConfig, setSortConfig] = useState<SortConfig>({ key: 'date', direction: 'descending' });

@@ -1,4 +1,5 @@
 
+import { Dispatch, SetStateAction } from 'react';
 
 export enum CustomerType {
   B2C = 'Consumer',
@@ -149,4 +150,17 @@ export interface AgingAnalysis {
   days60: number;
   days90: number;
   days120plus: number;
+}
+
+export interface AppContextType {
+    customers: Customer[];
+    setCustomers: Dispatch<SetStateAction<Customer[]>>;
+    products: Product[];
+    setProducts: Dispatch<SetStateAction<Product[]>>;
+    invoices: Invoice[];
+    setInvoices: Dispatch<SetStateAction<Invoice[]>>;
+    payments: Payment[];
+    setPayments: Dispatch<SetStateAction<Payment[]>>;
+    quotes: Quote[];
+    setQuotes: Dispatch<SetStateAction<Quote[]>>;
 }

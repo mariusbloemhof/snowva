@@ -1,4 +1,3 @@
-
 import { Customer, Product, Invoice, Quote, CustomerType, DocumentStatus, LineItem, Address, Payment, PaymentMethod, PaymentTerm } from './types';
 
 export const VAT_RATE = 0.15;
@@ -28,12 +27,12 @@ export const customers: Customer[] = [
     customProductPricing: [
       {
         id: 'cpp_001',
-        productId: 'prod_001', // Snowva Ultimate Ice Maker
+        productId: 'prod_Snowva', // Snowva
         prices: [
-          { id: 'price_cpp_001', effectiveDate: '2024-01-01', retail: 185.00, consumer: 310.00 }
+          { id: 'price_cpp_001', effectiveDate: '2024-01-01', retail: 310.00, consumer: 400.00 }
         ],
-        customDescription: 'Snowva Ultimate Ice Maker (SW Contract)',
-        customItemCode: 'SW-0781159125409'
+        customDescription: 'Snowva (SW Contract)',
+        customItemCode: 'SW-781159125409'
       }
     ],
   },
@@ -41,14 +40,14 @@ export const customers: Customer[] = [
     customProductPricing: [
       {
         id: 'cpp_002',
-        productId: 'prod_001', // Override parent's override
+        productId: 'prod_Snowva', // Override parent's override
         prices: [
-          { id: 'price_cpp_002', effectiveDate: '2024-01-01', retail: 184.00, consumer: 310.00 }
+          { id: 'price_cpp_002', effectiveDate: '2024-01-01', retail: 305.00, consumer: 400.00 }
         ]
       },
       {
         id: 'cpp_003',
-        productId: 'prod_002', // Outray
+        productId: 'prod_Outray', // Outray
         prices: [
           { id: 'price_cpp_003', effectiveDate: '2024-01-01', retail: 370.00, consumer: 400.00 }
         ],
@@ -63,32 +62,49 @@ export const customers: Customer[] = [
 ];
 
 export const products: Product[] = [
-  { id: 'prod_001', itemCode: '078119125409', name: 'Snowva Ultimate Ice Maker', description: 'Snowva Ultimate Ice Maker', prices: [{ id: 'price_001', effectiveDate: '2024-01-01', retail: 187.83, consumer: 313.04 }], imageUrl: 'https://snowva.com/cdn/shop/files/1_2_1080x.jpg?v=1719299690' },
-  { id: 'prod_002', itemCode: 'GRID2525', name: 'Braai Grid - Small', description: 'Braai Grid - Small', prices: [{ id: 'price_002', effectiveDate: '2024-01-01', retail: 365.22, consumer: 434.78 }], imageUrl: 'https://snowva.com/cdn/shop/files/SNOWVA-WEBSITE-MAY-2024-27_1080x.jpg?v=1715002078' },
-  { id: 'prod_003', itemCode: '123456', name: 'BraaiTas', description: 'BraaiTas', prices: [{ id: 'price_003', effectiveDate: '2024-01-01', retail: 1043.48, consumer: 1304.35 }], imageUrl: 'https://snowva.com/cdn/shop/files/SNOWVA-WEBSITE-MAY-2024-19_1080x.jpg?v=1715001399' },
-  { id: 'prod_004', itemCode: 'MAKABRAAI', name: 'Makabrai', description: 'Makabrai Charcoal/Briquettes', prices: [{ id: 'price_004', effectiveDate: '2024-01-01', retail: 652.17, consumer: 750.00}], imageUrl: 'https://snowva.com/cdn/shop/files/Mnr-Briket-charcoal-briquettes-braai-bbq-2_1080x.jpg?v=1714999862' }
+    { id: 'prod_Borki', itemCode: '123456', name: 'Borki', description: 'Borki', prices: [{ id: 'price_borki_1', effectiveDate: '2024-01-01', retail: 145.00, consumer: 200.00 }], imageUrl: 'https://picsum.photos/seed/Borki/400' },
+    { id: 'prod_BraaiBak2.5l', itemCode: '123456', name: 'Braai Bak - 2.5l', description: 'Braai Bak - 2.5l', prices: [{ id: 'price_bb25_1', effectiveDate: '2024-01-01', retail: 285.00, consumer: 450.00 }], imageUrl: 'https://picsum.photos/seed/BraaiBak2.5l/400' },
+    { id: 'prod_BraaiBak3.8l', itemCode: '123456', name: 'Braai Bak - 3.8l', description: 'Braai Bak - 3.8l', prices: [{ id: 'price_bb38_1', effectiveDate: '2024-01-01', retail: 410.00, consumer: 550.00 }], imageUrl: 'https://picsum.photos/seed/BraaiBak3.8l/400' },
+    { id: 'prod_BraaiBak5.2l', itemCode: '123456', name: 'Braai Bak - 5.2l', description: 'Braai Bak - 5.2l', prices: [{ id: 'price_bb52_1', effectiveDate: '2024-01-01', retail: 510.00, consumer: 650.00 }], imageUrl: 'https://picsum.photos/seed/BraaiBak5.2l/400' },
+    { id: 'prod_BraaiGridLarge', itemCode: '123456', name: 'Braai Grid - Large', description: 'Braai Grid - Large', prices: [{ id: 'price_bgl_1', effectiveDate: '2024-01-01', retail: 820.00, consumer: 1000.00 }], imageUrl: 'https://picsum.photos/seed/BraaiGridLarge/400' },
+    { id: 'prod_BraaiGridMedium', itemCode: '123456', name: 'Braai Grid - Medium', description: 'Braai Grid - Medium', prices: [{ id: 'price_bgm_1', effectiveDate: '2024-01-01', retail: 540.00, consumer: 800.00 }], imageUrl: 'https://picsum.photos/seed/BraaiGridMedium/400' },
+    { id: 'prod_BraaiGridSmall', itemCode: '123456', name: 'Braai Grid - Small', description: 'Braai Grid - Small', prices: [{ id: 'price_bgs_1', effectiveDate: '2024-01-01', retail: 420.00, consumer: 650.00 }], imageUrl: 'https://picsum.photos/seed/BraaiGridSmall/400' },
+    { id: 'prod_BraaiTas', itemCode: '123456', name: 'BraaiTas', description: 'BraaiTas', prices: [{ id: 'price_bt_1', effectiveDate: '2024-01-01', retail: 1200.00, consumer: 1600.00 }], imageUrl: 'https://picsum.photos/seed/BraaiTas/400' },
+    { id: 'prod_Makabrai', itemCode: '123456', name: 'Makabrai', description: 'Makabrai', prices: [{ id: 'price_mak_1', effectiveDate: '2024-01-01', retail: 580.00, consumer: 750.00 }], imageUrl: 'https://picsum.photos/seed/Makabrai/400' },
+    { id: 'prod_Outray', itemCode: '123456', name: 'Outray', description: 'Outray', prices: [{ id: 'price_out_1', effectiveDate: '2024-01-01', retail: 375.00, consumer: 400.00 }], imageUrl: 'https://picsum.photos/seed/Outray/400' },
+    { id: 'prod_Snowva', itemCode: '781159125409', name: 'Snowva', description: 'Snowva Ultimate Ice Maker', prices: [{ id: 'price_snv_1', effectiveDate: '2024-01-01', retail: 315.00, consumer: 400.00 }], imageUrl: 'https://picsum.photos/seed/Snowva/400' },
 ];
 
 const lineItemsForInv001: LineItem[] = [
-    { id: 'li_001', productId: 'prod_001', description: 'Snowva Ultimate Ice Maker', quantity: 5, unitPrice: 187.83, itemCode: '078119125409' },
-    { id: 'li_002', productId: 'prod_002', description: 'Braai Grid - Small', quantity: 5, unitPrice: 365.22, itemCode: 'GRID2525' },
-    { id: 'li_003', productId: 'prod_003', description: 'BraaiTas', quantity: 10, unitPrice: 1043.48, itemCode: '123456' },
+    { id: 'li_001', productId: 'prod_Snowva', description: 'Snowva', quantity: 5, unitPrice: 315.00, itemCode: '781159125409' },
+    { id: 'li_002', productId: 'prod_BraaiGridSmall', description: 'Braai Grid - Small', quantity: 5, unitPrice: 420.00, itemCode: '123456' },
+    { id: 'li_003', productId: 'prod_BraaiTas', description: 'BraaiTas', quantity: 10, unitPrice: 1200.00, itemCode: '123456' },
 ];
 
 export const invoices: Invoice[] = [
   { id: 'inv_001', invoiceNumber: '250827101', customerId: 'cust_009', date: '2025-08-27', dueDate: '2025-08-27', orderNumber: '#270801', items: lineItemsForInv001, status: DocumentStatus.FINALIZED, notes: 'Thank you for your business.' },
-  { id: 'inv_002', invoiceNumber: '250707101', customerId: 'cust_008', date: '2025-07-07', dueDate: '2025-07-07', items: [{ id: 'li_004', productId: 'prod_004', description: 'Makabrai', quantity: 1, unitPrice: 652.17, itemCode: 'MAKABRAAI'}], status: DocumentStatus.PAID },
-  { id: 'inv_003', invoiceNumber: '241007101', customerId: 'cust_006', date: '2024-10-07', dueDate: '2024-12-06', orderNumber: 'PO10630114', items: [{ id: 'li_005', productId: 'prod_001', description: 'Snowva Ultimate Ice Maker', quantity: 1, unitPrice: 1321.74, itemCode: '1013250' }], status: DocumentStatus.PARTIALLY_PAID },
-  { id: 'inv_004', invoiceNumber: '241216101', customerId: 'cust_005', date: '2024-12-16', dueDate: '2025-02-14', orderNumber: 'PO10634368', items: [{ id: 'li_006', productId: 'prod_001', description: 'Snowva Ultimate Ice Maker', quantity: 1, unitPrice: 1321.74, itemCode: '1013250' }], status: DocumentStatus.FINALIZED },
-  { id: 'inv_005', invoiceNumber: 'DRAFT-16999888', customerId: 'cust_001', date: '2025-09-01', items: [], status: DocumentStatus.DRAFT },
+  { id: 'inv_002', invoiceNumber: '250707101', customerId: 'cust_008', date: '2025-07-07', dueDate: '2025-07-07', items: [{ id: 'li_004', productId: 'prod_Makabrai', description: 'Makabrai', quantity: 1, unitPrice: 750.00, itemCode: '123456'}], status: DocumentStatus.PAID },
+  { id: 'inv_003', invoiceNumber: '241007101', customerId: 'cust_006', date: '2024-10-07', dueDate: '2024-12-06', orderNumber: 'PO10630114', items: [{ id: 'li_005', productId: 'prod_Snowva', description: 'Snowva', quantity: 8, unitPrice: 315.00, itemCode: '781159125409' }], status: DocumentStatus.PARTIALLY_PAID },
+  { id: 'inv_004', invoiceNumber: '241216101', customerId: 'cust_005', date: '2024-12-16', dueDate: '2025-02-14', orderNumber: 'PO10634368', items: [{ id: 'li_006', productId: 'prod_Snowva', description: 'Snowva', quantity: 8, unitPrice: 305.00, itemCode: '781159125409' }], status: DocumentStatus.FINALIZED },
+  { 
+    id: 'inv_005', 
+    invoiceNumber: '250924001', 
+    customerId: 'cust_001', 
+    date: '2025-09-01', 
+    dueDate: '2025-10-01',
+    items: [
+      { id: 'li_007', productId: 'prod_Snowva', description: 'Snowva', quantity: 1.0, unitPrice: 315.00, itemCode: '781159125409' }
+    ], 
+    status: DocumentStatus.FINALIZED 
+  },
 ];
 
 export const quotes: Quote[] = [
-  { id: 'q_001', quoteNumber: 'Q-2025-001', customerId: 'cust_002', date: '2025-08-15', validUntil: '2025-09-14', items: [{ id: 'li_q_001', productId: 'prod_001', description: 'Snowva Ultimate Ice Maker', quantity: 20, unitPrice: 187.83, itemCode: '078119125409' }], status: DocumentStatus.ACCEPTED },
-  { id: 'q_002', quoteNumber: 'Q-2025-002', customerId: 'cust_003', date: '2025-08-20', validUntil: '2025-09-19', items: [{ id: 'li_q_002', productId: 'prod_002', description: 'Braai Grid - Small', quantity: 10, unitPrice: 365.22, itemCode: 'GRID2525' }], status: DocumentStatus.DRAFT },
+  { id: 'q_001', quoteNumber: 'Q-2025-001', customerId: 'cust_002', date: '2025-08-15', validUntil: '2025-09-14', items: [{ id: 'li_q_001', productId: 'prod_Snowva', description: 'Snowva', quantity: 20, unitPrice: 315.00, itemCode: '781159125409' }], status: DocumentStatus.ACCEPTED },
+  { id: 'q_002', quoteNumber: 'Q-2025-002', customerId: 'cust_003', date: '2025-08-20', validUntil: '2025-09-19', items: [{ id: 'li_q_002', productId: 'prod_BraaiGridSmall', description: 'Braai Grid - Small', quantity: 10, unitPrice: 420.00, itemCode: '123456' }], status: DocumentStatus.DRAFT },
 ];
 
 export const payments: Payment[] = [
-  { id: 'pay_001', customerId: 'cust_008', date: '2025-07-08', totalAmount: 750.00, method: PaymentMethod.EFT, reference: 'INV 250707101', allocations: [{ invoiceId: 'inv_002', amount: 750.00 }] },
+  { id: 'pay_001', customerId: 'cust_008', date: '2025-07-08', totalAmount: 862.50, method: PaymentMethod.EFT, reference: 'INV 250707101', allocations: [{ invoiceId: 'inv_002', amount: 862.50 }] },
   { id: 'pay_002', customerId: 'cust_004', date: '2024-11-01', totalAmount: 500.00, method: PaymentMethod.EFT, reference: 'Deposit', allocations: [{ invoiceId: 'inv_003', amount: 500.00 }] },
 ];

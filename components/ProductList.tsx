@@ -1,17 +1,12 @@
 
-
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
-import { Product } from '../types';
+import { useNavigate, useOutletContext } from 'react-router-dom';
+import { Product, AppContextType } from '../types';
 import { PencilIcon, TrashIcon, PlusIcon } from './Icons';
 import { getCurrentPrice } from '../utils';
 
-interface ProductListProps {
-  products: Product[];
-  setProducts: React.Dispatch<React.SetStateAction<Product[]>>;
-}
-
-export const ProductList: React.FC<ProductListProps> = ({ products, setProducts }) => {
+export const ProductList: React.FC = () => {
+  const { products, setProducts } = useOutletContext<AppContextType>();
   const navigate = useNavigate();
 
   const handleDelete = (productId: string) => {

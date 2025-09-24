@@ -1,18 +1,15 @@
+
 import React, { useState, useMemo, useEffect } from 'react';
-import { useNavigate, Link, useLocation } from 'react-router-dom';
-import { Invoice, DocumentStatus, Payment } from '../types';
+import { useNavigate, Link, useLocation, useOutletContext } from 'react-router-dom';
+import { Invoice, DocumentStatus, Payment, AppContextType } from '../types';
 import { customers } from '../constants';
 import { PencilIcon, EyeIcon, PlusIcon, SelectorIcon, SearchIcon, ChevronUpIcon, ChevronDownIcon } from './Icons';
 import { calculateBalanceDue } from '../utils';
 
-interface InvoiceListProps {
-    invoices: Invoice[];
-    payments: Payment[];
-}
-
 type SortConfig = { key: keyof Invoice | 'customerName' | 'balanceDue'; direction: 'ascending' | 'descending'; } | null;
 
-export const InvoiceList: React.FC<InvoiceListProps> = ({ invoices, payments }) => {
+export const InvoiceList: React.FC = () => {
+    const { invoices, payments } = useOutletContext<AppContextType>();
     const navigate = useNavigate();
     const location = useLocation();
     const [searchTerm, setSearchTerm] = useState('');

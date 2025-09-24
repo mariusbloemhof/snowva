@@ -1,7 +1,7 @@
 
 import React, { useState, useMemo } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
-import { Customer, CustomerType } from '../types';
+import { useNavigate, Link, useOutletContext } from 'react-router-dom';
+import { Customer, CustomerType, AppContextType } from '../types';
 import { PencilIcon, TrashIcon, PlusIcon, ChevronRightIcon, ChevronDownIcon, SelectorIcon, SearchIcon, CashIcon } from './Icons';
 
 type SortConfig = { key: keyof Customer; direction: 'ascending' | 'ascending'; } | null;
@@ -22,12 +22,8 @@ const getNestedCustomers = (customers: Customer[]) => {
     return roots;
 };
 
-interface CustomerListProps {
-    customers: Customer[];
-    setCustomers: React.Dispatch<React.SetStateAction<Customer[]>>;
-}
-
-export const CustomerList: React.FC<CustomerListProps> = ({ customers, setCustomers }) => {
+export const CustomerList: React.FC = () => {
+    const { customers, setCustomers } = useOutletContext<AppContextType>();
     const navigate = useNavigate();
     const [searchTerm, setSearchTerm] = useState('');
     const [filterType, setFilterType] = useState<CustomerType | 'all'>('all');

@@ -1,19 +1,16 @@
 
 import React, { useState, useMemo } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { Invoice, Customer, DocumentStatus } from '../types';
+import { useNavigate, useOutletContext } from 'react-router-dom';
+import { Invoice, Customer, DocumentStatus, AppContextType } from '../types';
 import { SearchIcon } from './Icons';
 
-interface PaymentPageProps {
-    invoices: Invoice[];
-    customers: Customer[];
+interface SearchResult {
+    type: 'customer' | 'invoice';
+    data: Customer | Invoice;
 }
 
-type SearchResult = 
-    | { type: 'customer', data: Customer }
-    | { type: 'invoice', data: Invoice };
-
-export const PaymentPage: React.FC<PaymentPageProps> = ({ invoices, customers }) => {
+export const PaymentPage: React.FC = () => {
+    const { invoices, customers } = useOutletContext<AppContextType>();
     const navigate = useNavigate();
     const [searchTerm, setSearchTerm] = useState('');
 
@@ -79,10 +76,10 @@ export const PaymentPage: React.FC<PaymentPageProps> = ({ invoices, customers })
                                 >
                                     <div>
                                         <p className="font-medium text-slate-900">
-                                            {result.type === 'customer' ? result.data.name : result.data.invoiceNumber}
+                                            {result.type === 'customer' ? (result.data as Customer).name : (result.data as Invoice).invoiceNumber}
                                         </p>
                                         <p className="text-sm text-slate-500">
-                                            {result.type === 'invoice' && `Customer: ${customers.find(c => c.id === result.data.customerId)?.name}`}
+                                            {result.type === 'invoice' && `Customer: ${customers.find(c => c.id === (result.data as Invoice).customerId)?.name}`}
                                         </p>
                                     </div>
                                     <span className={`inline-flex items-center rounded-md px-2 py-1 text-xs font-medium ring-1 ring-inset ${result.type === 'customer' ? 'bg-blue-50 text-blue-700 ring-blue-600/20' : 'bg-green-50 text-green-700 ring-green-600/20'}`}>

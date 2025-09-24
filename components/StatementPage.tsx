@@ -1,15 +1,9 @@
 
 import React, { useState, useMemo } from 'react';
-import { Link } from 'react-router-dom';
-import { Customer, CustomerType, Invoice, Payment } from '../types';
+import { Link, useOutletContext } from 'react-router-dom';
+import { Customer, CustomerType, Invoice, Payment, AppContextType } from '../types';
 import { getStatementDataForCustomer } from '../utils';
 import { EyeIcon, SearchIcon, CollectionIcon, UsersIcon, CheckCircleIcon, ExclamationCircleIcon, ArrowUpIcon, ArrowDownIcon } from './Icons';
-
-interface StatementPageProps {
-    customers: Customer[];
-    invoices: Invoice[];
-    payments: Payment[];
-}
 
 const StatCard: React.FC<{
     title: string;
@@ -49,7 +43,8 @@ const StatCard: React.FC<{
 };
 
 
-export const StatementPage: React.FC<StatementPageProps> = ({ customers, invoices, payments }) => {
+export const StatementPage: React.FC = () => {
+    const { customers, invoices, payments } = useOutletContext<AppContextType>();
     const [searchTerm, setSearchTerm] = useState('');
 
     const statementCustomers = useMemo(() => {

@@ -1,21 +1,13 @@
-
-import React, { useState, useEffect, useMemo } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
-import { Customer, Invoice, Payment, PaymentMethod, DocumentStatus, LineItem, PaymentAllocation } from '../types';
+import React, { useState, useEffect, useMemo, useRef } from 'react';
+import { useLocation, useNavigate, useBlocker, useParams, useOutletContext } from 'react-router-dom';
+import { Customer, Invoice, Payment, PaymentMethod, DocumentStatus, LineItem, PaymentAllocation, AppContextType } from '../types';
 import { CheckCircleIcon } from './Icons';
 import { calculateBalanceDue, calculatePaid, calculateTotal } from '../utils';
 import { useToast } from '../contexts/ToastContext';
 
-interface PaymentRecorderProps {
-    customers: Customer[];
-    invoices: Invoice[];
-    setInvoices: React.Dispatch<React.SetStateAction<Invoice[]>>;
-    payments: Payment[];
-    setPayments: React.Dispatch<React.SetStateAction<Payment[]>>;
-    paymentId?: string;
-}
-
-export const PaymentRecorder: React.FC<PaymentRecorderProps> = ({ customers, invoices, setInvoices, payments, setPayments, paymentId }) => {
+export const PaymentRecorder: React.FC = () => {
+    const { id: paymentId } = useParams<{ id: string }>();
+    const { customers, invoices, setInvoices, payments, setPayments } = useOutletContext<AppContextType>();
     const location = useLocation();
     const navigate = useNavigate();
     const { addToast } = useToast();
@@ -32,6 +24,10 @@ export const PaymentRecorder: React.FC<PaymentRecorderProps> = ({ customers, inv
     
     const [allocations, setAllocations] = useState<Record<string, number>>({});
     
+    const [initialState, setInitialState] = useState<string>('');
+    const [isDirty, setIsDirty] = useState(false);
+    const isSaving = useRef(false);
+
     const existingPayment = useMemo(() => {
         if (!paymentId) return null;
         return payments.find(p => p.id === paymentId);
@@ -72,32 +68,69 @@ export const PaymentRecorder: React.FC<PaymentRecorderProps> = ({ customers, inv
         // Use a Set to remove duplicates in case an invoice is somehow included twice
         const uniqueInvoices = Array.from(new Map(relevantInvoices.map(item => [item.id, item])).values());
         
-        // FIX: Add explicit types to sort callback parameters to prevent 'unknown' type error.
         return uniqueInvoices.sort((a: Invoice, b: Invoice) => a.date.localeCompare(b.date));
     }, [customer, invoices, isEditMode, allocations, customers]);
 
     useEffect(() => {
         if (isEditMode && existingPayment) {
-            setPaymentDetails({
+            const details = {
                 date: existingPayment.date,
                 amount: existingPayment.totalAmount,
                 method: existingPayment.method,
                 reference: existingPayment.reference || '',
-            });
-            setAllocations(existingPayment.allocations.reduce((acc, alloc) => {
+            };
+            const allocs = existingPayment.allocations.reduce((acc, alloc) => {
                 acc[alloc.invoiceId] = alloc.amount;
                 return acc;
-            }, {} as Record<string, number>));
+            }, {} as Record<string, number>);
+            setPaymentDetails(details);
+            setAllocations(allocs);
+            setInitialState(JSON.stringify({ paymentDetails: details, allocations: allocs }));
+
         } else if (invoiceId) {
             const targetInvoice = invoices.find(i => i.id === invoiceId);
             if (targetInvoice) {
                 const balance = calculateBalanceDue(targetInvoice, payments);
                 const finalBalance = parseFloat(balance.toFixed(2));
-                setPaymentDetails(prev => ({...prev, amount: finalBalance}));
-                setAllocations({ [targetInvoice.id]: finalBalance });
+                const newDetails = {...paymentDetails, amount: finalBalance};
+                const newAllocs = { [targetInvoice.id]: finalBalance };
+                setPaymentDetails(newDetails);
+                setAllocations(newAllocs);
+                setInitialState(JSON.stringify({ paymentDetails: newDetails, allocations: newAllocs }));
             }
+        } else {
+             setInitialState(JSON.stringify({ paymentDetails, allocations }));
         }
     }, [isEditMode, existingPayment, invoiceId, invoices, payments]);
+
+    useEffect(() => {
+        if (!initialState) return;
+        const currentState = JSON.stringify({ paymentDetails, allocations });
+        setIsDirty(currentState !== initialState);
+    }, [paymentDetails, allocations, initialState]);
+
+    const blocker = useBlocker(isDirty && !isSaving.current);
+
+    useEffect(() => {
+        if (blocker.state === 'blocked') {
+            if (window.confirm('You have unsaved changes. Are you sure you want to leave?')) {
+                blocker.proceed();
+            } else {
+                blocker.reset();
+            }
+        }
+    }, [blocker]);
+
+    useEffect(() => {
+        const handleBeforeUnload = (event: BeforeUnloadEvent) => {
+            if (isDirty) {
+                event.preventDefault();
+                event.returnValue = '';
+            }
+        };
+        window.addEventListener('beforeunload', handleBeforeUnload);
+        return () => window.removeEventListener('beforeunload', handleBeforeUnload);
+    }, [isDirty]);
 
     const handleDetailChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
         const { name, value } = e.target;
@@ -110,7 +143,6 @@ export const PaymentRecorder: React.FC<PaymentRecorderProps> = ({ customers, inv
         if (!invoice) return;
 
         const otherPayments = isEditMode ? payments.filter(p => p.id !== paymentId) : payments;
-        // FIX: Add explicit type annotation to resolve 'unknown' type error.
         const balance: number = calculateBalanceDue(invoice, otherPayments);
 
         if (amount < 0) {
@@ -124,7 +156,6 @@ export const PaymentRecorder: React.FC<PaymentRecorderProps> = ({ customers, inv
         setAllocations(prev => ({ ...prev, [invoiceId]: amount }));
     };
 
-    // FIX: Add explicit type hint to useMemo and reduce callback to ensure correct type inference.
     const totalAllocated = useMemo<number>(() => Object.values(allocations).reduce((sum: number, val: number) => sum + (val || 0), 0), [allocations]);
     const unallocatedAmount = paymentDetails.amount - totalAllocated;
 
@@ -140,7 +171,6 @@ export const PaymentRecorder: React.FC<PaymentRecorderProps> = ({ customers, inv
                 if (!invoice) { validationError = `Error: Could not find invoice with ID ${invId}.`; return; }
                 
                 const otherPayments = isEditMode ? payments.filter(p => p.id !== paymentId) : payments;
-                // FIX: Add explicit type annotation to resolve 'unknown' type error.
                 const balance: number = calculateBalanceDue(invoice, otherPayments);
 
                 if (amount > balance + 0.005) {
@@ -170,7 +200,6 @@ export const PaymentRecorder: React.FC<PaymentRecorderProps> = ({ customers, inv
 
         const updatedInvoices = invoices.map((inv: Invoice) => {
             if (affectedInvoiceIds.has(inv.id)) {
-                // FIX: Add explicit type annotations to resolve 'unknown' type errors for numeric operations.
                 const paid: number = calculatePaid(inv.id, newPayments);
                 const total: number = calculateTotal(inv.items);
                 const balance: number = total - paid;
@@ -187,6 +216,7 @@ export const PaymentRecorder: React.FC<PaymentRecorderProps> = ({ customers, inv
         setInvoices(updatedInvoices);
         
         addToast(`Payment ${isEditMode ? 'updated' : 'recorded'} successfully!`, 'success');
+        isSaving.current = true;
         navigate('/payments');
     };
 
@@ -226,76 +256,70 @@ export const PaymentRecorder: React.FC<PaymentRecorderProps> = ({ customers, inv
                         <label htmlFor="paymentMethod" className={labelClasses}>Method</label>
                         <div className="mt-2">
                             <select name="method" id="paymentMethod" value={paymentDetails.method} onChange={handleDetailChange} className={formElementClasses}>
-                                {Object.values(PaymentMethod).map(method => <option key={method} value={method}>{method}</option>)}
+                                {Object.values(PaymentMethod).map(m => <option key={m} value={m}>{m}</option>)}
                             </select>
                         </div>
                     </div>
                     <div>
-                        <label htmlFor="paymentReference" className={labelClasses}>Reference</label>
-                        <div className="mt-2"><input type="text" name="reference" id="paymentReference" value={paymentDetails.reference} onChange={handleDetailChange} placeholder="e.g., Bank reference" className={formElementClasses}/></div>
+                        <label htmlFor="paymentReference" className={labelClasses}>Reference <span className="text-slate-500">(optional)</span></label>
+                        <div className="mt-2"><input type="text" name="reference" id="paymentReference" value={paymentDetails.reference} onChange={handleDetailChange} className={formElementClasses}/></div>
                     </div>
                 </div>
             </div>
-
+            
             <div className="border border-slate-200 rounded-lg">
-                <h3 className="text-base font-semibold leading-6 text-slate-900 border-b border-slate-200 px-4 py-3">Allocate Payment to Invoices</h3>
+                <div className="flex justify-between items-center border-b border-slate-200 px-4 py-3">
+                    <div>
+                        <h3 className="text-base font-semibold leading-6 text-slate-900">Invoice Allocations</h3>
+                        <p className="mt-1 text-sm text-slate-500">Apply the payment amount to open invoices.</p>
+                    </div>
+                    <div className={`text-sm font-medium p-2 rounded-md ${unallocatedAmount.toFixed(2) !== '0.00' ? 'bg-red-100 text-red-700' : 'bg-green-100 text-green-700'}`}>
+                        Unallocated: R {unallocatedAmount.toFixed(2)}
+                    </div>
+                </div>
                 <div className="p-4">
-                {openInvoices.length > 0 ? (
-                    <div className="overflow-x-auto max-h-96">
-                            <table className="min-w-full divide-y divide-slate-300 text-sm">
-                                <thead>
+                    {openInvoices.length > 0 ? (
+                        <div className="overflow-x-auto">
+                            <table className="min-w-full">
+                                <thead className="text-sm text-slate-600">
                                     <tr>
-                                        <th scope="col" className="py-3.5 pl-4 pr-3 text-left font-semibold text-slate-900 sm:pl-0">Invoice #</th>
-                                        <th scope="col" className="px-3 py-3.5 text-left font-semibold text-slate-900">Customer</th>
-                                        <th scope="col" className="px-3 py-3.5 text-left font-semibold text-slate-900">Date</th>
-                                        <th scope="col" className="px-3 py-3.5 text-right font-semibold text-slate-900">Balance Due</th>
-                                        <th scope="col" className="px-3 py-3.5 text-right font-semibold text-slate-900 w-1/4">Amount to Apply</th>
+                                        <th className="py-2 text-left font-semibold">Invoice #</th>
+                                        <th className="py-2 text-left font-semibold">Date</th>
+                                        <th className="py-2 text-right font-semibold">Balance Due</th>
+                                        <th className="py-2 text-right font-semibold w-48">Allocation Amount</th>
                                     </tr>
                                 </thead>
-                                <tbody className="divide-y divide-slate-200">
-                                    {openInvoices.map(inv => {
+                                <tbody>
+                                    {openInvoices.map(invoice => {
                                         const otherPayments = isEditMode ? payments.filter(p => p.id !== paymentId) : payments;
-                                        const balance = calculateBalanceDue(inv, otherPayments);
-                                        const invCustomer = customers.find(c => c.id === inv.customerId);
-                                        return(
-                                        <tr key={inv.id}>
-                                            <td className="whitespace-nowrap py-4 pl-4 pr-3 font-medium text-slate-900 sm:pl-0">{inv.invoiceNumber}</td>
-                                            <td className="whitespace-nowrap px-3 py-4 text-slate-500">{invCustomer?.name ?? 'N/A'}</td>
-                                            <td className="whitespace-nowrap px-3 py-4 text-slate-500">{inv.date}</td>
-                                            <td className="whitespace-nowrap px-3 py-4 text-slate-500 text-right">R {balance.toFixed(2)}</td>
-                                            <td className="whitespace-nowrap px-3 py-4">
-                                                <input type="number" value={allocations[inv.id] || ''} onChange={e => handleAllocationChange(inv.id, e.target.value)} placeholder="0.00" min="0" max={balance.toFixed(2)} step="0.01" className={`${formElementClasses} text-right`}/>
-                                            </td>
-                                        </tr>
-                                    )})}
+                                        const balance = calculateBalanceDue(invoice, otherPayments);
+                                        return (
+                                            <tr key={invoice.id} className="border-t border-slate-200">
+                                                <td className="py-3 text-sm font-medium text-indigo-600">{invoice.invoiceNumber}</td>
+                                                <td className="py-3 text-sm text-slate-500">{invoice.date}</td>
+                                                <td className="py-3 text-sm text-slate-500 text-right">R {balance.toFixed(2)}</td>
+                                                <td className="py-3 text-right">
+                                                    <input 
+                                                        type="number" 
+                                                        value={allocations[invoice.id] || ''} 
+                                                        onChange={e => handleAllocationChange(invoice.id, e.target.value)} 
+                                                        className={`${formElementClasses} text-right`} 
+                                                        placeholder="0.00"
+                                                        max={balance}
+                                                        step="0.01"
+                                                    />
+                                                </td>
+                                            </tr>
+                                        )
+                                    })}
                                 </tbody>
                             </table>
                         </div>
-                ) : (
-                    <p className="text-slate-600 italic p-4">This customer has no outstanding invoices.</p>
-                )}
+                    ) : (
+                        <p className="text-center text-slate-500 p-4">No open invoices for this customer.</p>
+                    )}
                 </div>
             </div>
-
-            {openInvoices.length > 0 && (
-                <div className="p-4 rounded-lg bg-slate-50 border border-slate-200">
-                    <h3 className="text-lg font-semibold text-slate-900 mb-3 text-center md:text-left">Allocation Summary</h3>
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                        <div className="bg-white p-4 rounded-lg border text-center">
-                            <p className="text-sm font-medium text-slate-600">Total Payment</p>
-                            <p className="text-2xl font-bold text-slate-900">R {paymentDetails.amount.toFixed(2)}</p>
-                        </div>
-                        <div className="bg-white p-4 rounded-lg border text-center">
-                            <p className="text-sm font-medium text-slate-600">Total Allocated</p>
-                            <p className="text-2xl font-bold text-slate-900">R {totalAllocated.toFixed(2)}</p>
-                        </div>
-                        <div className={`p-4 rounded-lg border text-center ${Math.abs(unallocatedAmount) > 0.005 ? 'bg-red-50 border-red-200' : 'bg-green-50 border-green-200'}`}>
-                            <p className={`text-sm font-medium ${Math.abs(unallocatedAmount) > 0.005 ? 'text-red-700' : 'text-green-700'}`}>Unallocated Amount</p>
-                            <p className={`text-2xl font-bold ${Math.abs(unallocatedAmount) > 0.005 ? 'text-red-800' : 'text-green-800'}`}>R {unallocatedAmount.toFixed(2)}</p>
-                        </div>
-                    </div>
-                </div>
-            )}
         </div>
     );
 };

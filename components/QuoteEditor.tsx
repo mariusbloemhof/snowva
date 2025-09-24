@@ -1,8 +1,8 @@
 
-import React, { useState, useEffect, useMemo } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { Quote, Customer, Product, LineItem, DocumentStatus, Address } from '../types';
-import { quotes as mockQuotes, products, VAT_RATE, SNOWVA_DETAILS } from '../constants';
+import React, { useState, useEffect, useMemo, useRef } from 'react';
+import { useNavigate, useBlocker, useParams, useOutletContext } from 'react-router-dom';
+import { Quote, Customer, Product, LineItem, DocumentStatus, Address, AppContextType } from '../types';
+import { products as allProducts, VAT_RATE, SNOWVA_DETAILS } from '../constants';
 import { TrashIcon, PlusIcon, MailIcon, CheckCircleIcon, PrintIcon, SwitchHorizontalIcon, DownloadIcon } from './Icons';
 import { getResolvedProductDetails } from '../utils';
 import { ProductSelector } from './ProductSelector';
@@ -11,13 +11,8 @@ import { useToast } from '../contexts/ToastContext';
 // Declare global libraries loaded from CDN
 declare const jspdf: any;
 
-interface QuoteEditorProps {
-  quoteId?: string;
-  customers: Customer[];
-}
-
-const getNextQuoteNumber = () => {
-    const lastNum = mockQuotes
+const getNextQuoteNumber = (currentQuotes: Quote[]) => {
+    const lastNum = currentQuotes
         .map(q => parseInt(q.quoteNumber.split('-').pop() || '0', 10))
         .reduce((max, num) => Math.max(max, num), 0);
     return `Q-${new Date().getFullYear()}-${(lastNum + 1).toString().padStart(3, '0')}`;
@@ -28,13 +23,19 @@ const getBillingAddress = (customer: Customer | null): Address | undefined => {
     return customer.addresses.find(a => a.type === 'billing' && a.isPrimary) || customer.addresses.find(a => a.isPrimary);
 }
 
-export const QuoteEditor: React.FC<QuoteEditorProps> = ({ quoteId, customers }) => {
+export const QuoteEditor: React.FC = () => {
+  const { id: quoteId } = useParams<{ id: string }>();
+  const { customers, quotes, setQuotes } = useOutletContext<AppContextType>();
   const navigate = useNavigate();
   const { addToast } = useToast();
   const [quote, setQuote] = useState<Quote | null>(null);
   const [selectedCustomer, setSelectedCustomer] = useState<Customer | null>(null);
   const [customerError, setCustomerError] = useState<string | null>(null);
   const [isEmailModalOpen, setIsEmailModalOpen] = useState(false);
+  
+  const [initialState, setInitialState] = useState<string>('');
+  const [isDirty, setIsDirty] = useState(false);
+  const isSaving = useRef(false);
 
   
   const isFinalized = useMemo(() => quote?.status !== DocumentStatus.DRAFT, [quote]);
@@ -43,13 +44,14 @@ export const QuoteEditor: React.FC<QuoteEditorProps> = ({ quoteId, customers }) 
 
   useEffect(() => {
     if (quoteId) {
-      const foundQuote = mockQuotes.find(q => q.id === quoteId);
+      const foundQuote = quotes.find(q => q.id === quoteId);
       if (foundQuote) {
         setQuote(foundQuote);
         setSelectedCustomer(customers.find(c => c.id === foundQuote.customerId) || null);
+        setInitialState(JSON.stringify(foundQuote));
       }
     } else {
-      setQuote({
+      const newQuote = {
         id: `qt_${Date.now()}`,
         quoteNumber: `DRAFT-Q-${Date.now()}`,
         customerId: '',
@@ -57,10 +59,44 @@ export const QuoteEditor: React.FC<QuoteEditorProps> = ({ quoteId, customers }) 
         validUntil: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString().split('T')[0],
         items: [],
         status: DocumentStatus.DRAFT
-      });
+      };
+      setQuote(newQuote);
       setSelectedCustomer(null);
+      setInitialState(JSON.stringify(newQuote));
     }
-  }, [quoteId, customers]);
+  }, [quoteId, customers, quotes]);
+
+    useEffect(() => {
+        if (initialState && quote && !isFinalized) {
+            const currentState = JSON.stringify(quote);
+            setIsDirty(currentState !== initialState);
+        } else if (isFinalized) {
+            setIsDirty(false);
+        }
+    }, [quote, initialState, isFinalized]);
+
+    const blocker = useBlocker(isDirty && !isSaving.current);
+
+    useEffect(() => {
+        if (blocker.state === 'blocked') {
+            if (window.confirm('You have unsaved changes. Are you sure you want to leave?')) {
+                blocker.proceed();
+            } else {
+                blocker.reset();
+            }
+        }
+    }, [blocker]);
+
+    useEffect(() => {
+        const handleBeforeUnload = (event: BeforeUnloadEvent) => {
+            if (isDirty) {
+                event.preventDefault();
+                event.returnValue = '';
+            }
+        };
+        window.addEventListener('beforeunload', handleBeforeUnload);
+        return () => window.removeEventListener('beforeunload', handleBeforeUnload);
+    }, [isDirty]);
 
   const handleCustomerChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const cust = customers.find(c => c.id === e.target.value);
@@ -106,6 +142,7 @@ export const QuoteEditor: React.FC<QuoteEditorProps> = ({ quoteId, customers }) 
         newItems[index].productId = product.id;
         newItems[index].description = resolvedDetails.description;
         newItems[index].unitPrice = resolvedDetails.unitPrice;
+        newItems[index].itemCode = resolvedDetails.itemCode;
         if (newItems[index].quantity < 1) {
             newItems[index].quantity = 1;
         }
@@ -113,22 +150,47 @@ export const QuoteEditor: React.FC<QuoteEditorProps> = ({ quoteId, customers }) 
     }
   };
   
-  const finalizeQuote = () => {
-    if (quote && quote.customerId) {
-        setQuote({
+  const saveQuote = (isFinalizing: boolean = false): Quote | null => {
+    if (!quote) return null;
+
+    let quoteToSave = { ...quote };
+
+    if (isFinalizing) {
+        if (!quote.customerId) {
+            setCustomerError('Please select a customer before finalizing.');
+            addToast('Please select a customer before finalizing.', 'error');
+            return null;
+        }
+        quoteToSave = {
             ...quote,
-            status: DocumentStatus.ACCEPTED, // or some other logic
-            quoteNumber: getNextQuoteNumber()
-        });
-        addToast('Quote finalized successfully!', 'success');
-    } else {
-        setCustomerError('Please select a customer before finalizing.');
-        addToast('Please select a customer before finalizing.', 'error');
+            status: DocumentStatus.ACCEPTED,
+            quoteNumber: getNextQuoteNumber(quotes)
+        };
     }
+
+    const quoteIndex = quotes.findIndex(q => q.id === quoteToSave.id);
+    if (quoteIndex > -1) {
+        const updatedQuotes = [...quotes];
+        updatedQuotes[quoteIndex] = quoteToSave;
+        setQuotes(updatedQuotes);
+    } else {
+        setQuotes([...quotes, quoteToSave]);
+    }
+    return quoteToSave;
+  }
+
+  const finalizeQuote = () => {
+      const finalizedQuote = saveQuote(true);
+      if (finalizedQuote) {
+          setInitialState(JSON.stringify(finalizedQuote));
+          setQuote(finalizedQuote);
+          addToast('Quote finalized successfully!', 'success');
+      }
   };
 
   const handleConvertToInvoice = () => {
     if (quote) {
+        isSaving.current = true;
         navigate('/invoices/new', {
             state: { fromQuote: quote }
         });
@@ -145,7 +207,6 @@ export const QuoteEditor: React.FC<QuoteEditorProps> = ({ quoteId, customers }) 
           return null;
       }
 
-      // FIX: The `addToast` function expects 2 arguments, but was given 3. The extra duration argument has been removed.
       addToast("Generating PDF...", "info");
       const { jsPDF } = jspdf;
       const pdf = new jsPDF({ orientation: 'p', unit: 'mm', format: 'a4' });
@@ -361,7 +422,7 @@ export const QuoteEditor: React.FC<QuoteEditorProps> = ({ quoteId, customers }) 
                          <td className="p-2 align-top">
                             {isFinalized ? item.description : 
                                <ProductSelector 
-                                 products={products}
+                                 products={allProducts}
                                  initialProductId={item.productId}
                                  onSelectProduct={(product) => handleProductSelection(index, product)}
                                />

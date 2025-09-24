@@ -1,21 +1,15 @@
 
-import React, { useState, useEffect, useMemo } from 'react';
-import { useNavigate, useLocation } from 'react-router-dom';
-import { Invoice, Customer, Product, LineItem, DocumentStatus, CustomerType, Quote, PaymentTerm } from '../types';
-import { products, VAT_RATE } from '../constants';
+import React, { useState, useEffect, useMemo, useRef } from 'react';
+import { useNavigate, useLocation, useBlocker, useParams, useOutletContext } from 'react-router-dom';
+import { Invoice, Customer, Product, LineItem, DocumentStatus, CustomerType, Quote, PaymentTerm, AppContextType } from '../types';
+// FIX: Import VAT_RATE to resolve undefined variable errors.
+import { products as allProducts, VAT_RATE } from '../constants';
 import { TrashIcon, PlusIcon, CheckCircleIcon } from './Icons';
 import { getResolvedProductDetails, calculateDueDate } from '../utils';
 import { ProductSelector } from './ProductSelector';
 import { useToast } from '../contexts/ToastContext';
 
-interface InvoiceEditorProps {
-    invoices: Invoice[];
-    setInvoices: React.Dispatch<React.SetStateAction<Invoice[]>>;
-    customers: Customer[];
-    invoiceId?: string;
-}
-
-type FormErrors = {
+interface FormErrors {
     customerId?: string;
     items?: string;
 }
@@ -35,13 +29,19 @@ const getNextInvoiceNumber = (currentInvoices: Invoice[]) => {
     return `${prefix}${(lastNumForToday + 1).toString().padStart(3, '0')}`;
 };
 
-export const InvoiceEditor: React.FC<InvoiceEditorProps> = ({ invoices, setInvoices, customers, invoiceId }) => {
+export const InvoiceEditor: React.FC = () => {
+  const { id: invoiceId } = useParams<{ id: string }>();
+  const { invoices, setInvoices, customers } = useOutletContext<AppContextType>();
   const navigate = useNavigate();
   const location = useLocation();
   const { addToast } = useToast();
   const [invoice, setInvoice] = useState<Invoice | null>(null);
   const [selectedCustomer, setSelectedCustomer] = useState<Customer | null>(null);
   const [errors, setErrors] = useState<FormErrors>({});
+
+  const [initialState, setInitialState] = useState<string>('');
+  const [isDirty, setIsDirty] = useState(false);
+  const isSaving = useRef(false);
 
   useEffect(() => {
     const quoteToConvert = location.state?.fromQuote as Quote | undefined;
@@ -59,6 +59,7 @@ export const InvoiceEditor: React.FC<InvoiceEditorProps> = ({ invoices, setInvoi
         };
         setInvoice(newInvoiceFromQuote);
         setSelectedCustomer(customers.find(c => c.id === newInvoiceFromQuote.customerId) || null);
+        setInitialState(JSON.stringify(newInvoiceFromQuote));
         // Clear location state to prevent re-triggering on re-render
         window.history.replaceState({}, document.title)
     } else if (invoiceId) {
@@ -66,20 +67,53 @@ export const InvoiceEditor: React.FC<InvoiceEditorProps> = ({ invoices, setInvoi
       if (foundInvoice) {
         setInvoice(foundInvoice);
         setSelectedCustomer(customers.find(c => c.id === foundInvoice.customerId) || null);
+        setInitialState(JSON.stringify(foundInvoice));
       }
     } else {
-      setInvoice({
-        id: `inv_${Date.now()}`,
-        invoiceNumber: `DRAFT-${Date.now()}`,
-        customerId: '',
-        date: new Date().toISOString().split('T')[0],
-        items: [],
-        status: DocumentStatus.DRAFT,
-        notes: '',
-      });
+        const newInvoice = {
+            id: `inv_${Date.now()}`,
+            invoiceNumber: `DRAFT-${Date.now()}`,
+            customerId: '',
+            date: new Date().toISOString().split('T')[0],
+            items: [],
+            status: DocumentStatus.DRAFT,
+            notes: '',
+          };
+      setInvoice(newInvoice);
       setSelectedCustomer(null);
+      setInitialState(JSON.stringify(newInvoice));
     }
   }, [invoiceId, invoices, location.state, customers]);
+
+  useEffect(() => {
+    if (initialState && invoice) {
+        const currentState = JSON.stringify(invoice);
+        setIsDirty(currentState !== initialState);
+    }
+  }, [invoice, initialState]);
+
+  const blocker = useBlocker(isDirty && !isSaving.current);
+
+  useEffect(() => {
+    if (blocker.state === 'blocked') {
+        if (window.confirm('You have unsaved changes. Are you sure you want to leave?')) {
+            blocker.proceed();
+        } else {
+            blocker.reset();
+        }
+    }
+  }, [blocker]);
+
+  useEffect(() => {
+    const handleBeforeUnload = (event: BeforeUnloadEvent) => {
+        if (isDirty) {
+            event.preventDefault();
+            event.returnValue = '';
+        }
+    };
+    window.addEventListener('beforeunload', handleBeforeUnload);
+    return () => window.removeEventListener('beforeunload', handleBeforeUnload);
+  }, [isDirty]);
 
   const handleFieldChange = (field: keyof Invoice, value: any) => {
     if (invoice) {
@@ -133,6 +167,7 @@ export const InvoiceEditor: React.FC<InvoiceEditorProps> = ({ invoices, setInvoi
         newItems[index].productId = product.id;
         newItems[index].description = resolvedDetails.description;
         newItems[index].unitPrice = resolvedDetails.unitPrice;
+        newItems[index].itemCode = resolvedDetails.itemCode;
         if (newItems[index].quantity < 1) {
             newItems[index].quantity = 1;
         }
@@ -151,6 +186,7 @@ export const InvoiceEditor: React.FC<InvoiceEditorProps> = ({ invoices, setInvoi
       setInvoices([...invoices, invoice]);
     }
     addToast('Draft saved successfully!', 'success');
+    if (invoice) setInitialState(JSON.stringify(invoice));
   };
 
   const validateForFinalize = () => {
@@ -198,6 +234,7 @@ export const InvoiceEditor: React.FC<InvoiceEditorProps> = ({ invoices, setInvoi
         setInvoices([...invoices, finalInvoice]);
     }
     addToast('Invoice finalized successfully!', 'success');
+    isSaving.current = true;
     navigate(`/invoices/${finalInvoice.id}`);
   };
 
@@ -279,7 +316,7 @@ export const InvoiceEditor: React.FC<InvoiceEditorProps> = ({ invoices, setInvoi
                                         <tr key={item.id} className="border-b border-slate-200">
                                             <td className="p-2 sm:pl-6">
                                                 <ProductSelector 
-                                                products={products}
+                                                products={allProducts}
                                                 initialProductId={item.productId}
                                                 onSelectProduct={(product) => handleProductSelection(index, product)}
                                                 />
