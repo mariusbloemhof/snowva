@@ -1,0 +1,180 @@
+{
+  "products": {
+    "prod_borki": {
+      "id": "prod_borki",
+      "itemCode": "123456",
+      "name": "Borki",
+      "description": "Borki",
+      "prices": [
+        {
+          "id": "price_borki_001",
+          "effectiveDate": "2025-01-01",
+          "retail": 145.0,
+          "consumer": 200.0
+        }
+      ],
+      "imageUrl": null,
+      "ecommerceLink": null
+    },
+    "prod_braai_bak_2_5l": {
+      "id": "prod_braai_bak_2_5l",
+      "itemCode": "123456",
+      "name": "Braai Bak - 2.5l",
+      "description": "Braai Bak - 2.5l",
+      "prices": [
+        {
+          "id": "price_braai_bak_2_5l_001",
+          "effectiveDate": "2025-01-01",
+          "retail": 285.0,
+          "consumer": 450.0
+        }
+      ],
+      "imageUrl": null,
+      "ecommerceLink": null
+    },
+    "prod_braai_bak_3_8l": {
+      "id": "prod_braai_bak_3_8l",
+      "itemCode": "123456",
+      "name": "Braai Bak - 3.8l",
+      "description": "Braai Bak - 3.8l",
+      "prices": [
+        {
+          "id": "price_braai_bak_3_8l_001",
+          "effectiveDate": "2025-01-01",
+          "retail": 410.0,
+          "consumer": 550.0
+        }
+      ],
+      "imageUrl": null,
+      "ecommerceLink": null
+    },
+    "prod_braai_bak_5_2l": {
+      "id": "prod_braai_bak_5_2l",
+      "itemCode": "123456",
+      "name": "Braai Bak - 5.2l",
+      "description": "Braai Bak - 5.2l",
+      "prices": [
+        {
+          "id": "price_braai_bak_5_2l_001",
+          "effectiveDate": "2025-01-01",
+          "retail": 510.0,
+          "consumer": 650.0
+        }
+      ],
+      "imageUrl": null,
+      "ecommerceLink": null
+    },
+    "prod_braai_grid_large": {
+      "id": "prod_braai_grid_large",
+      "itemCode": "123456",
+      "name": "Braai Grid - Large",
+      "description": "Braai Grid - Large",
+      "prices": [
+        {
+          "id": "price_braai_grid_large_001",
+          "effectiveDate": "2025-01-01",
+          "retail": 820.0,
+          "consumer": 1000.0
+        }
+      ],
+      "imageUrl": null,
+      "ecommerceLink": null
+    },
+    "prod_braai_grid_medium": {
+      "id": "prod_braai_grid_medium",
+      "itemCode": "123456",
+      "name": "Braai Grid - Medium",
+      "description": "Braai Grid - Medium",
+      "prices": [
+        {
+          "id": "price_braai_grid_medium_001",
+          "effectiveDate": "2025-01-01",
+          "retail": 540.0,
+          "consumer": 800.0
+        }
+      ],
+      "imageUrl": null,
+      "ecommerceLink": null
+    },
+    "prod_braai_grid_small": {
+      "id": "prod_braai_grid_small",
+      "itemCode": "123456",
+      "name": "Braai Grid - Small",
+      "description": "Braai Grid - Small",
+      "prices": [
+        {
+          "id": "price_braai_grid_small_001",
+          "effectiveDate": "2025-01-01",
+          "retail": 420.0,
+          "consumer": 650.0
+        }
+      ],
+      "imageUrl": null,
+      "ecommerceLink": null
+    },
+    "prod_braai_tas": {
+      "id": "prod_braai_tas",
+      "itemCode": "123456",
+      "name": "BraaiTas",
+      "description": "BraaiTas",
+      "prices": [
+        {
+          "id": "price_braai_tas_001",
+          "effectiveDate": "2025-01-01",
+          "retail": 1200.0,
+          "consumer": 1600.0
+        }
+      ],
+      "imageUrl": null,
+      "ecommerceLink": null
+    },
+    "prod_makabrai": {
+      "id": "prod_makabrai",
+      "itemCode": "123456",
+      "name": "Makabrai",
+      "description": "Makabrai",
+      "prices": [
+        {
+          "id": "price_makabrai_001",
+          "effectiveDate": "2025-01-01",
+          "retail": 580.0,
+          "consumer": 750.0
+        }
+      ],
+      "imageUrl": null,
+      "ecommerceLink": null
+    },
+    "prod_outray": {
+      "id": "prod_outray",
+      "itemCode": "123456",
+      "name": "Outray",
+      "description": "Outray",
+      "prices": [
+        {
+          "id": "price_outray_001",
+          "effectiveDate": "2025-01-01",
+          "retail": 375.0,
+          "consumer": 400.0
+        }
+      ],
+      "imageUrl": null,
+      "ecommerceLink": null
+    },
+    "prod_snowva": {
+      "id": "prod_snowva",
+      "itemCode": "781159125409",
+      "name": "Snowva",
+      "description": "Snowva",
+      "prices": [
+        {
+          "id": "price_snowva_001",
+          "effectiveDate": "2025-01-01",
+          "retail": 315.0,
+          "consumer": 400.0
+        }
+      ],
+      "imageUrl": null,
+      "ecommerceLink": null
+    }
+  }
+}

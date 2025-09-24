@@ -1,0 +1,2774 @@
+[
+  {
+    "id": "pay_241001101",
+    "customerId": "cust_the_biltong_boutiek__plettenberg_bay",
+    "paymentDate": "2024-10-01",
+    "amount": 2820.0,
+    "method": "Unknown",
+    "reference": "Payment for invoice 241001101",
+    "allocations": [
+      {
+        "invoiceId": "inv_241001101",
+        "amount": 2820.0
+      }
+    ]
+  },
+  {
+    "id": "pay_241002101",
+    "customerId": "cust_pretoria_caravans__outdoor",
+    "paymentDate": "2024-10-02",
+    "amount": 2592.0,
+    "method": "Unknown",
+    "reference": "Payment for invoice 241002101",
+    "allocations": [
+      {
+        "invoiceId": "inv_241002101",
+        "amount": 2592.0
+      }
+    ]
+  },
+  {
+    "id": "pay_241002303",
+    "customerId": "cust_adomastar_klerksdorp_campworld",
+    "paymentDate": "2024-10-02",
+    "amount": 2220.0,
+    "method": "Unknown",
+    "reference": "Payment for invoice 241002303",
+    "allocations": [
+      {
+        "invoiceId": "inv_241002303",
+        "amount": 2220.0
+      }
+    ]
+  },
+  {
+    "id": "pay_241002404",
+    "customerId": "cust_quenets_hunting__fishing",
+    "paymentDate": "2024-10-02",
+    "amount": 3525.0,
+    "method": "Unknown",
+    "reference": "Payment for invoice 241002404",
+    "allocations": [
+      {
+        "invoiceId": "inv_241002404",
+        "amount": 3525.0
+      }
+    ]
+  },
+  {
+    "id": "pay_241004101",
+    "customerId": "cust_natal_caravans__marine",
+    "paymentDate": "2024-10-04",
+    "amount": 2678.25,
+    "method": "Unknown",
+    "reference": "Payment for invoice 241004101",
+    "allocations": [
+      {
+        "invoiceId": "inv_241004101",
+        "amount": 2678.25
+      }
+    ]
+  },
+  {
+    "id": "pay_241008101",
+    "customerId": "cust_fashion_and_d\u00e9cor__modimole",
+    "paymentDate": "2024-10-08",
+    "amount": 3525.0,
+    "method": "Unknown",
+    "reference": "Payment for invoice 241008101",
+    "allocations": [
+      {
+        "invoiceId": "inv_241008101",
+        "amount": 3525.0
+      }
+    ]
+  },
+  {
+    "id": "pay_241008202",
+    "customerId": "cust_camp_and_climb_cc__head_office",
+    "paymentDate": "2024-10-08",
+    "amount": 6570.25,
+    "method": "Unknown",
+    "reference": "Payment for invoice 241008202",
+    "allocations": [
+      {
+        "invoiceId": "inv_241008202",
+        "amount": 6570.25
+      }
+    ]
+  },
+  {
+    "id": "pay_241009101",
+    "customerId": "cust_newco_traders_online",
+    "paymentDate": "2024-10-09",
+    "amount": 4700.0,
+    "method": "Unknown",
+    "reference": "Payment for invoice 241009101",
+    "allocations": [
+      {
+        "invoiceId": "inv_241009101",
+        "amount": 4700.0
+      }
+    ]
+  },
+  {
+    "id": "pay_241011101",
+    "customerId": "cust_gammatauworm",
+    "paymentDate": "2024-10-11",
+    "amount": 2752.0,
+    "method": "Unknown",
+    "reference": "Payment for invoice 241011101",
+    "allocations": [
+      {
+        "invoiceId": "inv_241011101",
+        "amount": 2752.0
+      }
+    ]
+  },
+  {
+    "id": "pay_241125101",
+    "customerId": "cust_kampi_technologies",
+    "paymentDate": "2024-11-25",
+    "amount": 2350.0,
+    "method": "Unknown",
+    "reference": "Payment for invoice 241125101",
+    "allocations": [
+      {
+        "invoiceId": "inv_241125101",
+        "amount": 2350.0
+      }
+    ]
+  },
+  {
+    "id": "pay_241011101",
+    "customerId": "cust_calcumed",
+    "paymentDate": "2024-10-11",
+    "amount": 2400.0,
+    "method": "Unknown",
+    "reference": "Payment for invoice 241011101",
+    "allocations": [
+      {
+        "invoiceId": "inv_241011101",
+        "amount": 2400.0
+      }
+    ]
+  },
+  {
+    "id": "pay_241016101",
+    "customerId": "cust_wildman_robertson",
+    "paymentDate": "2024-10-16",
+    "amount": 3525.0,
+    "method": "Unknown",
+    "reference": "Payment for invoice 241016101",
+    "allocations": [
+      {
+        "invoiceId": "inv_241016101",
+        "amount": 3525.0
+      }
+    ]
+  },
+  {
+    "id": "pay_241125101",
+    "customerId": "cust_exhibition_north__nelspruit",
+    "paymentDate": "2024-11-25",
+    "amount": 5640.0,
+    "method": "Unknown",
+    "reference": "Payment for invoice 241125101",
+    "allocations": [
+      {
+        "invoiceId": "inv_241125101",
+        "amount": 5640.0
+      }
+    ]
+  },
+  {
+    "id": "pay_241017303",
+    "customerId": "cust_newco_traders_online",
+    "paymentDate": "2024-10-17",
+    "amount": 4700.0,
+    "method": "Unknown",
+    "reference": "Payment for invoice 241017303",
+    "allocations": [
+      {
+        "invoiceId": "inv_241017303",
+        "amount": 4700.0
+      }
+    ]
+  },
+  {
+    "id": "pay_241018101",
+    "customerId": "cust_dirttrax_4x4_adventure_centre",
+    "paymentDate": "2024-10-18",
+    "amount": 3326.25,
+    "method": "Unknown",
+    "reference": "Payment for invoice 241018101",
+    "allocations": [
+      {
+        "invoiceId": "inv_241018101",
+        "amount": 3326.25
+      }
+    ]
+  },
+  {
+    "id": "pay_241018202",
+    "customerId": "cust_newco_traders_online",
+    "paymentDate": "2024-10-18",
+    "amount": 600.0,
+    "method": "Unknown",
+    "reference": "Payment for invoice 241018202",
+    "allocations": [
+      {
+        "invoiceId": "inv_241018202",
+        "amount": 600.0
+      }
+    ]
+  },
+  {
+    "id": "pay_241018303",
+    "customerId": "cust_kings_meat_deli__lynnwoodbridge",
+    "paymentDate": "2024-10-18",
+    "amount": 7320.0,
+    "method": "Unknown",
+    "reference": "Payment for invoice 241018303",
+    "allocations": [
+      {
+        "invoiceId": "inv_241018303",
+        "amount": 7320.0
+      }
+    ]
+  },
+  {
+    "id": "pay_241021101",
+    "customerId": "cust_newco_traders_online",
+    "paymentDate": "2024-10-21",
+    "amount": 600.0,
+    "method": "Unknown",
+    "reference": "Payment for invoice 241021101",
+    "allocations": [
+      {
+        "invoiceId": "inv_241021101",
+        "amount": 600.0
+      }
+    ]
+  },
+  {
+    "id": "pay_241021202",
+    "customerId": "cust_abe_motors_cc",
+    "paymentDate": "2024-10-21",
+    "amount": 2592.0,
+    "method": "Unknown",
+    "reference": "Payment for invoice 241021202",
+    "allocations": [
+      {
+        "invoiceId": "inv_241021202",
+        "amount": 2592.0
+      }
+    ]
+  },
+  {
+    "id": "pay_241023101",
+    "customerId": "cust_binuns_menlyn_cc",
+    "paymentDate": "2024-10-23",
+    "amount": 43200.0,
+    "method": "Unknown",
+    "reference": "Payment for invoice 241023101",
+    "allocations": [
+      {
+        "invoiceId": "inv_241023101",
+        "amount": 43200.0
+      }
+    ]
+  },
+  {
+    "id": "pay_241023202",
+    "customerId": "cust_binuns_menlyn_cc",
+    "paymentDate": "2024-10-23",
+    "amount": 1300.0,
+    "method": "Unknown",
+    "reference": "Payment for invoice 241023202",
+    "allocations": [
+      {
+        "invoiceId": "inv_241023202",
+        "amount": 1300.0
+      }
+    ]
+  },
+  {
+    "id": "pay_241024101",
+    "customerId": "cust_kings_meat_deli__castle_walk",
+    "paymentDate": "2024-10-24",
+    "amount": 6600.0,
+    "method": "Unknown",
+    "reference": "Payment for invoice 241024101",
+    "allocations": [
+      {
+        "invoiceId": "inv_241024101",
+        "amount": 6600.0
+      }
+    ]
+  },
+  {
+    "id": "pay_241125101",
+    "customerId": "cust_newco_traders_online",
+    "paymentDate": "2024-11-25",
+    "amount": 2350.0,
+    "method": "Unknown",
+    "reference": "Payment for invoice 241125101",
+    "allocations": [
+      {
+        "invoiceId": "inv_241125101",
+        "amount": 2350.0
+      }
+    ]
+  },
+  {
+    "id": "pay_241025101",
+    "customerId": "cust_caltex_manor",
+    "paymentDate": "2024-10-25",
+    "amount": 2160.0,
+    "method": "Unknown",
+    "reference": "Payment for invoice 241025101",
+    "allocations": [
+      {
+        "invoiceId": "inv_241025101",
+        "amount": 2160.0
+      }
+    ]
+  },
+  {
+    "id": "pay_241024101",
+    "customerId": "cust_newco_traders_online",
+    "paymentDate": "2024-10-24",
+    "amount": 600.0,
+    "method": "Unknown",
+    "reference": "Payment for invoice 241024101",
+    "allocations": [
+      {
+        "invoiceId": "inv_241024101",
+        "amount": 600.0
+      }
+    ]
+  },
+  {
+    "id": "pay_241028101",
+    "customerId": "cust_trulyhealth",
+    "paymentDate": "2024-10-28",
+    "amount": 20000.0,
+    "method": "Unknown",
+    "reference": "Payment for invoice 241028101",
+    "allocations": [
+      {
+        "invoiceId": "inv_241028101",
+        "amount": 20000.0
+      }
+    ]
+  },
+  {
+    "id": "pay_241029101",
+    "customerId": "cust_newco_traders_online",
+    "paymentDate": "2024-10-29",
+    "amount": 5875.0,
+    "method": "Unknown",
+    "reference": "Payment for invoice 241029101",
+    "allocations": [
+      {
+        "invoiceId": "inv_241029101",
+        "amount": 5875.0
+      }
+    ]
+  },
+  {
+    "id": "pay_241029202",
+    "customerId": "cust_bella_aqua_water",
+    "paymentDate": "2024-10-29",
+    "amount": 6570.0,
+    "method": "Unknown",
+    "reference": "Payment for invoice 241029202",
+    "allocations": [
+      {
+        "invoiceId": "inv_241029202",
+        "amount": 6570.0
+      }
+    ]
+  },
+  {
+    "id": "pay_241029303",
+    "customerId": "cust_4x4_unlimited",
+    "paymentDate": "2024-10-29",
+    "amount": 6570.0,
+    "method": "Unknown",
+    "reference": "Payment for invoice 241029303",
+    "allocations": [
+      {
+        "invoiceId": "inv_241029303",
+        "amount": 6570.0
+      }
+    ]
+  },
+  {
+    "id": "pay_241029404",
+    "customerId": "cust_kitchenique",
+    "paymentDate": "2024-10-29",
+    "amount": 10880.0,
+    "method": "Unknown",
+    "reference": "Payment for invoice 241029404",
+    "allocations": [
+      {
+        "invoiceId": "inv_241029404",
+        "amount": 10880.0
+      }
+    ]
+  },
+  {
+    "id": "pay_241030202",
+    "customerId": "cust_kings_meat_deli__castle_walk",
+    "paymentDate": "2024-10-30",
+    "amount": 8050.0,
+    "method": "Unknown",
+    "reference": "Payment for invoice 241030202",
+    "allocations": [
+      {
+        "invoiceId": "inv_241030202",
+        "amount": 8050.0
+      }
+    ]
+  },
+  {
+    "id": "pay_241030303",
+    "customerId": "cust_kings_meat_deli__lynnwoodbridge",
+    "paymentDate": "2024-10-30",
+    "amount": 4450.0,
+    "method": "Unknown",
+    "reference": "Payment for invoice 241030303",
+    "allocations": [
+      {
+        "invoiceId": "inv_241030303",
+        "amount": 4450.0
+      }
+    ]
+  },
+  {
+    "id": "pay_241105202",
+    "customerId": "cust_dassiesfontein_padstal",
+    "paymentDate": "2024-11-05",
+    "amount": 3525.0,
+    "method": "Unknown",
+    "reference": "Payment for invoice 241105202",
+    "allocations": [
+      {
+        "invoiceId": "inv_241105202",
+        "amount": 3525.0
+      }
+    ]
+  },
+  {
+    "id": "pay_241105101",
+    "customerId": "cust_brenel_4x4",
+    "paymentDate": "2024-11-05",
+    "amount": 3305.0,
+    "method": "Unknown",
+    "reference": "Payment for invoice 241105101",
+    "allocations": [
+      {
+        "invoiceId": "inv_241105101",
+        "amount": 3305.0
+      }
+    ]
+  },
+  {
+    "id": "pay_241105202",
+    "customerId": "cust_emilize_human",
+    "paymentDate": "2024-11-05",
+    "amount": 3525.0,
+    "method": "Unknown",
+    "reference": "Payment for invoice 241105202",
+    "allocations": [
+      {
+        "invoiceId": "inv_241105202",
+        "amount": 3525.0
+      }
+    ]
+  },
+  {
+    "id": "pay_241106101",
+    "customerId": "cust_walkers_midas_upington_4x4_mega_world",
+    "paymentDate": "2024-11-06",
+    "amount": 4700.0,
+    "method": "Unknown",
+    "reference": "Payment for invoice 241106101",
+    "allocations": [
+      {
+        "invoiceId": "inv_241106101",
+        "amount": 4700.0
+      }
+    ]
+  },
+  {
+    "id": "pay_241106202",
+    "customerId": "cust_binuns_menlyn_cc",
+    "paymentDate": "2024-11-06",
+    "amount": 14700.0,
+    "method": "Unknown",
+    "reference": "Payment for invoice 241106202",
+    "allocations": [
+      {
+        "invoiceId": "inv_241106202",
+        "amount": 14700.0
+      }
+    ]
+  },
+  {
+    "id": "pay_241125101",
+    "customerId": "cust_lappies_labuschagne",
+    "paymentDate": "2024-11-25",
+    "amount": 2222.0,
+    "method": "Unknown",
+    "reference": "Payment for invoice 241125101",
+    "allocations": [
+      {
+        "invoiceId": "inv_241125101",
+        "amount": 2222.0
+      }
+    ]
+  },
+  {
+    "id": "pay_241125202",
+    "customerId": "cust_newco_traders_online",
+    "paymentDate": "2024-11-25",
+    "amount": 1200.0,
+    "method": "Unknown",
+    "reference": "Payment for invoice 241125202",
+    "allocations": [
+      {
+        "invoiceId": "inv_241125202",
+        "amount": 1200.0
+      }
+    ]
+  },
+  {
+    "id": "pay_241107101",
+    "customerId": "cust_eastern_cape_caravans__safari_centre",
+    "paymentDate": "2024-11-07",
+    "amount": 2222.0,
+    "method": "Unknown",
+    "reference": "Payment for invoice 241107101",
+    "allocations": [
+      {
+        "invoiceId": "inv_241107101",
+        "amount": 2222.0
+      }
+    ]
+  },
+  {
+    "id": "pay_241125101",
+    "customerId": "cust_rcma_group_hawies_springs",
+    "paymentDate": "2024-11-25",
+    "amount": 4700.0,
+    "method": "Unknown",
+    "reference": "Payment for invoice 241125101",
+    "allocations": [
+      {
+        "invoiceId": "inv_241125101",
+        "amount": 4700.0
+      }
+    ]
+  },
+  {
+    "id": "pay_241125202",
+    "customerId": "cust_admiror_trading_4_sheep",
+    "paymentDate": "2024-11-25",
+    "amount": 7050.0,
+    "method": "Unknown",
+    "reference": "Payment for invoice 241125202",
+    "allocations": [
+      {
+        "invoiceId": "inv_241125202",
+        "amount": 7050.0
+      }
+    ]
+  },
+  {
+    "id": "pay_241112101",
+    "customerId": "cust_camp_and_climb_cc__head_office",
+    "paymentDate": "2024-11-12",
+    "amount": 10982.85,
+    "method": "Unknown",
+    "reference": "Payment for invoice 241112101",
+    "allocations": [
+      {
+        "invoiceId": "inv_241112101",
+        "amount": 10982.85
+      }
+    ]
+  },
+  {
+    "id": "pay_241112202",
+    "customerId": "cust_geert_de_jong",
+    "paymentDate": "2024-11-12",
+    "amount": 8640.0,
+    "method": "Unknown",
+    "reference": "Payment for invoice 241112202",
+    "allocations": [
+      {
+        "invoiceId": "inv_241112202",
+        "amount": 8640.0
+      }
+    ]
+  },
+  {
+    "id": "pay_241113101",
+    "customerId": "cust_carina_pearce",
+    "paymentDate": "2024-11-13",
+    "amount": 2205.5,
+    "method": "Unknown",
+    "reference": "Payment for invoice 241113101",
+    "allocations": [
+      {
+        "invoiceId": "inv_241113101",
+        "amount": 2205.5
+      }
+    ]
+  },
+  {
+    "id": "pay_241125101",
+    "customerId": "cust_crestwave_114_tzaneen_superspar",
+    "paymentDate": "2024-11-25",
+    "amount": 5405.0,
+    "method": "Unknown",
+    "reference": "Payment for invoice 241125101",
+    "allocations": [
+      {
+        "invoiceId": "inv_241125101",
+        "amount": 5405.0
+      }
+    ]
+  },
+  {
+    "id": "pay_241113101",
+    "customerId": "cust_the_monarchy",
+    "paymentDate": "2024-11-13",
+    "amount": 780.0,
+    "method": "Unknown",
+    "reference": "Payment for invoice 241113101",
+    "allocations": [
+      {
+        "invoiceId": "inv_241113101",
+        "amount": 780.0
+      }
+    ]
+  },
+  {
+    "id": "pay_241114101",
+    "customerId": "cust_newco_traders_online",
+    "paymentDate": "2024-11-14",
+    "amount": 1800.0,
+    "method": "Unknown",
+    "reference": "Payment for invoice 241114101",
+    "allocations": [
+      {
+        "invoiceId": "inv_241114101",
+        "amount": 1800.0
+      }
+    ]
+  },
+  {
+    "id": "pay_241114202",
+    "customerId": "cust_pet_pool_and_home__malmesbury",
+    "paymentDate": "2024-11-14",
+    "amount": 3307.0,
+    "method": "Unknown",
+    "reference": "Payment for invoice 241114202",
+    "allocations": [
+      {
+        "invoiceId": "inv_241114202",
+        "amount": 3307.0
+      }
+    ]
+  },
+  {
+    "id": "pay_241114303",
+    "customerId": "cust_soles_for_africa_cc__boet__betty",
+    "paymentDate": "2024-11-14",
+    "amount": 4406.25,
+    "method": "Unknown",
+    "reference": "Payment for invoice 241114303",
+    "allocations": [
+      {
+        "invoiceId": "inv_241114303",
+        "amount": 4406.25
+      }
+    ]
+  },
+  {
+    "id": "pay_241125101",
+    "customerId": "cust_tentco__21_bisset_road",
+    "paymentDate": "2024-11-25",
+    "amount": 14440.0,
+    "method": "Unknown",
+    "reference": "Payment for invoice 241125101",
+    "allocations": [
+      {
+        "invoiceId": "inv_241125101",
+        "amount": 14440.0
+      }
+    ]
+  },
+  {
+    "id": "pay_241118101",
+    "customerId": "cust_house_of_carpets_furniture__appliance",
+    "paymentDate": "2024-11-18",
+    "amount": 4700.0,
+    "method": "Unknown",
+    "reference": "Payment for invoice 241118101",
+    "allocations": [
+      {
+        "invoiceId": "inv_241118101",
+        "amount": 4700.0
+      }
+    ]
+  },
+  {
+    "id": "pay_241119101",
+    "customerId": "cust_newco_traders_online",
+    "paymentDate": "2024-11-19",
+    "amount": 600.0,
+    "method": "Unknown",
+    "reference": "Payment for invoice 241119101",
+    "allocations": [
+      {
+        "invoiceId": "inv_241119101",
+        "amount": 600.0
+      }
+    ]
+  },
+  {
+    "id": "pay_241125101",
+    "customerId": "cust_riversdale_trading_bali_trading",
+    "paymentDate": "2024-11-25",
+    "amount": 11280.0,
+    "method": "Unknown",
+    "reference": "Payment for invoice 241125101",
+    "allocations": [
+      {
+        "invoiceId": "inv_241125101",
+        "amount": 11280.0
+      }
+    ]
+  },
+  {
+    "id": "pay_241125202",
+    "customerId": "cust_dfd_farming_and_hiring",
+    "paymentDate": "2024-11-25",
+    "amount": 3525.0,
+    "method": "Unknown",
+    "reference": "Payment for invoice 241125202",
+    "allocations": [
+      {
+        "invoiceId": "inv_241125202",
+        "amount": 3525.0
+      }
+    ]
+  },
+  {
+    "id": "pay_241125404",
+    "customerId": "cust_trek_in_midas",
+    "paymentDate": "2024-11-25",
+    "amount": 7050.0,
+    "method": "Unknown",
+    "reference": "Payment for invoice 241125404",
+    "allocations": [
+      {
+        "invoiceId": "inv_241125404",
+        "amount": 7050.0
+      }
+    ]
+  },
+  {
+    "id": "pay_241125505",
+    "customerId": "cust_newco_traders_online",
+    "paymentDate": "2024-11-25",
+    "amount": 4700.0,
+    "method": "Unknown",
+    "reference": "Payment for invoice 241125505",
+    "allocations": [
+      {
+        "invoiceId": "inv_241125505",
+        "amount": 4700.0
+      }
+    ]
+  },
+  {
+    "id": "pay_241125606",
+    "customerId": "cust_newco_traders_online",
+    "paymentDate": "2024-11-25",
+    "amount": 600.0,
+    "method": "Unknown",
+    "reference": "Payment for invoice 241125606",
+    "allocations": [
+      {
+        "invoiceId": "inv_241125606",
+        "amount": 600.0
+      }
+    ]
+  },
+  {
+    "id": "pay_241125707",
+    "customerId": "cust_newco_traders_online",
+    "paymentDate": "2024-11-25",
+    "amount": 1200.0,
+    "method": "Unknown",
+    "reference": "Payment for invoice 241125707",
+    "allocations": [
+      {
+        "invoiceId": "inv_241125707",
+        "amount": 1200.0
+      }
+    ]
+  },
+  {
+    "id": "pay_241126101",
+    "customerId": "cust_steyns_boumateriale",
+    "paymentDate": "2024-11-26",
+    "amount": 2820.0,
+    "method": "Unknown",
+    "reference": "Payment for invoice 241126101",
+    "allocations": [
+      {
+        "invoiceId": "inv_241126101",
+        "amount": 2820.0
+      }
+    ]
+  },
+  {
+    "id": "pay_241126202",
+    "customerId": "cust_natal_caravans__marine",
+    "paymentDate": "2024-11-26",
+    "amount": 5284.0,
+    "method": "Unknown",
+    "reference": "Payment for invoice 241126202",
+    "allocations": [
+      {
+        "invoiceId": "inv_241126202",
+        "amount": 5284.0
+      }
+    ]
+  },
+  {
+    "id": "pay_241127101",
+    "customerId": "cust_kamdebo_padstal",
+    "paymentDate": "2024-11-27",
+    "amount": 3525.0,
+    "method": "Unknown",
+    "reference": "Payment for invoice 241127101",
+    "allocations": [
+      {
+        "invoiceId": "inv_241127101",
+        "amount": 3525.0
+      }
+    ]
+  },
+  {
+    "id": "pay_241203101",
+    "customerId": "cust_td_coetzee_middelwater_trust",
+    "paymentDate": "2024-12-03",
+    "amount": 2667.0,
+    "method": "Unknown",
+    "reference": "Payment for invoice 241203101",
+    "allocations": [
+      {
+        "invoiceId": "inv_241203101",
+        "amount": 2667.0
+      }
+    ]
+  },
+  {
+    "id": "pay_241203202",
+    "customerId": "cust_safari_centre",
+    "paymentDate": "2024-12-03",
+    "amount": 4440.0,
+    "method": "Unknown",
+    "reference": "Payment for invoice 241203202",
+    "allocations": [
+      {
+        "invoiceId": "inv_241203202",
+        "amount": 4440.0
+      }
+    ]
+  },
+  {
+    "id": "pay_241203303",
+    "customerId": "cust_bundubash_africa_pty",
+    "paymentDate": "2024-12-03",
+    "amount": 6585.0,
+    "method": "Unknown",
+    "reference": "Payment for invoice 241203303",
+    "allocations": [
+      {
+        "invoiceId": "inv_241203303",
+        "amount": 6585.0
+      }
+    ]
+  },
+  {
+    "id": "pay_241202101",
+    "customerId": "cust_adomastar_klerksdorp_campworld",
+    "paymentDate": "2024-12-02",
+    "amount": 2209.0,
+    "method": "Unknown",
+    "reference": "Payment for invoice 241202101",
+    "allocations": [
+      {
+        "invoiceId": "inv_241202101",
+        "amount": 2209.0
+      }
+    ]
+  },
+  {
+    "id": "pay_241203101",
+    "customerId": "cust_the_biltong_boutiek__plettenberg_bay",
+    "paymentDate": "2024-12-03",
+    "amount": 3525.0,
+    "method": "Unknown",
+    "reference": "Payment for invoice 241203101",
+    "allocations": [
+      {
+        "invoiceId": "inv_241203101",
+        "amount": 3525.0
+      }
+    ]
+  },
+  {
+    "id": "pay_241203404",
+    "customerId": "cust_newco_traders_online",
+    "paymentDate": "2024-12-03",
+    "amount": 4700.0,
+    "method": "Unknown",
+    "reference": "Payment for invoice 241203404",
+    "allocations": [
+      {
+        "invoiceId": "inv_241203404",
+        "amount": 4700.0
+      }
+    ]
+  },
+  {
+    "id": "pay_241204101",
+    "customerId": "cust_newco_traders_online",
+    "paymentDate": "2024-12-04",
+    "amount": 600.0,
+    "method": "Unknown",
+    "reference": "Payment for invoice 241204101",
+    "allocations": [
+      {
+        "invoiceId": "inv_241204101",
+        "amount": 600.0
+      }
+    ]
+  },
+  {
+    "id": "pay_241204202",
+    "customerId": "cust_koop_en_bou_de_doorns",
+    "paymentDate": "2024-12-04",
+    "amount": 7050.0,
+    "method": "Unknown",
+    "reference": "Payment for invoice 241204202",
+    "allocations": [
+      {
+        "invoiceId": "inv_241204202",
+        "amount": 7050.0
+      }
+    ]
+  },
+  {
+    "id": "pay_241205101",
+    "customerId": "cust_newco_traders_online",
+    "paymentDate": "2024-12-05",
+    "amount": 600.0,
+    "method": "Unknown",
+    "reference": "Payment for invoice 241205101",
+    "allocations": [
+      {
+        "invoiceId": "inv_241205101",
+        "amount": 600.0
+      }
+    ]
+  },
+  {
+    "id": "pay_241206101",
+    "customerId": "cust_wildman_centurion",
+    "paymentDate": "2024-12-06",
+    "amount": 5184.0,
+    "method": "Unknown",
+    "reference": "Payment for invoice 241206101",
+    "allocations": [
+      {
+        "invoiceId": "inv_241206101",
+        "amount": 5184.0
+      }
+    ]
+  },
+  {
+    "id": "pay_2412061414",
+    "customerId": "cust_sentraal_suid_kooperasie__george",
+    "paymentDate": "2024-12-06",
+    "amount": 3525.0,
+    "method": "Unknown",
+    "reference": "Payment for invoice 2412061414",
+    "allocations": [
+      {
+        "invoiceId": "inv_2412061414",
+        "amount": 3525.0
+      }
+    ]
+  },
+  {
+    "id": "pay_250113101",
+    "customerId": "cust_middelburg_caravan__campworld",
+    "paymentDate": "2025-01-13",
+    "amount": 1356.0,
+    "method": "Unknown",
+    "reference": "Payment for invoice 250113101",
+    "allocations": [
+      {
+        "invoiceId": "inv_250113101",
+        "amount": 1356.0
+      }
+    ]
+  },
+  {
+    "id": "pay_2412091212",
+    "customerId": "cust_dup_meubels",
+    "paymentDate": "2024-12-09",
+    "amount": 3525.0,
+    "method": "Unknown",
+    "reference": "Payment for invoice 2412091212",
+    "allocations": [
+      {
+        "invoiceId": "inv_2412091212",
+        "amount": 3525.0
+      }
+    ]
+  },
+  {
+    "id": "pay_2412091313",
+    "customerId": "cust_newco_traders_online",
+    "paymentDate": "2024-12-09",
+    "amount": 600.0,
+    "method": "Unknown",
+    "reference": "Payment for invoice 2412091313",
+    "allocations": [
+      {
+        "invoiceId": "inv_2412091313",
+        "amount": 600.0
+      }
+    ]
+  },
+  {
+    "id": "pay_2412091414",
+    "customerId": "cust_newco_traders_online",
+    "paymentDate": "2024-12-09",
+    "amount": 600.0,
+    "method": "Unknown",
+    "reference": "Payment for invoice 2412091414",
+    "allocations": [
+      {
+        "invoiceId": "inv_2412091414",
+        "amount": 600.0
+      }
+    ]
+  },
+  {
+    "id": "pay_2412091515",
+    "customerId": "cust_soles_for_africa_cc__boet__betty",
+    "paymentDate": "2024-12-09",
+    "amount": 3300.0,
+    "method": "Unknown",
+    "reference": "Payment for invoice 2412091515",
+    "allocations": [
+      {
+        "invoiceId": "inv_2412091515",
+        "amount": 3300.0
+      }
+    ]
+  },
+  {
+    "id": "pay_2412091616",
+    "customerId": "cust_newco_traders_online",
+    "paymentDate": "2024-12-09",
+    "amount": 600.0,
+    "method": "Unknown",
+    "reference": "Payment for invoice 2412091616",
+    "allocations": [
+      {
+        "invoiceId": "inv_2412091616",
+        "amount": 600.0
+      }
+    ]
+  },
+  {
+    "id": "pay_250113101",
+    "customerId": "cust_lena_van_rensburg",
+    "paymentDate": "2025-01-13",
+    "amount": 658.0,
+    "method": "Unknown",
+    "reference": "Payment for invoice 250113101",
+    "allocations": [
+      {
+        "invoiceId": "inv_250113101",
+        "amount": 658.0
+      }
+    ]
+  },
+  {
+    "id": "pay_241209101",
+    "customerId": "cust_spiceologist",
+    "paymentDate": "2024-12-09",
+    "amount": 4700.0,
+    "method": "Unknown",
+    "reference": "Payment for invoice 241209101",
+    "allocations": [
+      {
+        "invoiceId": "inv_241209101",
+        "amount": 4700.0
+      }
+    ]
+  },
+  {
+    "id": "pay_250107101",
+    "customerId": "cust_binuns_menlyn_cc",
+    "paymentDate": "2025-01-07",
+    "amount": 51840.0,
+    "method": "Unknown",
+    "reference": "Payment for invoice 250107101",
+    "allocations": [
+      {
+        "invoiceId": "inv_250107101",
+        "amount": 51840.0
+      }
+    ]
+  },
+  {
+    "id": "pay_241202101",
+    "customerId": "cust_agri_bonus",
+    "paymentDate": "2024-12-02",
+    "amount": 538.0,
+    "method": "Unknown",
+    "reference": "Payment for invoice 241202101",
+    "allocations": [
+      {
+        "invoiceId": "inv_241202101",
+        "amount": 538.0
+      }
+    ]
+  },
+  {
+    "id": "pay_241217101",
+    "customerId": "cust_pet_pool_and_home__knysna",
+    "paymentDate": "2024-12-17",
+    "amount": 3306.0,
+    "method": "Unknown",
+    "reference": "Payment for invoice 241217101",
+    "allocations": [
+      {
+        "invoiceId": "inv_241217101",
+        "amount": 3306.0
+      }
+    ]
+  },
+  {
+    "id": "pay_241217202",
+    "customerId": "cust_pet_pool_and_home__port_elizabeth",
+    "paymentDate": "2024-12-17",
+    "amount": 3300.0,
+    "method": "Unknown",
+    "reference": "Payment for invoice 241217202",
+    "allocations": [
+      {
+        "invoiceId": "inv_241217202",
+        "amount": 3300.0
+      }
+    ]
+  },
+  {
+    "id": "pay_241217303",
+    "customerId": "cust_pet_pool_and_home__paarl",
+    "paymentDate": "2024-12-17",
+    "amount": 3306.0,
+    "method": "Unknown",
+    "reference": "Payment for invoice 241217303",
+    "allocations": [
+      {
+        "invoiceId": "inv_241217303",
+        "amount": 3306.0
+      }
+    ]
+  },
+  {
+    "id": "pay_250107101",
+    "customerId": "cust_newco_traders_online",
+    "paymentDate": "2025-01-07",
+    "amount": 10700.0,
+    "method": "Unknown",
+    "reference": "Payment for invoice 250107101",
+    "allocations": [
+      {
+        "invoiceId": "inv_250107101",
+        "amount": 10700.0
+      }
+    ]
+  },
+  {
+    "id": "pay_250128101",
+    "customerId": "cust_uitkyk_vleismark",
+    "paymentDate": "2025-01-28",
+    "amount": 6480.0,
+    "method": "Unknown",
+    "reference": "Payment for invoice 250128101",
+    "allocations": [
+      {
+        "invoiceId": "inv_250128101",
+        "amount": 6480.0
+      }
+    ]
+  },
+  {
+    "id": "pay_241217202",
+    "customerId": "cust_obaro__brits",
+    "paymentDate": "2024-12-17",
+    "amount": 3525.0,
+    "method": "Unknown",
+    "reference": "Payment for invoice 241217202",
+    "allocations": [
+      {
+        "invoiceId": "inv_241217202",
+        "amount": 3525.0
+      }
+    ]
+  },
+  {
+    "id": "pay_241217303",
+    "customerId": "cust_obaro__tijgervallei",
+    "paymentDate": "2024-12-17",
+    "amount": 3525.0,
+    "method": "Unknown",
+    "reference": "Payment for invoice 241217303",
+    "allocations": [
+      {
+        "invoiceId": "inv_241217303",
+        "amount": 3525.0
+      }
+    ]
+  },
+  {
+    "id": "pay_241217404",
+    "customerId": "cust_kimberley_wildman_hunting__outdoor",
+    "paymentDate": "2024-12-17",
+    "amount": 7050.0,
+    "method": "Unknown",
+    "reference": "Payment for invoice 241217404",
+    "allocations": [
+      {
+        "invoiceId": "inv_241217404",
+        "amount": 7050.0
+      }
+    ]
+  },
+  {
+    "id": "pay_241217505",
+    "customerId": "cust_expedition_north__worcester",
+    "paymentDate": "2024-12-17",
+    "amount": 5640.0,
+    "method": "Unknown",
+    "reference": "Payment for invoice 241217505",
+    "allocations": [
+      {
+        "invoiceId": "inv_241217505",
+        "amount": 5640.0
+      }
+    ]
+  },
+  {
+    "id": "pay_241217606",
+    "customerId": "cust_outdoor_junction_cc",
+    "paymentDate": "2024-12-17",
+    "amount": 7050.0,
+    "method": "Unknown",
+    "reference": "Payment for invoice 241217606",
+    "allocations": [
+      {
+        "invoiceId": "inv_241217606",
+        "amount": 7050.0
+      }
+    ]
+  },
+  {
+    "id": "pay_241219101",
+    "customerId": "cust_riversdale_trading_bali_trading",
+    "paymentDate": "2024-12-19",
+    "amount": 14100.0,
+    "method": "Unknown",
+    "reference": "Payment for invoice 241219101",
+    "allocations": [
+      {
+        "invoiceId": "inv_241219101",
+        "amount": 14100.0
+      }
+    ]
+  },
+  {
+    "id": "pay_250109101",
+    "customerId": "cust_johan_nel",
+    "paymentDate": "2025-01-09",
+    "amount": 600.0,
+    "method": "Unknown",
+    "reference": "Payment for invoice 250109101",
+    "allocations": [
+      {
+        "invoiceId": "inv_250109101",
+        "amount": 600.0
+      }
+    ]
+  },
+  {
+    "id": "pay_250109202",
+    "customerId": "cust_newco_traders_online",
+    "paymentDate": "2025-01-09",
+    "amount": 4700.0,
+    "method": "Unknown",
+    "reference": "Payment for invoice 250109202",
+    "allocations": [
+      {
+        "invoiceId": "inv_250109202",
+        "amount": 4700.0
+      }
+    ]
+  },
+  {
+    "id": "pay_250109303",
+    "customerId": "cust_4_seasons_winkel",
+    "paymentDate": "2025-01-09",
+    "amount": 4402.5,
+    "method": "Unknown",
+    "reference": "Payment for invoice 250109303",
+    "allocations": [
+      {
+        "invoiceId": "inv_250109303",
+        "amount": 4402.5
+      }
+    ]
+  },
+  {
+    "id": "pay_250109404",
+    "customerId": "cust_4x4_unlimited",
+    "paymentDate": "2025-01-09",
+    "amount": 6570.0,
+    "method": "Unknown",
+    "reference": "Payment for invoice 250109404",
+    "allocations": [
+      {
+        "invoiceId": "inv_250109404",
+        "amount": 6570.0
+      }
+    ]
+  },
+  {
+    "id": "pay_250114101",
+    "customerId": "cust_kamdebo_padstal",
+    "paymentDate": "2025-01-14",
+    "amount": 3525.0,
+    "method": "Unknown",
+    "reference": "Payment for invoice 250114101",
+    "allocations": [
+      {
+        "invoiceId": "inv_250114101",
+        "amount": 3525.0
+      }
+    ]
+  },
+  {
+    "id": "pay_250114202",
+    "customerId": "cust_travalia_padstal_17_on_bird",
+    "paymentDate": "2025-01-14",
+    "amount": 3525.0,
+    "method": "Unknown",
+    "reference": "Payment for invoice 250114202",
+    "allocations": [
+      {
+        "invoiceId": "inv_250114202",
+        "amount": 3525.0
+      }
+    ]
+  },
+  {
+    "id": "pay_250114303",
+    "customerId": "cust_die_ratel_en_meerkatgat",
+    "paymentDate": "2025-01-14",
+    "amount": 2350.0,
+    "method": "Unknown",
+    "reference": "Payment for invoice 250114303",
+    "allocations": [
+      {
+        "invoiceId": "inv_250114303",
+        "amount": 2350.0
+      }
+    ]
+  },
+  {
+    "id": "pay_250115101",
+    "customerId": "cust_newco_traders_online",
+    "paymentDate": "2025-01-15",
+    "amount": 4700.0,
+    "method": "Unknown",
+    "reference": "Payment for invoice 250115101",
+    "allocations": [
+      {
+        "invoiceId": "inv_250115101",
+        "amount": 4700.0
+      }
+    ]
+  },
+  {
+    "id": "pay_240116101",
+    "customerId": "cust_camp_and_climb_cc__head_office",
+    "paymentDate": "2024-01-16",
+    "amount": 6599.0,
+    "method": "Unknown",
+    "reference": "Payment for invoice 240116101",
+    "allocations": [
+      {
+        "invoiceId": "inv_240116101",
+        "amount": 6599.0
+      }
+    ]
+  },
+  {
+    "id": "pay_250116101",
+    "customerId": "cust_agri_bonus",
+    "paymentDate": "2025-01-16",
+    "amount": 538.0,
+    "method": "Unknown",
+    "reference": "Payment for invoice 250116101",
+    "allocations": [
+      {
+        "invoiceId": "inv_250116101",
+        "amount": 538.0
+      }
+    ]
+  },
+  {
+    "id": "pay_250115101",
+    "customerId": "cust_obaro__thabazimbi",
+    "paymentDate": "2025-01-15",
+    "amount": 3525.0,
+    "method": "Unknown",
+    "reference": "Payment for invoice 250115101",
+    "allocations": [
+      {
+        "invoiceId": "inv_250115101",
+        "amount": 3525.0
+      }
+    ]
+  },
+  {
+    "id": "pay_250116101",
+    "customerId": "cust_up_to_date_fresh_market",
+    "paymentDate": "2025-01-16",
+    "amount": 11280.0,
+    "method": "Unknown",
+    "reference": "Payment for invoice 250116101",
+    "allocations": [
+      {
+        "invoiceId": "inv_250116101",
+        "amount": 11280.0
+      }
+    ]
+  },
+  {
+    "id": "pay_250117101",
+    "customerId": "cust_naomi_bouwer",
+    "paymentDate": "2025-01-17",
+    "amount": 4418.0,
+    "method": "Unknown",
+    "reference": "Payment for invoice 250117101",
+    "allocations": [
+      {
+        "invoiceId": "inv_250117101",
+        "amount": 4418.0
+      }
+    ]
+  },
+  {
+    "id": "pay_250121101",
+    "customerId": "cust_outdoor_junction_cc",
+    "paymentDate": "2025-01-21",
+    "amount": 7050.0,
+    "method": "Unknown",
+    "reference": "Payment for invoice 250121101",
+    "allocations": [
+      {
+        "invoiceId": "inv_250121101",
+        "amount": 7050.0
+      }
+    ]
+  },
+  {
+    "id": "pay_250122404",
+    "customerId": "cust_tafelberg_furniture_stores_pty",
+    "paymentDate": "2025-01-22",
+    "amount": 7050.0,
+    "method": "Unknown",
+    "reference": "Payment for invoice 250122404",
+    "allocations": [
+      {
+        "invoiceId": "inv_250122404",
+        "amount": 7050.0
+      }
+    ]
+  },
+  {
+    "id": "pay_250125101",
+    "customerId": "cust_wildman_robertson",
+    "paymentDate": "2025-01-25",
+    "amount": 3525.0,
+    "method": "Unknown",
+    "reference": "Payment for invoice 250125101",
+    "allocations": [
+      {
+        "invoiceId": "inv_250125101",
+        "amount": 3525.0
+      }
+    ]
+  },
+  {
+    "id": "pay_250127101",
+    "customerId": "cust_walkers_midas_upington_4x4_mega_world",
+    "paymentDate": "2025-01-27",
+    "amount": 4700.0,
+    "method": "Unknown",
+    "reference": "Payment for invoice 250127101",
+    "allocations": [
+      {
+        "invoiceId": "inv_250127101",
+        "amount": 4700.0
+      }
+    ]
+  },
+  {
+    "id": "pay_250127202",
+    "customerId": "cust_gammatauworm",
+    "paymentDate": "2025-01-27",
+    "amount": 2235.0,
+    "method": "Unknown",
+    "reference": "Payment for invoice 250127202",
+    "allocations": [
+      {
+        "invoiceId": "inv_250127202",
+        "amount": 2235.0
+      }
+    ]
+  },
+  {
+    "id": "pay_250128101",
+    "customerId": "cust_newco_traders_online",
+    "paymentDate": "2025-01-28",
+    "amount": 4700.0,
+    "method": "Unknown",
+    "reference": "Payment for invoice 250128101",
+    "allocations": [
+      {
+        "invoiceId": "inv_250128101",
+        "amount": 4700.0
+      }
+    ]
+  },
+  {
+    "id": "pay_250128202",
+    "customerId": "cust_ristorante_la_trinita",
+    "paymentDate": "2025-01-28",
+    "amount": 2854.0,
+    "method": "Unknown",
+    "reference": "Payment for invoice 250128202",
+    "allocations": [
+      {
+        "invoiceId": "inv_250128202",
+        "amount": 2854.0
+      }
+    ]
+  },
+  {
+    "id": "pay_250129101",
+    "customerId": "cust_breezers_fishing",
+    "paymentDate": "2025-01-29",
+    "amount": 4700.0,
+    "method": "Unknown",
+    "reference": "Payment for invoice 250129101",
+    "allocations": [
+      {
+        "invoiceId": "inv_250129101",
+        "amount": 4700.0
+      }
+    ]
+  },
+  {
+    "id": "pay_250129303",
+    "customerId": "cust_soles_for_africa_cc__boet__betty",
+    "paymentDate": "2025-01-29",
+    "amount": 2211.0,
+    "method": "Unknown",
+    "reference": "Payment for invoice 250129303",
+    "allocations": [
+      {
+        "invoiceId": "inv_250129303",
+        "amount": 2211.0
+      }
+    ]
+  },
+  {
+    "id": "pay_250129404",
+    "customerId": "cust_binuns_menlyn_cc",
+    "paymentDate": "2025-01-29",
+    "amount": 43200.0,
+    "method": "Unknown",
+    "reference": "Payment for invoice 250129404",
+    "allocations": [
+      {
+        "invoiceId": "inv_250129404",
+        "amount": 43200.0
+      }
+    ]
+  },
+  {
+    "id": "pay_250129505",
+    "customerId": "cust_palmietfontein_gastehuis",
+    "paymentDate": "2025-01-29",
+    "amount": 940.0,
+    "method": "Unknown",
+    "reference": "Payment for invoice 250129505",
+    "allocations": [
+      {
+        "invoiceId": "inv_250129505",
+        "amount": 940.0
+      }
+    ]
+  },
+  {
+    "id": "pay_250129707",
+    "customerId": "cust_santonio_musina_foodzone",
+    "paymentDate": "2025-01-29",
+    "amount": 2350.0,
+    "method": "Unknown",
+    "reference": "Payment for invoice 250129707",
+    "allocations": [
+      {
+        "invoiceId": "inv_250129707",
+        "amount": 2350.0
+      }
+    ]
+  },
+  {
+    "id": "pay_250203101",
+    "customerId": "cust_daramode__tuinroete_woonwaens",
+    "paymentDate": "2025-02-03",
+    "amount": 10708.0,
+    "method": "Unknown",
+    "reference": "Payment for invoice 250203101",
+    "allocations": [
+      {
+        "invoiceId": "inv_250203101",
+        "amount": 10708.0
+      }
+    ]
+  },
+  {
+    "id": "pay_250204101",
+    "customerId": "cust_kings_meat_deli__lynnwoodbridge",
+    "paymentDate": "2025-02-04",
+    "amount": 4440.0,
+    "method": "Unknown",
+    "reference": "Payment for invoice 250204101",
+    "allocations": [
+      {
+        "invoiceId": "inv_250204101",
+        "amount": 4440.0
+      }
+    ]
+  },
+  {
+    "id": "pay_2502031919",
+    "customerId": "cust_pet_pool_and_home__hermanus",
+    "paymentDate": "2025-02-03",
+    "amount": 3320.0,
+    "method": "Unknown",
+    "reference": "Payment for invoice 2502031919",
+    "allocations": [
+      {
+        "invoiceId": "inv_2502031919",
+        "amount": 3320.0
+      }
+    ]
+  },
+  {
+    "id": "pay_250206101",
+    "customerId": "cust_pet_pool_and_home__mosselbay",
+    "paymentDate": "2025-02-06",
+    "amount": 3240.0,
+    "method": "Unknown",
+    "reference": "Payment for invoice 250206101",
+    "allocations": [
+      {
+        "invoiceId": "inv_250206101",
+        "amount": 3240.0
+      }
+    ]
+  },
+  {
+    "id": "pay_250207101",
+    "customerId": "cust_nyama_catering",
+    "paymentDate": "2025-02-07",
+    "amount": 1680.0,
+    "method": "Unknown",
+    "reference": "Payment for invoice 250207101",
+    "allocations": [
+      {
+        "invoiceId": "inv_250207101",
+        "amount": 1680.0
+      }
+    ]
+  },
+  {
+    "id": "pay_250211101",
+    "customerId": "cust_gammatauworm__malmesbury",
+    "paymentDate": "2025-02-11",
+    "amount": 2217.0,
+    "method": "Unknown",
+    "reference": "Payment for invoice 250211101",
+    "allocations": [
+      {
+        "invoiceId": "inv_250211101",
+        "amount": 2217.0
+      }
+    ]
+  },
+  {
+    "id": "pay_250212101",
+    "customerId": "cust_dup_meubels",
+    "paymentDate": "2025-02-12",
+    "amount": 3525.0,
+    "method": "Unknown",
+    "reference": "Payment for invoice 250212101",
+    "allocations": [
+      {
+        "invoiceId": "inv_250212101",
+        "amount": 3525.0
+      }
+    ]
+  },
+  {
+    "id": "pay_250212202",
+    "customerId": "cust_des_hofman",
+    "paymentDate": "2025-02-12",
+    "amount": 850.0,
+    "method": "Unknown",
+    "reference": "Payment for invoice 250212202",
+    "allocations": [
+      {
+        "invoiceId": "inv_250212202",
+        "amount": 850.0
+      }
+    ]
+  },
+  {
+    "id": "pay_250214101",
+    "customerId": "cust_prosport_standerton",
+    "paymentDate": "2025-02-14",
+    "amount": 6601.5,
+    "method": "Unknown",
+    "reference": "Payment for invoice 250214101",
+    "allocations": [
+      {
+        "invoiceId": "inv_250214101",
+        "amount": 6601.5
+      }
+    ]
+  },
+  {
+    "id": "pay_250220101",
+    "customerId": "cust_house_of_carpets_furniture__appliance",
+    "paymentDate": "2025-02-20",
+    "amount": 3525.0,
+    "method": "Unknown",
+    "reference": "Payment for invoice 250220101",
+    "allocations": [
+      {
+        "invoiceId": "inv_250220101",
+        "amount": 3525.0
+      }
+    ]
+  },
+  {
+    "id": "pay_250225101",
+    "customerId": "cust_kings_meat_deli__lynnwoodbridge",
+    "paymentDate": "2025-02-25",
+    "amount": 2670.0,
+    "method": "Unknown",
+    "reference": "Payment for invoice 250225101",
+    "allocations": [
+      {
+        "invoiceId": "inv_250225101",
+        "amount": 2670.0
+      }
+    ]
+  },
+  {
+    "id": "pay_250225202",
+    "customerId": "cust_agri_bonus",
+    "paymentDate": "2025-02-25",
+    "amount": 1076.0,
+    "method": "Unknown",
+    "reference": "Payment for invoice 250225202",
+    "allocations": [
+      {
+        "invoiceId": "inv_250225202",
+        "amount": 1076.0
+      }
+    ]
+  },
+  {
+    "id": "pay_250225404",
+    "customerId": "cust_camp_and_climb_cc__head_office",
+    "paymentDate": "2025-02-25",
+    "amount": 9790.0,
+    "method": "Unknown",
+    "reference": "Payment for invoice 250225404",
+    "allocations": [
+      {
+        "invoiceId": "inv_250225404",
+        "amount": 9790.0
+      }
+    ]
+  },
+  {
+    "id": "pay_250226101",
+    "customerId": "cust_forever_resorts__tshipise_a_forever_resort",
+    "paymentDate": "2025-02-26",
+    "amount": 21600.0,
+    "method": "Unknown",
+    "reference": "Payment for invoice 250226101",
+    "allocations": [
+      {
+        "invoiceId": "inv_250226101",
+        "amount": 21600.0
+      }
+    ]
+  },
+  {
+    "id": "pay_250227101",
+    "customerId": "cust_axl_outdoor",
+    "paymentDate": "2025-02-27",
+    "amount": 4700.0,
+    "method": "Unknown",
+    "reference": "Payment for invoice 250227101",
+    "allocations": [
+      {
+        "invoiceId": "inv_250227101",
+        "amount": 4700.0
+      }
+    ]
+  },
+  {
+    "id": "pay_250228101",
+    "customerId": "cust_pet_pool_and_home__malmesbury",
+    "paymentDate": "2025-02-28",
+    "amount": 6602.0,
+    "method": "Unknown",
+    "reference": "Payment for invoice 250228101",
+    "allocations": [
+      {
+        "invoiceId": "inv_250228101",
+        "amount": 6602.0
+      }
+    ]
+  },
+  {
+    "id": "pay_250228202",
+    "customerId": "cust_pet_pool_and_home__waterfall",
+    "paymentDate": "2025-02-28",
+    "amount": 3340.0,
+    "method": "Unknown",
+    "reference": "Payment for invoice 250228202",
+    "allocations": [
+      {
+        "invoiceId": "inv_250228202",
+        "amount": 3340.0
+      }
+    ]
+  },
+  {
+    "id": "pay_250228303",
+    "customerId": "cust_pet_pool_and_home__george",
+    "paymentDate": "2025-02-28",
+    "amount": 3308.0,
+    "method": "Unknown",
+    "reference": "Payment for invoice 250228303",
+    "allocations": [
+      {
+        "invoiceId": "inv_250228303",
+        "amount": 3308.0
+      }
+    ]
+  },
+  {
+    "id": "pay_250228404",
+    "customerId": "cust_pet_pool_and_home__middelburg",
+    "paymentDate": "2025-02-28",
+    "amount": 3318.0,
+    "method": "Unknown",
+    "reference": "Payment for invoice 250228404",
+    "allocations": [
+      {
+        "invoiceId": "inv_250228404",
+        "amount": 3318.0
+      }
+    ]
+  },
+  {
+    "id": "pay_250228505",
+    "customerId": "cust_pet_pool_and_home__mosselbay",
+    "paymentDate": "2025-02-28",
+    "amount": 3318.0,
+    "method": "Unknown",
+    "reference": "Payment for invoice 250228505",
+    "allocations": [
+      {
+        "invoiceId": "inv_250228505",
+        "amount": 3318.0
+      }
+    ]
+  },
+  {
+    "id": "pay_250228606",
+    "customerId": "cust_pet_pool_and_home__plettenberg_bay",
+    "paymentDate": "2025-02-28",
+    "amount": 3318.0,
+    "method": "Unknown",
+    "reference": "Payment for invoice 250228606",
+    "allocations": [
+      {
+        "invoiceId": "inv_250228606",
+        "amount": 3318.0
+      }
+    ]
+  },
+  {
+    "id": "pay_250303101",
+    "customerId": "cust_td_coetzee_middelwater_trust",
+    "paymentDate": "2025-03-03",
+    "amount": 3318.0,
+    "method": "Unknown",
+    "reference": "Payment for invoice 250303101",
+    "allocations": [
+      {
+        "invoiceId": "inv_250303101",
+        "amount": 3318.0
+      }
+    ]
+  },
+  {
+    "id": "pay_250310101",
+    "customerId": "cust_newco_traders_online",
+    "paymentDate": "2025-03-10",
+    "amount": 6500.0,
+    "method": "Unknown",
+    "reference": "Payment for invoice 250310101",
+    "allocations": [
+      {
+        "invoiceId": "inv_250310101",
+        "amount": 6500.0
+      }
+    ]
+  },
+  {
+    "id": "pay_250311101",
+    "customerId": "cust_travalia_padstal_17_on_bird",
+    "paymentDate": "2025-03-11",
+    "amount": 3525.0,
+    "method": "Unknown",
+    "reference": "Payment for invoice 250311101",
+    "allocations": [
+      {
+        "invoiceId": "inv_250311101",
+        "amount": 3525.0
+      }
+    ]
+  },
+  {
+    "id": "pay_250314101",
+    "customerId": "cust_pet_pool_and_home__port_elizabeth",
+    "paymentDate": "2025-03-14",
+    "amount": 6580.0,
+    "method": "Unknown",
+    "reference": "Payment for invoice 250314101",
+    "allocations": [
+      {
+        "invoiceId": "inv_250314101",
+        "amount": 6580.0
+      }
+    ]
+  },
+  {
+    "id": "pay_250314202",
+    "customerId": "cust_spiceologist",
+    "paymentDate": "2025-03-14",
+    "amount": 4700.0,
+    "method": "Unknown",
+    "reference": "Payment for invoice 250314202",
+    "allocations": [
+      {
+        "invoiceId": "inv_250314202",
+        "amount": 4700.0
+      }
+    ]
+  },
+  {
+    "id": "pay_250318101",
+    "customerId": "cust_binuns_menlyn_cc",
+    "paymentDate": "2025-03-18",
+    "amount": 54000.0,
+    "method": "Unknown",
+    "reference": "Payment for invoice 250318101",
+    "allocations": [
+      {
+        "invoiceId": "inv_250318101",
+        "amount": 54000.0
+      }
+    ]
+  },
+  {
+    "id": "pay_250324505",
+    "customerId": "cust_auto_boutique_sa",
+    "paymentDate": "2025-03-24",
+    "amount": 2350.0,
+    "method": "Unknown",
+    "reference": "Payment for invoice 250324505",
+    "allocations": [
+      {
+        "invoiceId": "inv_250324505",
+        "amount": 2350.0
+      }
+    ]
+  },
+  {
+    "id": "pay_250327101",
+    "customerId": "cust_expedition_north__george",
+    "paymentDate": "2025-03-27",
+    "amount": 3525.0,
+    "method": "Unknown",
+    "reference": "Payment for invoice 250327101",
+    "allocations": [
+      {
+        "invoiceId": "inv_250327101",
+        "amount": 3525.0
+      }
+    ]
+  },
+  {
+    "id": "pay_250327404",
+    "customerId": "cust_agri_bonus",
+    "paymentDate": "2025-03-27",
+    "amount": 538.0,
+    "method": "Unknown",
+    "reference": "Payment for invoice 250327404",
+    "allocations": [
+      {
+        "invoiceId": "inv_250327404",
+        "amount": 538.0
+      }
+    ]
+  },
+  {
+    "id": "pay_250407202",
+    "customerId": "cust_aloe_deli",
+    "paymentDate": "2025-04-07",
+    "amount": 3525.0,
+    "method": "Unknown",
+    "reference": "Payment for invoice 250407202",
+    "allocations": [
+      {
+        "invoiceId": "inv_250407202",
+        "amount": 3525.0
+      }
+    ]
+  },
+  {
+    "id": "pay_250407404",
+    "customerId": "cust_blue_water_systems",
+    "paymentDate": "2025-04-07",
+    "amount": 2820.0,
+    "method": "Unknown",
+    "reference": "Payment for invoice 250407404",
+    "allocations": [
+      {
+        "invoiceId": "inv_250407404",
+        "amount": 2820.0
+      }
+    ]
+  },
+  {
+    "id": "pay_250409303",
+    "customerId": "cust_riversdale_trading_bali_trading",
+    "paymentDate": "2025-04-09",
+    "amount": 6580.0,
+    "method": "Unknown",
+    "reference": "Payment for invoice 250409303",
+    "allocations": [
+      {
+        "invoiceId": "inv_250409303",
+        "amount": 6580.0
+      }
+    ]
+  },
+  {
+    "id": "pay_250410202",
+    "customerId": "cust_taylor_made_water",
+    "paymentDate": "2025-04-10",
+    "amount": 3525.0,
+    "method": "Unknown",
+    "reference": "Payment for invoice 250410202",
+    "allocations": [
+      {
+        "invoiceId": "inv_250410202",
+        "amount": 3525.0
+      }
+    ]
+  },
+  {
+    "id": "pay_250414101",
+    "customerId": "cust_natal_caravans__marine",
+    "paymentDate": "2025-04-14",
+    "amount": 2652.0,
+    "method": "Unknown",
+    "reference": "Payment for invoice 250414101",
+    "allocations": [
+      {
+        "invoiceId": "inv_250414101",
+        "amount": 2652.0
+      }
+    ]
+  },
+  {
+    "id": "pay_250415101",
+    "customerId": "cust_eastern_cape_caravans__safari_centre",
+    "paymentDate": "2025-04-15",
+    "amount": 2820.0,
+    "method": "Unknown",
+    "reference": "Payment for invoice 250415101",
+    "allocations": [
+      {
+        "invoiceId": "inv_250415101",
+        "amount": 2820.0
+      }
+    ]
+  },
+  {
+    "id": "pay_250422101",
+    "customerId": "cust_lappies_labuschagne",
+    "paymentDate": "2025-04-22",
+    "amount": 2222.0,
+    "method": "Unknown",
+    "reference": "Payment for invoice 250422101",
+    "allocations": [
+      {
+        "invoiceId": "inv_250422101",
+        "amount": 2222.0
+      }
+    ]
+  },
+  {
+    "id": "pay_250423202",
+    "customerId": "cust_travalia_padstal_17_on_bird",
+    "paymentDate": "2025-04-23",
+    "amount": 4700.0,
+    "method": "Unknown",
+    "reference": "Payment for invoice 250423202",
+    "allocations": [
+      {
+        "invoiceId": "inv_250423202",
+        "amount": 4700.0
+      }
+    ]
+  },
+  {
+    "id": "pay_250410101",
+    "customerId": "cust_agri_bonus",
+    "paymentDate": "2025-04-10",
+    "amount": 538.0,
+    "method": "Unknown",
+    "reference": "Payment for invoice 250410101",
+    "allocations": [
+      {
+        "invoiceId": "inv_250410101",
+        "amount": 538.0
+      }
+    ]
+  },
+  {
+    "id": "pay_250505303",
+    "customerId": "cust_tentco__21_bisset_road",
+    "paymentDate": "2025-05-05",
+    "amount": 6570.0,
+    "method": "Unknown",
+    "reference": "Payment for invoice 250505303",
+    "allocations": [
+      {
+        "invoiceId": "inv_250505303",
+        "amount": 6570.0
+      }
+    ]
+  },
+  {
+    "id": "pay_250513101",
+    "customerId": "cust_kamdebo_padstal",
+    "paymentDate": "2025-05-13",
+    "amount": 3525.0,
+    "method": "Unknown",
+    "reference": "Payment for invoice 250513101",
+    "allocations": [
+      {
+        "invoiceId": "inv_250513101",
+        "amount": 3525.0
+      }
+    ]
+  },
+  {
+    "id": "pay_250520101",
+    "customerId": "cust_bigfoot_outdoor_gear",
+    "paymentDate": "2025-05-20",
+    "amount": 3525.0,
+    "method": "Unknown",
+    "reference": "Payment for invoice 250520101",
+    "allocations": [
+      {
+        "invoiceId": "inv_250520101",
+        "amount": 3525.0
+      }
+    ]
+  },
+  {
+    "id": "pay_250526101",
+    "customerId": "cust_newco_traders_online",
+    "paymentDate": "2025-05-26",
+    "amount": 5350.0,
+    "method": "Unknown",
+    "reference": "Payment for invoice 250526101",
+    "allocations": [
+      {
+        "invoiceId": "inv_250526101",
+        "amount": 5350.0
+      }
+    ]
+  },
+  {
+    "id": "pay_250526202",
+    "customerId": "cust_newco_traders_online",
+    "paymentDate": "2025-05-26",
+    "amount": 600.0,
+    "method": "Unknown",
+    "reference": "Payment for invoice 250526202",
+    "allocations": [
+      {
+        "invoiceId": "inv_250526202",
+        "amount": 600.0
+      }
+    ]
+  },
+  {
+    "id": "pay_250527101",
+    "customerId": "cust_safari_centre",
+    "paymentDate": "2025-05-27",
+    "amount": 4700.0,
+    "method": "Unknown",
+    "reference": "Payment for invoice 250527101",
+    "allocations": [
+      {
+        "invoiceId": "inv_250527101",
+        "amount": 4700.0
+      }
+    ]
+  },
+  {
+    "id": "pay_250529101",
+    "customerId": "cust_zululand_oasis",
+    "paymentDate": "2025-05-29",
+    "amount": 4700.0,
+    "method": "Unknown",
+    "reference": "Payment for invoice 250529101",
+    "allocations": [
+      {
+        "invoiceId": "inv_250529101",
+        "amount": 4700.0
+      }
+    ]
+  },
+  {
+    "id": "pay_250529202",
+    "customerId": "cust_newco_traders_online",
+    "paymentDate": "2025-05-29",
+    "amount": 4800.0,
+    "method": "Unknown",
+    "reference": "Payment for invoice 250529202",
+    "allocations": [
+      {
+        "invoiceId": "inv_250529202",
+        "amount": 4800.0
+      }
+    ]
+  },
+  {
+    "id": "pay_250529303",
+    "customerId": "cust_aa_systems",
+    "paymentDate": "2025-05-29",
+    "amount": 4700.0,
+    "method": "Unknown",
+    "reference": "Payment for invoice 250529303",
+    "allocations": [
+      {
+        "invoiceId": "inv_250529303",
+        "amount": 4700.0
+      }
+    ]
+  },
+  {
+    "id": "pay_250529404",
+    "customerId": "cust_geert_de_jong",
+    "paymentDate": "2025-05-29",
+    "amount": 3240.0,
+    "method": "Unknown",
+    "reference": "Payment for invoice 250529404",
+    "allocations": [
+      {
+        "invoiceId": "inv_250529404",
+        "amount": 3240.0
+      }
+    ]
+  },
+  {
+    "id": "pay_250602101",
+    "customerId": "cust_newco_traders_online",
+    "paymentDate": "2025-06-02",
+    "amount": 6000.0,
+    "method": "Unknown",
+    "reference": "Payment for invoice 250602101",
+    "allocations": [
+      {
+        "invoiceId": "inv_250602101",
+        "amount": 6000.0
+      }
+    ]
+  },
+  {
+    "id": "pay_250605202",
+    "customerId": "cust_aa_business_services",
+    "paymentDate": "2025-06-05",
+    "amount": 1200.0,
+    "method": "Unknown",
+    "reference": "Payment for invoice 250605202",
+    "allocations": [
+      {
+        "invoiceId": "inv_250605202",
+        "amount": 1200.0
+      }
+    ]
+  },
+  {
+    "id": "pay_250606101",
+    "customerId": "cust_newco_traders_online",
+    "paymentDate": "2025-06-06",
+    "amount": 6000.0,
+    "method": "Unknown",
+    "reference": "Payment for invoice 250606101",
+    "allocations": [
+      {
+        "invoiceId": "inv_250606101",
+        "amount": 6000.0
+      }
+    ]
+  },
+  {
+    "id": "pay_250609101",
+    "customerId": "cust_du_plessis_annelize",
+    "paymentDate": "2025-06-09",
+    "amount": 1320.0,
+    "method": "Unknown",
+    "reference": "Payment for invoice 250609101",
+    "allocations": [
+      {
+        "invoiceId": "inv_250609101",
+        "amount": 1320.0
+      }
+    ]
+  },
+  {
+    "id": "pay_250609202",
+    "customerId": "cust_kampi_technologies",
+    "paymentDate": "2025-06-09",
+    "amount": 600.0,
+    "method": "Unknown",
+    "reference": "Payment for invoice 250609202",
+    "allocations": [
+      {
+        "invoiceId": "inv_250609202",
+        "amount": 600.0
+      }
+    ]
+  },
+  {
+    "id": "pay_250606101",
+    "customerId": "cust_johannes_marlizan",
+    "paymentDate": "2025-06-06",
+    "amount": 750.0,
+    "method": "Unknown",
+    "reference": "Payment for invoice 250606101",
+    "allocations": [
+      {
+        "invoiceId": "inv_250606101",
+        "amount": 750.0
+      }
+    ]
+  },
+  {
+    "id": "pay_250609101",
+    "customerId": "cust_newco_traders_online",
+    "paymentDate": "2025-06-09",
+    "amount": 6000.0,
+    "method": "Unknown",
+    "reference": "Payment for invoice 250609101",
+    "allocations": [
+      {
+        "invoiceId": "inv_250609101",
+        "amount": 6000.0
+      }
+    ]
+  },
+  {
+    "id": "pay_250620101",
+    "customerId": "cust_noags_market",
+    "paymentDate": "2025-06-20",
+    "amount": 6310.0,
+    "method": "Unknown",
+    "reference": "Payment for invoice 250620101",
+    "allocations": [
+      {
+        "invoiceId": "inv_250620101",
+        "amount": 6310.0
+      }
+    ]
+  },
+  {
+    "id": "pay_250624101",
+    "customerId": "cust_willem_de_klerk",
+    "paymentDate": "2025-06-24",
+    "amount": 870.0,
+    "method": "Unknown",
+    "reference": "Payment for invoice 250624101",
+    "allocations": [
+      {
+        "invoiceId": "inv_250624101",
+        "amount": 870.0
+      }
+    ]
+  },
+  {
+    "id": "pay_250624303",
+    "customerId": "cust_pro_plants_kimberley",
+    "paymentDate": "2025-06-24",
+    "amount": 1800.0,
+    "method": "Unknown",
+    "reference": "Payment for invoice 250624303",
+    "allocations": [
+      {
+        "invoiceId": "inv_250624303",
+        "amount": 1800.0
+      }
+    ]
+  },
+  {
+    "id": "pay_250626202",
+    "customerId": "cust_camp_and_climb_cc__head_office",
+    "paymentDate": "2025-06-26",
+    "amount": 3250.0,
+    "method": "Unknown",
+    "reference": "Payment for invoice 250626202",
+    "allocations": [
+      {
+        "invoiceId": "inv_250626202",
+        "amount": 3250.0
+      }
+    ]
+  },
+  {
+    "id": "pay_250626303",
+    "customerId": "cust_4x4_unlimited",
+    "paymentDate": "2025-06-26",
+    "amount": 6570.0,
+    "method": "Unknown",
+    "reference": "Payment for invoice 250626303",
+    "allocations": [
+      {
+        "invoiceId": "inv_250626303",
+        "amount": 6570.0
+      }
+    ]
+  },
+  {
+    "id": "pay_250630202",
+    "customerId": "cust_estelle_menzies",
+    "paymentDate": "2025-06-30",
+    "amount": 859.0,
+    "method": "Unknown",
+    "reference": "Payment for invoice 250630202",
+    "allocations": [
+      {
+        "invoiceId": "inv_250630202",
+        "amount": 859.0
+      }
+    ]
+  },
+  {
+    "id": "pay_250630303",
+    "customerId": "cust_geert_de_jong",
+    "paymentDate": "2025-06-30",
+    "amount": 3240.0,
+    "method": "Unknown",
+    "reference": "Payment for invoice 250630303",
+    "allocations": [
+      {
+        "invoiceId": "inv_250630303",
+        "amount": 3240.0
+      }
+    ]
+  },
+  {
+    "id": "pay_250630404",
+    "customerId": "cust_jamesco_bearings",
+    "paymentDate": "2025-06-30",
+    "amount": 1800.0,
+    "method": "Unknown",
+    "reference": "Payment for invoice 250630404",
+    "allocations": [
+      {
+        "invoiceId": "inv_250630404",
+        "amount": 1800.0
+      }
+    ]
+  },
+  {
+    "id": "pay_250707101",
+    "customerId": "cust_hendrik_coetzee",
+    "paymentDate": "2025-07-07",
+    "amount": 750.0,
+    "method": "Unknown",
+    "reference": "Payment for invoice 250707101",
+    "allocations": [
+      {
+        "invoiceId": "inv_250707101",
+        "amount": 750.0
+      }
+    ]
+  },
+  {
+    "id": "pay_250707202",
+    "customerId": "cust_conqueror_northgate",
+    "paymentDate": "2025-07-07",
+    "amount": 4700.0,
+    "method": "Unknown",
+    "reference": "Payment for invoice 250707202",
+    "allocations": [
+      {
+        "invoiceId": "inv_250707202",
+        "amount": 4700.0
+      }
+    ]
+  },
+  {
+    "id": "pay_250708101",
+    "customerId": "cust_kings_meat_deli__castle_walk",
+    "paymentDate": "2025-07-08",
+    "amount": 10720.0,
+    "method": "Unknown",
+    "reference": "Payment for invoice 250708101",
+    "allocations": [
+      {
+        "invoiceId": "inv_250708101",
+        "amount": 10720.0
+      }
+    ]
+  },
+  {
+    "id": "pay_250709101",
+    "customerId": "cust_caltex_manor",
+    "paymentDate": "2025-07-09",
+    "amount": 600.0,
+    "method": "Unknown",
+    "reference": "Payment for invoice 250709101",
+    "allocations": [
+      {
+        "invoiceId": "inv_250709101",
+        "amount": 600.0
+      }
+    ]
+  },
+  {
+    "id": "pay_250714101",
+    "customerId": "cust_newco_traders_online",
+    "paymentDate": "2025-07-14",
+    "amount": 5325.0,
+    "method": "Unknown",
+    "reference": "Payment for invoice 250714101",
+    "allocations": [
+      {
+        "invoiceId": "inv_250714101",
+        "amount": 5325.0
+      }
+    ]
+  },
+  {
+    "id": "pay_250710202",
+    "customerId": "cust_montspa",
+    "paymentDate": "2025-07-10",
+    "amount": 3000.0,
+    "method": "Unknown",
+    "reference": "Payment for invoice 250710202",
+    "allocations": [
+      {
+        "invoiceId": "inv_250710202",
+        "amount": 3000.0
+      }
+    ]
+  },
+  {
+    "id": "pay_250715101",
+    "customerId": "cust_kings_meat_deli__castle_walk",
+    "paymentDate": "2025-07-15",
+    "amount": 3600.0,
+    "method": "Unknown",
+    "reference": "Payment for invoice 250715101",
+    "allocations": [
+      {
+        "invoiceId": "inv_250715101",
+        "amount": 3600.0
+      }
+    ]
+  },
+  {
+    "id": "pay_250716101",
+    "customerId": "cust_garden_bleu_home",
+    "paymentDate": "2025-07-16",
+    "amount": 1440.0,
+    "method": "Unknown",
+    "reference": "Payment for invoice 250716101",
+    "allocations": [
+      {
+        "invoiceId": "inv_250716101",
+        "amount": 1440.0
+      }
+    ]
+  },
+  {
+    "id": "pay_250717101",
+    "customerId": "cust_kings_meat_deli__lynnwoodbridge",
+    "paymentDate": "2025-07-17",
+    "amount": 8240.0,
+    "method": "Unknown",
+    "reference": "Payment for invoice 250717101",
+    "allocations": [
+      {
+        "invoiceId": "inv_250717101",
+        "amount": 8240.0
+      }
+    ]
+  },
+  {
+    "id": "pay_250729202",
+    "customerId": "cust_garden_bleu_home",
+    "paymentDate": "2025-07-29",
+    "amount": 2700.0,
+    "method": "Unknown",
+    "reference": "Payment for invoice 250729202",
+    "allocations": [
+      {
+        "invoiceId": "inv_250729202",
+        "amount": 2700.0
+      }
+    ]
+  },
+  {
+    "id": "pay_250801909",
+    "customerId": "cust_impala_vleis",
+    "paymentDate": "2025-08-01",
+    "amount": 3000.0,
+    "method": "Unknown",
+    "reference": "Payment for invoice 250801909",
+    "allocations": [
+      {
+        "invoiceId": "inv_250801909",
+        "amount": 3000.0
+      }
+    ]
+  },
+  {
+    "id": "pay_250804101",
+    "customerId": "cust_soles_for_africa_cc__boet__betty",
+    "paymentDate": "2025-08-04",
+    "amount": 3310.0,
+    "method": "Unknown",
+    "reference": "Payment for invoice 250804101",
+    "allocations": [
+      {
+        "invoiceId": "inv_250804101",
+        "amount": 3310.0
+      }
+    ]
+  },
+  {
+    "id": "pay_250811101",
+    "customerId": "cust_newco_traders_online",
+    "paymentDate": "2025-08-11",
+    "amount": 7700.0,
+    "method": "Unknown",
+    "reference": "Payment for invoice 250811101",
+    "allocations": [
+      {
+        "invoiceId": "inv_250811101",
+        "amount": 7700.0
+      }
+    ]
+  },
+  {
+    "id": "pay_250814101",
+    "customerId": "cust_roast_logistics_sa",
+    "paymentDate": "2025-08-14",
+    "amount": 2400.0,
+    "method": "Unknown",
+    "reference": "Payment for invoice 250814101",
+    "allocations": [
+      {
+        "invoiceId": "inv_250814101",
+        "amount": 2400.0
+      }
+    ]
+  },
+  {
+    "id": "pay_250818101",
+    "customerId": "cust_watko_promotional_branded_image",
+    "paymentDate": "2025-08-18",
+    "amount": 13200.0,
+    "method": "Unknown",
+    "reference": "Payment for invoice 250818101",
+    "allocations": [
+      {
+        "invoiceId": "inv_250818101",
+        "amount": 13200.0
+      }
+    ]
+  }
+]

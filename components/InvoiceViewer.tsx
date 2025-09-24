@@ -1,13 +1,12 @@
-import React, { useMemo, useRef, useState } from 'react';
-import { useNavigate, useParams, useOutletContext } from 'react-router-dom';
-import { Invoice, Customer, DocumentStatus, Payment, AppContextType } from '../types';
-import { VAT_RATE, SNOWVA_DETAILS } from '../constants';
-import { DownloadIcon, CheckCircleIcon, UsersIcon, PencilIcon, MailIcon, EyeIcon, PrintIcon, CashIcon } from './Icons';
-import { formatDistanceToNow } from '../utils';
+import { pdf } from '@react-pdf/renderer';
+import React, { useMemo, useState } from 'react';
+import { useNavigate, useOutletContext, useParams } from 'react-router-dom';
+import { SNOWVA_DETAILS, VAT_RATE } from '../constants';
 import { useToast } from '../contexts/ToastContext';
-
-// Declare global libraries loaded from CDN
-declare const jspdf: any;
+import { AppContextType, Customer, DocumentStatus } from '../types';
+import { formatDistanceToNow } from '../utils';
+import { CashIcon, CheckCircleIcon, DownloadIcon, EyeIcon, MailIcon, PencilIcon, PrintIcon, UsersIcon } from './Icons';
+import { InvoicePDF } from './InvoicePDF';
 
 const getPrimaryAddress = (customer: Customer | null | undefined) => {
     if (!customer) return undefined;
@@ -59,6 +58,34 @@ export const InvoiceViewer: React.FC = () => {
   };
   
  const generatePdf = async () => {
+    if (!invoice || !billToCustomer) return null;
+    
+    try {
+      addToast("Generating PDF...", "info");
+      
+      const pdfBlob = await pdf(
+        <InvoicePDF
+          invoice={invoice}
+          billToCustomer={billToCustomer}
+          billingAddress={billingAddress}
+          subtotal={subtotal}
+          vatAmount={vatAmount}
+          total={total}
+        />
+      ).toBlob();
+      
+      addToast("PDF generated successfully!", "success");
+      return pdfBlob;
+    } catch (error) {
+      console.error("PDF generation failed:", error);
+      addToast("Failed to generate PDF", "error");
+      return null;
+    }
+  };
+  
+  /* 
+  // Original jsPDF function (replaced with React-PDF above) - keeping for reference
+  const oldGeneratePdf = async () => {
     if (!invoice) return null;
     addToast("Generating PDF...", "info");
     const { jsPDF } = jspdf;
@@ -230,11 +257,19 @@ export const InvoiceViewer: React.FC = () => {
     
     return pdf;
   };
+  */
   
   const handleDownload = async () => {
-    const pdf = await generatePdf();
-    if (pdf) {
-      pdf.save(`Invoice-${invoice?.invoiceNumber}.pdf`);
+    const pdfBlob = await generatePdf();
+    if (pdfBlob) {
+      const url = URL.createObjectURL(pdfBlob);
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = `Invoice-${invoice?.invoiceNumber}.pdf`;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      URL.revokeObjectURL(url);
     } else {
         addToast("Failed to generate PDF.", "error");
     }
@@ -242,12 +277,12 @@ export const InvoiceViewer: React.FC = () => {
 
   const handlePrint = async () => {
     try {
-        const pdf = await generatePdf();
-        if (!pdf) {
+        const pdfBlob = await generatePdf();
+        if (!pdfBlob) {
             addToast("Failed to generate the invoice PDF.", "error");
             return;
         }
-        const blob = pdf.output('blob');
+        const blob = pdfBlob;
         const url = URL.createObjectURL(blob);
         const iframe = document.createElement('iframe');
         iframe.style.display = 'none';

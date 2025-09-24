@@ -1,0 +1,680 @@
+{
+  "four_seasons_winkel": {
+    "id": "four_seasons_winkel",
+    "name": "4 Seasons Winkel",
+    "type": "Retail",
+    "vatNumber": "4520267123",
+    "legalEntityName": "4 Seasons Winkel",
+    "addresses": [
+      {
+        "id": "addr_four_seasons_winkel_billing",
+        "type": "billing",
+        "isPrimary": true,
+        "addressLine1": "3 Sarel Cilliers Street",
+        "addressLine2": "Despatch 6220",
+        "city": "Despatch",
+        "postalCode": "6220",
+        "province": "Eastern Cape",
+        "country": "South Africa"
+      }
+    ],
+    "paymentTerm": "30 Days",
+    "customProductPricing": [
+      {
+        "id": "cpp_four_seasons_snowva",
+        "productId": "snowva_ultimate_ice_maker",
+        "prices": [
+          {
+            "id": "price_four_seasons_snowva_2024",
+            "effectiveDate": "2024-01-01",
+            "retail": 216.0,
+            "consumer": 400.0
+          }
+        ]
+      },
+      {
+        "id": "cpp_four_seasons_outray",
+        "productId": "outray",
+        "prices": [
+          {
+            "id": "price_four_seasons_outray_2024",
+            "effectiveDate": "2024-01-01",
+            "retail": 375.0,
+            "consumer": 400.0
+          }
+        ]
+      },
+      {
+        "id": "cpp_four_seasons_makabrai",
+        "productId": "makabrai",
+        "prices": [
+          {
+            "id": "price_four_seasons_makabrai_2024",
+            "effectiveDate": "2024-01-01",
+            "retail": 580.0,
+            "consumer": 750.0
+          }
+        ]
+      },
+      {
+        "id": "cpp_four_seasons_braai_grid_medium",
+        "productId": "braai_grid_medium",
+        "prices": [
+          {
+            "id": "price_four_seasons_braai_grid_medium_2024",
+            "effectiveDate": "2024-01-01",
+            "retail": 420.0,
+            "consumer": 800.0
+          }
+        ]
+      },
+      {
+        "id": "cpp_four_seasons_braai_grid_large",
+        "productId": "braai_grid_large",
+        "prices": [
+          {
+            "id": "price_four_seasons_braai_grid_large_2024",
+            "effectiveDate": "2024-01-01",
+            "retail": 820.0,
+            "consumer": 1000.0
+          }
+        ]
+      },
+      {
+        "id": "cpp_four_seasons_braai_bak_2_5l",
+        "productId": "braai_bak_2_5l",
+        "prices": [
+          {
+            "id": "price_four_seasons_braai_bak_2_5l_2024",
+            "effectiveDate": "2024-01-01",
+            "retail": 285.0,
+            "consumer": 450.0
+          }
+        ]
+      },
+      {
+        "id": "cpp_four_seasons_braai_bak_3_8l",
+        "productId": "braai_bak_3_8l",
+        "prices": [
+          {
+            "id": "price_four_seasons_braai_bak_3_8l_2024",
+            "effectiveDate": "2024-01-01",
+            "retail": 410.0,
+            "consumer": 550.0
+          }
+        ]
+      }
+    ]
+  },
+  "four_x4_unlimited_pty_ltd": {
+    "id": "four_x4_unlimited_pty_ltd",
+    "name": "4X4 Unlimited Pty Ltd",
+    "type": "Retail",
+    "vatNumber": "4060314517",
+    "legalEntityName": "4X4 Unlimited Pty Ltd",
+    "addresses": [
+      {
+        "id": "addr_four_x4_unlimited_billing",
+        "type": "billing",
+        "isPrimary": true,
+        "addressLine1": "Unit 2 Build-It Lifestyle Ctr",
+        "addressLine2": "St Francis Street Jeffreys Bay; 6330",
+        "city": "Jeffreys Bay",
+        "postalCode": "6330",
+        "province": "Eastern Cape",
+        "country": "South Africa"
+      }
+    ],
+    "paymentTerm": "30 Days",
+    "customProductPricing": [
+      {
+        "id": "cpp_four_x4_unlimited_snowva",
+        "productId": "snowva_ultimate_ice_maker",
+        "prices": [
+          {
+            "id": "price_four_x4_unlimited_snowva_2024",
+            "effectiveDate": "2024-01-01",
+            "retail": 216.0,
+            "consumer": 400.0
+          }
+        ]
+      }
+    ]
+  },
+  "a_and_a_business_services_pty_ltd": {
+    "id": "a_and_a_business_services_pty_ltd",
+    "name": "A&A Business Services Pty Ltd",
+    "type": "Retail",
+    "vatNumber": "4030182085",
+    "legalEntityName": "A&A Business Services Pty Ltd",
+    "addresses": [
+      {
+        "id": "addr_a_and_a_business_services_billing",
+        "type": "billing",
+        "isPrimary": true,
+        "addressLine1": "14 Uintjie Close, Vierlanden",
+        "addressLine2": "Durbanville, 7550",
+        "city": "Durbanville",
+        "postalCode": "7550",
+        "province": "Western Cape",
+        "country": "South Africa"
+      }
+    ],
+    "paymentTerm": "30 Days",
+    "customProductPricing": [
+      {
+        "id": "cpp_a_and_a_makabrai",
+        "productId": "makabrai",
+        "prices": [
+          {
+            "id": "price_a_and_a_makabrai_2024",
+            "effectiveDate": "2024-01-01",
+            "retail": 600.0,
+            "consumer": 750.0
+          }
+        ]
+      },
+      {
+        "id": "cpp_a_and_a_braai_grid_small",
+        "productId": "braai_grid_small",
+        "customItemCode": "2525",
+        "prices": [
+          {
+            "id": "price_a_and_a_braai_grid_small_2024",
+            "effectiveDate": "2024-01-01",
+            "retail": 520.0,
+            "consumer": 650.0
+          }
+        ]
+      }
+    ]
+  },
+  "aa_systems": {
+    "id": "aa_systems",
+    "name": "AA Systems",
+    "type": "Retail",
+    "vatNumber": "4720198151",
+    "legalEntityName": "AA Systems",
+    "addresses": [
+      {
+        "id": "addr_aa_systems_billing",
+        "type": "billing",
+        "isPrimary": true,
+        "addressLine1": "39 Main Road",
+        "addressLine2": "Vredenburg, 7380",
+        "city": "Vredenburg",
+        "postalCode": "7380",
+        "province": "Western Cape",
+        "country": "South Africa"
+      }
+    ],
+    "paymentTerm": "30 Days",
+    "customProductPricing": [
+      {
+        "id": "cpp_aa_systems_snowva",
+        "productId": "snowva_ultimate_ice_maker",
+        "prices": [
+          {
+            "id": "price_aa_systems_snowva_2024",
+            "effectiveDate": "2024-01-01",
+            "retail": 235.0,
+            "consumer": 400.0
+          }
+        ]
+      },
+      {
+        "id": "cpp_aa_systems_makabrai",
+        "productId": "makabrai",
+        "prices": [
+          {
+            "id": "price_aa_systems_makabrai_2024",
+            "effectiveDate": "2024-01-01",
+            "retail": 600.0,
+            "consumer": 750.0
+          }
+        ]
+      },
+      {
+        "id": "cpp_aa_systems_braai_grid_small",
+        "productId": "braai_grid_small",
+        "customItemCode": "2525",
+        "prices": [
+          {
+            "id": "price_aa_systems_braai_grid_small_2024",
+            "effectiveDate": "2024-01-01",
+            "retail": 450.0,
+            "consumer": 650.0
+          }
+        ]
+      },
+      {
+        "id": "cpp_aa_systems_braai_grid_medium",
+        "productId": "braai_grid_medium",
+        "customItemCode": "4030",
+        "prices": [
+          {
+            "id": "price_aa_systems_braai_grid_medium_2024",
+            "effectiveDate": "2024-01-01",
+            "retail": 720.0,
+            "consumer": 800.0
+          }
+        ]
+      }
+    ]
+  },
+  "holdsport_group_pty_ltd_outdoor_warehouse": {
+    "id": "holdsport_group_pty_ltd_outdoor_warehouse",
+    "name": "Outdoor Warehouse",
+    "type": "Retail",
+    "vatNumber": "4270172119",
+    "legalEntityName": "Holdsport Group Pty Ltd t/a Outdoor Warehouse",
+    "addresses": [
+      {
+        "id": "addr_outdoor_warehouse_head_office",
+        "type": "billing",
+        "isPrimary": true,
+        "addressLine1": "P O Box 2721",
+        "city": "Cape Town",
+        "postalCode": "8000",
+        "province": "Western Cape",
+        "country": "South Africa"
+      }
+    ],
+    "paymentTerm": "60 Days",
+    "defaultInvoiceNotes": "A valid PO number must be referenced on the invoice.",
+    "customProductPricing": [
+      {
+        "id": "cpp_outdoor_warehouse_snowva",
+        "productId": "snowva_ultimate_ice_tray_blue_assorted",
+        "customItemCode": "1013250",
+        "customDescription": "Snowva Ultimate Ice Tray *_Blue Assorted",
+        "prices": [
+          {
+            "id": "price_outdoor_warehouse_snowva_2024",
+            "effectiveDate": "2024-01-01",
+            "retail": 206.0,
+            "consumer": 400.0
+          }
+        ]
+      }
+    ]
+  },
+  "outdoor_warehouse_alberton": {
+    "id": "outdoor_warehouse_alberton",
+    "name": "Outdoor Warehouse - Alberton",
+    "type": "Retail",
+    "parentCompanyId": "holdsport_group_pty_ltd_outdoor_warehouse",
+    "branchNumber": "315",
+    "addresses": [
+      {
+        "id": "addr_outdoor_warehouse_alberton_delivery",
+        "type": "delivery",
+        "isPrimary": true,
+        "addressLine1": "Shop 25",
+        "addressLine2": "Cnr Heidelberg & Ascot Rd",
+        "suburb": "Mall At Newmarket",
+        "city": "Alberton",
+        "postalCode": "1449",
+        "province": "Gauteng",
+        "country": "South Africa"
+      }
+    ],
+    "invoiceLevel": "branch",
+    "billToParent": true
+  },
+  "outdoor_warehouse_ballito": {
+    "id": "outdoor_warehouse_ballito",
+    "name": "Outdoor Warehouse - Ballito",
+    "type": "Retail",
+    "parentCompanyId": "holdsport_group_pty_ltd_outdoor_warehouse",
+    "branchNumber": "333",
+    "addresses": [
+      {
+        "id": "addr_outdoor_warehouse_ballito_delivery",
+        "type": "delivery",
+        "isPrimary": true,
+        "addressLine1": "Shop No 65Dr",
+        "addressLine2": "Ballito Lifestyle Centre",
+        "suburb": "Cnr 398 And 445 Main Road",
+        "city": "Ballito",
+        "postalCode": "4399",
+        "province": "KwaZulu-Natal",
+        "country": "South Africa"
+      }
+    ],
+    "invoiceLevel": "branch",
+    "billToParent": true
+  },
+  "holdsport_group_pty_ltd_sportsmans_warehouse": {
+    "id": "holdsport_group_pty_ltd_sportsmans_warehouse",
+    "name": "Sportsmans Warehouse",
+    "type": "Retail",
+    "vatNumber": "4080304928",
+    "legalEntityName": "Holdsport Group Pty Ltd t/a Sportsmans Warehouse",
+    "addresses": [
+      {
+        "id": "addr_sportsmans_warehouse_head_office",
+        "type": "billing",
+        "isPrimary": true,
+        "addressLine1": "PO Box 2721",
+        "city": "Cape Town",
+        "postalCode": "8000",
+        "province": "Western Cape",
+        "country": "South Africa"
+      }
+    ],
+    "paymentTerm": "60 Days",
+    "defaultInvoiceNotes": "A valid PO number must be referenced on the invoice.",
+    "customProductPricing": [
+      {
+        "id": "cpp_sportsmans_warehouse_snowva",
+        "productId": "snowva_ultimate_ice_maker",
+        "customItemCode": "1013250",
+        "prices": [
+          {
+            "id": "price_sportsmans_warehouse_snowva_2024",
+            "effectiveDate": "2024-01-01",
+            "retail": 216.0,
+            "consumer": 400.0
+          }
+        ]
+      }
+    ]
+  },
+  "sportsmans_warehouse_nelspruit": {
+    "id": "sportsmans_warehouse_nelspruit",
+    "name": "Sportsmans Warehouse - Nelspruit",
+    "type": "Retail",
+    "parentCompanyId": "holdsport_group_pty_ltd_sportsmans_warehouse",
+    "branchNumber": "719",
+    "addresses": [
+      {
+        "id": "addr_sportsmans_warehouse_nelspruit_delivery",
+        "type": "delivery",
+        "isPrimary": true,
+        "addressLine1": "Shop 6",
+        "addressLine2": "Nelspruit Crossing Centre",
+        "suburb": "Cnr N4 & Madiba Drive",
+        "city": "Nelspruit",
+        "postalCode": "1201",
+        "province": "Mpumalanga",
+        "country": "South Africa"
+      }
+    ],
+    "invoiceLevel": "branch",
+    "billToParent": true
+  },
+  "obaro": {
+    "id": "obaro",
+    "name": "Obaro",
+    "type": "Retail",
+    "vatNumber": "4270172119",
+    "legalEntityName": "Obaro",
+    "addresses": [
+      {
+        "id": "addr_obaro_head_office",
+        "type": "billing",
+        "isPrimary": true,
+        "addressLine1": "Head Office",
+        "city": "Brits",
+        "province": "North West",
+        "country": "South Africa"
+      }
+    ],
+    "paymentTerm": "30 Days",
+    "customProductPricing": [
+      {
+        "id": "cpp_obaro_snowva",
+        "productId": "snowva_ultimate_ice_maker",
+        "prices": [
+          {
+            "id": "price_obaro_snowva_2024",
+            "effectiveDate": "2024-01-01",
+            "retail": 235.0,
+            "consumer": 400.0
+          }
+        ]
+      }
+    ]
+  },
+  "obaro_brits": {
+    "id": "obaro_brits",
+    "name": "Obaro - Brits",
+    "type": "Retail",
+    "parentCompanyId": "obaro",
+    "addresses": [
+      {
+        "id": "addr_obaro_brits_delivery",
+        "type": "delivery",
+        "isPrimary": true,
+        "addressLine1": "Tom Street 81",
+        "city": "Brits",
+        "province": "North West",
+        "country": "South Africa"
+      }
+    ],
+    "invoiceLevel": "branch",
+    "billToParent": true
+  },
+  "obaro_marble_hall": {
+    "id": "obaro_marble_hall",
+    "name": "Obaro - Marble Hall",
+    "type": "Retail",
+    "parentCompanyId": "obaro",
+    "addresses": [
+      {
+        "id": "addr_obaro_marble_hall_delivery",
+        "type": "delivery",
+        "isPrimary": true,
+        "addressLine1": "Industriaweg 506",
+        "city": "Marble Hall",
+        "province": "Limpopo",
+        "country": "South Africa"
+      }
+    ],
+    "invoiceLevel": "branch",
+    "billToParent": true,
+    "customProductPricing": [
+      {
+        "id": "cpp_obaro_marble_hall_snowva",
+        "productId": "snowva_ultimate_ice_maker",
+        "prices": [
+          {
+            "id": "price_obaro_marble_hall_snowva_2024",
+            "effectiveDate": "2024-01-01",
+            "retail": 315.0,
+            "consumer": 400.0
+          }
+        ]
+      },
+      {
+        "id": "cpp_obaro_marble_hall_braai_grid_small",
+        "productId": "braai_grid_small",
+        "prices": [
+          {
+            "id": "price_obaro_marble_hall_braai_grid_small_2024",
+            "effectiveDate": "2024-01-01",
+            "retail": 420.0,
+            "consumer": 650.0
+          }
+        ]
+      }
+    ]
+  },
+  "ace_braai_54_7th_road": {
+    "id": "ace_braai_54_7th_road",
+    "name": "Ace Braai - 54 7Th Road",
+    "type": "Retail",
+    "parentCompanyId": "ace_braai",
+    "branchNumber": "54 7Th Road",
+    "addresses": [
+      {
+        "id": "addr_ace_braai_54_7th_road_delivery",
+        "type": "delivery",
+        "isPrimary": true,
+        "addressLine1": "Chartwell North",
+        "addressLine2": "Fourways, 2055",
+        "city": "Fourways",
+        "postalCode": "2055",
+        "province": "Gauteng",
+        "country": "South Africa"
+      }
+    ],
+    "invoiceLevel": "branch",
+    "billToParent": true,
+    "customProductPricing": [
+      {
+        "id": "cpp_ace_braai_snowva",
+        "productId": "snowva_ultimate_ice_maker",
+        "prices": [
+          {
+            "id": "price_ace_braai_snowva_2024",
+            "effectiveDate": "2024-01-01",
+            "retail": 315.0,
+            "consumer": 400.0
+          }
+        ]
+      }
+    ]
+  },
+  "bkb_limited": {
+    "id": "bkb_limited",
+    "name": "BKB Limited",
+    "type": "Retail",
+    "vatNumber": "4100101338",
+    "legalEntityName": "BKB Limited",
+    "addresses": [
+      {
+        "id": "addr_bkb_limited_head_office",
+        "type": "billing",
+        "isPrimary": true,
+        "addressLine1": "Posbus 2002",
+        "city": "North End",
+        "postalCode": "6056",
+        "province": "Eastern Cape",
+        "country": "South Africa"
+      }
+    ],
+    "paymentTerm": "30 Days",
+    "customProductPricing": [
+      {
+        "id": "cpp_bkb_limited_snowva",
+        "productId": "snowva_ultimate_ice_maker",
+        "customItemCode": "70198883",
+        "prices": [
+          {
+            "id": "price_bkb_limited_snowva_2024",
+            "effectiveDate": "2024-01-01",
+            "retail": 235.0,
+            "consumer": 400.0
+          }
+        ]
+      }
+    ]
+  },
+  "bkb_limited_amersfoort": {
+    "id": "bkb_limited_amersfoort",
+    "name": "BKB Limited - Amersfoort",
+    "type": "Retail",
+    "parentCompanyId": "bkb_limited",
+    "addresses": [
+      {
+        "id": "addr_bkb_limited_amersfoort_delivery",
+        "type": "delivery",
+        "isPrimary": true,
+        "addressLine1": "Amersfoort Handel",
+        "addressLine2": "P O Box 2002, Northend, 6056",
+        "city": "Amersfoort",
+        "province": "Mpumalanga",
+        "country": "South Africa"
+      }
+    ],
+    "invoiceLevel": "branch",
+    "billToParent": true
+  },
+  "bkb_limited_cradock": {
+    "id": "bkb_limited_cradock",
+    "name": "BKB Limited - Cradock",
+    "type": "Retail",
+    "parentCompanyId": "bkb_limited",
+    "addresses": [
+      {
+        "id": "addr_bkb_limited_cradock_delivery",
+        "type": "delivery",
+        "isPrimary": true,
+        "addressLine1": "Posbus 2002",
+        "city": "Cradock",
+        "province": "Eastern Cape",
+        "country": "South Africa"
+      }
+    ],
+    "invoiceLevel": "branch",
+    "billToParent": true
+  },
+  "camp_and_climb_cc": {
+    "id": "camp_and_climb_cc",
+    "name": "Camp And Climb Cc",
+    "type": "Retail",
+    "vatNumber": "4930260478",
+    "legalEntityName": "Camp And Climb Cc",
+    "addresses": [
+      {
+        "id": "addr_camp_and_climb_cc_head_office",
+        "type": "billing",
+        "isPrimary": true,
+        "addressLine1": "P O Box 37197",
+        "city": "Cape Town",
+        "postalCode": "7442",
+        "province": "Western Cape",
+        "country": "South Africa"
+      }
+    ],
+    "paymentTerm": "30 Days"
+  },
+  "camp_and_climb_cc_head_office": {
+    "id": "camp_and_climb_cc_head_office",
+    "name": "Camp And Climb Cc - Head Office",
+    "type": "Retail",
+    "parentCompanyId": "camp_and_climb_cc",
+    "addresses": [
+      {
+        "id": "addr_camp_and_climb_cc_head_office_delivery",
+        "type": "delivery",
+        "isPrimary": true,
+        "addressLine1": "P O Box 37197",
+        "city": "Cape Town",
+        "postalCode": "7442",
+        "province": "Western Cape",
+        "country": "South Africa"
+      }
+    ],
+    "invoiceLevel": "branch",
+    "billToParent": true,
+    "customProductPricing": [
+      {
+        "id": "cpp_camp_and_climb_head_office_snowva",
+        "productId": "snowva_ultimate_ice_maker",
+        "prices": [
+          {
+            "id": "price_camp_and_climb_head_office_snowva_2024",
+            "effectiveDate": "2024-01-01",
+            "retail": 216.0,
+            "consumer": 400.0
+          }
+        ]
+      },
+      {
+        "id": "cpp_camp_and_climb_head_office_outray",
+        "productId": "outray",
+        "prices": [
+          {
+            "id": "price_camp_and_climb_head_office_outray_2024",
+            "effectiveDate": "2024-01-01",
+            "retail": 325.0,
+            "consumer": 400.0
+          }
+        ]
+      }
+    ]
+  }
+}
