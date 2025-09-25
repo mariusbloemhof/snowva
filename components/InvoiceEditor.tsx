@@ -1,8 +1,8 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { useBlocker, useLocation, useNavigate, useOutletContext, useParams } from 'react-router-dom';
-import { AppContextType, Customer, DocumentStatus, Invoice, LineItem, PaymentTerm, Product, Quote } from '../types';
 import { VAT_RATE } from '../constants';
 import { useToast } from '../contexts/ToastContext';
+import { AppContextType, Customer, DocumentStatus, Invoice, LineItem, PaymentTerm, Product, Quote } from '../types';
 import { calculateDueDate, getResolvedProductDetails } from '../utils';
 import { CheckCircleIcon, PlusIcon, TrashIcon } from './Icons';
 import { ProductSelector } from './ProductSelector';

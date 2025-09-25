@@ -1,9 +1,9 @@
 
 import React from 'react';
-import { useNavigate, Link, useOutletContext } from 'react-router-dom';
-import { DocumentStatus, Quote, AppContextType } from '../types';
-import { PencilIcon, EyeIcon, PlusIcon } from './Icons';
+import { Link, useNavigate, useOutletContext } from 'react-router-dom';
+import { AppContextType, DocumentStatus } from '../types';
 import { calculateTotal } from '../utils';
+import { EyeIcon, PencilIcon, PlusIcon } from './Icons';
 
 export const QuoteList: React.FC = () => {
     const { quotes, customers } = useOutletContext<AppContextType>();

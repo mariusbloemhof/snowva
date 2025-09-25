@@ -42,7 +42,7 @@ export const InvoiceViewer: React.FC = () => {
   }, [payments, invoice]);
 
   const subtotal = useMemo(() => {
-    const itemsTotal = invoice?.items.reduce((sum, item) => sum + item.quantity * item.unitPrice, 0) || 0;
+    const itemsTotal = invoice?.lineItems.reduce((sum, item) => sum + item.quantity * item.unitPrice, 0) || 0;
     const shippingCost = invoice?.shipping || 0;
     return itemsTotal + shippingCost;
   }, [invoice]);
@@ -117,7 +117,7 @@ export const InvoiceViewer: React.FC = () => {
     pdf.text("Invoice #:", headerDetailsX, 43);
     pdf.text("For:", headerDetailsX, 48);
 
-    pdf.text(formatDate(invoice.date), headerDetailsX + 20, 38);
+    pdf.text(formatDate(invoice.issueDate), headerDetailsX + 20, 38);
     pdf.text(invoice.invoiceNumber, headerDetailsX + 20, 43);
     pdf.text(selectedCustomer?.name || '', headerDetailsX + 20, 48);
 
@@ -162,7 +162,7 @@ export const InvoiceViewer: React.FC = () => {
 
     // --- TABLE ---
     const tableStartY = yPos + 10;
-    const tableBody = invoice.items.map(item => [
+    const tableBody = invoice.lineItems.map(item => [
         item.description,
         item.itemCode,
         item.quantity,
@@ -347,11 +347,11 @@ export const InvoiceViewer: React.FC = () => {
         icon: <PencilIcon className="h-4 w-4 text-slate-500" />,
         user: 'System',
         text: 'created this invoice.',
-        date: invoice.date,
+        date: invoice.issueDate,
         details: `Total: R ${formatCurrency(total)}`,
     };
 
-    const sentDate = new Date(invoice.date);
+    const sentDate = new Date(invoice.issueDate);
     sentDate.setHours(sentDate.getHours() + 1); // 1 hour after creation
     const sentEvent = {
         icon: <MailIcon className="h-4 w-4 text-slate-500" />,
@@ -428,7 +428,7 @@ export const InvoiceViewer: React.FC = () => {
                  <div className="p-8 sm:p-10">
                     <div className="flex justify-between items-start">
                         <div>
-                            <p className="text-sm text-slate-500">Issued on {new Date(invoice.date).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}</p>
+                            <p className="text-sm text-slate-500">Issued on {new Date(invoice.issueDate).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}</p>
                             <p className="text-sm text-slate-500">
                                 {invoice.dueDate
                                     ? `Due on ${new Date(invoice.dueDate).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}`
@@ -468,7 +468,7 @@ export const InvoiceViewer: React.FC = () => {
                                             </tr>
                                         </thead>
                                         <tbody className="divide-y divide-slate-100">
-                                            {invoice.items.map(item => (
+                                            {invoice.lineItems.map(item => (
                                                 <tr key={item.id}>
                                                     <td className="py-4 pl-4 pr-3 text-sm font-medium text-slate-900 sm:pl-6 lg:pl-8">
                                                         {item.description}

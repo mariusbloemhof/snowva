@@ -1,7 +1,7 @@
 [
   {
     "id": "inv_241001101",
-    "customerId": "cust_the_biltong_boutiek__plettenberg_bay",
+    "customerId": "plettenberg_bay",
     "invoiceNumber": "241001101",
     "issueDate": "2024-10-01",
     "dueDate": "2024-10-01",
@@ -24,7 +24,7 @@
   },
   {
     "id": "inv_241002101",
-    "customerId": "cust_pretoria_caravans__outdoor",
+    "customerId": "pretoria_caravans_outdoor",
     "invoiceNumber": "241002101",
     "issueDate": "2024-10-02",
     "dueDate": "2024-10-02",
@@ -47,7 +47,7 @@
   },
   {
     "id": "inv_241002202",
-    "customerId": "cust_sentraal_suid_kooperasie__george",
+    "customerId": "george",
     "invoiceNumber": "241002202",
     "issueDate": "2024-10-02",
     "dueDate": "2024-10-02",
@@ -70,7 +70,7 @@
   },
   {
     "id": "inv_241002303",
-    "customerId": "cust_adomastar_klerksdorp_campworld",
+    "customerId": "klerksdorp",
     "invoiceNumber": "241002303",
     "issueDate": "2024-10-02",
     "dueDate": "2024-10-02",
@@ -93,7 +93,7 @@
   },
   {
     "id": "inv_241002404",
-    "customerId": "cust_quenets_hunting__fishing",
+    "customerId": "quenets_hunting_fishing",
     "invoiceNumber": "241002404",
     "issueDate": "2024-10-02",
     "dueDate": "2024-10-02",
@@ -116,7 +116,7 @@
   },
   {
     "id": "inv_241004101",
-    "customerId": "cust_natal_caravans__marine",
+    "customerId": "natal_caravans_marine",
     "invoiceNumber": "241004101",
     "issueDate": "2024-10-04",
     "dueDate": "2024-10-04",
@@ -139,7 +139,7 @@
   },
   {
     "id": "inv_241007101",
-    "customerId": "cust_sportsmans_warehouse__nelspruit",
+    "customerId": "nelspruit",
     "invoiceNumber": "241007101",
     "issueDate": "2024-10-07",
     "dueDate": "2024-10-07",
@@ -162,7 +162,7 @@
   },
   {
     "id": "inv_241007202",
-    "customerId": "cust_sportsmans_warehouse__northridge",
+    "customerId": "northridge",
     "invoiceNumber": "241007202",
     "issueDate": "2024-10-07",
     "dueDate": "2024-10-07",
@@ -185,7 +185,7 @@
   },
   {
     "id": "inv_241007303",
-    "customerId": "cust_sportsmans_warehouse__polokwane",
+    "customerId": "polokwane",
     "invoiceNumber": "241007303",
     "issueDate": "2024-10-07",
     "dueDate": "2024-10-07",
@@ -208,7 +208,7 @@
   },
   {
     "id": "inv_241007404",
-    "customerId": "cust_sportsmans_warehouse__polokwane",
+    "customerId": "polokwane",
     "invoiceNumber": "241007404",
     "issueDate": "2024-10-07",
     "dueDate": "2024-10-07",
@@ -231,7 +231,7 @@
   },
   {
     "id": "inv_241007505",
-    "customerId": "cust_sportsmans_warehouse__port_elizabeth",
+    "customerId": "port_elizabeth",
     "invoiceNumber": "241007505",
     "issueDate": "2024-10-07",
     "dueDate": "2024-10-07",
@@ -254,7 +254,7 @@
   },
   {
     "id": "inv_241007606",
-    "customerId": "cust_sportsmans_warehouse__tokai",
+    "customerId": "tokai",
     "invoiceNumber": "241007606",
     "issueDate": "2024-10-07",
     "dueDate": "2024-10-07",
@@ -277,7 +277,7 @@
   },
   {
     "id": "inv_241007707",
-    "customerId": "cust_sportsmans_warehouse__tygervalley",
+    "customerId": "tygervalley",
     "invoiceNumber": "241007707",
     "issueDate": "2024-10-07",
     "dueDate": "2024-10-07",
@@ -300,7 +300,7 @@
   },
   {
     "id": "inv_241007808",
-    "customerId": "cust_sportsmans_warehouse__waterfront",
+    "customerId": "waterfront",
     "invoiceNumber": "241007808",
     "issueDate": "2024-10-07",
     "dueDate": "2024-10-07",
@@ -323,7 +323,7 @@
   },
   {
     "id": "inv_241008101",
-    "customerId": "cust_fashion_and_d\u00e9cor__modimole",
+    "customerId": "modimole",
     "invoiceNumber": "241008101",
     "issueDate": "2024-10-08",
     "dueDate": "2024-10-08",
@@ -346,7 +346,7 @@
   },
   {
     "id": "inv_241008202",
-    "customerId": "cust_camp_and_climb_cc__head_office",
+    "customerId": "head_office",
     "invoiceNumber": "241008202",
     "issueDate": "2024-10-08",
     "dueDate": "2024-10-08",
@@ -369,7 +369,7 @@
   },
   {
     "id": "inv_241009101",
-    "customerId": "cust_newco_traders_online",
+    "customerId": "newco_traders_online",
     "invoiceNumber": "241009101",
     "issueDate": "2024-10-09",
     "dueDate": "2024-10-09",
@@ -392,53 +392,7 @@
   },
   {
     "id": "inv_241011101",
-    "customerId": "cust_gammatauworm",
-    "invoiceNumber": "241011101",
-    "issueDate": "2024-10-11",
-    "dueDate": "2024-10-11",
-    "status": "Paid",
-    "poNumber": "#0003",
-    "type": "Retail",
-    "lineItems": [
-      {
-        "productId": "prod_snowva",
-        "quantity": 12,
-        "unitPrice": 216.0
-      }
-    ],
-    "subtotal": 2592.0,
-    "taxAmount": 0.0,
-    "discountAmount": 0.0,
-    "shippingAmount": 160.0,
-    "totalAmount": 2752.0,
-    "notes": "Retail customer"
-  },
-  {
-    "id": "inv_241125101",
-    "customerId": "cust_kampi_technologies",
-    "invoiceNumber": "241125101",
-    "issueDate": "2024-11-25",
-    "dueDate": "2024-11-25",
-    "status": "Paid",
-    "poNumber": "#0001",
-    "type": "Retail",
-    "lineItems": [
-      {
-        "productId": "prod_snowva",
-        "quantity": 10,
-        "unitPrice": 235.0
-      }
-    ],
-    "subtotal": 2350.0,
-    "taxAmount": 0.0,
-    "discountAmount": 0.0,
-    "shippingAmount": 0.0,
-    "totalAmount": 2350.0,
-    "notes": "Retail customer"
-  },
-  {
-    "id": "inv_241011101",
-    "customerId": "cust_calcumed",
+    "customerId": "calcumed_pty_ltd",
     "invoiceNumber": "241011101",
     "issueDate": "2024-10-11",
     "dueDate": "2024-10-11",
@@ -460,8 +414,31 @@
     "notes": "Retail customer"
   },
   {
+    "id": "inv_241125101",
+    "customerId": "riversdale_trading_t_a_bali_trading",
+    "invoiceNumber": "241125101",
+    "issueDate": "2024-11-25",
+    "dueDate": "2024-11-25",
+    "status": "Paid",
+    "poNumber": "#201101",
+    "type": "Retail",
+    "lineItems": [
+      {
+        "productId": "prod_snowva",
+        "quantity": 48,
+        "unitPrice": 235.0
+      }
+    ],
+    "subtotal": 11280.0,
+    "taxAmount": 0.0,
+    "discountAmount": 0.0,
+    "shippingAmount": 0.0,
+    "totalAmount": 11280.0,
+    "notes": "Retail customer"
+  },
+  {
     "id": "inv_241016101",
-    "customerId": "cust_wildman_robertson",
+    "customerId": "wildman_robertson",
     "invoiceNumber": "241016101",
     "issueDate": "2024-10-16",
     "dueDate": "2024-10-16",
@@ -483,31 +460,8 @@
     "notes": "Retail customer"
   },
   {
-    "id": "inv_241125101",
-    "customerId": "cust_exhibition_north__nelspruit",
-    "invoiceNumber": "241125101",
-    "issueDate": "2024-11-25",
-    "dueDate": "2024-11-25",
-    "status": "Paid",
-    "poNumber": "PUR10.1",
-    "type": "Retail",
-    "lineItems": [
-      {
-        "productId": "prod_snowva",
-        "quantity": 24,
-        "unitPrice": 235.0
-      }
-    ],
-    "subtotal": 5640.0,
-    "taxAmount": 0.0,
-    "discountAmount": 0.0,
-    "shippingAmount": 0.0,
-    "totalAmount": 5640.0,
-    "notes": "Retail customer"
-  },
-  {
     "id": "inv_241017101",
-    "customerId": "cust_obaro__groblersdal",
+    "customerId": "groblersdal",
     "invoiceNumber": "241017101",
     "issueDate": "2024-10-17",
     "dueDate": "2024-10-17",
@@ -530,7 +484,7 @@
   },
   {
     "id": "inv_241017202",
-    "customerId": "cust_obaro__naboomspruit",
+    "customerId": "naboomspruit",
     "invoiceNumber": "241017202",
     "issueDate": "2024-10-17",
     "dueDate": "2024-10-17",
@@ -553,7 +507,7 @@
   },
   {
     "id": "inv_241017303",
-    "customerId": "cust_newco_traders_online",
+    "customerId": "newco_traders_online",
     "invoiceNumber": "241017303",
     "issueDate": "2024-10-17",
     "dueDate": "2024-10-17",
@@ -576,7 +530,7 @@
   },
   {
     "id": "inv_241018101",
-    "customerId": "cust_dirttrax_4x4_adventure_centre",
+    "customerId": "dirttrax_4x4_adventure_centre",
     "invoiceNumber": "241018101",
     "issueDate": "2024-10-18",
     "dueDate": "2024-10-18",
@@ -599,7 +553,7 @@
   },
   {
     "id": "inv_241018202",
-    "customerId": "cust_newco_traders_online",
+    "customerId": "newco_traders_online",
     "invoiceNumber": "241018202",
     "issueDate": "2024-10-18",
     "dueDate": "2024-10-18",
@@ -622,7 +576,7 @@
   },
   {
     "id": "inv_241018303",
-    "customerId": "cust_kings_meat_deli__lynnwoodbridge",
+    "customerId": "lynnwoodbridge",
     "invoiceNumber": "241018303",
     "issueDate": "2024-10-18",
     "dueDate": "2024-10-18",
@@ -650,7 +604,7 @@
   },
   {
     "id": "inv_241021101",
-    "customerId": "cust_newco_traders_online",
+    "customerId": "newco_traders_online",
     "invoiceNumber": "241021101",
     "issueDate": "2024-10-21",
     "dueDate": "2024-10-21",
@@ -673,7 +627,7 @@
   },
   {
     "id": "inv_241021202",
-    "customerId": "cust_abe_motors_cc",
+    "customerId": "abe_motors_cc",
     "invoiceNumber": "241021202",
     "issueDate": "2024-10-21",
     "dueDate": "2024-10-21",
@@ -696,7 +650,7 @@
   },
   {
     "id": "inv_241021303",
-    "customerId": "cust_obaro__potchefstroom",
+    "customerId": "potchefstroom",
     "invoiceNumber": "241021303",
     "issueDate": "2024-10-21",
     "dueDate": "2024-10-21",
@@ -719,7 +673,7 @@
   },
   {
     "id": "inv_241023101",
-    "customerId": "cust_binuns_menlyn_cc",
+    "customerId": "binuns_menlyn_cc",
     "invoiceNumber": "241023101",
     "issueDate": "2024-10-23",
     "dueDate": "2024-10-23",
@@ -742,7 +696,7 @@
   },
   {
     "id": "inv_241023202",
-    "customerId": "cust_binuns_menlyn_cc",
+    "customerId": "binuns_menlyn_cc",
     "invoiceNumber": "241023202",
     "issueDate": "2024-10-23",
     "dueDate": "2024-10-23",
@@ -765,81 +719,7 @@
   },
   {
     "id": "inv_241024101",
-    "customerId": "cust_kings_meat_deli__castle_walk",
-    "invoiceNumber": "241024101",
-    "issueDate": "2024-10-24",
-    "dueDate": "2024-10-24",
-    "status": "Paid",
-    "poNumber": "#0001",
-    "type": "Retail",
-    "lineItems": [
-      {
-        "productId": "prod_makabrai",
-        "quantity": 5,
-        "unitPrice": 600.0
-      },
-      {
-        "productId": "prod_braai_grid_medium",
-        "quantity": 5,
-        "unitPrice": 720.0
-      }
-    ],
-    "subtotal": 6600.0,
-    "taxAmount": 0.0,
-    "discountAmount": 0.0,
-    "shippingAmount": 0.0,
-    "totalAmount": 6600.0,
-    "notes": "Retail customer"
-  },
-  {
-    "id": "inv_241125101",
-    "customerId": "cust_newco_traders_online",
-    "invoiceNumber": "241125101",
-    "issueDate": "2024-11-25",
-    "dueDate": "2024-11-25",
-    "status": "Paid",
-    "poNumber": "PO01778",
-    "type": "Retail",
-    "lineItems": [
-      {
-        "productId": "prod_snowva",
-        "quantity": 10,
-        "unitPrice": 235.0
-      }
-    ],
-    "subtotal": 2350.0,
-    "taxAmount": 0.0,
-    "discountAmount": 0.0,
-    "shippingAmount": 0.0,
-    "totalAmount": 2350.0,
-    "notes": "Retail customer"
-  },
-  {
-    "id": "inv_241025101",
-    "customerId": "cust_caltex_manor",
-    "invoiceNumber": "241025101",
-    "issueDate": "2024-10-25",
-    "dueDate": "2024-10-25",
-    "status": "Paid",
-    "poNumber": "#0012524",
-    "type": "Retail",
-    "lineItems": [
-      {
-        "productId": "prod_snowva",
-        "quantity": 10,
-        "unitPrice": 216.0
-      }
-    ],
-    "subtotal": 2160.0,
-    "taxAmount": 0.0,
-    "discountAmount": 0.0,
-    "shippingAmount": 0.0,
-    "totalAmount": 2160.0,
-    "notes": "Retail customer"
-  },
-  {
-    "id": "inv_241024101",
-    "customerId": "cust_newco_traders_online",
+    "customerId": "newco_traders_online",
     "invoiceNumber": "241024101",
     "issueDate": "2024-10-24",
     "dueDate": "2024-10-24",
@@ -861,8 +741,31 @@
     "notes": "Retail customer"
   },
   {
+    "id": "inv_241025101",
+    "customerId": "caltex_manor",
+    "invoiceNumber": "241025101",
+    "issueDate": "2024-10-25",
+    "dueDate": "2024-10-25",
+    "status": "Paid",
+    "poNumber": "#0012524",
+    "type": "Retail",
+    "lineItems": [
+      {
+        "productId": "prod_snowva",
+        "quantity": 10,
+        "unitPrice": 216.0
+      }
+    ],
+    "subtotal": 2160.0,
+    "taxAmount": 0.0,
+    "discountAmount": 0.0,
+    "shippingAmount": 0.0,
+    "totalAmount": 2160.0,
+    "notes": "Retail customer"
+  },
+  {
     "id": "inv_241028101",
-    "customerId": "cust_trulyhealth",
+    "customerId": "trulyhealth_pty_ltd",
     "invoiceNumber": "241028101",
     "issueDate": "2024-10-28",
     "dueDate": "2024-10-28",
@@ -885,7 +788,7 @@
   },
   {
     "id": "inv_241029101",
-    "customerId": "cust_newco_traders_online",
+    "customerId": "newco_traders_online",
     "invoiceNumber": "241029101",
     "issueDate": "2024-10-29",
     "dueDate": "2024-10-29",
@@ -908,7 +811,7 @@
   },
   {
     "id": "inv_241029202",
-    "customerId": "cust_bella_aqua_water",
+    "customerId": "bella_aqua_water",
     "invoiceNumber": "241029202",
     "issueDate": "2024-10-29",
     "dueDate": "2024-10-29",
@@ -931,7 +834,7 @@
   },
   {
     "id": "inv_241029303",
-    "customerId": "cust_4x4_unlimited",
+    "customerId": "4x4_unlimited_pty_ltd",
     "invoiceNumber": "241029303",
     "issueDate": "2024-10-29",
     "dueDate": "2024-10-29",
@@ -954,7 +857,7 @@
   },
   {
     "id": "inv_241029404",
-    "customerId": "cust_kitchenique",
+    "customerId": "kitchenique",
     "invoiceNumber": "241029404",
     "issueDate": "2024-10-29",
     "dueDate": "2024-10-29",
@@ -977,7 +880,7 @@
   },
   {
     "id": "inv_241030101",
-    "customerId": "cust_kitchenique",
+    "customerId": "kitchenique",
     "invoiceNumber": "241030101",
     "issueDate": "2024-10-30",
     "dueDate": "2024-10-30",
@@ -1000,7 +903,7 @@
   },
   {
     "id": "inv_241030202",
-    "customerId": "cust_kings_meat_deli__castle_walk",
+    "customerId": "castle_walk",
     "invoiceNumber": "241030202",
     "issueDate": "2024-10-30",
     "dueDate": "2024-10-30",
@@ -1033,7 +936,7 @@
   },
   {
     "id": "inv_241030303",
-    "customerId": "cust_kings_meat_deli__lynnwoodbridge",
+    "customerId": "lynnwoodbridge",
     "invoiceNumber": "241030303",
     "issueDate": "2024-10-30",
     "dueDate": "2024-10-30",
@@ -1061,86 +964,7 @@
   },
   {
     "id": "inv_241105101",
-    "customerId": "cust_bkb_limited__amersfoort",
-    "invoiceNumber": "241105101",
-    "issueDate": "2024-11-05",
-    "dueDate": "2024-11-05",
-    "status": "Unpaid",
-    "poNumber": "TA0030389",
-    "type": "Retail",
-    "lineItems": [
-      {
-        "productId": "prod_snowva",
-        "quantity": 10,
-        "unitPrice": 235.0
-      }
-    ],
-    "subtotal": 2350.0,
-    "taxAmount": 0.0,
-    "discountAmount": 0.0,
-    "shippingAmount": 0.0,
-    "totalAmount": 2350.0,
-    "notes": "Retail customer"
-  },
-  {
-    "id": "inv_241105202",
-    "customerId": "cust_dassiesfontein_padstal",
-    "invoiceNumber": "241105202",
-    "issueDate": "2024-11-05",
-    "dueDate": "2024-11-05",
-    "status": "Paid",
-    "poNumber": "",
-    "type": "Retail",
-    "lineItems": [
-      {
-        "productId": "prod_snowva",
-        "quantity": 15,
-        "unitPrice": 235.0
-      }
-    ],
-    "subtotal": 3525.0,
-    "taxAmount": 0.0,
-    "discountAmount": 0.0,
-    "shippingAmount": 0.0,
-    "totalAmount": 3525.0,
-    "notes": "Retail customer"
-  },
-  {
-    "id": "inv_241127101",
-    "customerId": "cust_lowveld_camp__gas_the_great_outdoors",
-    "invoiceNumber": "241127101",
-    "issueDate": "2024-11-27",
-    "dueDate": "2024-11-27",
-    "status": "Unpaid",
-    "poNumber": "PO103234",
-    "type": "Retail",
-    "lineItems": [
-      {
-        "productId": "prod_snowva",
-        "quantity": 60,
-        "unitPrice": 216.0
-      },
-      {
-        "productId": "prod_outray",
-        "quantity": 6,
-        "unitPrice": 325.0
-      },
-      {
-        "productId": "prod_makabrai",
-        "quantity": 2,
-        "unitPrice": 600.0
-      }
-    ],
-    "subtotal": 16110.0,
-    "taxAmount": 0.0,
-    "discountAmount": 0.0,
-    "shippingAmount": 240.0,
-    "totalAmount": 16350.0,
-    "notes": "Retail customer"
-  },
-  {
-    "id": "inv_241105101",
-    "customerId": "cust_brenel_4x4",
+    "customerId": "brenel_4x4_pty_ltd",
     "invoiceNumber": "241105101",
     "issueDate": "2024-11-05",
     "dueDate": "2024-11-05",
@@ -1163,7 +987,7 @@
   },
   {
     "id": "inv_241105202",
-    "customerId": "cust_emilize_human",
+    "customerId": "emilize_human",
     "invoiceNumber": "241105202",
     "issueDate": "2024-11-05",
     "dueDate": "2024-11-05",
@@ -1185,8 +1009,31 @@
     "notes": "Retail customer"
   },
   {
+    "id": "inv_241127101",
+    "customerId": "kamdebo_padstal",
+    "invoiceNumber": "241127101",
+    "issueDate": "2024-11-27",
+    "dueDate": "2024-11-27",
+    "status": "Paid",
+    "poNumber": "#0001",
+    "type": "Retail",
+    "lineItems": [
+      {
+        "productId": "prod_snowva",
+        "quantity": 15,
+        "unitPrice": 235.0
+      }
+    ],
+    "subtotal": 3525.0,
+    "taxAmount": 0.0,
+    "discountAmount": 0.0,
+    "shippingAmount": 0.0,
+    "totalAmount": 3525.0,
+    "notes": "Retail customer"
+  },
+  {
     "id": "inv_241106101",
-    "customerId": "cust_walkers_midas_upington_4x4_mega_world",
+    "customerId": "walkers_midas_upington_t_a_4x4_mega_world",
     "invoiceNumber": "241106101",
     "issueDate": "2024-11-06",
     "dueDate": "2024-11-06",
@@ -1209,7 +1056,7 @@
   },
   {
     "id": "inv_241106202",
-    "customerId": "cust_binuns_menlyn_cc",
+    "customerId": "binuns_menlyn_cc",
     "invoiceNumber": "241106202",
     "issueDate": "2024-11-06",
     "dueDate": "2024-11-06",
@@ -1236,54 +1083,31 @@
     "notes": "Retail customer"
   },
   {
-    "id": "inv_241125101",
-    "customerId": "cust_lappies_labuschagne",
-    "invoiceNumber": "241125101",
-    "issueDate": "2024-11-25",
-    "dueDate": "2024-11-25",
-    "status": "Paid",
-    "poNumber": "#0001",
-    "type": "Consumer",
-    "lineItems": [
-      {
-        "productId": "prod_snowva",
-        "quantity": 10,
-        "unitPrice": 216.0
-      }
-    ],
-    "subtotal": 2160.0,
-    "taxAmount": 0.0,
-    "discountAmount": 0.0,
-    "shippingAmount": 62.0,
-    "totalAmount": 2222.0,
-    "notes": "Consumer customer - Consumer: Lappies Labuschagne"
-  },
-  {
     "id": "inv_241125202",
-    "customerId": "cust_newco_traders_online",
+    "customerId": "dfd_farming_and_hiring",
     "invoiceNumber": "241125202",
     "issueDate": "2024-11-25",
     "dueDate": "2024-11-25",
     "status": "Paid",
-    "poNumber": "PO001856",
+    "poNumber": "#211101",
     "type": "Retail",
     "lineItems": [
       {
-        "productId": "prod_makabrai",
-        "quantity": 2,
-        "unitPrice": 600.0
+        "productId": "prod_snowva",
+        "quantity": 15,
+        "unitPrice": 235.0
       }
     ],
-    "subtotal": 1200.0,
+    "subtotal": 3525.0,
     "taxAmount": 0.0,
     "discountAmount": 0.0,
     "shippingAmount": 0.0,
-    "totalAmount": 1200.0,
+    "totalAmount": 3525.0,
     "notes": "Retail customer"
   },
   {
     "id": "inv_241107101",
-    "customerId": "cust_eastern_cape_caravans__safari_centre",
+    "customerId": "safari_centre",
     "invoiceNumber": "241107101",
     "issueDate": "2024-11-07",
     "dueDate": "2024-11-07",
@@ -1305,77 +1129,31 @@
     "notes": "Retail customer"
   },
   {
-    "id": "inv_241125101",
-    "customerId": "cust_rcma_group_hawies_springs",
-    "invoiceNumber": "241125101",
-    "issueDate": "2024-11-25",
-    "dueDate": "2024-11-25",
-    "status": "Paid",
-    "poNumber": "PO036422",
-    "type": "Retail",
-    "lineItems": [
-      {
-        "productId": "prod_snowva",
-        "quantity": 20,
-        "unitPrice": 235.0
-      }
-    ],
-    "subtotal": 4700.0,
-    "taxAmount": 0.0,
-    "discountAmount": 0.0,
-    "shippingAmount": 0.0,
-    "totalAmount": 4700.0,
-    "notes": "Retail customer"
-  },
-  {
-    "id": "inv_241125202",
-    "customerId": "cust_admiror_trading_4_sheep",
-    "invoiceNumber": "241125202",
-    "issueDate": "2024-11-25",
-    "dueDate": "2024-11-25",
-    "status": "Paid",
-    "poNumber": "#0003",
-    "type": "Retail",
-    "lineItems": [
-      {
-        "productId": "prod_snowva",
-        "quantity": 30,
-        "unitPrice": 235.0
-      }
-    ],
-    "subtotal": 7050.0,
-    "taxAmount": 0.0,
-    "discountAmount": 0.0,
-    "shippingAmount": 0.0,
-    "totalAmount": 7050.0,
-    "notes": "Retail customer"
-  },
-  {
     "id": "inv_241125303",
-    "customerId": "cust_up_to_date_fresh_market",
+    "customerId": "taylor_made_water",
     "invoiceNumber": "241125303",
     "issueDate": "2024-11-25",
     "dueDate": "2024-11-25",
     "status": "Unpaid",
-    "poNumber": "#011108",
+    "poNumber": "#211102",
     "type": "Retail",
     "lineItems": [
       {
         "productId": "prod_snowva",
-        "quantity": 36,
-        "unitPrice": 235.0
+        "quantity": 15,
+        "unitPrice": 216.0
       }
     ],
-    "subtotal": 8460.0,
+    "subtotal": 3240.0,
     "taxAmount": 0.0,
     "discountAmount": 0.0,
-    "shippingAmount": 0.0,
-    "totalAmount": 8460.0,
+    "shippingAmount": 100.0,
+    "totalAmount": 3340.0,
     "notes": "Retail customer"
   },
   {
     "id": "inv_241112101",
-    "customerId": "cust_camp_and_climb_cc__head_office",
+    "customerId": "head_office",
     "invoiceNumber": "241112101",
     "issueDate": "2024-11-12",
     "dueDate": "2024-11-12",
@@ -1421,53 +1199,7 @@
   },
   {
     "id": "inv_241113101",
-    "customerId": "cust_carina_pearce",
-    "invoiceNumber": "241113101",
-    "issueDate": "2024-11-13",
-    "dueDate": "2024-11-13",
-    "status": "Paid",
-    "poNumber": "#130101",
-    "type": "Consumer",
-    "lineItems": [
-      {
-        "productId": "prod_snowva",
-        "quantity": 10,
-        "unitPrice": 216.0
-      }
-    ],
-    "subtotal": 2160.0,
-    "taxAmount": 0.0,
-    "discountAmount": 0.0,
-    "shippingAmount": 45.5,
-    "totalAmount": 2205.5,
-    "notes": "Consumer customer - Consumer: Carina Pearce"
-  },
-  {
-    "id": "inv_241125101",
-    "customerId": "cust_crestwave_114_tzaneen_superspar",
-    "invoiceNumber": "241125101",
-    "issueDate": "2024-11-25",
-    "dueDate": "2024-11-25",
-    "status": "Paid",
-    "poNumber": "#0001",
-    "type": "Retail",
-    "lineItems": [
-      {
-        "productId": "prod_snowva",
-        "quantity": 23,
-        "unitPrice": 235.0
-      }
-    ],
-    "subtotal": 5405.0,
-    "taxAmount": 0.0,
-    "discountAmount": 0.0,
-    "shippingAmount": 0.0,
-    "totalAmount": 5405.0,
-    "notes": "Retail customer"
-  },
-  {
-    "id": "inv_241113101",
-    "customerId": "cust_the_monarchy",
+    "customerId": "the_monarchy",
     "invoiceNumber": "241113101",
     "issueDate": "2024-11-13",
     "dueDate": "2024-11-13",
@@ -1490,7 +1222,7 @@
   },
   {
     "id": "inv_241114101",
-    "customerId": "cust_newco_traders_online",
+    "customerId": "newco_traders_online",
     "invoiceNumber": "241114101",
     "issueDate": "2024-11-14",
     "dueDate": "2024-11-14",
@@ -1513,7 +1245,7 @@
   },
   {
     "id": "inv_241114202",
-    "customerId": "cust_pet_pool_and_home__malmesbury",
+    "customerId": "malmesbury",
     "invoiceNumber": "241114202",
     "issueDate": "2024-11-14",
     "dueDate": "2024-11-14",
@@ -1536,7 +1268,7 @@
   },
   {
     "id": "inv_241114303",
-    "customerId": "cust_soles_for_africa_cc__boet__betty",
+    "customerId": "soles_for_africa_cc",
     "invoiceNumber": "241114303",
     "issueDate": "2024-11-14",
     "dueDate": "2024-11-14",
@@ -1558,36 +1290,8 @@
     "notes": "Retail customer"
   },
   {
-    "id": "inv_241125101",
-    "customerId": "cust_tentco__21_bisset_road",
-    "invoiceNumber": "241125101",
-    "issueDate": "2024-11-25",
-    "dueDate": "2024-11-25",
-    "status": "Paid",
-    "poNumber": "#141101",
-    "type": "Retail",
-    "lineItems": [
-      {
-        "productId": "prod_snowva",
-        "quantity": 60,
-        "unitPrice": 216.0
-      },
-      {
-        "productId": "prod_outray",
-        "quantity": 4,
-        "unitPrice": 325.0
-      }
-    ],
-    "subtotal": 14260.0,
-    "taxAmount": 0.0,
-    "discountAmount": 0.0,
-    "shippingAmount": 180.0,
-    "totalAmount": 14440.0,
-    "notes": "Retail customer"
-  },
-  {
     "id": "inv_241118101",
-    "customerId": "cust_house_of_carpets_furniture__appliance",
+    "customerId": "house_of_carpets_furniture_appliance",
     "invoiceNumber": "241118101",
     "issueDate": "2024-11-18",
     "dueDate": "2024-11-18",
@@ -1610,7 +1314,7 @@
   },
   {
     "id": "inv_241119101",
-    "customerId": "cust_newco_traders_online",
+    "customerId": "newco_traders_online",
     "invoiceNumber": "241119101",
     "issueDate": "2024-11-19",
     "dueDate": "2024-11-19",
@@ -1632,146 +1336,31 @@
     "notes": "Retail customer"
   },
   {
-    "id": "inv_241125101",
-    "customerId": "cust_riana_joubert",
-    "invoiceNumber": "241125101",
-    "issueDate": "2024-11-25",
-    "dueDate": "2024-11-25",
-    "status": "Unpaid",
-    "poNumber": "#0003",
-    "type": "Consumer",
-    "lineItems": [
-      {
-        "productId": "prod_snowva",
-        "quantity": 10,
-        "unitPrice": 235.0
-      }
-    ],
-    "subtotal": 2350.0,
-    "taxAmount": 0.0,
-    "discountAmount": 0.0,
-    "shippingAmount": 0.0,
-    "totalAmount": 2350.0,
-    "notes": "Consumer customer - Consumer: Riana Joubert"
-  },
-  {
-    "id": "inv_241125202",
-    "customerId": "cust_obaro__tijgervallei",
-    "invoiceNumber": "241125202",
-    "issueDate": "2024-11-25",
-    "dueDate": "2024-11-25",
-    "status": "Unpaid",
-    "poNumber": "3799284/118",
-    "type": "Retail",
-    "lineItems": [
-      {
-        "productId": "prod_snowva",
-        "quantity": 15,
-        "unitPrice": 235.0
-      }
-    ],
-    "subtotal": 3525.0,
-    "taxAmount": 0.0,
-    "discountAmount": 0.0,
-    "shippingAmount": 0.0,
-    "totalAmount": 3525.0,
-    "notes": "Retail customer"
-  },
-  {
     "id": "inv_241126101",
-    "customerId": "cust_obaro__thabazimbi",
+    "customerId": "steyn_s_boumateriale",
     "invoiceNumber": "241126101",
     "issueDate": "2024-11-26",
     "dueDate": "2024-11-26",
-    "status": "Unpaid",
-    "poNumber": "3806247/110",
-    "type": "Retail",
-    "lineItems": [
-      {
-        "productId": "prod_snowva",
-        "quantity": 15,
-        "unitPrice": 235.0
-      }
-    ],
-    "subtotal": 3525.0,
-    "taxAmount": 0.0,
-    "discountAmount": 0.0,
-    "shippingAmount": 0.0,
-    "totalAmount": 3525.0,
-    "notes": "Retail customer"
-  },
-  {
-    "id": "inv_241125101",
-    "customerId": "cust_riversdale_trading_bali_trading",
-    "invoiceNumber": "241125101",
-    "issueDate": "2024-11-25",
-    "dueDate": "2024-11-25",
     "status": "Paid",
-    "poNumber": "#201101",
+    "poNumber": "SBPUR42451",
     "type": "Retail",
     "lineItems": [
       {
         "productId": "prod_snowva",
-        "quantity": 48,
+        "quantity": 12,
         "unitPrice": 235.0
       }
     ],
-    "subtotal": 11280.0,
+    "subtotal": 2820.0,
     "taxAmount": 0.0,
     "discountAmount": 0.0,
     "shippingAmount": 0.0,
-    "totalAmount": 11280.0,
-    "notes": "Retail customer"
-  },
-  {
-    "id": "inv_241125202",
-    "customerId": "cust_dfd_farming_and_hiring",
-    "invoiceNumber": "241125202",
-    "issueDate": "2024-11-25",
-    "dueDate": "2024-11-25",
-    "status": "Paid",
-    "poNumber": "#211101",
-    "type": "Retail",
-    "lineItems": [
-      {
-        "productId": "prod_snowva",
-        "quantity": 15,
-        "unitPrice": 235.0
-      }
-    ],
-    "subtotal": 3525.0,
-    "taxAmount": 0.0,
-    "discountAmount": 0.0,
-    "shippingAmount": 0.0,
-    "totalAmount": 3525.0,
-    "notes": "Retail customer"
-  },
-  {
-    "id": "inv_241125303",
-    "customerId": "cust_taylor_made_water",
-    "invoiceNumber": "241125303",
-    "issueDate": "2024-11-25",
-    "dueDate": "2024-11-25",
-    "status": "Unpaid",
-    "poNumber": "#211102",
-    "type": "Retail",
-    "lineItems": [
-      {
-        "productId": "prod_snowva",
-        "quantity": 15,
-        "unitPrice": 216.0
-      }
-    ],
-    "subtotal": 3240.0,
-    "taxAmount": 0.0,
-    "discountAmount": 0.0,
-    "shippingAmount": 100.0,
-    "totalAmount": 3340.0,
+    "totalAmount": 2820.0,
     "notes": "Retail customer"
   },
   {
     "id": "inv_241125404",
-    "customerId": "cust_trek_in_midas",
+    "customerId": "trek_in_midas",
     "invoiceNumber": "241125404",
     "issueDate": "2024-11-25",
     "dueDate": "2024-11-25",
@@ -1794,7 +1383,7 @@
   },
   {
     "id": "inv_241125505",
-    "customerId": "cust_newco_traders_online",
+    "customerId": "newco_traders_online",
     "invoiceNumber": "241125505",
     "issueDate": "2024-11-25",
     "dueDate": "2024-11-25",
@@ -1817,7 +1406,7 @@
   },
   {
     "id": "inv_241125606",
-    "customerId": "cust_newco_traders_online",
+    "customerId": "newco_traders_online",
     "invoiceNumber": "241125606",
     "issueDate": "2024-11-25",
     "dueDate": "2024-11-25",
@@ -1840,7 +1429,7 @@
   },
   {
     "id": "inv_241125707",
-    "customerId": "cust_newco_traders_online",
+    "customerId": "newco_traders_online",
     "invoiceNumber": "241125707",
     "issueDate": "2024-11-25",
     "dueDate": "2024-11-25",
@@ -1862,31 +1451,8 @@
     "notes": "Retail customer"
   },
   {
-    "id": "inv_241126101",
-    "customerId": "cust_steyns_boumateriale",
-    "invoiceNumber": "241126101",
-    "issueDate": "2024-11-26",
-    "dueDate": "2024-11-26",
-    "status": "Paid",
-    "poNumber": "SBPUR42451",
-    "type": "Retail",
-    "lineItems": [
-      {
-        "productId": "prod_snowva",
-        "quantity": 12,
-        "unitPrice": 235.0
-      }
-    ],
-    "subtotal": 2820.0,
-    "taxAmount": 0.0,
-    "discountAmount": 0.0,
-    "shippingAmount": 0.0,
-    "totalAmount": 2820.0,
-    "notes": "Retail customer"
-  },
-  {
     "id": "inv_241126202",
-    "customerId": "cust_natal_caravans__marine",
+    "customerId": "natal_caravans_marine",
     "invoiceNumber": "241126202",
     "issueDate": "2024-11-26",
     "dueDate": "2024-11-26",
@@ -1905,29 +1471,6 @@
     "discountAmount": 0.0,
     "shippingAmount": 100.0,
     "totalAmount": 5284.0,
-    "notes": "Retail customer"
-  },
-  {
-    "id": "inv_241127101",
-    "customerId": "cust_kamdebo_padstal",
-    "invoiceNumber": "241127101",
-    "issueDate": "2024-11-27",
-    "dueDate": "2024-11-27",
-    "status": "Paid",
-    "poNumber": "#0001",
-    "type": "Retail",
-    "lineItems": [
-      {
-        "productId": "prod_snowva",
-        "quantity": 15,
-        "unitPrice": 235.0
-      }
-    ],
-    "subtotal": 3525.0,
-    "taxAmount": 0.0,
-    "discountAmount": 0.0,
-    "shippingAmount": 0.0,
-    "totalAmount": 3525.0,
     "notes": "Retail customer"
   },
   {
@@ -1955,99 +1498,7 @@
   },
   {
     "id": "inv_241203101",
-    "customerId": "cust_td_coetzee_middelwater_trust",
-    "invoiceNumber": "241203101",
-    "issueDate": "2024-12-03",
-    "dueDate": "2024-12-03",
-    "status": "Paid",
-    "poNumber": "#291101",
-    "type": "Retail",
-    "lineItems": [
-      {
-        "productId": "prod_snowva",
-        "quantity": 12,
-        "unitPrice": 216.0
-      }
-    ],
-    "subtotal": 2592.0,
-    "taxAmount": 0.0,
-    "discountAmount": 0.0,
-    "shippingAmount": 75.0,
-    "totalAmount": 2667.0,
-    "notes": "Retail customer"
-  },
-  {
-    "id": "inv_241203202",
-    "customerId": "cust_safari_centre",
-    "invoiceNumber": "241203202",
-    "issueDate": "2024-12-03",
-    "dueDate": "2024-12-03",
-    "status": "Paid",
-    "poNumber": "#81646",
-    "type": "Retail",
-    "lineItems": [
-      {
-        "productId": "prod_snowva",
-        "quantity": 20,
-        "unitPrice": 216.0
-      }
-    ],
-    "subtotal": 4320.0,
-    "taxAmount": 0.0,
-    "discountAmount": 0.0,
-    "shippingAmount": 120.0,
-    "totalAmount": 4440.0,
-    "notes": "Retail customer"
-  },
-  {
-    "id": "inv_241203303",
-    "customerId": "cust_bundubash_africa_pty",
-    "invoiceNumber": "241203303",
-    "issueDate": "2024-12-03",
-    "dueDate": "2024-12-03",
-    "status": "Paid",
-    "poNumber": "CE139",
-    "type": "Retail",
-    "lineItems": [
-      {
-        "productId": "prod_snowva",
-        "quantity": 30,
-        "unitPrice": 216.0
-      }
-    ],
-    "subtotal": 6480.0,
-    "taxAmount": 0.0,
-    "discountAmount": 0.0,
-    "shippingAmount": 105.0,
-    "totalAmount": 6585.0,
-    "notes": "Retail customer"
-  },
-  {
-    "id": "inv_241202101",
-    "customerId": "cust_adomastar_klerksdorp_campworld",
-    "invoiceNumber": "241202101",
-    "issueDate": "2024-12-02",
-    "dueDate": "2024-12-02",
-    "status": "Paid",
-    "poNumber": "#021201",
-    "type": "Retail",
-    "lineItems": [
-      {
-        "productId": "prod_snowva",
-        "quantity": 10,
-        "unitPrice": 216.0
-      }
-    ],
-    "subtotal": 2160.0,
-    "taxAmount": 0.0,
-    "discountAmount": 0.0,
-    "shippingAmount": 49.0,
-    "totalAmount": 2209.0,
-    "notes": "Retail customer"
-  },
-  {
-    "id": "inv_241203101",
-    "customerId": "cust_the_biltong_boutiek__plettenberg_bay",
+    "customerId": "plettenberg_bay",
     "invoiceNumber": "241203101",
     "issueDate": "2024-12-03",
     "dueDate": "2024-12-03",
@@ -2070,7 +1521,7 @@
   },
   {
     "id": "inv_241203202",
-    "customerId": "cust_obaro__koedoeskop",
+    "customerId": "koedoeskop",
     "invoiceNumber": "241203202",
     "issueDate": "2024-12-03",
     "dueDate": "2024-12-03",
@@ -2093,7 +1544,7 @@
   },
   {
     "id": "inv_241203303",
-    "customerId": "cust_obaro__dwaalboom",
+    "customerId": "dwaalboom",
     "invoiceNumber": "241203303",
     "issueDate": "2024-12-03",
     "dueDate": "2024-12-03",
@@ -2115,8 +1566,31 @@
     "notes": "Retail customer"
   },
   {
+    "id": "inv_241202101",
+    "customerId": "agri_bonus",
+    "invoiceNumber": "241202101",
+    "issueDate": "2024-12-02",
+    "dueDate": "2024-12-02",
+    "status": "Paid",
+    "poNumber": "#17005",
+    "type": "Retail",
+    "lineItems": [
+      {
+        "productId": "prod_snowva",
+        "quantity": 2,
+        "unitPrice": 269.0
+      }
+    ],
+    "subtotal": 538.0,
+    "taxAmount": 0.0,
+    "discountAmount": 0.0,
+    "shippingAmount": 0.0,
+    "totalAmount": 538.0,
+    "notes": "Retail customer"
+  },
+  {
     "id": "inv_241203404",
-    "customerId": "cust_newco_traders_online",
+    "customerId": "newco_traders_online",
     "invoiceNumber": "241203404",
     "issueDate": "2024-12-03",
     "dueDate": "2024-12-03",
@@ -2139,7 +1613,7 @@
   },
   {
     "id": "inv_241204101",
-    "customerId": "cust_newco_traders_online",
+    "customerId": "newco_traders_online",
     "invoiceNumber": "241204101",
     "issueDate": "2024-12-04",
     "dueDate": "2024-12-04",
@@ -2162,7 +1636,7 @@
   },
   {
     "id": "inv_241204202",
-    "customerId": "cust_koop_en_bou_de_doorns",
+    "customerId": "koop_en_bou_de_doorns",
     "invoiceNumber": "241204202",
     "issueDate": "2024-12-04",
     "dueDate": "2024-12-04",
@@ -2185,30 +1659,30 @@
   },
   {
     "id": "inv_241205101",
-    "customerId": "cust_obaro__komatipoort",
+    "customerId": "newco_traders_online",
     "invoiceNumber": "241205101",
     "issueDate": "2024-12-05",
     "dueDate": "2024-12-05",
-    "status": "Unpaid",
-    "poNumber": "3814838/223",
+    "status": "Paid",
+    "poNumber": "PO2184",
     "type": "Retail",
     "lineItems": [
       {
-        "productId": "prod_snowva",
-        "quantity": 15,
-        "unitPrice": 235.0
+        "productId": "prod_makabrai",
+        "quantity": 1,
+        "unitPrice": 600.0
       }
     ],
-    "subtotal": 3525.0,
+    "subtotal": 600.0,
     "taxAmount": 0.0,
     "discountAmount": 0.0,
     "shippingAmount": 0.0,
-    "totalAmount": 3525.0,
+    "totalAmount": 600.0,
     "notes": "Retail customer"
   },
   {
     "id": "inv_241205202",
-    "customerId": "cust_obaro__potchefstroom",
+    "customerId": "potchefstroom",
     "invoiceNumber": "241205202",
     "issueDate": "2024-12-05",
     "dueDate": "2024-12-05",
@@ -2231,421 +1705,7 @@
   },
   {
     "id": "inv_241206101",
-    "customerId": "cust_sportsmans_warehouse__ballito",
-    "invoiceNumber": "241206101",
-    "issueDate": "2024-12-06",
-    "dueDate": "2024-12-06",
-    "status": "Unpaid",
-    "poNumber": "10631872",
-    "type": "Retail",
-    "lineItems": [
-      {
-        "productId": "prod_snowva",
-        "quantity": 15,
-        "unitPrice": 216.0
-      }
-    ],
-    "subtotal": 3240.0,
-    "taxAmount": 0.0,
-    "discountAmount": 0.0,
-    "shippingAmount": 0.0,
-    "totalAmount": 3240.0,
-    "notes": "Retail customer"
-  },
-  {
-    "id": "inv_241206202",
-    "customerId": "cust_sportsmans_warehouse__centurion",
-    "invoiceNumber": "241206202",
-    "issueDate": "2024-12-06",
-    "dueDate": "2024-12-06",
-    "status": "Unpaid",
-    "poNumber": "10631872",
-    "type": "Retail",
-    "lineItems": [
-      {
-        "productId": "prod_snowva",
-        "quantity": 20,
-        "unitPrice": 216.0
-      }
-    ],
-    "subtotal": 4320.0,
-    "taxAmount": 0.0,
-    "discountAmount": 0.0,
-    "shippingAmount": 0.0,
-    "totalAmount": 4320.0,
-    "notes": "Retail customer"
-  },
-  {
-    "id": "inv_241206303",
-    "customerId": "cust_sportsmans_warehouse__cresta",
-    "invoiceNumber": "241206303",
-    "issueDate": "2024-12-06",
-    "dueDate": "2024-12-06",
-    "status": "Unpaid",
-    "poNumber": "10631872",
-    "type": "Retail",
-    "lineItems": [
-      {
-        "productId": "prod_snowva",
-        "quantity": 15,
-        "unitPrice": 216.0
-      }
-    ],
-    "subtotal": 3240.0,
-    "taxAmount": 0.0,
-    "discountAmount": 0.0,
-    "shippingAmount": 0.0,
-    "totalAmount": 3240.0,
-    "notes": "Retail customer"
-  },
-  {
-    "id": "inv_241206404",
-    "customerId": "cust_sportsmans_warehouse__eastrand",
-    "invoiceNumber": "241206404",
-    "issueDate": "2024-12-06",
-    "dueDate": "2024-12-06",
-    "status": "Unpaid",
-    "poNumber": "10631872",
-    "type": "Retail",
-    "lineItems": [
-      {
-        "productId": "prod_snowva",
-        "quantity": 15,
-        "unitPrice": 216.0
-      }
-    ],
-    "subtotal": 3240.0,
-    "taxAmount": 0.0,
-    "discountAmount": 0.0,
-    "shippingAmount": 0.0,
-    "totalAmount": 3240.0,
-    "notes": "Retail customer"
-  },
-  {
-    "id": "inv_241206505",
-    "customerId": "cust_sportsmans_warehouse__fourways",
-    "invoiceNumber": "241206505",
-    "issueDate": "2024-12-06",
-    "dueDate": "2024-12-06",
-    "status": "Unpaid",
-    "poNumber": "10631872",
-    "type": "Retail",
-    "lineItems": [
-      {
-        "productId": "prod_snowva",
-        "quantity": 15,
-        "unitPrice": 216.0
-      }
-    ],
-    "subtotal": 3240.0,
-    "taxAmount": 0.0,
-    "discountAmount": 0.0,
-    "shippingAmount": 0.0,
-    "totalAmount": 3240.0,
-    "notes": "Retail customer"
-  },
-  {
-    "id": "inv_241206606",
-    "customerId": "cust_sportsmans_warehouse__george",
-    "invoiceNumber": "241206606",
-    "issueDate": "2024-12-06",
-    "dueDate": "2024-12-06",
-    "status": "Unpaid",
-    "poNumber": "10631872",
-    "type": "Retail",
-    "lineItems": [
-      {
-        "productId": "prod_snowva",
-        "quantity": 20,
-        "unitPrice": 216.0
-      }
-    ],
-    "subtotal": 4320.0,
-    "taxAmount": 0.0,
-    "discountAmount": 0.0,
-    "shippingAmount": 0.0,
-    "totalAmount": 4320.0,
-    "notes": "Retail customer"
-  },
-  {
-    "id": "inv_241206707",
-    "customerId": "cust_sportsmans_warehouse__hermanus",
-    "invoiceNumber": "241206707",
-    "issueDate": "2024-12-06",
-    "dueDate": "2024-12-06",
-    "status": "Unpaid",
-    "poNumber": "10631872",
-    "type": "Retail",
-    "lineItems": [
-      {
-        "productId": "prod_snowva",
-        "quantity": 15,
-        "unitPrice": 216.0
-      }
-    ],
-    "subtotal": 3240.0,
-    "taxAmount": 0.0,
-    "discountAmount": 0.0,
-    "shippingAmount": 0.0,
-    "totalAmount": 3240.0,
-    "notes": "Retail customer"
-  },
-  {
-    "id": "inv_241206808",
-    "customerId": "cust_sportsmans_warehouse__kimberley",
-    "invoiceNumber": "241206808",
-    "issueDate": "2024-12-06",
-    "dueDate": "2024-12-06",
-    "status": "Unpaid",
-    "poNumber": "10631872",
-    "type": "Retail",
-    "lineItems": [
-      {
-        "productId": "prod_snowva",
-        "quantity": 15,
-        "unitPrice": 216.0
-      }
-    ],
-    "subtotal": 3240.0,
-    "taxAmount": 0.0,
-    "discountAmount": 0.0,
-    "shippingAmount": 0.0,
-    "totalAmount": 3240.0,
-    "notes": "Retail customer"
-  },
-  {
-    "id": "inv_241206909",
-    "customerId": "cust_sportsmans_warehouse__klerksdorp",
-    "invoiceNumber": "241206909",
-    "issueDate": "2024-12-06",
-    "dueDate": "2024-12-06",
-    "status": "Unpaid",
-    "poNumber": "10631872",
-    "type": "Retail",
-    "lineItems": [
-      {
-        "productId": "prod_snowva",
-        "quantity": 15,
-        "unitPrice": 216.0
-      }
-    ],
-    "subtotal": 3240.0,
-    "taxAmount": 0.0,
-    "discountAmount": 0.0,
-    "shippingAmount": 0.0,
-    "totalAmount": 3240.0,
-    "notes": "Retail customer"
-  },
-  {
-    "id": "inv_2412061010",
-    "customerId": "cust_sportsmans_warehouse__northridge",
-    "invoiceNumber": "2412061010",
-    "issueDate": "2024-12-06",
-    "dueDate": "2024-12-06",
-    "status": "Unpaid",
-    "poNumber": "10631872",
-    "type": "Retail",
-    "lineItems": [
-      {
-        "productId": "prod_snowva",
-        "quantity": 15,
-        "unitPrice": 216.0
-      }
-    ],
-    "subtotal": 3240.0,
-    "taxAmount": 0.0,
-    "discountAmount": 0.0,
-    "shippingAmount": 0.0,
-    "totalAmount": 3240.0,
-    "notes": "Retail customer"
-  },
-  {
-    "id": "inv_2412061111",
-    "customerId": "cust_sportsmans_warehouse__seapoint",
-    "invoiceNumber": "2412061111",
-    "issueDate": "2024-12-06",
-    "dueDate": "2024-12-06",
-    "status": "Unpaid",
-    "poNumber": "10631872",
-    "type": "Retail",
-    "lineItems": [
-      {
-        "productId": "prod_snowva",
-        "quantity": 15,
-        "unitPrice": 216.0
-      }
-    ],
-    "subtotal": 3240.0,
-    "taxAmount": 0.0,
-    "discountAmount": 0.0,
-    "shippingAmount": 0.0,
-    "totalAmount": 3240.0,
-    "notes": "Retail customer"
-  },
-  {
-    "id": "inv_2412061212",
-    "customerId": "cust_sportsmans_warehouse__somerset_west",
-    "invoiceNumber": "2412061212",
-    "issueDate": "2024-12-06",
-    "dueDate": "2024-12-06",
-    "status": "Unpaid",
-    "poNumber": "10631872",
-    "type": "Retail",
-    "lineItems": [
-      {
-        "productId": "prod_snowva",
-        "quantity": 15,
-        "unitPrice": 216.0
-      }
-    ],
-    "subtotal": 3240.0,
-    "taxAmount": 0.0,
-    "discountAmount": 0.0,
-    "shippingAmount": 0.0,
-    "totalAmount": 3240.0,
-    "notes": "Retail customer"
-  },
-  {
-    "id": "inv_2412061313",
-    "customerId": "cust_sportsmans_warehouse__tygervalley",
-    "invoiceNumber": "2412061313",
-    "issueDate": "2024-12-06",
-    "dueDate": "2024-12-06",
-    "status": "Unpaid",
-    "poNumber": "10631872",
-    "type": "Retail",
-    "lineItems": [
-      {
-        "productId": "prod_snowva",
-        "quantity": 15,
-        "unitPrice": 216.0
-      }
-    ],
-    "subtotal": 3240.0,
-    "taxAmount": 0.0,
-    "discountAmount": 0.0,
-    "shippingAmount": 0.0,
-    "totalAmount": 3240.0,
-    "notes": "Retail customer"
-  },
-  {
-    "id": "inv_2412061414",
-    "customerId": "cust_sportsmans_warehouse__west_coast_village",
-    "invoiceNumber": "2412061414",
-    "issueDate": "2024-12-06",
-    "dueDate": "2024-12-06",
-    "status": "Unpaid",
-    "poNumber": "10631872",
-    "type": "Retail",
-    "lineItems": [
-      {
-        "productId": "prod_snowva",
-        "quantity": 15,
-        "unitPrice": 216.0
-      }
-    ],
-    "subtotal": 3240.0,
-    "taxAmount": 0.0,
-    "discountAmount": 0.0,
-    "shippingAmount": 0.0,
-    "totalAmount": 3240.0,
-    "notes": "Retail customer"
-  },
-  {
-    "id": "inv_2412061515",
-    "customerId": "cust_sportsmans_warehouse__woodmead",
-    "invoiceNumber": "2412061515",
-    "issueDate": "2024-12-06",
-    "dueDate": "2024-12-06",
-    "status": "Unpaid",
-    "poNumber": "10631872",
-    "type": "Retail",
-    "lineItems": [
-      {
-        "productId": "prod_snowva",
-        "quantity": 15,
-        "unitPrice": 216.0
-      }
-    ],
-    "subtotal": 3240.0,
-    "taxAmount": 0.0,
-    "discountAmount": 0.0,
-    "shippingAmount": 0.0,
-    "totalAmount": 3240.0,
-    "notes": "Retail customer"
-  },
-  {
-    "id": "inv_2412061616",
-    "customerId": "cust_sportsmans_warehouse__worcester",
-    "invoiceNumber": "2412061616",
-    "issueDate": "2024-12-06",
-    "dueDate": "2024-12-06",
-    "status": "Unpaid",
-    "poNumber": "10631872",
-    "type": "Retail",
-    "lineItems": [
-      {
-        "productId": "prod_snowva",
-        "quantity": 15,
-        "unitPrice": 216.0
-      }
-    ],
-    "subtotal": 3240.0,
-    "taxAmount": 0.0,
-    "discountAmount": 0.0,
-    "shippingAmount": 0.0,
-    "totalAmount": 3240.0,
-    "notes": "Retail customer"
-  },
-  {
-    "id": "inv_2412061717",
-    "customerId": "cust_sportsmans_warehouse__zambezi",
-    "invoiceNumber": "2412061717",
-    "issueDate": "2024-12-06",
-    "dueDate": "2024-12-06",
-    "status": "Unpaid",
-    "poNumber": "10631872",
-    "type": "Retail",
-    "lineItems": [
-      {
-        "productId": "prod_snowva",
-        "quantity": 15,
-        "unitPrice": 216.0
-      }
-    ],
-    "subtotal": 3240.0,
-    "taxAmount": 0.0,
-    "discountAmount": 0.0,
-    "shippingAmount": 0.0,
-    "totalAmount": 3240.0,
-    "notes": "Retail customer"
-  },
-  {
-    "id": "inv_241205101",
-    "customerId": "cust_newco_traders_online",
-    "invoiceNumber": "241205101",
-    "issueDate": "2024-12-05",
-    "dueDate": "2024-12-05",
-    "status": "Paid",
-    "poNumber": "PO2184",
-    "type": "Retail",
-    "lineItems": [
-      {
-        "productId": "prod_makabrai",
-        "quantity": 1,
-        "unitPrice": 600.0
-      }
-    ],
-    "subtotal": 600.0,
-    "taxAmount": 0.0,
-    "discountAmount": 0.0,
-    "shippingAmount": 0.0,
-    "totalAmount": 600.0,
-    "notes": "Retail customer"
-  },
-  {
-    "id": "inv_241206101",
-    "customerId": "cust_wildman_centurion",
+    "customerId": "wildman_centurion",
     "invoiceNumber": "241206101",
     "issueDate": "2024-12-06",
     "dueDate": "2024-12-06",
@@ -2668,7 +1728,7 @@
   },
   {
     "id": "inv_241206202",
-    "customerId": "cust_outdoor_warehouse__bellville",
+    "customerId": "bellville",
     "invoiceNumber": "241206202",
     "issueDate": "2024-12-06",
     "dueDate": "2024-12-06",
@@ -2691,7 +1751,7 @@
   },
   {
     "id": "inv_241206303",
-    "customerId": "cust_outdoor_warehouse__george",
+    "customerId": "george",
     "invoiceNumber": "241206303",
     "issueDate": "2024-12-06",
     "dueDate": "2024-12-06",
@@ -2714,7 +1774,7 @@
   },
   {
     "id": "inv_241206404",
-    "customerId": "cust_outdoor_warehouse__hermanus",
+    "customerId": "hermanus",
     "invoiceNumber": "241206404",
     "issueDate": "2024-12-06",
     "dueDate": "2024-12-06",
@@ -2737,7 +1797,7 @@
   },
   {
     "id": "inv_241206505",
-    "customerId": "cust_outdoor_warehouse__paarl",
+    "customerId": "paarl",
     "invoiceNumber": "241206505",
     "issueDate": "2024-12-06",
     "dueDate": "2024-12-06",
@@ -2760,7 +1820,7 @@
   },
   {
     "id": "inv_241206606",
-    "customerId": "cust_outdoor_warehouse__port_elizabeth",
+    "customerId": "port_elizabeth",
     "invoiceNumber": "241206606",
     "issueDate": "2024-12-06",
     "dueDate": "2024-12-06",
@@ -2783,7 +1843,7 @@
   },
   {
     "id": "inv_241206707",
-    "customerId": "cust_outdoor_warehouse__rondebosch",
+    "customerId": "rondebosch",
     "invoiceNumber": "241206707",
     "issueDate": "2024-12-06",
     "dueDate": "2024-12-06",
@@ -2806,7 +1866,7 @@
   },
   {
     "id": "inv_241206808",
-    "customerId": "cust_outdoor_warehouse__somerset_west",
+    "customerId": "somerset_west",
     "invoiceNumber": "241206808",
     "issueDate": "2024-12-06",
     "dueDate": "2024-12-06",
@@ -2829,7 +1889,7 @@
   },
   {
     "id": "inv_241206909",
-    "customerId": "cust_outdoor_warehouse__tokai",
+    "customerId": "tokai",
     "invoiceNumber": "241206909",
     "issueDate": "2024-12-06",
     "dueDate": "2024-12-06",
@@ -2852,7 +1912,7 @@
   },
   {
     "id": "inv_2412061010",
-    "customerId": "cust_outdoor_warehouse__vredenburg",
+    "customerId": "vredenburg",
     "invoiceNumber": "2412061010",
     "issueDate": "2024-12-06",
     "dueDate": "2024-12-06",
@@ -2875,7 +1935,7 @@
   },
   {
     "id": "inv_2412061111",
-    "customerId": "cust_outdoor_warehouse__west_coast",
+    "customerId": "west_coast",
     "invoiceNumber": "2412061111",
     "issueDate": "2024-12-06",
     "dueDate": "2024-12-06",
@@ -2898,7 +1958,7 @@
   },
   {
     "id": "inv_2412061212",
-    "customerId": "cust_outdoor_warehouse__worcester",
+    "customerId": "worcester",
     "invoiceNumber": "2412061212",
     "issueDate": "2024-12-06",
     "dueDate": "2024-12-06",
@@ -2921,7 +1981,7 @@
   },
   {
     "id": "inv_2412061313",
-    "customerId": "cust_obaro__potgietersrus",
+    "customerId": "potgietersrus",
     "invoiceNumber": "2412061313",
     "issueDate": "2024-12-06",
     "dueDate": "2024-12-06",
@@ -2944,7 +2004,7 @@
   },
   {
     "id": "inv_2412061414",
-    "customerId": "cust_sentraal_suid_kooperasie__george",
+    "customerId": "george",
     "invoiceNumber": "2412061414",
     "issueDate": "2024-12-06",
     "dueDate": "2024-12-06",
@@ -2967,7 +2027,7 @@
   },
   {
     "id": "inv_2412061515",
-    "customerId": "cust_gwk_beperk__kimberley",
+    "customerId": "kimberley",
     "invoiceNumber": "2412061515",
     "issueDate": "2024-12-06",
     "dueDate": "2024-12-06",
@@ -2989,358 +2049,13 @@
     "notes": "Retail customer"
   },
   {
-    "id": "inv_250113101",
-    "customerId": "cust_middelburg_caravan__campworld",
-    "invoiceNumber": "250113101",
-    "issueDate": "2025-01-13",
-    "dueDate": "2025-01-13",
-    "status": "Paid",
-    "poNumber": "#061201",
-    "type": "Retail",
-    "lineItems": [
-      {
-        "productId": "prod_snowva",
-        "quantity": 6,
-        "unitPrice": 216.0
-      }
-    ],
-    "subtotal": 1296.0,
-    "taxAmount": 0.0,
-    "discountAmount": 0.0,
-    "shippingAmount": 60.0,
-    "totalAmount": 1356.0,
-    "notes": "Retail customer"
-  },
-  {
-    "id": "inv_241209101",
-    "customerId": "cust_outdoor_warehouse__ballito",
-    "invoiceNumber": "241209101",
-    "issueDate": "2024-12-09",
-    "dueDate": "2024-12-09",
+    "id": "inv_2412061616",
+    "customerId": "worcester",
+    "invoiceNumber": "2412061616",
+    "issueDate": "2024-12-06",
+    "dueDate": "2024-12-06",
     "status": "Unpaid",
-    "poNumber": "PO187212",
-    "type": "Retail",
-    "lineItems": [
-      {
-        "productId": "prod_snowva",
-        "quantity": 24,
-        "unitPrice": 206.0
-      }
-    ],
-    "subtotal": 4944.0,
-    "taxAmount": 0.0,
-    "discountAmount": 0.0,
-    "shippingAmount": 0.0,
-    "totalAmount": 4944.0,
-    "notes": "Retail customer"
-  },
-  {
-    "id": "inv_241209202",
-    "customerId": "cust_outdoor_warehouse__bloem",
-    "invoiceNumber": "241209202",
-    "issueDate": "2024-12-09",
-    "dueDate": "2024-12-09",
-    "status": "Unpaid",
-    "poNumber": "PO187212",
-    "type": "Retail",
-    "lineItems": [
-      {
-        "productId": "prod_snowva",
-        "quantity": 60,
-        "unitPrice": 206.0
-      }
-    ],
-    "subtotal": 12360.0,
-    "taxAmount": 0.0,
-    "discountAmount": 0.0,
-    "shippingAmount": 0.0,
-    "totalAmount": 12360.0,
-    "notes": "Retail customer"
-  },
-  {
-    "id": "inv_241209303",
-    "customerId": "cust_outdoor_warehouse__cornubia",
-    "invoiceNumber": "241209303",
-    "issueDate": "2024-12-09",
-    "dueDate": "2024-12-09",
-    "status": "Unpaid",
-    "poNumber": "PO187212",
-    "type": "Retail",
-    "lineItems": [
-      {
-        "productId": "prod_snowva",
-        "quantity": 24,
-        "unitPrice": 206.0
-      }
-    ],
-    "subtotal": 4944.0,
-    "taxAmount": 0.0,
-    "discountAmount": 0.0,
-    "shippingAmount": 0.0,
-    "totalAmount": 4944.0,
-    "notes": "Retail customer"
-  },
-  {
-    "id": "inv_241209404",
-    "customerId": "cust_outdoor_warehouse__east_london",
-    "invoiceNumber": "241209404",
-    "issueDate": "2024-12-09",
-    "dueDate": "2024-12-09",
-    "status": "Unpaid",
-    "poNumber": "PO187212",
-    "type": "Retail",
-    "lineItems": [
-      {
-        "productId": "prod_snowva",
-        "quantity": 24,
-        "unitPrice": 206.0
-      }
-    ],
-    "subtotal": 4944.0,
-    "taxAmount": 0.0,
-    "discountAmount": 0.0,
-    "shippingAmount": 0.0,
-    "totalAmount": 4944.0,
-    "notes": "Retail customer"
-  },
-  {
-    "id": "inv_241209505",
-    "customerId": "cust_outdoor_warehouse__hillcrest",
-    "invoiceNumber": "241209505",
-    "issueDate": "2024-12-09",
-    "dueDate": "2024-12-09",
-    "status": "Unpaid",
-    "poNumber": "PO187212",
-    "type": "Retail",
-    "lineItems": [
-      {
-        "productId": "prod_snowva",
-        "quantity": 24,
-        "unitPrice": 206.0
-      }
-    ],
-    "subtotal": 4944.0,
-    "taxAmount": 0.0,
-    "discountAmount": 0.0,
-    "shippingAmount": 0.0,
-    "totalAmount": 4944.0,
-    "notes": "Retail customer"
-  },
-  {
-    "id": "inv_241209606",
-    "customerId": "cust_outdoor_warehouse__middelburg",
-    "invoiceNumber": "241209606",
-    "issueDate": "2024-12-09",
-    "dueDate": "2024-12-09",
-    "status": "Unpaid",
-    "poNumber": "PO187212",
-    "type": "Retail",
-    "lineItems": [
-      {
-        "productId": "prod_snowva",
-        "quantity": 36,
-        "unitPrice": 206.0
-      }
-    ],
-    "subtotal": 7416.0,
-    "taxAmount": 0.0,
-    "discountAmount": 0.0,
-    "shippingAmount": 0.0,
-    "totalAmount": 7416.0,
-    "notes": "Retail customer"
-  },
-  {
-    "id": "inv_241209707",
-    "customerId": "cust_outdoor_warehouse__nelspruit",
-    "invoiceNumber": "241209707",
-    "issueDate": "2024-12-09",
-    "dueDate": "2024-12-09",
-    "status": "Unpaid",
-    "poNumber": "PO187212",
-    "type": "Retail",
-    "lineItems": [
-      {
-        "productId": "prod_snowva",
-        "quantity": 48,
-        "unitPrice": 206.0
-      }
-    ],
-    "subtotal": 9888.0,
-    "taxAmount": 0.0,
-    "discountAmount": 0.0,
-    "shippingAmount": 0.0,
-    "totalAmount": 9888.0,
-    "notes": "Retail customer"
-  },
-  {
-    "id": "inv_241209808",
-    "customerId": "cust_outdoor_warehouse__pietermaritzburg",
-    "invoiceNumber": "241209808",
-    "issueDate": "2024-12-09",
-    "dueDate": "2024-12-09",
-    "status": "Unpaid",
-    "poNumber": "PO187212",
-    "type": "Retail",
-    "lineItems": [
-      {
-        "productId": "prod_snowva",
-        "quantity": 12,
-        "unitPrice": 206.0
-      }
-    ],
-    "subtotal": 2472.0,
-    "taxAmount": 0.0,
-    "discountAmount": 0.0,
-    "shippingAmount": 0.0,
-    "totalAmount": 2472.0,
-    "notes": "Retail customer"
-  },
-  {
-    "id": "inv_241209909",
-    "customerId": "cust_outdoor_warehouse__polokwane",
-    "invoiceNumber": "241209909",
-    "issueDate": "2024-12-09",
-    "dueDate": "2024-12-09",
-    "status": "Unpaid",
-    "poNumber": "PO187212",
-    "type": "Retail",
-    "lineItems": [
-      {
-        "productId": "prod_snowva",
-        "quantity": 12,
-        "unitPrice": 206.0
-      }
-    ],
-    "subtotal": 2472.0,
-    "taxAmount": 0.0,
-    "discountAmount": 0.0,
-    "shippingAmount": 0.0,
-    "totalAmount": 2472.0,
-    "notes": "Retail customer"
-  },
-  {
-    "id": "inv_2412091010",
-    "customerId": "cust_outdoor_warehouse__springfield",
-    "invoiceNumber": "2412091010",
-    "issueDate": "2024-12-09",
-    "dueDate": "2024-12-09",
-    "status": "Unpaid",
-    "poNumber": "PO187212",
-    "type": "Retail",
-    "lineItems": [
-      {
-        "productId": "prod_snowva",
-        "quantity": 48,
-        "unitPrice": 206.0
-      }
-    ],
-    "subtotal": 9888.0,
-    "taxAmount": 0.0,
-    "discountAmount": 0.0,
-    "shippingAmount": 0.0,
-    "totalAmount": 9888.0,
-    "notes": "Retail customer"
-  },
-  {
-    "id": "inv_2412091111",
-    "customerId": "cust_outdoor_warehouse__witbank",
-    "invoiceNumber": "2412091111",
-    "issueDate": "2024-12-09",
-    "dueDate": "2024-12-09",
-    "status": "Unpaid",
-    "poNumber": "PO187212",
-    "type": "Retail",
-    "lineItems": [
-      {
-        "productId": "prod_snowva",
-        "quantity": 48,
-        "unitPrice": 206.0
-      }
-    ],
-    "subtotal": 9888.0,
-    "taxAmount": 0.0,
-    "discountAmount": 0.0,
-    "shippingAmount": 0.0,
-    "totalAmount": 9888.0,
-    "notes": "Retail customer"
-  },
-  {
-    "id": "inv_2412091212",
-    "customerId": "cust_dup_meubels",
-    "invoiceNumber": "2412091212",
-    "issueDate": "2024-12-09",
-    "dueDate": "2024-12-09",
-    "status": "Paid",
-    "poNumber": "#28",
-    "type": "Retail",
-    "lineItems": [
-      {
-        "productId": "prod_snowva",
-        "quantity": 15,
-        "unitPrice": 235.0
-      }
-    ],
-    "subtotal": 3525.0,
-    "taxAmount": 0.0,
-    "discountAmount": 0.0,
-    "shippingAmount": 0.0,
-    "totalAmount": 3525.0,
-    "notes": "Retail customer"
-  },
-  {
-    "id": "inv_2412091313",
-    "customerId": "cust_newco_traders_online",
-    "invoiceNumber": "2412091313",
-    "issueDate": "2024-12-09",
-    "dueDate": "2024-12-09",
-    "status": "Paid",
-    "poNumber": "PO002230",
-    "type": "Retail",
-    "lineItems": [
-      {
-        "productId": "prod_makabrai",
-        "quantity": 1,
-        "unitPrice": 600.0
-      }
-    ],
-    "subtotal": 600.0,
-    "taxAmount": 0.0,
-    "discountAmount": 0.0,
-    "shippingAmount": 0.0,
-    "totalAmount": 600.0,
-    "notes": "Retail customer"
-  },
-  {
-    "id": "inv_2412091414",
-    "customerId": "cust_newco_traders_online",
-    "invoiceNumber": "2412091414",
-    "issueDate": "2024-12-09",
-    "dueDate": "2024-12-09",
-    "status": "Paid",
-    "poNumber": "PO002210",
-    "type": "Retail",
-    "lineItems": [
-      {
-        "productId": "prod_makabrai",
-        "quantity": 1,
-        "unitPrice": 600.0
-      }
-    ],
-    "subtotal": 600.0,
-    "taxAmount": 0.0,
-    "discountAmount": 0.0,
-    "shippingAmount": 0.0,
-    "totalAmount": 600.0,
-    "notes": "Retail customer"
-  },
-  {
-    "id": "inv_2412091515",
-    "customerId": "cust_soles_for_africa_cc__boet__betty",
-    "invoiceNumber": "2412091515",
-    "issueDate": "2024-12-09",
-    "dueDate": "2024-12-09",
-    "status": "Paid",
-    "poNumber": "#091201",
+    "poNumber": "10631872",
     "type": "Retail",
     "lineItems": [
       {
@@ -3352,36 +2067,36 @@
     "subtotal": 3240.0,
     "taxAmount": 0.0,
     "discountAmount": 0.0,
-    "shippingAmount": 60.0,
-    "totalAmount": 3300.0,
+    "shippingAmount": 0.0,
+    "totalAmount": 3240.0,
     "notes": "Retail customer"
   },
   {
-    "id": "inv_2412091616",
-    "customerId": "cust_newco_traders_online",
-    "invoiceNumber": "2412091616",
-    "issueDate": "2024-12-09",
-    "dueDate": "2024-12-09",
-    "status": "Paid",
-    "poNumber": "PO002169",
+    "id": "inv_2412061717",
+    "customerId": "zambezi",
+    "invoiceNumber": "2412061717",
+    "issueDate": "2024-12-06",
+    "dueDate": "2024-12-06",
+    "status": "Unpaid",
+    "poNumber": "10631872",
     "type": "Retail",
     "lineItems": [
       {
-        "productId": "prod_makabrai",
-        "quantity": 1,
-        "unitPrice": 600.0
+        "productId": "prod_snowva",
+        "quantity": 15,
+        "unitPrice": 216.0
       }
     ],
-    "subtotal": 600.0,
+    "subtotal": 3240.0,
     "taxAmount": 0.0,
     "discountAmount": 0.0,
     "shippingAmount": 0.0,
-    "totalAmount": 600.0,
+    "totalAmount": 3240.0,
     "notes": "Retail customer"
   },
   {
     "id": "inv_250113101",
-    "customerId": "cust_lena_van_rensburg",
+    "customerId": "lydenburg",
     "invoiceNumber": "250113101",
     "issueDate": "2025-01-13",
     "dueDate": "2025-01-13",
@@ -3404,7 +2119,7 @@
   },
   {
     "id": "inv_241209101",
-    "customerId": "cust_spiceologist",
+    "customerId": "spiceologist",
     "invoiceNumber": "241209101",
     "issueDate": "2024-12-09",
     "dueDate": "2024-12-09",
@@ -3426,57 +2141,11 @@
     "notes": "Retail customer"
   },
   {
-    "id": "inv_241211101",
-    "customerId": "cust_outdoor_warehouse__alberton",
-    "invoiceNumber": "241211101",
-    "issueDate": "2024-12-11",
-    "dueDate": "2024-12-11",
-    "status": "Unpaid",
-    "poNumber": "PO187212",
-    "type": "Retail",
-    "lineItems": [
-      {
-        "productId": "prod_snowva",
-        "quantity": 24,
-        "unitPrice": 206.0
-      }
-    ],
-    "subtotal": 4944.0,
-    "taxAmount": 0.0,
-    "discountAmount": 0.0,
-    "shippingAmount": 0.0,
-    "totalAmount": 4944.0,
-    "notes": "Retail customer"
-  },
-  {
-    "id": "inv_241211202",
-    "customerId": "cust_outdoor_warehouse__boksburg",
-    "invoiceNumber": "241211202",
-    "issueDate": "2024-12-11",
-    "dueDate": "2024-12-11",
-    "status": "Unpaid",
-    "poNumber": "PO187212",
-    "type": "Retail",
-    "lineItems": [
-      {
-        "productId": "prod_snowva",
-        "quantity": 96,
-        "unitPrice": 206.0
-      }
-    ],
-    "subtotal": 19776.0,
-    "taxAmount": 0.0,
-    "discountAmount": 0.0,
-    "shippingAmount": 0.0,
-    "totalAmount": 19776.0,
-    "notes": "Retail customer"
-  },
-  {
-    "id": "inv_241217101",
-    "customerId": "cust_outdoor_warehouse__centurion",
-    "invoiceNumber": "241217101",
-    "issueDate": "2024-12-17",
-    "dueDate": "2024-12-17",
+    "id": "inv_241209202",
+    "customerId": "bloem",
+    "invoiceNumber": "241209202",
+    "issueDate": "2024-12-09",
+    "dueDate": "2024-12-09",
     "status": "Unpaid",
     "poNumber": "PO187212",
     "type": "Retail",
@@ -3495,57 +2164,11 @@
     "notes": "Retail customer"
   },
   {
-    "id": "inv_241211101",
-    "customerId": "cust_outdoor_warehouse__fourways",
-    "invoiceNumber": "241211101",
-    "issueDate": "2024-12-11",
-    "dueDate": "2024-12-11",
-    "status": "Unpaid",
-    "poNumber": "PO187212",
-    "type": "Retail",
-    "lineItems": [
-      {
-        "productId": "prod_snowva",
-        "quantity": 36,
-        "unitPrice": 206.0
-      }
-    ],
-    "subtotal": 7416.0,
-    "taxAmount": 0.0,
-    "discountAmount": 0.0,
-    "shippingAmount": 0.0,
-    "totalAmount": 7416.0,
-    "notes": "Retail customer"
-  },
-  {
-    "id": "inv_241211202",
-    "customerId": "cust_outdoor_warehouse__philippi_warehouse",
-    "invoiceNumber": "241211202",
-    "issueDate": "2024-12-11",
-    "dueDate": "2024-12-11",
-    "status": "Unpaid",
-    "poNumber": "PO187212",
-    "type": "Retail",
-    "lineItems": [
-      {
-        "productId": "prod_snowva",
-        "quantity": 72,
-        "unitPrice": 206.0
-      }
-    ],
-    "subtotal": 14832.0,
-    "taxAmount": 0.0,
-    "discountAmount": 0.0,
-    "shippingAmount": 0.0,
-    "totalAmount": 14832.0,
-    "notes": "Retail customer"
-  },
-  {
-    "id": "inv_241211303",
-    "customerId": "cust_outdoor_warehouse__potchefstroom",
-    "invoiceNumber": "241211303",
-    "issueDate": "2024-12-11",
-    "dueDate": "2024-12-11",
+    "id": "inv_241209303",
+    "customerId": "cornubia",
+    "invoiceNumber": "241209303",
+    "issueDate": "2024-12-09",
+    "dueDate": "2024-12-09",
     "status": "Unpaid",
     "poNumber": "PO187212",
     "type": "Retail",
@@ -3564,11 +2187,57 @@
     "notes": "Retail customer"
   },
   {
-    "id": "inv_241217101",
-    "customerId": "cust_outdoor_warehouse__pretoria_east",
-    "invoiceNumber": "241217101",
-    "issueDate": "2024-12-17",
-    "dueDate": "2024-12-17",
+    "id": "inv_241209404",
+    "customerId": "east_london",
+    "invoiceNumber": "241209404",
+    "issueDate": "2024-12-09",
+    "dueDate": "2024-12-09",
+    "status": "Unpaid",
+    "poNumber": "PO187212",
+    "type": "Retail",
+    "lineItems": [
+      {
+        "productId": "prod_snowva",
+        "quantity": 24,
+        "unitPrice": 206.0
+      }
+    ],
+    "subtotal": 4944.0,
+    "taxAmount": 0.0,
+    "discountAmount": 0.0,
+    "shippingAmount": 0.0,
+    "totalAmount": 4944.0,
+    "notes": "Retail customer"
+  },
+  {
+    "id": "inv_241209505",
+    "customerId": "hillcrest",
+    "invoiceNumber": "241209505",
+    "issueDate": "2024-12-09",
+    "dueDate": "2024-12-09",
+    "status": "Unpaid",
+    "poNumber": "PO187212",
+    "type": "Retail",
+    "lineItems": [
+      {
+        "productId": "prod_snowva",
+        "quantity": 24,
+        "unitPrice": 206.0
+      }
+    ],
+    "subtotal": 4944.0,
+    "taxAmount": 0.0,
+    "discountAmount": 0.0,
+    "shippingAmount": 0.0,
+    "totalAmount": 4944.0,
+    "notes": "Retail customer"
+  },
+  {
+    "id": "inv_241209606",
+    "customerId": "middelburg",
+    "invoiceNumber": "241209606",
+    "issueDate": "2024-12-09",
+    "dueDate": "2024-12-09",
     "status": "Unpaid",
     "poNumber": "PO187212",
     "type": "Retail",
@@ -3587,8 +2256,238 @@
     "notes": "Retail customer"
   },
   {
+    "id": "inv_241209707",
+    "customerId": "nelspruit",
+    "invoiceNumber": "241209707",
+    "issueDate": "2024-12-09",
+    "dueDate": "2024-12-09",
+    "status": "Unpaid",
+    "poNumber": "PO187212",
+    "type": "Retail",
+    "lineItems": [
+      {
+        "productId": "prod_snowva",
+        "quantity": 48,
+        "unitPrice": 206.0
+      }
+    ],
+    "subtotal": 9888.0,
+    "taxAmount": 0.0,
+    "discountAmount": 0.0,
+    "shippingAmount": 0.0,
+    "totalAmount": 9888.0,
+    "notes": "Retail customer"
+  },
+  {
+    "id": "inv_241209808",
+    "customerId": "pietermaritzburg",
+    "invoiceNumber": "241209808",
+    "issueDate": "2024-12-09",
+    "dueDate": "2024-12-09",
+    "status": "Unpaid",
+    "poNumber": "PO187212",
+    "type": "Retail",
+    "lineItems": [
+      {
+        "productId": "prod_snowva",
+        "quantity": 12,
+        "unitPrice": 206.0
+      }
+    ],
+    "subtotal": 2472.0,
+    "taxAmount": 0.0,
+    "discountAmount": 0.0,
+    "shippingAmount": 0.0,
+    "totalAmount": 2472.0,
+    "notes": "Retail customer"
+  },
+  {
+    "id": "inv_241209909",
+    "customerId": "polokwane",
+    "invoiceNumber": "241209909",
+    "issueDate": "2024-12-09",
+    "dueDate": "2024-12-09",
+    "status": "Unpaid",
+    "poNumber": "PO187212",
+    "type": "Retail",
+    "lineItems": [
+      {
+        "productId": "prod_snowva",
+        "quantity": 12,
+        "unitPrice": 206.0
+      }
+    ],
+    "subtotal": 2472.0,
+    "taxAmount": 0.0,
+    "discountAmount": 0.0,
+    "shippingAmount": 0.0,
+    "totalAmount": 2472.0,
+    "notes": "Retail customer"
+  },
+  {
+    "id": "inv_2412091010",
+    "customerId": "springfield",
+    "invoiceNumber": "2412091010",
+    "issueDate": "2024-12-09",
+    "dueDate": "2024-12-09",
+    "status": "Unpaid",
+    "poNumber": "PO187212",
+    "type": "Retail",
+    "lineItems": [
+      {
+        "productId": "prod_snowva",
+        "quantity": 48,
+        "unitPrice": 206.0
+      }
+    ],
+    "subtotal": 9888.0,
+    "taxAmount": 0.0,
+    "discountAmount": 0.0,
+    "shippingAmount": 0.0,
+    "totalAmount": 9888.0,
+    "notes": "Retail customer"
+  },
+  {
+    "id": "inv_2412091111",
+    "customerId": "witbank",
+    "invoiceNumber": "2412091111",
+    "issueDate": "2024-12-09",
+    "dueDate": "2024-12-09",
+    "status": "Unpaid",
+    "poNumber": "PO187212",
+    "type": "Retail",
+    "lineItems": [
+      {
+        "productId": "prod_snowva",
+        "quantity": 48,
+        "unitPrice": 206.0
+      }
+    ],
+    "subtotal": 9888.0,
+    "taxAmount": 0.0,
+    "discountAmount": 0.0,
+    "shippingAmount": 0.0,
+    "totalAmount": 9888.0,
+    "notes": "Retail customer"
+  },
+  {
+    "id": "inv_2412091212",
+    "customerId": "dup_meubels",
+    "invoiceNumber": "2412091212",
+    "issueDate": "2024-12-09",
+    "dueDate": "2024-12-09",
+    "status": "Paid",
+    "poNumber": "#28",
+    "type": "Retail",
+    "lineItems": [
+      {
+        "productId": "prod_snowva",
+        "quantity": 15,
+        "unitPrice": 235.0
+      }
+    ],
+    "subtotal": 3525.0,
+    "taxAmount": 0.0,
+    "discountAmount": 0.0,
+    "shippingAmount": 0.0,
+    "totalAmount": 3525.0,
+    "notes": "Retail customer"
+  },
+  {
+    "id": "inv_2412091313",
+    "customerId": "newco_traders_online",
+    "invoiceNumber": "2412091313",
+    "issueDate": "2024-12-09",
+    "dueDate": "2024-12-09",
+    "status": "Paid",
+    "poNumber": "PO002230",
+    "type": "Retail",
+    "lineItems": [
+      {
+        "productId": "prod_makabrai",
+        "quantity": 1,
+        "unitPrice": 600.0
+      }
+    ],
+    "subtotal": 600.0,
+    "taxAmount": 0.0,
+    "discountAmount": 0.0,
+    "shippingAmount": 0.0,
+    "totalAmount": 600.0,
+    "notes": "Retail customer"
+  },
+  {
+    "id": "inv_2412091414",
+    "customerId": "newco_traders_online",
+    "invoiceNumber": "2412091414",
+    "issueDate": "2024-12-09",
+    "dueDate": "2024-12-09",
+    "status": "Paid",
+    "poNumber": "PO002210",
+    "type": "Retail",
+    "lineItems": [
+      {
+        "productId": "prod_makabrai",
+        "quantity": 1,
+        "unitPrice": 600.0
+      }
+    ],
+    "subtotal": 600.0,
+    "taxAmount": 0.0,
+    "discountAmount": 0.0,
+    "shippingAmount": 0.0,
+    "totalAmount": 600.0,
+    "notes": "Retail customer"
+  },
+  {
+    "id": "inv_2412091515",
+    "customerId": "soles_for_africa_cc",
+    "invoiceNumber": "2412091515",
+    "issueDate": "2024-12-09",
+    "dueDate": "2024-12-09",
+    "status": "Paid",
+    "poNumber": "#091201",
+    "type": "Retail",
+    "lineItems": [
+      {
+        "productId": "prod_snowva",
+        "quantity": 15,
+        "unitPrice": 216.0
+      }
+    ],
+    "subtotal": 3240.0,
+    "taxAmount": 0.0,
+    "discountAmount": 0.0,
+    "shippingAmount": 60.0,
+    "totalAmount": 3300.0,
+    "notes": "Retail customer"
+  },
+  {
+    "id": "inv_2412091616",
+    "customerId": "newco_traders_online",
+    "invoiceNumber": "2412091616",
+    "issueDate": "2024-12-09",
+    "dueDate": "2024-12-09",
+    "status": "Paid",
+    "poNumber": "PO002169",
+    "type": "Retail",
+    "lineItems": [
+      {
+        "productId": "prod_makabrai",
+        "quantity": 1,
+        "unitPrice": 600.0
+      }
+    ],
+    "subtotal": 600.0,
+    "taxAmount": 0.0,
+    "discountAmount": 0.0,
+    "shippingAmount": 0.0,
+    "totalAmount": 600.0,
+    "notes": "Retail customer"
+  },
+  {
     "id": "inv_241211101",
-    "customerId": "cust_outdoor_warehouse__randburg",
+    "customerId": "randburg",
     "invoiceNumber": "241211101",
     "issueDate": "2024-12-11",
     "dueDate": "2024-12-11",
@@ -3611,7 +2510,7 @@
   },
   {
     "id": "inv_241211202",
-    "customerId": "cust_outdoor_warehouse__rustenburg",
+    "customerId": "rustenburg",
     "invoiceNumber": "241211202",
     "issueDate": "2024-12-11",
     "dueDate": "2024-12-11",
@@ -3633,8 +2532,31 @@
     "notes": "Retail customer"
   },
   {
+    "id": "inv_241217101",
+    "customerId": "abe_motors_cc",
+    "invoiceNumber": "241217101",
+    "issueDate": "2024-12-17",
+    "dueDate": "2024-12-17",
+    "status": "Unpaid",
+    "poNumber": "171202",
+    "type": "Retail",
+    "lineItems": [
+      {
+        "productId": "prod_snowva",
+        "quantity": 20,
+        "unitPrice": 216.0
+      }
+    ],
+    "subtotal": 4320.0,
+    "taxAmount": 0.0,
+    "discountAmount": 0.0,
+    "shippingAmount": 0.0,
+    "totalAmount": 4320.0,
+    "notes": "Retail customer"
+  },
+  {
     "id": "inv_241211303",
-    "customerId": "cust_outdoor_warehouse__strubens_valley",
+    "customerId": "strubens_valley",
     "invoiceNumber": "241211303",
     "issueDate": "2024-12-11",
     "dueDate": "2024-12-11",
@@ -3657,7 +2579,7 @@
   },
   {
     "id": "inv_241211404",
-    "customerId": "cust_outdoor_warehouse__vanderbijl",
+    "customerId": "vanderbijl",
     "invoiceNumber": "241211404",
     "issueDate": "2024-12-11",
     "dueDate": "2024-12-11",
@@ -3680,7 +2602,7 @@
   },
   {
     "id": "inv_241211505",
-    "customerId": "cust_outdoor_warehouse__woodlands",
+    "customerId": "woodlands",
     "invoiceNumber": "241211505",
     "issueDate": "2024-12-11",
     "dueDate": "2024-12-11",
@@ -3703,7 +2625,7 @@
   },
   {
     "id": "inv_241211606",
-    "customerId": "cust_outdoor_warehouse__woodmead",
+    "customerId": "woodmead",
     "invoiceNumber": "241211606",
     "issueDate": "2024-12-11",
     "dueDate": "2024-12-11",
@@ -3726,7 +2648,7 @@
   },
   {
     "id": "inv_241211707",
-    "customerId": "cust_outdoor_warehouse__zambezi_drive",
+    "customerId": "zambezi_drive",
     "invoiceNumber": "241211707",
     "issueDate": "2024-12-11",
     "dueDate": "2024-12-11",
@@ -3749,30 +2671,30 @@
   },
   {
     "id": "inv_250107101",
-    "customerId": "cust_binuns_menlyn_cc",
+    "customerId": "kitchenique",
     "invoiceNumber": "250107101",
     "issueDate": "2025-01-07",
     "dueDate": "2025-01-07",
-    "status": "Paid",
-    "poNumber": "#111201",
+    "status": "Unpaid",
+    "poNumber": "#200101",
     "type": "Retail",
     "lineItems": [
       {
-        "productId": "prod_snowva",
-        "quantity": 240,
-        "unitPrice": 216.0
+        "productId": "prod_borki",
+        "quantity": 20,
+        "unitPrice": 65.0
       }
     ],
-    "subtotal": 51840.0,
+    "subtotal": 1300.0,
     "taxAmount": 0.0,
     "discountAmount": 0.0,
-    "shippingAmount": 0.0,
-    "totalAmount": 51840.0,
+    "shippingAmount": 60.0,
+    "totalAmount": 1360.0,
     "notes": "Retail customer"
   },
   {
     "id": "inv_250107202",
-    "customerId": "cust_kitchenique",
+    "customerId": "kitchenique",
     "invoiceNumber": "250107202",
     "issueDate": "2025-01-07",
     "dueDate": "2025-01-07",
@@ -3794,565 +2716,8 @@
     "notes": "Retail customer"
   },
   {
-    "id": "inv_241202101",
-    "customerId": "cust_agri_bonus",
-    "invoiceNumber": "241202101",
-    "issueDate": "2024-12-02",
-    "dueDate": "2024-12-02",
-    "status": "Paid",
-    "poNumber": "#17005",
-    "type": "Retail",
-    "lineItems": [
-      {
-        "productId": "prod_snowva",
-        "quantity": 2,
-        "unitPrice": 269.0
-      }
-    ],
-    "subtotal": 538.0,
-    "taxAmount": 0.0,
-    "discountAmount": 0.0,
-    "shippingAmount": 0.0,
-    "totalAmount": 538.0,
-    "notes": "Retail customer"
-  },
-  {
-    "id": "inv_241217101",
-    "customerId": "cust_pet_pool_and_home__knysna",
-    "invoiceNumber": "241217101",
-    "issueDate": "2024-12-17",
-    "dueDate": "2024-12-17",
-    "status": "Paid",
-    "poNumber": "PO20114695",
-    "type": "Retail",
-    "lineItems": [
-      {
-        "productId": "prod_snowva",
-        "quantity": 15,
-        "unitPrice": 216.0
-      }
-    ],
-    "subtotal": 3240.0,
-    "taxAmount": 0.0,
-    "discountAmount": 0.0,
-    "shippingAmount": 66.0,
-    "totalAmount": 3306.0,
-    "notes": "Retail customer"
-  },
-  {
     "id": "inv_241217202",
-    "customerId": "cust_pet_pool_and_home__port_elizabeth",
-    "invoiceNumber": "241217202",
-    "issueDate": "2024-12-17",
-    "dueDate": "2024-12-17",
-    "status": "Paid",
-    "poNumber": "PO20811869",
-    "type": "Retail",
-    "lineItems": [
-      {
-        "productId": "prod_snowva",
-        "quantity": 15,
-        "unitPrice": 216.0
-      }
-    ],
-    "subtotal": 3240.0,
-    "taxAmount": 0.0,
-    "discountAmount": 0.0,
-    "shippingAmount": 60.0,
-    "totalAmount": 3300.0,
-    "notes": "Retail customer"
-  },
-  {
-    "id": "inv_241217303",
-    "customerId": "cust_pet_pool_and_home__paarl",
-    "invoiceNumber": "241217303",
-    "issueDate": "2024-12-17",
-    "dueDate": "2024-12-17",
-    "status": "Paid",
-    "poNumber": "PUR0611467",
-    "type": "Retail",
-    "lineItems": [
-      {
-        "productId": "prod_snowva",
-        "quantity": 15,
-        "unitPrice": 216.0
-      }
-    ],
-    "subtotal": 3240.0,
-    "taxAmount": 0.0,
-    "discountAmount": 0.0,
-    "shippingAmount": 66.0,
-    "totalAmount": 3306.0,
-    "notes": "Retail customer"
-  },
-  {
-    "id": "inv_250107101",
-    "customerId": "cust_newco_traders_online",
-    "invoiceNumber": "250107101",
-    "issueDate": "2025-01-07",
-    "dueDate": "2025-01-07",
-    "status": "Paid",
-    "poNumber": "PO2239",
-    "type": "Retail",
-    "lineItems": [
-      {
-        "productId": "prod_snowva",
-        "quantity": 20,
-        "unitPrice": 235.0
-      },
-      {
-        "productId": "prod_makabrai",
-        "quantity": 10,
-        "unitPrice": 600.0
-      }
-    ],
-    "subtotal": 10700.0,
-    "taxAmount": 0.0,
-    "discountAmount": 0.0,
-    "shippingAmount": 0.0,
-    "totalAmount": 10700.0,
-    "notes": "Retail customer"
-  },
-  {
-    "id": "inv_241216101",
-    "customerId": "cust_sportsmans_warehouse__atterbury",
-    "invoiceNumber": "241216101",
-    "issueDate": "2024-12-16",
-    "dueDate": "2024-12-16",
-    "status": "Unpaid",
-    "poNumber": "PO10634368",
-    "type": "Retail",
-    "lineItems": [
-      {
-        "productId": "prod_snowva",
-        "quantity": 15,
-        "unitPrice": 216.0
-      }
-    ],
-    "subtotal": 3240.0,
-    "taxAmount": 0.0,
-    "discountAmount": 0.0,
-    "shippingAmount": 0.0,
-    "totalAmount": 3240.0,
-    "notes": "Retail customer"
-  },
-  {
-    "id": "inv_241216202",
-    "customerId": "cust_sportsmans_warehouse__atterbury",
-    "invoiceNumber": "241216202",
-    "issueDate": "2024-12-16",
-    "dueDate": "2024-12-16",
-    "status": "Unpaid",
-    "poNumber": "PO10632913",
-    "type": "Retail",
-    "lineItems": [
-      {
-        "productId": "prod_snowva",
-        "quantity": 15,
-        "unitPrice": 216.0
-      }
-    ],
-    "subtotal": 3240.0,
-    "taxAmount": 0.0,
-    "discountAmount": 0.0,
-    "shippingAmount": 0.0,
-    "totalAmount": 3240.0,
-    "notes": "Retail customer"
-  },
-  {
-    "id": "inv_241216303",
-    "customerId": "cust_sportsmans_warehouse__ballito",
-    "invoiceNumber": "241216303",
-    "issueDate": "2024-12-16",
-    "dueDate": "2024-12-16",
-    "status": "Unpaid",
-    "poNumber": "PO10632913",
-    "type": "Retail",
-    "lineItems": [
-      {
-        "productId": "prod_snowva",
-        "quantity": 15,
-        "unitPrice": 216.0
-      }
-    ],
-    "subtotal": 3240.0,
-    "taxAmount": 0.0,
-    "discountAmount": 0.0,
-    "shippingAmount": 0.0,
-    "totalAmount": 3240.0,
-    "notes": "Retail customer"
-  },
-  {
-    "id": "inv_241216404",
-    "customerId": "cust_sportsmans_warehouse__centurion",
-    "invoiceNumber": "241216404",
-    "issueDate": "2024-12-16",
-    "dueDate": "2024-12-16",
-    "status": "Unpaid",
-    "poNumber": "PO10632913",
-    "type": "Retail",
-    "lineItems": [
-      {
-        "productId": "prod_snowva",
-        "quantity": 15,
-        "unitPrice": 216.0
-      }
-    ],
-    "subtotal": 3240.0,
-    "taxAmount": 0.0,
-    "discountAmount": 0.0,
-    "shippingAmount": 0.0,
-    "totalAmount": 3240.0,
-    "notes": "Retail customer"
-  },
-  {
-    "id": "inv_241216505",
-    "customerId": "cust_sportsmans_warehouse__cresta",
-    "invoiceNumber": "241216505",
-    "issueDate": "2024-12-16",
-    "dueDate": "2024-12-16",
-    "status": "Unpaid",
-    "poNumber": "PO10632913",
-    "type": "Retail",
-    "lineItems": [
-      {
-        "productId": "prod_snowva",
-        "quantity": 15,
-        "unitPrice": 216.0
-      }
-    ],
-    "subtotal": 3240.0,
-    "taxAmount": 0.0,
-    "discountAmount": 0.0,
-    "shippingAmount": 0.0,
-    "totalAmount": 3240.0,
-    "notes": "Retail customer"
-  },
-  {
-    "id": "inv_241216606",
-    "customerId": "cust_sportsmans_warehouse__east_london",
-    "invoiceNumber": "241216606",
-    "issueDate": "2024-12-16",
-    "dueDate": "2024-12-16",
-    "status": "Unpaid",
-    "poNumber": "PO10632913",
-    "type": "Retail",
-    "lineItems": [
-      {
-        "productId": "prod_snowva",
-        "quantity": 15,
-        "unitPrice": 216.0
-      }
-    ],
-    "subtotal": 3240.0,
-    "taxAmount": 0.0,
-    "discountAmount": 0.0,
-    "shippingAmount": 0.0,
-    "totalAmount": 3240.0,
-    "notes": "Retail customer"
-  },
-  {
-    "id": "inv_241216707",
-    "customerId": "cust_sportsmans_warehouse__george",
-    "invoiceNumber": "241216707",
-    "issueDate": "2024-12-16",
-    "dueDate": "2024-12-16",
-    "status": "Unpaid",
-    "poNumber": "PO10632913",
-    "type": "Retail",
-    "lineItems": [
-      {
-        "productId": "prod_snowva",
-        "quantity": 30,
-        "unitPrice": 216.0
-      }
-    ],
-    "subtotal": 6480.0,
-    "taxAmount": 0.0,
-    "discountAmount": 0.0,
-    "shippingAmount": 0.0,
-    "totalAmount": 6480.0,
-    "notes": "Retail customer"
-  },
-  {
-    "id": "inv_241216808",
-    "customerId": "cust_sportsmans_warehouse__hillcrest",
-    "invoiceNumber": "241216808",
-    "issueDate": "2024-12-16",
-    "dueDate": "2024-12-16",
-    "status": "Unpaid",
-    "poNumber": "PO10632913",
-    "type": "Retail",
-    "lineItems": [
-      {
-        "productId": "prod_snowva",
-        "quantity": 15,
-        "unitPrice": 216.0
-      }
-    ],
-    "subtotal": 3240.0,
-    "taxAmount": 0.0,
-    "discountAmount": 0.0,
-    "shippingAmount": 0.0,
-    "totalAmount": 3240.0,
-    "notes": "Retail customer"
-  },
-  {
-    "id": "inv_241216909",
-    "customerId": "cust_sportsmans_warehouse__kimberley",
-    "invoiceNumber": "241216909",
-    "issueDate": "2024-12-16",
-    "dueDate": "2024-12-16",
-    "status": "Unpaid",
-    "poNumber": "PO10632913",
-    "type": "Retail",
-    "lineItems": [
-      {
-        "productId": "prod_snowva",
-        "quantity": 15,
-        "unitPrice": 216.0
-      }
-    ],
-    "subtotal": 3240.0,
-    "taxAmount": 0.0,
-    "discountAmount": 0.0,
-    "shippingAmount": 0.0,
-    "totalAmount": 3240.0,
-    "notes": "Retail customer"
-  },
-  {
-    "id": "inv_2412161010",
-    "customerId": "cust_sportsmans_warehouse__mall_of_africa",
-    "invoiceNumber": "2412161010",
-    "issueDate": "2024-12-16",
-    "dueDate": "2024-12-16",
-    "status": "Unpaid",
-    "poNumber": "PO10632913",
-    "type": "Retail",
-    "lineItems": [
-      {
-        "productId": "prod_snowva",
-        "quantity": 15,
-        "unitPrice": 216.0
-      }
-    ],
-    "subtotal": 3240.0,
-    "taxAmount": 0.0,
-    "discountAmount": 0.0,
-    "shippingAmount": 0.0,
-    "totalAmount": 3240.0,
-    "notes": "Retail customer"
-  },
-  {
-    "id": "inv_2412161111",
-    "customerId": "cust_sportsmans_warehouse__menlyn",
-    "invoiceNumber": "2412161111",
-    "issueDate": "2024-12-16",
-    "dueDate": "2024-12-16",
-    "status": "Unpaid",
-    "poNumber": "PO10632913",
-    "type": "Retail",
-    "lineItems": [
-      {
-        "productId": "prod_snowva",
-        "quantity": 30,
-        "unitPrice": 216.0
-      }
-    ],
-    "subtotal": 6480.0,
-    "taxAmount": 0.0,
-    "discountAmount": 0.0,
-    "shippingAmount": 0.0,
-    "totalAmount": 6480.0,
-    "notes": "Retail customer"
-  },
-  {
-    "id": "inv_2412161212",
-    "customerId": "cust_sportsmans_warehouse__paarl",
-    "invoiceNumber": "2412161212",
-    "issueDate": "2024-12-16",
-    "dueDate": "2024-12-16",
-    "status": "Unpaid",
-    "poNumber": "PO10632913",
-    "type": "Retail",
-    "lineItems": [
-      {
-        "productId": "prod_snowva",
-        "quantity": 15,
-        "unitPrice": 216.0
-      }
-    ],
-    "subtotal": 3240.0,
-    "taxAmount": 0.0,
-    "discountAmount": 0.0,
-    "shippingAmount": 0.0,
-    "totalAmount": 3240.0,
-    "notes": "Retail customer"
-  },
-  {
-    "id": "inv_2412161313",
-    "customerId": "cust_sportsmans_warehouse__potchefstroom",
-    "invoiceNumber": "2412161313",
-    "issueDate": "2024-12-16",
-    "dueDate": "2024-12-16",
-    "status": "Unpaid",
-    "poNumber": "PO10632913",
-    "type": "Retail",
-    "lineItems": [
-      {
-        "productId": "prod_snowva",
-        "quantity": 15,
-        "unitPrice": 216.0
-      }
-    ],
-    "subtotal": 3240.0,
-    "taxAmount": 0.0,
-    "discountAmount": 0.0,
-    "shippingAmount": 0.0,
-    "totalAmount": 3240.0,
-    "notes": "Retail customer"
-  },
-  {
-    "id": "inv_2412161414",
-    "customerId": "cust_sportsmans_warehouse__sandton",
-    "invoiceNumber": "2412161414",
-    "issueDate": "2024-12-16",
-    "dueDate": "2024-12-16",
-    "status": "Unpaid",
-    "poNumber": "PO10632913",
-    "type": "Retail",
-    "lineItems": [
-      {
-        "productId": "prod_snowva",
-        "quantity": 15,
-        "unitPrice": 216.0
-      }
-    ],
-    "subtotal": 3240.0,
-    "taxAmount": 0.0,
-    "discountAmount": 0.0,
-    "shippingAmount": 0.0,
-    "totalAmount": 3240.0,
-    "notes": "Retail customer"
-  },
-  {
-    "id": "inv_2412161515",
-    "customerId": "cust_sportsmans_warehouse__somerset_west",
-    "invoiceNumber": "2412161515",
-    "issueDate": "2024-12-16",
-    "dueDate": "2024-12-16",
-    "status": "Unpaid",
-    "poNumber": "PO10632913",
-    "type": "Retail",
-    "lineItems": [
-      {
-        "productId": "prod_snowva",
-        "quantity": 30,
-        "unitPrice": 216.0
-      }
-    ],
-    "subtotal": 6480.0,
-    "taxAmount": 0.0,
-    "discountAmount": 0.0,
-    "shippingAmount": 0.0,
-    "totalAmount": 6480.0,
-    "notes": "Retail customer"
-  },
-  {
-    "id": "inv_2412161616",
-    "customerId": "cust_sportsmans_warehouse__stellenbosch",
-    "invoiceNumber": "2412161616",
-    "issueDate": "2024-12-16",
-    "dueDate": "2024-12-16",
-    "status": "Unpaid",
-    "poNumber": "PO10632913",
-    "type": "Retail",
-    "lineItems": [
-      {
-        "productId": "prod_snowva",
-        "quantity": 15,
-        "unitPrice": 216.0
-      }
-    ],
-    "subtotal": 3240.0,
-    "taxAmount": 0.0,
-    "discountAmount": 0.0,
-    "shippingAmount": 0.0,
-    "totalAmount": 3240.0,
-    "notes": "Retail customer"
-  },
-  {
-    "id": "inv_2412161717",
-    "customerId": "cust_sportsmans_warehouse__web_whs",
-    "invoiceNumber": "2412161717",
-    "issueDate": "2024-12-16",
-    "dueDate": "2024-12-16",
-    "status": "Unpaid",
-    "poNumber": "PO10632913",
-    "type": "Retail",
-    "lineItems": [
-      {
-        "productId": "prod_snowva",
-        "quantity": 15,
-        "unitPrice": 216.0
-      }
-    ],
-    "subtotal": 3240.0,
-    "taxAmount": 0.0,
-    "discountAmount": 0.0,
-    "shippingAmount": 0.0,
-    "totalAmount": 3240.0,
-    "notes": "Retail customer"
-  },
-  {
-    "id": "inv_250128101",
-    "customerId": "cust_uitkyk_vleismark",
-    "invoiceNumber": "250128101",
-    "issueDate": "2025-01-28",
-    "dueDate": "2025-01-28",
-    "status": "Paid",
-    "poNumber": "280101",
-    "type": "Retail",
-    "lineItems": [
-      {
-        "productId": "prod_snowva",
-        "quantity": 30,
-        "unitPrice": 216.0
-      }
-    ],
-    "subtotal": 6480.0,
-    "taxAmount": 0.0,
-    "discountAmount": 0.0,
-    "shippingAmount": 0.0,
-    "totalAmount": 6480.0,
-    "notes": "Retail customer"
-  },
-  {
-    "id": "inv_241217101",
-    "customerId": "cust_abe_motors_cc",
-    "invoiceNumber": "241217101",
-    "issueDate": "2024-12-17",
-    "dueDate": "2024-12-17",
-    "status": "Unpaid",
-    "poNumber": "171202",
-    "type": "Retail",
-    "lineItems": [
-      {
-        "productId": "prod_snowva",
-        "quantity": 20,
-        "unitPrice": 216.0
-      }
-    ],
-    "subtotal": 4320.0,
-    "taxAmount": 0.0,
-    "discountAmount": 0.0,
-    "shippingAmount": 0.0,
-    "totalAmount": 4320.0,
-    "notes": "Retail customer"
-  },
-  {
-    "id": "inv_241217202",
-    "customerId": "cust_obaro__brits",
+    "customerId": "brits",
     "invoiceNumber": "241217202",
     "issueDate": "2024-12-17",
     "dueDate": "2024-12-17",
@@ -4375,7 +2740,7 @@
   },
   {
     "id": "inv_241217303",
-    "customerId": "cust_obaro__tijgervallei",
+    "customerId": "tijgervallei",
     "invoiceNumber": "241217303",
     "issueDate": "2024-12-17",
     "dueDate": "2024-12-17",
@@ -4397,8 +2762,422 @@
     "notes": "Retail customer"
   },
   {
+    "id": "inv_241216101",
+    "customerId": "atterbury",
+    "invoiceNumber": "241216101",
+    "issueDate": "2024-12-16",
+    "dueDate": "2024-12-16",
+    "status": "Unpaid",
+    "poNumber": "PO10634368",
+    "type": "Retail",
+    "lineItems": [
+      {
+        "productId": "prod_snowva",
+        "quantity": 15,
+        "unitPrice": 216.0
+      }
+    ],
+    "subtotal": 3240.0,
+    "taxAmount": 0.0,
+    "discountAmount": 0.0,
+    "shippingAmount": 0.0,
+    "totalAmount": 3240.0,
+    "notes": "Retail customer"
+  },
+  {
+    "id": "inv_241216202",
+    "customerId": "atterbury",
+    "invoiceNumber": "241216202",
+    "issueDate": "2024-12-16",
+    "dueDate": "2024-12-16",
+    "status": "Unpaid",
+    "poNumber": "PO10632913",
+    "type": "Retail",
+    "lineItems": [
+      {
+        "productId": "prod_snowva",
+        "quantity": 15,
+        "unitPrice": 216.0
+      }
+    ],
+    "subtotal": 3240.0,
+    "taxAmount": 0.0,
+    "discountAmount": 0.0,
+    "shippingAmount": 0.0,
+    "totalAmount": 3240.0,
+    "notes": "Retail customer"
+  },
+  {
+    "id": "inv_241216303",
+    "customerId": "ballito",
+    "invoiceNumber": "241216303",
+    "issueDate": "2024-12-16",
+    "dueDate": "2024-12-16",
+    "status": "Unpaid",
+    "poNumber": "PO10632913",
+    "type": "Retail",
+    "lineItems": [
+      {
+        "productId": "prod_snowva",
+        "quantity": 15,
+        "unitPrice": 216.0
+      }
+    ],
+    "subtotal": 3240.0,
+    "taxAmount": 0.0,
+    "discountAmount": 0.0,
+    "shippingAmount": 0.0,
+    "totalAmount": 3240.0,
+    "notes": "Retail customer"
+  },
+  {
+    "id": "inv_241216404",
+    "customerId": "centurion",
+    "invoiceNumber": "241216404",
+    "issueDate": "2024-12-16",
+    "dueDate": "2024-12-16",
+    "status": "Unpaid",
+    "poNumber": "PO10632913",
+    "type": "Retail",
+    "lineItems": [
+      {
+        "productId": "prod_snowva",
+        "quantity": 15,
+        "unitPrice": 216.0
+      }
+    ],
+    "subtotal": 3240.0,
+    "taxAmount": 0.0,
+    "discountAmount": 0.0,
+    "shippingAmount": 0.0,
+    "totalAmount": 3240.0,
+    "notes": "Retail customer"
+  },
+  {
+    "id": "inv_241216505",
+    "customerId": "cresta",
+    "invoiceNumber": "241216505",
+    "issueDate": "2024-12-16",
+    "dueDate": "2024-12-16",
+    "status": "Unpaid",
+    "poNumber": "PO10632913",
+    "type": "Retail",
+    "lineItems": [
+      {
+        "productId": "prod_snowva",
+        "quantity": 15,
+        "unitPrice": 216.0
+      }
+    ],
+    "subtotal": 3240.0,
+    "taxAmount": 0.0,
+    "discountAmount": 0.0,
+    "shippingAmount": 0.0,
+    "totalAmount": 3240.0,
+    "notes": "Retail customer"
+  },
+  {
+    "id": "inv_241216606",
+    "customerId": "east_london",
+    "invoiceNumber": "241216606",
+    "issueDate": "2024-12-16",
+    "dueDate": "2024-12-16",
+    "status": "Unpaid",
+    "poNumber": "PO10632913",
+    "type": "Retail",
+    "lineItems": [
+      {
+        "productId": "prod_snowva",
+        "quantity": 15,
+        "unitPrice": 216.0
+      }
+    ],
+    "subtotal": 3240.0,
+    "taxAmount": 0.0,
+    "discountAmount": 0.0,
+    "shippingAmount": 0.0,
+    "totalAmount": 3240.0,
+    "notes": "Retail customer"
+  },
+  {
+    "id": "inv_241216707",
+    "customerId": "george",
+    "invoiceNumber": "241216707",
+    "issueDate": "2024-12-16",
+    "dueDate": "2024-12-16",
+    "status": "Unpaid",
+    "poNumber": "PO10632913",
+    "type": "Retail",
+    "lineItems": [
+      {
+        "productId": "prod_snowva",
+        "quantity": 30,
+        "unitPrice": 216.0
+      }
+    ],
+    "subtotal": 6480.0,
+    "taxAmount": 0.0,
+    "discountAmount": 0.0,
+    "shippingAmount": 0.0,
+    "totalAmount": 6480.0,
+    "notes": "Retail customer"
+  },
+  {
+    "id": "inv_241216808",
+    "customerId": "hillcrest",
+    "invoiceNumber": "241216808",
+    "issueDate": "2024-12-16",
+    "dueDate": "2024-12-16",
+    "status": "Unpaid",
+    "poNumber": "PO10632913",
+    "type": "Retail",
+    "lineItems": [
+      {
+        "productId": "prod_snowva",
+        "quantity": 15,
+        "unitPrice": 216.0
+      }
+    ],
+    "subtotal": 3240.0,
+    "taxAmount": 0.0,
+    "discountAmount": 0.0,
+    "shippingAmount": 0.0,
+    "totalAmount": 3240.0,
+    "notes": "Retail customer"
+  },
+  {
+    "id": "inv_241216909",
+    "customerId": "kimberley",
+    "invoiceNumber": "241216909",
+    "issueDate": "2024-12-16",
+    "dueDate": "2024-12-16",
+    "status": "Unpaid",
+    "poNumber": "PO10632913",
+    "type": "Retail",
+    "lineItems": [
+      {
+        "productId": "prod_snowva",
+        "quantity": 15,
+        "unitPrice": 216.0
+      }
+    ],
+    "subtotal": 3240.0,
+    "taxAmount": 0.0,
+    "discountAmount": 0.0,
+    "shippingAmount": 0.0,
+    "totalAmount": 3240.0,
+    "notes": "Retail customer"
+  },
+  {
+    "id": "inv_2412161010",
+    "customerId": "mall_of_africa",
+    "invoiceNumber": "2412161010",
+    "issueDate": "2024-12-16",
+    "dueDate": "2024-12-16",
+    "status": "Unpaid",
+    "poNumber": "PO10632913",
+    "type": "Retail",
+    "lineItems": [
+      {
+        "productId": "prod_snowva",
+        "quantity": 15,
+        "unitPrice": 216.0
+      }
+    ],
+    "subtotal": 3240.0,
+    "taxAmount": 0.0,
+    "discountAmount": 0.0,
+    "shippingAmount": 0.0,
+    "totalAmount": 3240.0,
+    "notes": "Retail customer"
+  },
+  {
+    "id": "inv_2412161111",
+    "customerId": "menlyn",
+    "invoiceNumber": "2412161111",
+    "issueDate": "2024-12-16",
+    "dueDate": "2024-12-16",
+    "status": "Unpaid",
+    "poNumber": "PO10632913",
+    "type": "Retail",
+    "lineItems": [
+      {
+        "productId": "prod_snowva",
+        "quantity": 30,
+        "unitPrice": 216.0
+      }
+    ],
+    "subtotal": 6480.0,
+    "taxAmount": 0.0,
+    "discountAmount": 0.0,
+    "shippingAmount": 0.0,
+    "totalAmount": 6480.0,
+    "notes": "Retail customer"
+  },
+  {
+    "id": "inv_2412161212",
+    "customerId": "paarl",
+    "invoiceNumber": "2412161212",
+    "issueDate": "2024-12-16",
+    "dueDate": "2024-12-16",
+    "status": "Unpaid",
+    "poNumber": "PO10632913",
+    "type": "Retail",
+    "lineItems": [
+      {
+        "productId": "prod_snowva",
+        "quantity": 15,
+        "unitPrice": 216.0
+      }
+    ],
+    "subtotal": 3240.0,
+    "taxAmount": 0.0,
+    "discountAmount": 0.0,
+    "shippingAmount": 0.0,
+    "totalAmount": 3240.0,
+    "notes": "Retail customer"
+  },
+  {
+    "id": "inv_2412161313",
+    "customerId": "potchefstroom",
+    "invoiceNumber": "2412161313",
+    "issueDate": "2024-12-16",
+    "dueDate": "2024-12-16",
+    "status": "Unpaid",
+    "poNumber": "PO10632913",
+    "type": "Retail",
+    "lineItems": [
+      {
+        "productId": "prod_snowva",
+        "quantity": 15,
+        "unitPrice": 216.0
+      }
+    ],
+    "subtotal": 3240.0,
+    "taxAmount": 0.0,
+    "discountAmount": 0.0,
+    "shippingAmount": 0.0,
+    "totalAmount": 3240.0,
+    "notes": "Retail customer"
+  },
+  {
+    "id": "inv_2412161414",
+    "customerId": "sandton",
+    "invoiceNumber": "2412161414",
+    "issueDate": "2024-12-16",
+    "dueDate": "2024-12-16",
+    "status": "Unpaid",
+    "poNumber": "PO10632913",
+    "type": "Retail",
+    "lineItems": [
+      {
+        "productId": "prod_snowva",
+        "quantity": 15,
+        "unitPrice": 216.0
+      }
+    ],
+    "subtotal": 3240.0,
+    "taxAmount": 0.0,
+    "discountAmount": 0.0,
+    "shippingAmount": 0.0,
+    "totalAmount": 3240.0,
+    "notes": "Retail customer"
+  },
+  {
+    "id": "inv_2412161515",
+    "customerId": "somerset_west",
+    "invoiceNumber": "2412161515",
+    "issueDate": "2024-12-16",
+    "dueDate": "2024-12-16",
+    "status": "Unpaid",
+    "poNumber": "PO10632913",
+    "type": "Retail",
+    "lineItems": [
+      {
+        "productId": "prod_snowva",
+        "quantity": 30,
+        "unitPrice": 216.0
+      }
+    ],
+    "subtotal": 6480.0,
+    "taxAmount": 0.0,
+    "discountAmount": 0.0,
+    "shippingAmount": 0.0,
+    "totalAmount": 6480.0,
+    "notes": "Retail customer"
+  },
+  {
+    "id": "inv_2412161616",
+    "customerId": "stellenbosch",
+    "invoiceNumber": "2412161616",
+    "issueDate": "2024-12-16",
+    "dueDate": "2024-12-16",
+    "status": "Unpaid",
+    "poNumber": "PO10632913",
+    "type": "Retail",
+    "lineItems": [
+      {
+        "productId": "prod_snowva",
+        "quantity": 15,
+        "unitPrice": 216.0
+      }
+    ],
+    "subtotal": 3240.0,
+    "taxAmount": 0.0,
+    "discountAmount": 0.0,
+    "shippingAmount": 0.0,
+    "totalAmount": 3240.0,
+    "notes": "Retail customer"
+  },
+  {
+    "id": "inv_2412161717",
+    "customerId": "web_whs",
+    "invoiceNumber": "2412161717",
+    "issueDate": "2024-12-16",
+    "dueDate": "2024-12-16",
+    "status": "Unpaid",
+    "poNumber": "PO10632913",
+    "type": "Retail",
+    "lineItems": [
+      {
+        "productId": "prod_snowva",
+        "quantity": 15,
+        "unitPrice": 216.0
+      }
+    ],
+    "subtotal": 3240.0,
+    "taxAmount": 0.0,
+    "discountAmount": 0.0,
+    "shippingAmount": 0.0,
+    "totalAmount": 3240.0,
+    "notes": "Retail customer"
+  },
+  {
+    "id": "inv_250128101",
+    "customerId": "newco_traders_online",
+    "invoiceNumber": "250128101",
+    "issueDate": "2025-01-28",
+    "dueDate": "2025-01-28",
+    "status": "Paid",
+    "poNumber": "PO2516",
+    "type": "Retail",
+    "lineItems": [
+      {
+        "productId": "prod_snowva",
+        "quantity": 20,
+        "unitPrice": 235.0
+      }
+    ],
+    "subtotal": 4700.0,
+    "taxAmount": 0.0,
+    "discountAmount": 0.0,
+    "shippingAmount": 0.0,
+    "totalAmount": 4700.0,
+    "notes": "Retail customer"
+  },
+  {
     "id": "inv_241217404",
-    "customerId": "cust_kimberley_wildman_hunting__outdoor",
+    "customerId": "kimberley",
     "invoiceNumber": "241217404",
     "issueDate": "2024-12-17",
     "dueDate": "2024-12-17",
@@ -4421,7 +3200,7 @@
   },
   {
     "id": "inv_241217505",
-    "customerId": "cust_expedition_north__worcester",
+    "customerId": "worcester",
     "invoiceNumber": "241217505",
     "issueDate": "2024-12-17",
     "dueDate": "2024-12-17",
@@ -4444,7 +3223,7 @@
   },
   {
     "id": "inv_241217606",
-    "customerId": "cust_outdoor_junction_cc",
+    "customerId": "outdoor_junction_cc",
     "invoiceNumber": "241217606",
     "issueDate": "2024-12-17",
     "dueDate": "2024-12-17",
@@ -4467,7 +3246,7 @@
   },
   {
     "id": "inv_241219101",
-    "customerId": "cust_riversdale_trading_bali_trading",
+    "customerId": "riversdale_trading_t_a_bali_trading",
     "invoiceNumber": "241219101",
     "issueDate": "2024-12-19",
     "dueDate": "2024-12-19",
@@ -4489,31 +3268,8 @@
     "notes": "Retail customer"
   },
   {
-    "id": "inv_250107101",
-    "customerId": "cust_kitchenique",
-    "invoiceNumber": "250107101",
-    "issueDate": "2025-01-07",
-    "dueDate": "2025-01-07",
-    "status": "Unpaid",
-    "poNumber": "#200101",
-    "type": "Retail",
-    "lineItems": [
-      {
-        "productId": "prod_borki",
-        "quantity": 20,
-        "unitPrice": 65.0
-      }
-    ],
-    "subtotal": 1300.0,
-    "taxAmount": 0.0,
-    "discountAmount": 0.0,
-    "shippingAmount": 60.0,
-    "totalAmount": 1360.0,
-    "notes": "Retail customer"
-  },
-  {
     "id": "inv_250109101",
-    "customerId": "cust_johan_nel",
+    "customerId": "hahn_hahn",
     "invoiceNumber": "250109101",
     "issueDate": "2025-01-09",
     "dueDate": "2025-01-09",
@@ -4536,7 +3292,7 @@
   },
   {
     "id": "inv_250109202",
-    "customerId": "cust_newco_traders_online",
+    "customerId": "newco_traders_online",
     "invoiceNumber": "250109202",
     "issueDate": "2025-01-09",
     "dueDate": "2025-01-09",
@@ -4559,7 +3315,7 @@
   },
   {
     "id": "inv_250109303",
-    "customerId": "cust_4_seasons_winkel",
+    "customerId": "4_seasons_winkel",
     "invoiceNumber": "250109303",
     "issueDate": "2025-01-09",
     "dueDate": "2025-01-09",
@@ -4582,7 +3338,7 @@
   },
   {
     "id": "inv_250109404",
-    "customerId": "cust_4x4_unlimited",
+    "customerId": "4x4_unlimited_pty_ltd",
     "invoiceNumber": "250109404",
     "issueDate": "2025-01-09",
     "dueDate": "2025-01-09",
@@ -4605,12 +3361,12 @@
   },
   {
     "id": "inv_250114101",
-    "customerId": "cust_kamdebo_padstal",
+    "customerId": "lydenburg",
     "invoiceNumber": "250114101",
     "issueDate": "2025-01-14",
     "dueDate": "2025-01-14",
-    "status": "Paid",
-    "poNumber": "",
+    "status": "Unpaid",
+    "poNumber": "3823973/218",
     "type": "Retail",
     "lineItems": [
       {
@@ -4628,7 +3384,7 @@
   },
   {
     "id": "inv_250114202",
-    "customerId": "cust_travalia_padstal_17_on_bird",
+    "customerId": "travalia_padstal_17_on_bird",
     "invoiceNumber": "250114202",
     "issueDate": "2025-01-14",
     "dueDate": "2025-01-14",
@@ -4651,7 +3407,7 @@
   },
   {
     "id": "inv_250114303",
-    "customerId": "cust_die_ratel_en_meerkatgat",
+    "customerId": "die_ratel_en_meerkatgat",
     "invoiceNumber": "250114303",
     "issueDate": "2025-01-14",
     "dueDate": "2025-01-14",
@@ -4674,30 +3430,30 @@
   },
   {
     "id": "inv_250115101",
-    "customerId": "cust_newco_traders_online",
+    "customerId": "thabazimbi",
     "invoiceNumber": "250115101",
     "issueDate": "2025-01-15",
     "dueDate": "2025-01-15",
     "status": "Paid",
-    "poNumber": "PO02449",
+    "poNumber": "3827526/110",
     "type": "Retail",
     "lineItems": [
       {
         "productId": "prod_snowva",
-        "quantity": 20,
+        "quantity": 15,
         "unitPrice": 235.0
       }
     ],
-    "subtotal": 4700.0,
+    "subtotal": 3525.0,
     "taxAmount": 0.0,
     "discountAmount": 0.0,
     "shippingAmount": 0.0,
-    "totalAmount": 4700.0,
+    "totalAmount": 3525.0,
     "notes": "Retail customer"
   },
   {
     "id": "inv_240116101",
-    "customerId": "cust_camp_and_climb_cc__head_office",
+    "customerId": "head_office",
     "invoiceNumber": "240116101",
     "issueDate": "2024-01-16",
     "dueDate": "2024-01-16",
@@ -4720,53 +3476,7 @@
   },
   {
     "id": "inv_250116101",
-    "customerId": "cust_agri_bonus",
-    "invoiceNumber": "250116101",
-    "issueDate": "2025-01-16",
-    "dueDate": "2025-01-16",
-    "status": "Paid",
-    "poNumber": "POA17043",
-    "type": "Retail",
-    "lineItems": [
-      {
-        "productId": "prod_snowva",
-        "quantity": 2,
-        "unitPrice": 269.0
-      }
-    ],
-    "subtotal": 538.0,
-    "taxAmount": 0.0,
-    "discountAmount": 0.0,
-    "shippingAmount": 0.0,
-    "totalAmount": 538.0,
-    "notes": "Retail customer"
-  },
-  {
-    "id": "inv_250115101",
-    "customerId": "cust_obaro__thabazimbi",
-    "invoiceNumber": "250115101",
-    "issueDate": "2025-01-15",
-    "dueDate": "2025-01-15",
-    "status": "Paid",
-    "poNumber": "3827526/110",
-    "type": "Retail",
-    "lineItems": [
-      {
-        "productId": "prod_snowva",
-        "quantity": 15,
-        "unitPrice": 235.0
-      }
-    ],
-    "subtotal": 3525.0,
-    "taxAmount": 0.0,
-    "discountAmount": 0.0,
-    "shippingAmount": 0.0,
-    "totalAmount": 3525.0,
-    "notes": "Retail customer"
-  },
-  {
-    "id": "inv_250116101",
-    "customerId": "cust_up_to_date_fresh_market",
+    "customerId": "up_to_date_fresh_market",
     "invoiceNumber": "250116101",
     "issueDate": "2025-01-16",
     "dueDate": "2025-01-16",
@@ -4789,53 +3499,7 @@
   },
   {
     "id": "inv_250117101",
-    "customerId": "cust_naomi_bouwer",
-    "invoiceNumber": "250117101",
-    "issueDate": "2025-01-17",
-    "dueDate": "2025-01-17",
-    "status": "Paid",
-    "poNumber": "",
-    "type": "Consumer",
-    "lineItems": [
-      {
-        "productId": "prod_snowva",
-        "quantity": 20,
-        "unitPrice": 216.0
-      }
-    ],
-    "subtotal": 4320.0,
-    "taxAmount": 0.0,
-    "discountAmount": 0.0,
-    "shippingAmount": 98.0,
-    "totalAmount": 4418.0,
-    "notes": "Consumer customer - Consumer: Naomi Bouwer"
-  },
-  {
-    "id": "inv_250114101",
-    "customerId": "cust_obaro__lydenburg",
-    "invoiceNumber": "250114101",
-    "issueDate": "2025-01-14",
-    "dueDate": "2025-01-14",
-    "status": "Unpaid",
-    "poNumber": "3823973/218",
-    "type": "Retail",
-    "lineItems": [
-      {
-        "productId": "prod_snowva",
-        "quantity": 15,
-        "unitPrice": 235.0
-      }
-    ],
-    "subtotal": 3525.0,
-    "taxAmount": 0.0,
-    "discountAmount": 0.0,
-    "shippingAmount": 0.0,
-    "totalAmount": 3525.0,
-    "notes": "Retail customer"
-  },
-  {
-    "id": "inv_250117101",
-    "customerId": "cust_obaro__naboomspruit",
+    "customerId": "naboomspruit",
     "invoiceNumber": "250117101",
     "issueDate": "2025-01-17",
     "dueDate": "2025-01-17",
@@ -4858,7 +3522,7 @@
   },
   {
     "id": "inv_250117202",
-    "customerId": "cust_obaro__rustenburg",
+    "customerId": "rustenburg",
     "invoiceNumber": "250117202",
     "issueDate": "2025-01-17",
     "dueDate": "2025-01-17",
@@ -4881,7 +3545,7 @@
   },
   {
     "id": "inv_250117303",
-    "customerId": "cust_obaro__malelane",
+    "customerId": "malelane",
     "invoiceNumber": "250117303",
     "issueDate": "2025-01-17",
     "dueDate": "2025-01-17",
@@ -4904,7 +3568,7 @@
   },
   {
     "id": "inv_250117404",
-    "customerId": "cust_obaro__brits",
+    "customerId": "brits",
     "invoiceNumber": "250117404",
     "issueDate": "2025-01-17",
     "dueDate": "2025-01-17",
@@ -4950,7 +3614,7 @@
   },
   {
     "id": "inv_250121101",
-    "customerId": "cust_outdoor_junction_cc",
+    "customerId": "outdoor_junction_cc",
     "invoiceNumber": "250121101",
     "issueDate": "2025-01-21",
     "dueDate": "2025-01-21",
@@ -4973,7 +3637,7 @@
   },
   {
     "id": "inv_250121202",
-    "customerId": "cust_sentraal_suid_kooperasie__george",
+    "customerId": "george",
     "invoiceNumber": "250121202",
     "issueDate": "2025-01-21",
     "dueDate": "2025-01-21",
@@ -4996,7 +3660,7 @@
   },
   {
     "id": "inv_250122101",
-    "customerId": "cust_obaro__tijgervallei",
+    "customerId": "tijgervallei",
     "invoiceNumber": "250122101",
     "issueDate": "2025-01-22",
     "dueDate": "2025-01-22",
@@ -5019,7 +3683,7 @@
   },
   {
     "id": "inv_250122202",
-    "customerId": "cust_obaro__wonderboom",
+    "customerId": "wonderboom",
     "invoiceNumber": "250122202",
     "issueDate": "2025-01-22",
     "dueDate": "2025-01-22",
@@ -5042,7 +3706,7 @@
   },
   {
     "id": "inv_250122303",
-    "customerId": "cust_bkb_limited__cradock",
+    "customerId": "cradock",
     "invoiceNumber": "250122303",
     "issueDate": "2025-01-22",
     "dueDate": "2025-01-22",
@@ -5065,7 +3729,7 @@
   },
   {
     "id": "inv_250122404",
-    "customerId": "cust_tafelberg_furniture_stores_pty",
+    "customerId": "tafelberg_furniture_stores_pty_ltd",
     "invoiceNumber": "250122404",
     "issueDate": "2025-01-22",
     "dueDate": "2025-01-22",
@@ -5088,7 +3752,7 @@
   },
   {
     "id": "inv_250122505",
-    "customerId": "cust_obaro__potchefstroom",
+    "customerId": "potchefstroom",
     "invoiceNumber": "250122505",
     "issueDate": "2025-01-22",
     "dueDate": "2025-01-22",
@@ -5111,7 +3775,7 @@
   },
   {
     "id": "inv_250125101",
-    "customerId": "cust_wildman_robertson",
+    "customerId": "wildman_robertson",
     "invoiceNumber": "250125101",
     "issueDate": "2025-01-25",
     "dueDate": "2025-01-25",
@@ -5134,7 +3798,7 @@
   },
   {
     "id": "inv_250127101",
-    "customerId": "cust_walkers_midas_upington_4x4_mega_world",
+    "customerId": "walkers_midas_upington_t_a_4x4_mega_world",
     "invoiceNumber": "250127101",
     "issueDate": "2025-01-27",
     "dueDate": "2025-01-27",
@@ -5157,7 +3821,7 @@
   },
   {
     "id": "inv_250127202",
-    "customerId": "cust_gammatauworm",
+    "customerId": "gammatauworm_pty_ltd",
     "invoiceNumber": "250127202",
     "issueDate": "2025-01-27",
     "dueDate": "2025-01-27",
@@ -5179,31 +3843,8 @@
     "notes": "Retail customer"
   },
   {
-    "id": "inv_250128101",
-    "customerId": "cust_newco_traders_online",
-    "invoiceNumber": "250128101",
-    "issueDate": "2025-01-28",
-    "dueDate": "2025-01-28",
-    "status": "Paid",
-    "poNumber": "PO2516",
-    "type": "Retail",
-    "lineItems": [
-      {
-        "productId": "prod_snowva",
-        "quantity": 20,
-        "unitPrice": 235.0
-      }
-    ],
-    "subtotal": 4700.0,
-    "taxAmount": 0.0,
-    "discountAmount": 0.0,
-    "shippingAmount": 0.0,
-    "totalAmount": 4700.0,
-    "notes": "Retail customer"
-  },
-  {
     "id": "inv_250128202",
-    "customerId": "cust_ristorante_la_trinita",
+    "customerId": "ristorante_la_trinita",
     "invoiceNumber": "250128202",
     "issueDate": "2025-01-28",
     "dueDate": "2025-01-28",
@@ -5226,7 +3867,7 @@
   },
   {
     "id": "inv_250129101",
-    "customerId": "cust_breezers_fishing",
+    "customerId": "breezers_fishing_pty_ltd",
     "invoiceNumber": "250129101",
     "issueDate": "2025-01-29",
     "dueDate": "2025-01-29",
@@ -5249,7 +3890,7 @@
   },
   {
     "id": "inv_250129202",
-    "customerId": "cust_aloe_deli",
+    "customerId": "aloe_deli",
     "invoiceNumber": "250129202",
     "issueDate": "2025-01-29",
     "dueDate": "2025-01-29",
@@ -5272,7 +3913,7 @@
   },
   {
     "id": "inv_250129303",
-    "customerId": "cust_soles_for_africa_cc__boet__betty",
+    "customerId": "soles_for_africa_cc",
     "invoiceNumber": "250129303",
     "issueDate": "2025-01-29",
     "dueDate": "2025-01-29",
@@ -5295,7 +3936,7 @@
   },
   {
     "id": "inv_250129404",
-    "customerId": "cust_binuns_menlyn_cc",
+    "customerId": "binuns_menlyn_cc",
     "invoiceNumber": "250129404",
     "issueDate": "2025-01-29",
     "dueDate": "2025-01-29",
@@ -5318,7 +3959,7 @@
   },
   {
     "id": "inv_250129505",
-    "customerId": "cust_palmietfontein_gastehuis",
+    "customerId": "palmietfontein_gastehuis",
     "invoiceNumber": "250129505",
     "issueDate": "2025-01-29",
     "dueDate": "2025-01-29",
@@ -5341,7 +3982,7 @@
   },
   {
     "id": "inv_250129606",
-    "customerId": "cust_jtc_enterprises_cc",
+    "customerId": "jtc_enterprises_cc",
     "invoiceNumber": "250129606",
     "issueDate": "2025-01-29",
     "dueDate": "2025-01-29",
@@ -5364,7 +4005,7 @@
   },
   {
     "id": "inv_250129707",
-    "customerId": "cust_santonio_musina_foodzone",
+    "customerId": "santonio_cc_t_a_musina_foodzone",
     "invoiceNumber": "250129707",
     "issueDate": "2025-01-29",
     "dueDate": "2025-01-29",
@@ -5387,7 +4028,7 @@
   },
   {
     "id": "inv_250201101",
-    "customerId": "cust_expedition_north__somerset_west",
+    "customerId": "somerset_west",
     "invoiceNumber": "250201101",
     "issueDate": "2025-02-01",
     "dueDate": "2025-02-01",
@@ -5410,30 +4051,30 @@
   },
   {
     "id": "inv_250203101",
-    "customerId": "cust_daramode__tuinroete_woonwaens",
+    "customerId": "cavendish",
     "invoiceNumber": "250203101",
     "issueDate": "2025-02-03",
     "dueDate": "2025-02-03",
-    "status": "Paid",
-    "poNumber": "PUR586",
+    "status": "Unpaid",
+    "poNumber": "PO10635597",
     "type": "Retail",
     "lineItems": [
       {
         "productId": "prod_snowva",
-        "quantity": 50,
-        "unitPrice": 210.0
+        "quantity": 15,
+        "unitPrice": 216.0
       }
     ],
-    "subtotal": 10500.0,
+    "subtotal": 3240.0,
     "taxAmount": 0.0,
     "discountAmount": 0.0,
-    "shippingAmount": 208.0,
-    "totalAmount": 10708.0,
+    "shippingAmount": 0.0,
+    "totalAmount": 3240.0,
     "notes": "Retail customer"
   },
   {
     "id": "inv_250204101",
-    "customerId": "cust_kings_meat_deli__lynnwoodbridge",
+    "customerId": "lynnwoodbridge",
     "invoiceNumber": "250204101",
     "issueDate": "2025-02-04",
     "dueDate": "2025-02-04",
@@ -5460,31 +4101,8 @@
     "notes": "Retail customer"
   },
   {
-    "id": "inv_250203101",
-    "customerId": "cust_sportsmans_warehouse__cavendish",
-    "invoiceNumber": "250203101",
-    "issueDate": "2025-02-03",
-    "dueDate": "2025-02-03",
-    "status": "Unpaid",
-    "poNumber": "PO10635597",
-    "type": "Retail",
-    "lineItems": [
-      {
-        "productId": "prod_snowva",
-        "quantity": 15,
-        "unitPrice": 216.0
-      }
-    ],
-    "subtotal": 3240.0,
-    "taxAmount": 0.0,
-    "discountAmount": 0.0,
-    "shippingAmount": 0.0,
-    "totalAmount": 3240.0,
-    "notes": "Retail customer"
-  },
-  {
     "id": "inv_250203202",
-    "customerId": "cust_sportsmans_warehouse__eastrand",
+    "customerId": "eastrand",
     "invoiceNumber": "250203202",
     "issueDate": "2025-02-03",
     "dueDate": "2025-02-03",
@@ -5507,7 +4125,7 @@
   },
   {
     "id": "inv_250203303",
-    "customerId": "cust_sportsmans_warehouse__george",
+    "customerId": "george",
     "invoiceNumber": "250203303",
     "issueDate": "2025-02-03",
     "dueDate": "2025-02-03",
@@ -5530,7 +4148,7 @@
   },
   {
     "id": "inv_250203404",
-    "customerId": "cust_sportsmans_warehouse__hermanus",
+    "customerId": "hermanus",
     "invoiceNumber": "250203404",
     "issueDate": "2025-02-03",
     "dueDate": "2025-02-03",
@@ -5553,7 +4171,7 @@
   },
   {
     "id": "inv_250203505",
-    "customerId": "cust_sportsmans_warehouse__hillcrest",
+    "customerId": "hillcrest",
     "invoiceNumber": "250203505",
     "issueDate": "2025-02-03",
     "dueDate": "2025-02-03",
@@ -5576,7 +4194,7 @@
   },
   {
     "id": "inv_250203606",
-    "customerId": "cust_sportsmans_warehouse__kimberley",
+    "customerId": "kimberley",
     "invoiceNumber": "250203606",
     "issueDate": "2025-02-03",
     "dueDate": "2025-02-03",
@@ -5599,7 +4217,7 @@
   },
   {
     "id": "inv_250203707",
-    "customerId": "cust_sportsmans_warehouse__paarl",
+    "customerId": "paarl",
     "invoiceNumber": "250203707",
     "issueDate": "2025-02-03",
     "dueDate": "2025-02-03",
@@ -5622,7 +4240,7 @@
   },
   {
     "id": "inv_250203808",
-    "customerId": "cust_sportsmans_warehouse__polokwane",
+    "customerId": "polokwane",
     "invoiceNumber": "250203808",
     "issueDate": "2025-02-03",
     "dueDate": "2025-02-03",
@@ -5645,7 +4263,7 @@
   },
   {
     "id": "inv_250203909",
-    "customerId": "cust_sportsmans_warehouse__port_elizabeth",
+    "customerId": "port_elizabeth",
     "invoiceNumber": "250203909",
     "issueDate": "2025-02-03",
     "dueDate": "2025-02-03",
@@ -5668,7 +4286,7 @@
   },
   {
     "id": "inv_2502031010",
-    "customerId": "cust_sportsmans_warehouse__rosebank",
+    "customerId": "rosebank",
     "invoiceNumber": "2502031010",
     "issueDate": "2025-02-03",
     "dueDate": "2025-02-03",
@@ -5691,7 +4309,7 @@
   },
   {
     "id": "inv_2502031111",
-    "customerId": "cust_sportsmans_warehouse__rustenburg",
+    "customerId": "rustenburg",
     "invoiceNumber": "2502031111",
     "issueDate": "2025-02-03",
     "dueDate": "2025-02-03",
@@ -5714,7 +4332,7 @@
   },
   {
     "id": "inv_2502031212",
-    "customerId": "cust_sportsmans_warehouse__sandton",
+    "customerId": "sandton",
     "invoiceNumber": "2502031212",
     "issueDate": "2025-02-03",
     "dueDate": "2025-02-03",
@@ -5737,7 +4355,7 @@
   },
   {
     "id": "inv_2502031313",
-    "customerId": "cust_sportsmans_warehouse__somerset_west",
+    "customerId": "somerset_west",
     "invoiceNumber": "2502031313",
     "issueDate": "2025-02-03",
     "dueDate": "2025-02-03",
@@ -5760,7 +4378,7 @@
   },
   {
     "id": "inv_2502031414",
-    "customerId": "cust_sportsmans_warehouse__stellenbosch",
+    "customerId": "stellenbosch",
     "invoiceNumber": "2502031414",
     "issueDate": "2025-02-03",
     "dueDate": "2025-02-03",
@@ -5783,7 +4401,7 @@
   },
   {
     "id": "inv_2502031515",
-    "customerId": "cust_sportsmans_warehouse__tygervalley",
+    "customerId": "tygervalley",
     "invoiceNumber": "2502031515",
     "issueDate": "2025-02-03",
     "dueDate": "2025-02-03",
@@ -5806,7 +4424,7 @@
   },
   {
     "id": "inv_2502031616",
-    "customerId": "cust_sportsmans_warehouse__vanderbijl_park",
+    "customerId": "vanderbijl_park",
     "invoiceNumber": "2502031616",
     "issueDate": "2025-02-03",
     "dueDate": "2025-02-03",
@@ -5829,7 +4447,7 @@
   },
   {
     "id": "inv_2502031717",
-    "customerId": "cust_sportsmans_warehouse__web_whs",
+    "customerId": "web_whs",
     "invoiceNumber": "2502031717",
     "issueDate": "2025-02-03",
     "dueDate": "2025-02-03",
@@ -5852,7 +4470,7 @@
   },
   {
     "id": "inv_2502031818",
-    "customerId": "cust_pet_pool_and_home__malmesbury",
+    "customerId": "malmesbury",
     "invoiceNumber": "2502031818",
     "issueDate": "2025-02-03",
     "dueDate": "2025-02-03",
@@ -5875,7 +4493,7 @@
   },
   {
     "id": "inv_2502031919",
-    "customerId": "cust_pet_pool_and_home__hermanus",
+    "customerId": "hermanus",
     "invoiceNumber": "2502031919",
     "issueDate": "2025-02-03",
     "dueDate": "2025-02-03",
@@ -5898,7 +4516,7 @@
   },
   {
     "id": "inv_250206101",
-    "customerId": "cust_pet_pool_and_home__mosselbay",
+    "customerId": "mosselbay",
     "invoiceNumber": "250206101",
     "issueDate": "2025-02-06",
     "dueDate": "2025-02-06",
@@ -5921,7 +4539,7 @@
   },
   {
     "id": "inv_250206202",
-    "customerId": "cust_newco_traders_online",
+    "customerId": "newco_traders_online",
     "invoiceNumber": "250206202",
     "issueDate": "2025-02-06",
     "dueDate": "2025-02-06",
@@ -5944,7 +4562,7 @@
   },
   {
     "id": "inv_250207101",
-    "customerId": "cust_nyama_catering",
+    "customerId": "nyama_catering",
     "invoiceNumber": "250207101",
     "issueDate": "2025-02-07",
     "dueDate": "2025-02-07",
@@ -5972,7 +4590,7 @@
   },
   {
     "id": "inv_250211101",
-    "customerId": "cust_gammatauworm__malmesbury",
+    "customerId": "malmesbury",
     "invoiceNumber": "250211101",
     "issueDate": "2025-02-11",
     "dueDate": "2025-02-11",
@@ -5995,7 +4613,7 @@
   },
   {
     "id": "inv_250212101",
-    "customerId": "cust_dup_meubels",
+    "customerId": "dup_meubels",
     "invoiceNumber": "250212101",
     "issueDate": "2025-02-12",
     "dueDate": "2025-02-12",
@@ -6041,7 +4659,7 @@
   },
   {
     "id": "inv_250214101",
-    "customerId": "cust_prosport_standerton",
+    "customerId": "prosport_standerton",
     "invoiceNumber": "250214101",
     "issueDate": "2025-02-14",
     "dueDate": "2025-02-14",
@@ -6064,7 +4682,7 @@
   },
   {
     "id": "inv_250217101",
-    "customerId": "cust_limeco_minerals_braailholix",
+    "customerId": "limeco_minerals_pty_ltd_t_a_braailholix",
     "invoiceNumber": "250217101",
     "issueDate": "2025-02-17",
     "dueDate": "2025-02-17",
@@ -6110,7 +4728,7 @@
   },
   {
     "id": "inv_250220101",
-    "customerId": "cust_house_of_carpets_furniture__appliance",
+    "customerId": "house_of_carpets_furniture_appliance",
     "invoiceNumber": "250220101",
     "issueDate": "2025-02-20",
     "dueDate": "2025-02-20",
@@ -6133,7 +4751,7 @@
   },
   {
     "id": "inv_250225101",
-    "customerId": "cust_kings_meat_deli__lynnwoodbridge",
+    "customerId": "lynnwoodbridge",
     "invoiceNumber": "250225101",
     "issueDate": "2025-02-25",
     "dueDate": "2025-02-25",
@@ -6161,7 +4779,7 @@
   },
   {
     "id": "inv_250225202",
-    "customerId": "cust_agri_bonus",
+    "customerId": "agri_bonus",
     "invoiceNumber": "250225202",
     "issueDate": "2025-02-25",
     "dueDate": "2025-02-25",
@@ -6184,7 +4802,7 @@
   },
   {
     "id": "inv_250225303",
-    "customerId": "cust_binuns_menlyn_cc",
+    "customerId": "binuns_menlyn_cc",
     "invoiceNumber": "250225303",
     "issueDate": "2025-02-25",
     "dueDate": "2025-02-25",
@@ -6207,7 +4825,7 @@
   },
   {
     "id": "inv_250225404",
-    "customerId": "cust_camp_and_climb_cc__head_office",
+    "customerId": "head_office",
     "invoiceNumber": "250225404",
     "issueDate": "2025-02-25",
     "dueDate": "2025-02-25",
@@ -6235,7 +4853,7 @@
   },
   {
     "id": "inv_250226101",
-    "customerId": "cust_forever_resorts__tshipise_a_forever_resort",
+    "customerId": "tshipise_a_forever_resort",
     "invoiceNumber": "250226101",
     "issueDate": "2025-02-26",
     "dueDate": "2025-02-26",
@@ -6258,7 +4876,7 @@
   },
   {
     "id": "inv_250227101",
-    "customerId": "cust_axl_outdoor",
+    "customerId": "axl_outdoor",
     "invoiceNumber": "250227101",
     "issueDate": "2025-02-27",
     "dueDate": "2025-02-27",
@@ -6281,7 +4899,7 @@
   },
   {
     "id": "inv_250228101",
-    "customerId": "cust_pet_pool_and_home__malmesbury",
+    "customerId": "malmesbury",
     "invoiceNumber": "250228101",
     "issueDate": "2025-02-28",
     "dueDate": "2025-02-28",
@@ -6304,7 +4922,7 @@
   },
   {
     "id": "inv_250228202",
-    "customerId": "cust_pet_pool_and_home__waterfall",
+    "customerId": "waterfall",
     "invoiceNumber": "250228202",
     "issueDate": "2025-02-28",
     "dueDate": "2025-02-28",
@@ -6327,7 +4945,7 @@
   },
   {
     "id": "inv_250228303",
-    "customerId": "cust_pet_pool_and_home__george",
+    "customerId": "george",
     "invoiceNumber": "250228303",
     "issueDate": "2025-02-28",
     "dueDate": "2025-02-28",
@@ -6350,7 +4968,7 @@
   },
   {
     "id": "inv_250228404",
-    "customerId": "cust_pet_pool_and_home__middelburg",
+    "customerId": "middelburg",
     "invoiceNumber": "250228404",
     "issueDate": "2025-02-28",
     "dueDate": "2025-02-28",
@@ -6373,7 +4991,7 @@
   },
   {
     "id": "inv_250228505",
-    "customerId": "cust_pet_pool_and_home__mosselbay",
+    "customerId": "mosselbay",
     "invoiceNumber": "250228505",
     "issueDate": "2025-02-28",
     "dueDate": "2025-02-28",
@@ -6396,7 +5014,7 @@
   },
   {
     "id": "inv_250228606",
-    "customerId": "cust_pet_pool_and_home__plettenberg_bay",
+    "customerId": "plettenberg_bay",
     "invoiceNumber": "250228606",
     "issueDate": "2025-02-28",
     "dueDate": "2025-02-28",
@@ -6419,7 +5037,7 @@
   },
   {
     "id": "inv_250303101",
-    "customerId": "cust_td_coetzee_middelwater_trust",
+    "customerId": "td_coetzee_middelwater_trust",
     "invoiceNumber": "250303101",
     "issueDate": "2025-03-03",
     "dueDate": "2025-03-03",
@@ -6442,30 +5060,30 @@
   },
   {
     "id": "inv_250304101",
-    "customerId": "cust_outdoor_warehouse__ballito",
+    "customerId": "agri_bonus",
     "invoiceNumber": "250304101",
     "issueDate": "2025-03-04",
     "dueDate": "2025-03-04",
     "status": "Unpaid",
-    "poNumber": "PO188512",
+    "poNumber": "POA17164",
     "type": "Retail",
     "lineItems": [
       {
         "productId": "prod_snowva",
-        "quantity": 24,
-        "unitPrice": 206.0
+        "quantity": 2,
+        "unitPrice": 269.0
       }
     ],
-    "subtotal": 4944.0,
+    "subtotal": 538.0,
     "taxAmount": 0.0,
     "discountAmount": 0.0,
     "shippingAmount": 0.0,
-    "totalAmount": 4944.0,
+    "totalAmount": 538.0,
     "notes": "Retail customer"
   },
   {
     "id": "inv_250304202",
-    "customerId": "cust_outdoor_warehouse__bellville",
+    "customerId": "bellville",
     "invoiceNumber": "250304202",
     "issueDate": "2025-03-04",
     "dueDate": "2025-03-04",
@@ -6488,7 +5106,7 @@
   },
   {
     "id": "inv_250304303",
-    "customerId": "cust_outdoor_warehouse__boksburg",
+    "customerId": "boksburg",
     "invoiceNumber": "250304303",
     "issueDate": "2025-03-04",
     "dueDate": "2025-03-04",
@@ -6511,7 +5129,7 @@
   },
   {
     "id": "inv_250304404",
-    "customerId": "cust_outdoor_warehouse__centurion",
+    "customerId": "centurion",
     "invoiceNumber": "250304404",
     "issueDate": "2025-03-04",
     "dueDate": "2025-03-04",
@@ -6534,7 +5152,7 @@
   },
   {
     "id": "inv_250304505",
-    "customerId": "cust_outdoor_warehouse__cornubia",
+    "customerId": "cornubia",
     "invoiceNumber": "250304505",
     "issueDate": "2025-03-04",
     "dueDate": "2025-03-04",
@@ -6557,7 +5175,7 @@
   },
   {
     "id": "inv_250304606",
-    "customerId": "cust_outdoor_warehouse__george",
+    "customerId": "george",
     "invoiceNumber": "250304606",
     "issueDate": "2025-03-04",
     "dueDate": "2025-03-04",
@@ -6580,7 +5198,7 @@
   },
   {
     "id": "inv_250304707",
-    "customerId": "cust_outdoor_warehouse__hermanus",
+    "customerId": "hermanus",
     "invoiceNumber": "250304707",
     "issueDate": "2025-03-04",
     "dueDate": "2025-03-04",
@@ -6603,7 +5221,7 @@
   },
   {
     "id": "inv_250304808",
-    "customerId": "cust_outdoor_warehouse__modderfontein",
+    "customerId": "modderfontein",
     "invoiceNumber": "250304808",
     "issueDate": "2025-03-04",
     "dueDate": "2025-03-04",
@@ -6626,7 +5244,7 @@
   },
   {
     "id": "inv_250304909",
-    "customerId": "cust_outdoor_warehouse__nelspruit",
+    "customerId": "nelspruit",
     "invoiceNumber": "250304909",
     "issueDate": "2025-03-04",
     "dueDate": "2025-03-04",
@@ -6649,7 +5267,7 @@
   },
   {
     "id": "inv_2503041010",
-    "customerId": "cust_outdoor_warehouse__paarl",
+    "customerId": "paarl",
     "invoiceNumber": "2503041010",
     "issueDate": "2025-03-04",
     "dueDate": "2025-03-04",
@@ -6672,7 +5290,7 @@
   },
   {
     "id": "inv_2503041111",
-    "customerId": "cust_outdoor_warehouse__port_elizabeth",
+    "customerId": "port_elizabeth",
     "invoiceNumber": "2503041111",
     "issueDate": "2025-03-04",
     "dueDate": "2025-03-04",
@@ -6695,7 +5313,7 @@
   },
   {
     "id": "inv_2503041212",
-    "customerId": "cust_outdoor_warehouse__potchefstroom",
+    "customerId": "potchefstroom",
     "invoiceNumber": "2503041212",
     "issueDate": "2025-03-04",
     "dueDate": "2025-03-04",
@@ -6718,7 +5336,7 @@
   },
   {
     "id": "inv_2503041313",
-    "customerId": "cust_outdoor_warehouse__rondebosch",
+    "customerId": "rondebosch",
     "invoiceNumber": "2503041313",
     "issueDate": "2025-03-04",
     "dueDate": "2025-03-04",
@@ -6741,7 +5359,7 @@
   },
   {
     "id": "inv_2503041414",
-    "customerId": "cust_outdoor_warehouse__somerset_west",
+    "customerId": "somerset_west",
     "invoiceNumber": "2503041414",
     "issueDate": "2025-03-04",
     "dueDate": "2025-03-04",
@@ -6764,7 +5382,7 @@
   },
   {
     "id": "inv_2503041515",
-    "customerId": "cust_outdoor_warehouse__strubens_valley",
+    "customerId": "strubens_valley",
     "invoiceNumber": "2503041515",
     "issueDate": "2025-03-04",
     "dueDate": "2025-03-04",
@@ -6787,7 +5405,7 @@
   },
   {
     "id": "inv_2503041616",
-    "customerId": "cust_outdoor_warehouse__tokai",
+    "customerId": "tokai",
     "invoiceNumber": "2503041616",
     "issueDate": "2025-03-04",
     "dueDate": "2025-03-04",
@@ -6810,7 +5428,7 @@
   },
   {
     "id": "inv_2503041717",
-    "customerId": "cust_outdoor_warehouse__vredenburg",
+    "customerId": "vredenburg",
     "invoiceNumber": "2503041717",
     "issueDate": "2025-03-04",
     "dueDate": "2025-03-04",
@@ -6833,7 +5451,7 @@
   },
   {
     "id": "inv_2503041818",
-    "customerId": "cust_outdoor_warehouse__woodmead",
+    "customerId": "woodmead",
     "invoiceNumber": "2503041818",
     "issueDate": "2025-03-04",
     "dueDate": "2025-03-04",
@@ -6856,7 +5474,7 @@
   },
   {
     "id": "inv_2503041919",
-    "customerId": "cust_outdoor_warehouse__zambezi_drive",
+    "customerId": "zambezi_drive",
     "invoiceNumber": "2503041919",
     "issueDate": "2025-03-04",
     "dueDate": "2025-03-04",
@@ -6879,7 +5497,7 @@
   },
   {
     "id": "inv_2503042020",
-    "customerId": "cust_obaro__potgietersrus",
+    "customerId": "potgietersrus",
     "invoiceNumber": "2503042020",
     "issueDate": "2025-03-04",
     "dueDate": "2025-03-04",
@@ -6902,7 +5520,7 @@
   },
   {
     "id": "inv_2503042121",
-    "customerId": "cust_sentraal_suid_kooperasie__mosselbaai",
+    "customerId": "mosselbaai",
     "invoiceNumber": "2503042121",
     "issueDate": "2025-03-04",
     "dueDate": "2025-03-04",
@@ -6925,7 +5543,7 @@
   },
   {
     "id": "inv_250306101",
-    "customerId": "cust_green_trading",
+    "customerId": "green_trading_cc",
     "invoiceNumber": "250306101",
     "issueDate": "2025-03-06",
     "dueDate": "2025-03-06",
@@ -6948,7 +5566,7 @@
   },
   {
     "id": "inv_250306202",
-    "customerId": "cust_obaro__hartswater",
+    "customerId": "hartswater",
     "invoiceNumber": "250306202",
     "issueDate": "2025-03-06",
     "dueDate": "2025-03-06",
@@ -6971,7 +5589,7 @@
   },
   {
     "id": "inv_250310101",
-    "customerId": "cust_newco_traders_online",
+    "customerId": "newco_traders_online",
     "invoiceNumber": "250310101",
     "issueDate": "2025-03-10",
     "dueDate": "2025-03-10",
@@ -6999,7 +5617,7 @@
   },
   {
     "id": "inv_250311101",
-    "customerId": "cust_travalia_padstal_17_on_bird",
+    "customerId": "travalia_padstal_17_on_bird",
     "invoiceNumber": "250311101",
     "issueDate": "2025-03-11",
     "dueDate": "2025-03-11",
@@ -7022,7 +5640,7 @@
   },
   {
     "id": "inv_250314101",
-    "customerId": "cust_pet_pool_and_home__port_elizabeth",
+    "customerId": "port_elizabeth",
     "invoiceNumber": "250314101",
     "issueDate": "2025-03-14",
     "dueDate": "2025-03-14",
@@ -7045,7 +5663,7 @@
   },
   {
     "id": "inv_250314202",
-    "customerId": "cust_spiceologist",
+    "customerId": "spiceologist",
     "invoiceNumber": "250314202",
     "issueDate": "2025-03-14",
     "dueDate": "2025-03-14",
@@ -7068,7 +5686,7 @@
   },
   {
     "id": "inv_250318101",
-    "customerId": "cust_binuns_menlyn_cc",
+    "customerId": "binuns_menlyn_cc",
     "invoiceNumber": "250318101",
     "issueDate": "2025-03-18",
     "dueDate": "2025-03-18",
@@ -7091,7 +5709,7 @@
   },
   {
     "id": "inv_250318202",
-    "customerId": "cust_jtc_enterprises_cc",
+    "customerId": "jtc_enterprises_cc",
     "invoiceNumber": "250318202",
     "issueDate": "2025-03-18",
     "dueDate": "2025-03-18",
@@ -7114,7 +5732,7 @@
   },
   {
     "id": "inv_250318303",
-    "customerId": "cust_obaro__wonderboom",
+    "customerId": "wonderboom",
     "invoiceNumber": "250318303",
     "issueDate": "2025-03-18",
     "dueDate": "2025-03-18",
@@ -7137,7 +5755,7 @@
   },
   {
     "id": "inv_250324101",
-    "customerId": "cust_emc_paneelkloppers",
+    "customerId": "emc_paneelkloppers_cc",
     "invoiceNumber": "250324101",
     "issueDate": "2025-03-24",
     "dueDate": "2025-03-24",
@@ -7175,7 +5793,7 @@
   },
   {
     "id": "inv_250324202",
-    "customerId": "cust_safari_centre",
+    "customerId": "safari_centre",
     "invoiceNumber": "250324202",
     "issueDate": "2025-03-24",
     "dueDate": "2025-03-24",
@@ -7198,7 +5816,7 @@
   },
   {
     "id": "inv_250324303",
-    "customerId": "cust_abe_motors_cc",
+    "customerId": "abe_motors_cc",
     "invoiceNumber": "250324303",
     "issueDate": "2025-03-24",
     "dueDate": "2025-03-24",
@@ -7221,7 +5839,7 @@
   },
   {
     "id": "inv_250324404",
-    "customerId": "cust_silverleaf_accounting",
+    "customerId": "silverleaf_accounting",
     "invoiceNumber": "250324404",
     "issueDate": "2025-03-24",
     "dueDate": "2025-03-24",
@@ -7244,7 +5862,7 @@
   },
   {
     "id": "inv_250324505",
-    "customerId": "cust_auto_boutique_sa",
+    "customerId": "auto_boutique_sa",
     "invoiceNumber": "250324505",
     "issueDate": "2025-03-24",
     "dueDate": "2025-03-24",
@@ -7267,7 +5885,7 @@
   },
   {
     "id": "inv_250327101",
-    "customerId": "cust_expedition_north__george",
+    "customerId": "george",
     "invoiceNumber": "250327101",
     "issueDate": "2025-03-27",
     "dueDate": "2025-03-27",
@@ -7290,7 +5908,7 @@
   },
   {
     "id": "inv_250327202",
-    "customerId": "cust_obaro__tijgervallei",
+    "customerId": "tijgervallei",
     "invoiceNumber": "250327202",
     "issueDate": "2025-03-27",
     "dueDate": "2025-03-27",
@@ -7313,7 +5931,7 @@
   },
   {
     "id": "inv_250327303",
-    "customerId": "cust_obaro__thabazimbi",
+    "customerId": "thabazimbi",
     "invoiceNumber": "250327303",
     "issueDate": "2025-03-27",
     "dueDate": "2025-03-27",
@@ -7336,7 +5954,7 @@
   },
   {
     "id": "inv_250327404",
-    "customerId": "cust_agri_bonus",
+    "customerId": "agri_bonus",
     "invoiceNumber": "250327404",
     "issueDate": "2025-03-27",
     "dueDate": "2025-03-27",
@@ -7359,7 +5977,7 @@
   },
   {
     "id": "inv_250328101",
-    "customerId": "cust_newco_traders_online",
+    "customerId": "newco_traders_online",
     "invoiceNumber": "250328101",
     "issueDate": "2025-03-28",
     "dueDate": "2025-03-28",
@@ -7382,7 +6000,7 @@
   },
   {
     "id": "inv_250328202",
-    "customerId": "cust_safari_centre_upington",
+    "customerId": "safari_centre_upington",
     "invoiceNumber": "250328202",
     "issueDate": "2025-03-28",
     "dueDate": "2025-03-28",
@@ -7405,7 +6023,7 @@
   },
   {
     "id": "inv_250331101",
-    "customerId": "cust_camp_and_climb_cc__head_office",
+    "customerId": "head_office",
     "invoiceNumber": "250331101",
     "issueDate": "2025-03-31",
     "dueDate": "2025-03-31",
@@ -7428,7 +6046,7 @@
   },
   {
     "id": "inv_250401101",
-    "customerId": "cust_outdoor_warehouse__alberton",
+    "customerId": "alberton",
     "invoiceNumber": "250401101",
     "issueDate": "2025-04-01",
     "dueDate": "2025-04-01",
@@ -7451,7 +6069,7 @@
   },
   {
     "id": "inv_250401202",
-    "customerId": "cust_outdoor_warehouse__bellville",
+    "customerId": "bellville",
     "invoiceNumber": "250401202",
     "issueDate": "2025-04-01",
     "dueDate": "2025-04-01",
@@ -7474,7 +6092,7 @@
   },
   {
     "id": "inv_250401303",
-    "customerId": "cust_outdoor_warehouse__boksburg",
+    "customerId": "boksburg",
     "invoiceNumber": "250401303",
     "issueDate": "2025-04-01",
     "dueDate": "2025-04-01",
@@ -7497,7 +6115,7 @@
   },
   {
     "id": "inv_250401404",
-    "customerId": "cust_outdoor_warehouse__centurion",
+    "customerId": "centurion",
     "invoiceNumber": "250401404",
     "issueDate": "2025-04-01",
     "dueDate": "2025-04-01",
@@ -7520,7 +6138,7 @@
   },
   {
     "id": "inv_250401505",
-    "customerId": "cust_outdoor_warehouse__hermanus",
+    "customerId": "hermanus",
     "invoiceNumber": "250401505",
     "issueDate": "2025-04-01",
     "dueDate": "2025-04-01",
@@ -7543,7 +6161,7 @@
   },
   {
     "id": "inv_250401606",
-    "customerId": "cust_outdoor_warehouse__hillcrest",
+    "customerId": "hillcrest",
     "invoiceNumber": "250401606",
     "issueDate": "2025-04-01",
     "dueDate": "2025-04-01",
@@ -7566,7 +6184,7 @@
   },
   {
     "id": "inv_250401707",
-    "customerId": "cust_outdoor_warehouse__nelspruit",
+    "customerId": "nelspruit",
     "invoiceNumber": "250401707",
     "issueDate": "2025-04-01",
     "dueDate": "2025-04-01",
@@ -7589,7 +6207,7 @@
   },
   {
     "id": "inv_250401808",
-    "customerId": "cust_outdoor_warehouse__pretoria_east",
+    "customerId": "pretoria_east",
     "invoiceNumber": "250401808",
     "issueDate": "2025-04-01",
     "dueDate": "2025-04-01",
@@ -7612,7 +6230,7 @@
   },
   {
     "id": "inv_250401909",
-    "customerId": "cust_outdoor_warehouse__rondebosch",
+    "customerId": "rondebosch",
     "invoiceNumber": "250401909",
     "issueDate": "2025-04-01",
     "dueDate": "2025-04-01",
@@ -7635,7 +6253,7 @@
   },
   {
     "id": "inv_2504011010",
-    "customerId": "cust_outdoor_warehouse__somerset_west",
+    "customerId": "somerset_west",
     "invoiceNumber": "2504011010",
     "issueDate": "2025-04-01",
     "dueDate": "2025-04-01",
@@ -7658,7 +6276,7 @@
   },
   {
     "id": "inv_2504011111",
-    "customerId": "cust_outdoor_warehouse__tokai",
+    "customerId": "tokai",
     "invoiceNumber": "2504011111",
     "issueDate": "2025-04-01",
     "dueDate": "2025-04-01",
@@ -7681,7 +6299,7 @@
   },
   {
     "id": "inv_2504011212",
-    "customerId": "cust_outdoor_warehouse__vredenburg",
+    "customerId": "vredenburg",
     "invoiceNumber": "2504011212",
     "issueDate": "2025-04-01",
     "dueDate": "2025-04-01",
@@ -7704,7 +6322,7 @@
   },
   {
     "id": "inv_2504011313",
-    "customerId": "cust_outdoor_warehouse__zambezi_drive",
+    "customerId": "zambezi_drive",
     "invoiceNumber": "2504011313",
     "issueDate": "2025-04-01",
     "dueDate": "2025-04-01",
@@ -7727,7 +6345,7 @@
   },
   {
     "id": "inv_250407101",
-    "customerId": "cust_obaro__brits",
+    "customerId": "brits",
     "invoiceNumber": "250407101",
     "issueDate": "2025-04-07",
     "dueDate": "2025-04-07",
@@ -7750,7 +6368,7 @@
   },
   {
     "id": "inv_250407202",
-    "customerId": "cust_aloe_deli",
+    "customerId": "aloe_deli",
     "invoiceNumber": "250407202",
     "issueDate": "2025-04-07",
     "dueDate": "2025-04-07",
@@ -7773,7 +6391,7 @@
   },
   {
     "id": "inv_250407303",
-    "customerId": "cust_jtc_enterprises_cc",
+    "customerId": "jtc_enterprises_cc",
     "invoiceNumber": "250407303",
     "issueDate": "2025-04-07",
     "dueDate": "2025-04-07",
@@ -7796,7 +6414,7 @@
   },
   {
     "id": "inv_250407404",
-    "customerId": "cust_blue_water_systems",
+    "customerId": "blue_water_systems_pty_ltd",
     "invoiceNumber": "250407404",
     "issueDate": "2025-04-07",
     "dueDate": "2025-04-07",
@@ -7819,7 +6437,7 @@
   },
   {
     "id": "inv_250409101",
-    "customerId": "cust_bkb_limited__cradock",
+    "customerId": "cradock",
     "invoiceNumber": "250409101",
     "issueDate": "2025-04-09",
     "dueDate": "2025-04-09",
@@ -7842,7 +6460,7 @@
   },
   {
     "id": "inv_250409202",
-    "customerId": "cust_obaro__hartswater",
+    "customerId": "hartswater",
     "invoiceNumber": "250409202",
     "issueDate": "2025-04-09",
     "dueDate": "2025-04-09",
@@ -7865,7 +6483,7 @@
   },
   {
     "id": "inv_250409303",
-    "customerId": "cust_riversdale_trading_bali_trading",
+    "customerId": "riversdale_trading_t_a_bali_trading",
     "invoiceNumber": "250409303",
     "issueDate": "2025-04-09",
     "dueDate": "2025-04-09",
@@ -7888,30 +6506,30 @@
   },
   {
     "id": "inv_250410101",
-    "customerId": "cust_kings_meat_deli__lynnwoodbridge",
+    "customerId": "agri_bonus",
     "invoiceNumber": "250410101",
     "issueDate": "2025-04-10",
     "dueDate": "2025-04-10",
-    "status": "Unpaid",
-    "poNumber": "#100401",
+    "status": "Paid",
+    "poNumber": "POA17234",
     "type": "Retail",
     "lineItems": [
       {
-        "productId": "prod_makabrai",
-        "quantity": 5,
-        "unitPrice": 600.0
+        "productId": "prod_snowva",
+        "quantity": 2,
+        "unitPrice": 269.0
       }
     ],
-    "subtotal": 3000.0,
+    "subtotal": 538.0,
     "taxAmount": 0.0,
     "discountAmount": 0.0,
     "shippingAmount": 0.0,
-    "totalAmount": 3000.0,
+    "totalAmount": 538.0,
     "notes": "Retail customer"
   },
   {
     "id": "inv_250410202",
-    "customerId": "cust_taylor_made_water",
+    "customerId": "taylor_made_water",
     "invoiceNumber": "250410202",
     "issueDate": "2025-04-10",
     "dueDate": "2025-04-10",
@@ -7934,7 +6552,7 @@
   },
   {
     "id": "inv_250414101",
-    "customerId": "cust_natal_caravans__marine",
+    "customerId": "natal_caravans_marine",
     "invoiceNumber": "250414101",
     "issueDate": "2025-04-14",
     "dueDate": "2025-04-14",
@@ -7957,7 +6575,7 @@
   },
   {
     "id": "inv_250415101",
-    "customerId": "cust_eastern_cape_caravans__safari_centre",
+    "customerId": "safari_centre",
     "invoiceNumber": "250415101",
     "issueDate": "2025-04-15",
     "dueDate": "2025-04-15",
@@ -7980,7 +6598,7 @@
   },
   {
     "id": "inv_250416101",
-    "customerId": "cust_quenets_hunting__fishing",
+    "customerId": "quenets_hunting_fishing",
     "invoiceNumber": "250416101",
     "issueDate": "2025-04-16",
     "dueDate": "2025-04-16",
@@ -8026,7 +6644,7 @@
   },
   {
     "id": "inv_250423101",
-    "customerId": "cust_red_alert_service_solutions",
+    "customerId": "red_alert_service_solutions",
     "invoiceNumber": "250423101",
     "issueDate": "2025-04-23",
     "dueDate": "2025-04-23",
@@ -8049,7 +6667,7 @@
   },
   {
     "id": "inv_250423202",
-    "customerId": "cust_travalia_padstal_17_on_bird",
+    "customerId": "travalia_padstal_17_on_bird",
     "invoiceNumber": "250423202",
     "issueDate": "2025-04-23",
     "dueDate": "2025-04-23",
@@ -8072,7 +6690,7 @@
   },
   {
     "id": "inv_250425101",
-    "customerId": "cust_walkers_midas_upington_4x4_mega_world",
+    "customerId": "walkers_midas_upington_t_a_4x4_mega_world",
     "invoiceNumber": "250425101",
     "issueDate": "2025-04-25",
     "dueDate": "2025-04-25",
@@ -8095,237 +6713,7 @@
   },
   {
     "id": "inv_250505101",
-    "customerId": "cust_outdoor_warehouse__ballito",
-    "invoiceNumber": "250505101",
-    "issueDate": "2025-05-05",
-    "dueDate": "2025-05-05",
-    "status": "Unpaid",
-    "poNumber": "PO189278",
-    "type": "Retail",
-    "lineItems": [
-      {
-        "productId": "prod_snowva",
-        "quantity": 12,
-        "unitPrice": 206.0
-      }
-    ],
-    "subtotal": 2472.0,
-    "taxAmount": 0.0,
-    "discountAmount": 0.0,
-    "shippingAmount": 0.0,
-    "totalAmount": 2472.0,
-    "notes": "Retail customer"
-  },
-  {
-    "id": "inv_250505202",
-    "customerId": "cust_outdoor_warehouse__cornubia",
-    "invoiceNumber": "250505202",
-    "issueDate": "2025-05-05",
-    "dueDate": "2025-05-05",
-    "status": "Unpaid",
-    "poNumber": "PO189278",
-    "type": "Retail",
-    "lineItems": [
-      {
-        "productId": "prod_snowva",
-        "quantity": 12,
-        "unitPrice": 206.0
-      }
-    ],
-    "subtotal": 2472.0,
-    "taxAmount": 0.0,
-    "discountAmount": 0.0,
-    "shippingAmount": 0.0,
-    "totalAmount": 2472.0,
-    "notes": "Retail customer"
-  },
-  {
-    "id": "inv_250505303",
-    "customerId": "cust_outdoor_warehouse__east_london",
-    "invoiceNumber": "250505303",
-    "issueDate": "2025-05-05",
-    "dueDate": "2025-05-05",
-    "status": "Unpaid",
-    "poNumber": "PO189278",
-    "type": "Retail",
-    "lineItems": [
-      {
-        "productId": "prod_snowva",
-        "quantity": 12,
-        "unitPrice": 206.0
-      }
-    ],
-    "subtotal": 2472.0,
-    "taxAmount": 0.0,
-    "discountAmount": 0.0,
-    "shippingAmount": 0.0,
-    "totalAmount": 2472.0,
-    "notes": "Retail customer"
-  },
-  {
-    "id": "inv_250505404",
-    "customerId": "cust_outdoor_warehouse__fourways",
-    "invoiceNumber": "250505404",
-    "issueDate": "2025-05-05",
-    "dueDate": "2025-05-05",
-    "status": "Unpaid",
-    "poNumber": "PO189278",
-    "type": "Retail",
-    "lineItems": [
-      {
-        "productId": "prod_snowva",
-        "quantity": 12,
-        "unitPrice": 206.0
-      }
-    ],
-    "subtotal": 2472.0,
-    "taxAmount": 0.0,
-    "discountAmount": 0.0,
-    "shippingAmount": 0.0,
-    "totalAmount": 2472.0,
-    "notes": "Retail customer"
-  },
-  {
-    "id": "inv_250505505",
-    "customerId": "cust_outdoor_warehouse__philippi_warehouse",
-    "invoiceNumber": "250505505",
-    "issueDate": "2025-05-05",
-    "dueDate": "2025-05-05",
-    "status": "Unpaid",
-    "poNumber": "PO189278",
-    "type": "Retail",
-    "lineItems": [
-      {
-        "productId": "prod_snowva",
-        "quantity": 24,
-        "unitPrice": 206.0
-      }
-    ],
-    "subtotal": 4944.0,
-    "taxAmount": 0.0,
-    "discountAmount": 0.0,
-    "shippingAmount": 0.0,
-    "totalAmount": 4944.0,
-    "notes": "Retail customer"
-  },
-  {
-    "id": "inv_250505606",
-    "customerId": "cust_outdoor_warehouse__pietermaritzburg",
-    "invoiceNumber": "250505606",
-    "issueDate": "2025-05-05",
-    "dueDate": "2025-05-05",
-    "status": "Unpaid",
-    "poNumber": "PO189278",
-    "type": "Retail",
-    "lineItems": [
-      {
-        "productId": "prod_snowva",
-        "quantity": 12,
-        "unitPrice": 206.0
-      }
-    ],
-    "subtotal": 2472.0,
-    "taxAmount": 0.0,
-    "discountAmount": 0.0,
-    "shippingAmount": 0.0,
-    "totalAmount": 2472.0,
-    "notes": "Retail customer"
-  },
-  {
-    "id": "inv_250505707",
-    "customerId": "cust_outdoor_warehouse__pretoria_east",
-    "invoiceNumber": "250505707",
-    "issueDate": "2025-05-05",
-    "dueDate": "2025-05-05",
-    "status": "Unpaid",
-    "poNumber": "PO189278",
-    "type": "Retail",
-    "lineItems": [
-      {
-        "productId": "prod_snowva",
-        "quantity": 12,
-        "unitPrice": 206.0
-      }
-    ],
-    "subtotal": 2472.0,
-    "taxAmount": 0.0,
-    "discountAmount": 0.0,
-    "shippingAmount": 0.0,
-    "totalAmount": 2472.0,
-    "notes": "Retail customer"
-  },
-  {
-    "id": "inv_250505808",
-    "customerId": "cust_outdoor_warehouse__randburg",
-    "invoiceNumber": "250505808",
-    "issueDate": "2025-05-05",
-    "dueDate": "2025-05-05",
-    "status": "Unpaid",
-    "poNumber": "PO189278",
-    "type": "Retail",
-    "lineItems": [
-      {
-        "productId": "prod_snowva",
-        "quantity": 24,
-        "unitPrice": 206.0
-      }
-    ],
-    "subtotal": 4944.0,
-    "taxAmount": 0.0,
-    "discountAmount": 0.0,
-    "shippingAmount": 0.0,
-    "totalAmount": 4944.0,
-    "notes": "Retail customer"
-  },
-  {
-    "id": "inv_250505909",
-    "customerId": "cust_outdoor_warehouse__strubens_valley",
-    "invoiceNumber": "250505909",
-    "issueDate": "2025-05-05",
-    "dueDate": "2025-05-05",
-    "status": "Unpaid",
-    "poNumber": "PO189278",
-    "type": "Retail",
-    "lineItems": [
-      {
-        "productId": "prod_snowva",
-        "quantity": 12,
-        "unitPrice": 206.0
-      }
-    ],
-    "subtotal": 2472.0,
-    "taxAmount": 0.0,
-    "discountAmount": 0.0,
-    "shippingAmount": 0.0,
-    "totalAmount": 2472.0,
-    "notes": "Retail customer"
-  },
-  {
-    "id": "inv_250410101",
-    "customerId": "cust_agri_bonus",
-    "invoiceNumber": "250410101",
-    "issueDate": "2025-04-10",
-    "dueDate": "2025-04-10",
-    "status": "Paid",
-    "poNumber": "POA17234",
-    "type": "Retail",
-    "lineItems": [
-      {
-        "productId": "prod_snowva",
-        "quantity": 2,
-        "unitPrice": 269.0
-      }
-    ],
-    "subtotal": 538.0,
-    "taxAmount": 0.0,
-    "discountAmount": 0.0,
-    "shippingAmount": 0.0,
-    "totalAmount": 538.0,
-    "notes": "Retail customer"
-  },
-  {
-    "id": "inv_250505101",
-    "customerId": "cust_agri_bonus",
+    "customerId": "agri_bonus",
     "invoiceNumber": "250505101",
     "issueDate": "2025-05-05",
     "dueDate": "2025-05-05",
@@ -8348,7 +6736,7 @@
   },
   {
     "id": "inv_250505202",
-    "customerId": "cust_aa_systems",
+    "customerId": "aa_systems",
     "invoiceNumber": "250505202",
     "issueDate": "2025-05-05",
     "dueDate": "2025-05-05",
@@ -8386,7 +6774,7 @@
   },
   {
     "id": "inv_250505303",
-    "customerId": "cust_tentco__21_bisset_road",
+    "customerId": "21_bisset_road",
     "invoiceNumber": "250505303",
     "issueDate": "2025-05-05",
     "dueDate": "2025-05-05",
@@ -8408,8 +6796,146 @@
     "notes": "Retail customer"
   },
   {
+    "id": "inv_250505404",
+    "customerId": "fourways",
+    "invoiceNumber": "250505404",
+    "issueDate": "2025-05-05",
+    "dueDate": "2025-05-05",
+    "status": "Unpaid",
+    "poNumber": "PO189278",
+    "type": "Retail",
+    "lineItems": [
+      {
+        "productId": "prod_snowva",
+        "quantity": 12,
+        "unitPrice": 206.0
+      }
+    ],
+    "subtotal": 2472.0,
+    "taxAmount": 0.0,
+    "discountAmount": 0.0,
+    "shippingAmount": 0.0,
+    "totalAmount": 2472.0,
+    "notes": "Retail customer"
+  },
+  {
+    "id": "inv_250505505",
+    "customerId": "philippi_warehouse",
+    "invoiceNumber": "250505505",
+    "issueDate": "2025-05-05",
+    "dueDate": "2025-05-05",
+    "status": "Unpaid",
+    "poNumber": "PO189278",
+    "type": "Retail",
+    "lineItems": [
+      {
+        "productId": "prod_snowva",
+        "quantity": 24,
+        "unitPrice": 206.0
+      }
+    ],
+    "subtotal": 4944.0,
+    "taxAmount": 0.0,
+    "discountAmount": 0.0,
+    "shippingAmount": 0.0,
+    "totalAmount": 4944.0,
+    "notes": "Retail customer"
+  },
+  {
+    "id": "inv_250505606",
+    "customerId": "pietermaritzburg",
+    "invoiceNumber": "250505606",
+    "issueDate": "2025-05-05",
+    "dueDate": "2025-05-05",
+    "status": "Unpaid",
+    "poNumber": "PO189278",
+    "type": "Retail",
+    "lineItems": [
+      {
+        "productId": "prod_snowva",
+        "quantity": 12,
+        "unitPrice": 206.0
+      }
+    ],
+    "subtotal": 2472.0,
+    "taxAmount": 0.0,
+    "discountAmount": 0.0,
+    "shippingAmount": 0.0,
+    "totalAmount": 2472.0,
+    "notes": "Retail customer"
+  },
+  {
+    "id": "inv_250505707",
+    "customerId": "pretoria_east",
+    "invoiceNumber": "250505707",
+    "issueDate": "2025-05-05",
+    "dueDate": "2025-05-05",
+    "status": "Unpaid",
+    "poNumber": "PO189278",
+    "type": "Retail",
+    "lineItems": [
+      {
+        "productId": "prod_snowva",
+        "quantity": 12,
+        "unitPrice": 206.0
+      }
+    ],
+    "subtotal": 2472.0,
+    "taxAmount": 0.0,
+    "discountAmount": 0.0,
+    "shippingAmount": 0.0,
+    "totalAmount": 2472.0,
+    "notes": "Retail customer"
+  },
+  {
+    "id": "inv_250505808",
+    "customerId": "randburg",
+    "invoiceNumber": "250505808",
+    "issueDate": "2025-05-05",
+    "dueDate": "2025-05-05",
+    "status": "Unpaid",
+    "poNumber": "PO189278",
+    "type": "Retail",
+    "lineItems": [
+      {
+        "productId": "prod_snowva",
+        "quantity": 24,
+        "unitPrice": 206.0
+      }
+    ],
+    "subtotal": 4944.0,
+    "taxAmount": 0.0,
+    "discountAmount": 0.0,
+    "shippingAmount": 0.0,
+    "totalAmount": 4944.0,
+    "notes": "Retail customer"
+  },
+  {
+    "id": "inv_250505909",
+    "customerId": "strubens_valley",
+    "invoiceNumber": "250505909",
+    "issueDate": "2025-05-05",
+    "dueDate": "2025-05-05",
+    "status": "Unpaid",
+    "poNumber": "PO189278",
+    "type": "Retail",
+    "lineItems": [
+      {
+        "productId": "prod_snowva",
+        "quantity": 12,
+        "unitPrice": 206.0
+      }
+    ],
+    "subtotal": 2472.0,
+    "taxAmount": 0.0,
+    "discountAmount": 0.0,
+    "shippingAmount": 0.0,
+    "totalAmount": 2472.0,
+    "notes": "Retail customer"
+  },
+  {
     "id": "inv_250509101",
-    "customerId": "cust_obaro__hartbeespoort",
+    "customerId": "hartbeespoort",
     "invoiceNumber": "250509101",
     "issueDate": "2025-05-09",
     "dueDate": "2025-05-09",
@@ -8432,7 +6958,7 @@
   },
   {
     "id": "inv_250513101",
-    "customerId": "cust_kamdebo_padstal",
+    "customerId": "kamdebo_padstal",
     "invoiceNumber": "250513101",
     "issueDate": "2025-05-13",
     "dueDate": "2025-05-13",
@@ -8455,7 +6981,7 @@
   },
   {
     "id": "inv_250520101",
-    "customerId": "cust_bigfoot_outdoor_gear",
+    "customerId": "bigfoot_outdoor_gear",
     "invoiceNumber": "250520101",
     "issueDate": "2025-05-20",
     "dueDate": "2025-05-20",
@@ -8478,7 +7004,7 @@
   },
   {
     "id": "inv_250521101",
-    "customerId": "cust_soles_for_africa_cc__boet__betty",
+    "customerId": "soles_for_africa_cc",
     "invoiceNumber": "250521101",
     "issueDate": "2025-05-21",
     "dueDate": "2025-05-21",
@@ -8501,7 +7027,7 @@
   },
   {
     "id": "inv_250526101",
-    "customerId": "cust_newco_traders_online",
+    "customerId": "newco_traders_online",
     "invoiceNumber": "250526101",
     "issueDate": "2025-05-26",
     "dueDate": "2025-05-26",
@@ -8529,7 +7055,7 @@
   },
   {
     "id": "inv_250526202",
-    "customerId": "cust_newco_traders_online",
+    "customerId": "newco_traders_online",
     "invoiceNumber": "250526202",
     "issueDate": "2025-05-26",
     "dueDate": "2025-05-26",
@@ -8552,7 +7078,7 @@
   },
   {
     "id": "inv_250527101",
-    "customerId": "cust_safari_centre",
+    "customerId": "safari_centre",
     "invoiceNumber": "250527101",
     "issueDate": "2025-05-27",
     "dueDate": "2025-05-27",
@@ -8575,7 +7101,7 @@
   },
   {
     "id": "inv_250529101",
-    "customerId": "cust_zululand_oasis",
+    "customerId": "zululand_oasis",
     "invoiceNumber": "250529101",
     "issueDate": "2025-05-29",
     "dueDate": "2025-05-29",
@@ -8598,7 +7124,7 @@
   },
   {
     "id": "inv_250529202",
-    "customerId": "cust_newco_traders_online",
+    "customerId": "newco_traders_online",
     "invoiceNumber": "250529202",
     "issueDate": "2025-05-29",
     "dueDate": "2025-05-29",
@@ -8621,7 +7147,7 @@
   },
   {
     "id": "inv_250529303",
-    "customerId": "cust_aa_systems",
+    "customerId": "aa_systems",
     "invoiceNumber": "250529303",
     "issueDate": "2025-05-29",
     "dueDate": "2025-05-29",
@@ -8667,7 +7193,7 @@
   },
   {
     "id": "inv_250602101",
-    "customerId": "cust_newco_traders_online",
+    "customerId": "newco_traders_online",
     "invoiceNumber": "250602101",
     "issueDate": "2025-06-02",
     "dueDate": "2025-06-02",
@@ -8690,7 +7216,7 @@
   },
   {
     "id": "inv_250602202",
-    "customerId": "cust_naomi_bouwer",
+    "customerId": "agri_bonus",
     "invoiceNumber": "250602202",
     "issueDate": "2025-06-02",
     "dueDate": "2025-06-02",
@@ -8713,7 +7239,7 @@
   },
   {
     "id": "inv_250602303",
-    "customerId": "cust_kings_meat_deli__castle_walk",
+    "customerId": "castle_walk",
     "invoiceNumber": "250602303",
     "issueDate": "2025-06-02",
     "dueDate": "2025-06-02",
@@ -8741,7 +7267,7 @@
   },
   {
     "id": "inv_250602404",
-    "customerId": "cust_outdoor_warehouse__alberton",
+    "customerId": "alberton",
     "invoiceNumber": "250602404",
     "issueDate": "2025-06-02",
     "dueDate": "2025-06-02",
@@ -8764,7 +7290,7 @@
   },
   {
     "id": "inv_250602505",
-    "customerId": "cust_outdoor_warehouse__centurion",
+    "customerId": "centurion",
     "invoiceNumber": "250602505",
     "issueDate": "2025-06-02",
     "dueDate": "2025-06-02",
@@ -8787,7 +7313,7 @@
   },
   {
     "id": "inv_250602606",
-    "customerId": "cust_outdoor_warehouse__george",
+    "customerId": "george",
     "invoiceNumber": "250602606",
     "issueDate": "2025-06-02",
     "dueDate": "2025-06-02",
@@ -8810,7 +7336,7 @@
   },
   {
     "id": "inv_250602707",
-    "customerId": "cust_outdoor_warehouse__hillcrest",
+    "customerId": "hillcrest",
     "invoiceNumber": "250602707",
     "issueDate": "2025-06-02",
     "dueDate": "2025-06-02",
@@ -8833,7 +7359,7 @@
   },
   {
     "id": "inv_250602808",
-    "customerId": "cust_outdoor_warehouse__modderfontein",
+    "customerId": "modderfontein",
     "invoiceNumber": "250602808",
     "issueDate": "2025-06-02",
     "dueDate": "2025-06-02",
@@ -8856,7 +7382,7 @@
   },
   {
     "id": "inv_250602909",
-    "customerId": "cust_outdoor_warehouse__philippi_warehouse",
+    "customerId": "philippi_warehouse",
     "invoiceNumber": "250602909",
     "issueDate": "2025-06-02",
     "dueDate": "2025-06-02",
@@ -8879,7 +7405,7 @@
   },
   {
     "id": "inv_2506021010",
-    "customerId": "cust_outdoor_warehouse__pietermaritzburg",
+    "customerId": "pietermaritzburg",
     "invoiceNumber": "2506021010",
     "issueDate": "2025-06-02",
     "dueDate": "2025-06-02",
@@ -8902,7 +7428,7 @@
   },
   {
     "id": "inv_2506021111",
-    "customerId": "cust_outdoor_warehouse__port_elizabeth",
+    "customerId": "port_elizabeth",
     "invoiceNumber": "2506021111",
     "issueDate": "2025-06-02",
     "dueDate": "2025-06-02",
@@ -8925,7 +7451,7 @@
   },
   {
     "id": "inv_2506021212",
-    "customerId": "cust_outdoor_warehouse__rondebosch",
+    "customerId": "rondebosch",
     "invoiceNumber": "2506021212",
     "issueDate": "2025-06-02",
     "dueDate": "2025-06-02",
@@ -8948,7 +7474,7 @@
   },
   {
     "id": "inv_2506021313",
-    "customerId": "cust_outdoor_warehouse__rustenburg",
+    "customerId": "rustenburg",
     "invoiceNumber": "2506021313",
     "issueDate": "2025-06-02",
     "dueDate": "2025-06-02",
@@ -8971,7 +7497,7 @@
   },
   {
     "id": "inv_2506021414",
-    "customerId": "cust_outdoor_warehouse__tokai",
+    "customerId": "tokai",
     "invoiceNumber": "2506021414",
     "issueDate": "2025-06-02",
     "dueDate": "2025-06-02",
@@ -8994,7 +7520,7 @@
   },
   {
     "id": "inv_2506021515",
-    "customerId": "cust_outdoor_warehouse__vredenburg",
+    "customerId": "vredenburg",
     "invoiceNumber": "2506021515",
     "issueDate": "2025-06-02",
     "dueDate": "2025-06-02",
@@ -9017,7 +7543,7 @@
   },
   {
     "id": "inv_2506021616",
-    "customerId": "cust_outdoor_warehouse__worcester",
+    "customerId": "worcester",
     "invoiceNumber": "2506021616",
     "issueDate": "2025-06-02",
     "dueDate": "2025-06-02",
@@ -9040,7 +7566,7 @@
   },
   {
     "id": "inv_250603101",
-    "customerId": "cust_pet_pool_and_home__paarl",
+    "customerId": "paarl",
     "invoiceNumber": "250603101",
     "issueDate": "2025-06-03",
     "dueDate": "2025-06-03",
@@ -9063,7 +7589,7 @@
   },
   {
     "id": "inv_250603202",
-    "customerId": "cust_kampi_technologies",
+    "customerId": "kampi_technologies",
     "invoiceNumber": "250603202",
     "issueDate": "2025-06-03",
     "dueDate": "2025-06-03",
@@ -9086,99 +7612,7 @@
   },
   {
     "id": "inv_250605101",
-    "customerId": "cust_marna_rix",
-    "invoiceNumber": "250605101",
-    "issueDate": "2025-06-05",
-    "dueDate": "2025-06-05",
-    "status": "Unpaid",
-    "poNumber": "#050601",
-    "type": "Consumer",
-    "lineItems": [
-      {
-        "productId": "prod_braai_tas",
-        "quantity": 1,
-        "unitPrice": 1200.0
-      }
-    ],
-    "subtotal": 1200.0,
-    "taxAmount": 0.0,
-    "discountAmount": 0.0,
-    "shippingAmount": 0.0,
-    "totalAmount": 1200.0,
-    "notes": "Consumer customer - Consumer: Marna Rix"
-  },
-  {
-    "id": "inv_250605202",
-    "customerId": "cust_gwk_beperk__kimberley",
-    "invoiceNumber": "250605202",
-    "issueDate": "2025-06-05",
-    "dueDate": "2025-06-05",
-    "status": "Unpaid",
-    "poNumber": "2821268",
-    "type": "Retail",
-    "lineItems": [
-      {
-        "productId": "prod_snowva",
-        "quantity": 20,
-        "unitPrice": 235.0
-      }
-    ],
-    "subtotal": 4700.0,
-    "taxAmount": 0.0,
-    "discountAmount": 0.0,
-    "shippingAmount": 0.0,
-    "totalAmount": 4700.0,
-    "notes": "Retail customer"
-  },
-  {
-    "id": "inv_250605303",
-    "customerId": "cust_agri_bonus",
-    "invoiceNumber": "250605303",
-    "issueDate": "2025-06-05",
-    "dueDate": "2025-06-05",
-    "status": "Unpaid",
-    "poNumber": "POA17314",
-    "type": "Retail",
-    "lineItems": [
-      {
-        "productId": "prod_snowva",
-        "quantity": 2,
-        "unitPrice": 269.0
-      }
-    ],
-    "subtotal": 538.0,
-    "taxAmount": 0.0,
-    "discountAmount": 0.0,
-    "shippingAmount": 0.0,
-    "totalAmount": 538.0,
-    "notes": "Retail customer"
-  },
-  {
-    "id": "inv_250304101",
-    "customerId": "cust_agri_bonus",
-    "invoiceNumber": "250304101",
-    "issueDate": "2025-03-04",
-    "dueDate": "2025-03-04",
-    "status": "Unpaid",
-    "poNumber": "POA17164",
-    "type": "Retail",
-    "lineItems": [
-      {
-        "productId": "prod_snowva",
-        "quantity": 2,
-        "unitPrice": 269.0
-      }
-    ],
-    "subtotal": 538.0,
-    "taxAmount": 0.0,
-    "discountAmount": 0.0,
-    "shippingAmount": 0.0,
-    "totalAmount": 538.0,
-    "notes": "Retail customer"
-  },
-  {
-    "id": "inv_250605101",
-    "customerId": "cust_jtc_enterprises_cc",
+    "customerId": "jtc_enterprises_cc",
     "invoiceNumber": "250605101",
     "issueDate": "2025-06-05",
     "dueDate": "2025-06-05",
@@ -9201,7 +7635,7 @@
   },
   {
     "id": "inv_250605202",
-    "customerId": "cust_aa_business_services",
+    "customerId": "a_a_business_services_pty_ltd",
     "invoiceNumber": "250605202",
     "issueDate": "2025-06-05",
     "dueDate": "2025-06-05",
@@ -9228,141 +7662,26 @@
     "notes": "Retail customer"
   },
   {
-    "id": "inv_250606101",
-    "customerId": "cust_newco_traders_online",
-    "invoiceNumber": "250606101",
-    "issueDate": "2025-06-06",
-    "dueDate": "2025-06-06",
-    "status": "Paid",
-    "poNumber": "PO3161",
-    "type": "Retail",
-    "lineItems": [
-      {
-        "productId": "prod_makabrai",
-        "quantity": 10,
-        "unitPrice": 600.0
-      }
-    ],
-    "subtotal": 6000.0,
-    "taxAmount": 0.0,
-    "discountAmount": 0.0,
-    "shippingAmount": 0.0,
-    "totalAmount": 6000.0,
-    "notes": "Retail customer"
-  },
-  {
-    "id": "inv_250606202",
-    "customerId": "cust_caltex_manor",
-    "invoiceNumber": "250606202",
-    "issueDate": "2025-06-06",
-    "dueDate": "2025-06-06",
+    "id": "inv_250605303",
+    "customerId": "agri_bonus",
+    "invoiceNumber": "250605303",
+    "issueDate": "2025-06-05",
+    "dueDate": "2025-06-05",
     "status": "Unpaid",
-    "poNumber": "#060601",
+    "poNumber": "POA17314",
     "type": "Retail",
     "lineItems": [
       {
         "productId": "prod_snowva",
-        "quantity": 5,
-        "unitPrice": 216.0
+        "quantity": 2,
+        "unitPrice": 269.0
       }
     ],
-    "subtotal": 1080.0,
+    "subtotal": 538.0,
     "taxAmount": 0.0,
     "discountAmount": 0.0,
     "shippingAmount": 0.0,
-    "totalAmount": 1080.0,
-    "notes": "Retail customer"
-  },
-  {
-    "id": "inv_250606404",
-    "customerId": "cust_nyama_catering",
-    "invoiceNumber": "250606404",
-    "issueDate": "2025-06-06",
-    "dueDate": "2025-06-06",
-    "status": "Unpaid",
-    "poNumber": "#060602",
-    "type": "Retail",
-    "lineItems": [
-      {
-        "productId": "prod_snowva",
-        "quantity": 10,
-        "unitPrice": 216.0
-      }
-    ],
-    "subtotal": 2160.0,
-    "taxAmount": 0.0,
-    "discountAmount": 0.0,
-    "shippingAmount": 0.0,
-    "totalAmount": 2160.0,
-    "notes": "Retail customer"
-  },
-  {
-    "id": "inv_250606505",
-    "customerId": "cust_gammatauworm",
-    "invoiceNumber": "250606505",
-    "issueDate": "2025-06-06",
-    "dueDate": "2025-06-06",
-    "status": "Unpaid",
-    "poNumber": "#060603",
-    "type": "Retail",
-    "lineItems": [
-      {
-        "productId": "prod_snowva",
-        "quantity": 15,
-        "unitPrice": 235.0
-      }
-    ],
-    "subtotal": 3525.0,
-    "taxAmount": 0.0,
-    "discountAmount": 0.0,
-    "shippingAmount": 0.0,
-    "totalAmount": 3525.0,
-    "notes": "Retail customer"
-  },
-  {
-    "id": "inv_250609101",
-    "customerId": "cust_du_plessis_annelize",
-    "invoiceNumber": "250609101",
-    "issueDate": "2025-06-09",
-    "dueDate": "2025-06-09",
-    "status": "Paid",
-    "poNumber": "#090601",
-    "type": "Consumer",
-    "lineItems": [
-      {
-        "productId": "prod_braai_tas",
-        "quantity": 1,
-        "unitPrice": 1200.0
-      }
-    ],
-    "subtotal": 1200.0,
-    "taxAmount": 0.0,
-    "discountAmount": 0.0,
-    "shippingAmount": 120.0,
-    "totalAmount": 1320.0,
-    "notes": "Consumer customer - Consumer: Du Plessis Annelize"
-  },
-  {
-    "id": "inv_250609202",
-    "customerId": "cust_kampi_technologies",
-    "invoiceNumber": "250609202",
-    "issueDate": "2025-06-09",
-    "dueDate": "2025-06-09",
-    "status": "Paid",
-    "poNumber": "#090602",
-    "type": "Retail",
-    "lineItems": [
-      {
-        "productId": "prod_makabrai",
-        "quantity": 1,
-        "unitPrice": 600.0
-      }
-    ],
-    "subtotal": 600.0,
-    "taxAmount": 0.0,
-    "discountAmount": 0.0,
-    "shippingAmount": 0.0,
-    "totalAmount": 600.0,
+    "totalAmount": 538.0,
     "notes": "Retail customer"
   },
   {
@@ -9389,8 +7708,77 @@
     "notes": "Consumer customer - Consumer: Johannes Marlizan"
   },
   {
+    "id": "inv_250606202",
+    "customerId": "caltex_manor",
+    "invoiceNumber": "250606202",
+    "issueDate": "2025-06-06",
+    "dueDate": "2025-06-06",
+    "status": "Unpaid",
+    "poNumber": "#060601",
+    "type": "Retail",
+    "lineItems": [
+      {
+        "productId": "prod_snowva",
+        "quantity": 5,
+        "unitPrice": 216.0
+      }
+    ],
+    "subtotal": 1080.0,
+    "taxAmount": 0.0,
+    "discountAmount": 0.0,
+    "shippingAmount": 0.0,
+    "totalAmount": 1080.0,
+    "notes": "Retail customer"
+  },
+  {
+    "id": "inv_250606404",
+    "customerId": "nyama_catering",
+    "invoiceNumber": "250606404",
+    "issueDate": "2025-06-06",
+    "dueDate": "2025-06-06",
+    "status": "Unpaid",
+    "poNumber": "#060602",
+    "type": "Retail",
+    "lineItems": [
+      {
+        "productId": "prod_snowva",
+        "quantity": 10,
+        "unitPrice": 216.0
+      }
+    ],
+    "subtotal": 2160.0,
+    "taxAmount": 0.0,
+    "discountAmount": 0.0,
+    "shippingAmount": 0.0,
+    "totalAmount": 2160.0,
+    "notes": "Retail customer"
+  },
+  {
+    "id": "inv_250606505",
+    "customerId": "gammatauworm_pty_ltd",
+    "invoiceNumber": "250606505",
+    "issueDate": "2025-06-06",
+    "dueDate": "2025-06-06",
+    "status": "Unpaid",
+    "poNumber": "#060603",
+    "type": "Retail",
+    "lineItems": [
+      {
+        "productId": "prod_snowva",
+        "quantity": 15,
+        "unitPrice": 235.0
+      }
+    ],
+    "subtotal": 3525.0,
+    "taxAmount": 0.0,
+    "discountAmount": 0.0,
+    "shippingAmount": 0.0,
+    "totalAmount": 3525.0,
+    "notes": "Retail customer"
+  },
+  {
     "id": "inv_250609101",
-    "customerId": "cust_newco_traders_online",
+    "customerId": "newco_traders_online",
     "invoiceNumber": "250609101",
     "issueDate": "2025-06-09",
     "dueDate": "2025-06-09",
@@ -9412,8 +7800,31 @@
     "notes": "Retail customer"
   },
   {
+    "id": "inv_250609202",
+    "customerId": "kampi_technologies",
+    "invoiceNumber": "250609202",
+    "issueDate": "2025-06-09",
+    "dueDate": "2025-06-09",
+    "status": "Paid",
+    "poNumber": "#090602",
+    "type": "Retail",
+    "lineItems": [
+      {
+        "productId": "prod_makabrai",
+        "quantity": 1,
+        "unitPrice": 600.0
+      }
+    ],
+    "subtotal": 600.0,
+    "taxAmount": 0.0,
+    "discountAmount": 0.0,
+    "shippingAmount": 0.0,
+    "totalAmount": 600.0,
+    "notes": "Retail customer"
+  },
+  {
     "id": "inv_250612101",
-    "customerId": "cust_roast_logistics_sa",
+    "customerId": "roast_logistics_sa_pty_ltd",
     "invoiceNumber": "250612101",
     "issueDate": "2025-06-12",
     "dueDate": "2025-06-12",
@@ -9436,7 +7847,7 @@
   },
   {
     "id": "inv_250619101",
-    "customerId": "cust_tzaneen_4x4",
+    "customerId": "tzaneen_4x4",
     "invoiceNumber": "250619101",
     "issueDate": "2025-06-19",
     "dueDate": "2025-06-19",
@@ -9459,7 +7870,7 @@
   },
   {
     "id": "inv_250620101",
-    "customerId": "cust_noags_market",
+    "customerId": "noags_market_pty_ltd",
     "invoiceNumber": "250620101",
     "issueDate": "2025-06-20",
     "dueDate": "2025-06-20",
@@ -9538,7 +7949,7 @@
   },
   {
     "id": "inv_250624303",
-    "customerId": "cust_pro_plants_kimberley",
+    "customerId": "pro_plants_kimberley",
     "invoiceNumber": "250624303",
     "issueDate": "2025-06-24",
     "dueDate": "2025-06-24",
@@ -9584,7 +7995,7 @@
   },
   {
     "id": "inv_250626101",
-    "customerId": "cust_kimberley_wildman_hunting__outdoor",
+    "customerId": "kimberley",
     "invoiceNumber": "250626101",
     "issueDate": "2025-06-26",
     "dueDate": "2025-06-26",
@@ -9607,7 +8018,7 @@
   },
   {
     "id": "inv_250626202",
-    "customerId": "cust_camp_and_climb_cc__head_office",
+    "customerId": "head_office",
     "invoiceNumber": "250626202",
     "issueDate": "2025-06-26",
     "dueDate": "2025-06-26",
@@ -9630,7 +8041,7 @@
   },
   {
     "id": "inv_250626303",
-    "customerId": "cust_4x4_unlimited",
+    "customerId": "4x4_unlimited_pty_ltd",
     "invoiceNumber": "250626303",
     "issueDate": "2025-06-26",
     "dueDate": "2025-06-26",
@@ -9699,7 +8110,7 @@
   },
   {
     "id": "inv_250630202",
-    "customerId": "cust_estelle_menzies",
+    "customerId": "stellenbosch",
     "invoiceNumber": "250630202",
     "issueDate": "2025-06-30",
     "dueDate": "2025-06-30",
@@ -9796,7 +8207,7 @@
   },
   {
     "id": "inv_250707202",
-    "customerId": "cust_conqueror_northgate",
+    "customerId": "conqueror_northgate",
     "invoiceNumber": "250707202",
     "issueDate": "2025-07-07",
     "dueDate": "2025-07-07",
@@ -9819,7 +8230,7 @@
   },
   {
     "id": "inv_250708101",
-    "customerId": "cust_kings_meat_deli__castle_walk",
+    "customerId": "castle_walk",
     "invoiceNumber": "250708101",
     "issueDate": "2025-07-08",
     "dueDate": "2025-07-08",
@@ -9852,7 +8263,7 @@
   },
   {
     "id": "inv_250709101",
-    "customerId": "cust_caltex_manor",
+    "customerId": "caltex_manor",
     "invoiceNumber": "250709101",
     "issueDate": "2025-07-09",
     "dueDate": "2025-07-09",
@@ -9875,7 +8286,7 @@
   },
   {
     "id": "inv_250714101",
-    "customerId": "cust_newco_traders_online",
+    "customerId": "newco_traders_online",
     "invoiceNumber": "250714101",
     "issueDate": "2025-07-14",
     "dueDate": "2025-07-14",
@@ -9903,7 +8314,7 @@
   },
   {
     "id": "inv_250710101",
-    "customerId": "cust_kimberley_wildman_hunting__outdoor",
+    "customerId": "kimberley",
     "invoiceNumber": "250710101",
     "issueDate": "2025-07-10",
     "dueDate": "2025-07-10",
@@ -9941,7 +8352,7 @@
   },
   {
     "id": "inv_250710202",
-    "customerId": "cust_montspa",
+    "customerId": "montspa",
     "invoiceNumber": "250710202",
     "issueDate": "2025-07-10",
     "dueDate": "2025-07-10",
@@ -9964,7 +8375,7 @@
   },
   {
     "id": "inv_250715101",
-    "customerId": "cust_kings_meat_deli__castle_walk",
+    "customerId": "castle_walk",
     "invoiceNumber": "250715101",
     "issueDate": "2025-07-15",
     "dueDate": "2025-07-15",
@@ -9992,7 +8403,7 @@
   },
   {
     "id": "inv_250716101",
-    "customerId": "cust_garden_bleu_home",
+    "customerId": "garden_bleu_home",
     "invoiceNumber": "250716101",
     "issueDate": "2025-07-16",
     "dueDate": "2025-07-16",
@@ -10015,7 +8426,7 @@
   },
   {
     "id": "inv_250717101",
-    "customerId": "cust_kings_meat_deli__lynnwoodbridge",
+    "customerId": "lynnwoodbridge",
     "invoiceNumber": "250717101",
     "issueDate": "2025-07-17",
     "dueDate": "2025-07-17",
@@ -10053,7 +8464,7 @@
   },
   {
     "id": "inv_250718101",
-    "customerId": "cust_camp_and_climb_centurion",
+    "customerId": "camp_and_climb_centurion",
     "invoiceNumber": "250718101",
     "issueDate": "2025-07-18",
     "dueDate": "2025-07-18",
@@ -10076,7 +8487,7 @@
   },
   {
     "id": "inv_250721101",
-    "customerId": "cust_bkb_limited__cradock",
+    "customerId": "cradock",
     "invoiceNumber": "250721101",
     "issueDate": "2025-07-21",
     "dueDate": "2025-07-21",
@@ -10099,7 +8510,7 @@
   },
   {
     "id": "inv_250729101",
-    "customerId": "cust_aloe_deli",
+    "customerId": "aloe_deli",
     "invoiceNumber": "250729101",
     "issueDate": "2025-07-29",
     "dueDate": "2025-07-29",
@@ -10122,7 +8533,7 @@
   },
   {
     "id": "inv_250729202",
-    "customerId": "cust_garden_bleu_home",
+    "customerId": "garden_bleu_home",
     "invoiceNumber": "250729202",
     "issueDate": "2025-07-29",
     "dueDate": "2025-07-29",
@@ -10145,7 +8556,7 @@
   },
   {
     "id": "inv_250801101",
-    "customerId": "cust_kampi_technologies",
+    "customerId": "kampi_technologies",
     "invoiceNumber": "250801101",
     "issueDate": "2025-08-01",
     "dueDate": "2025-08-01",
@@ -10168,7 +8579,7 @@
   },
   {
     "id": "inv_250801202",
-    "customerId": "cust_pet_pool_and_home__sedgefield",
+    "customerId": "sedgefield",
     "invoiceNumber": "250801202",
     "issueDate": "2025-08-01",
     "dueDate": "2025-08-01",
@@ -10191,7 +8602,7 @@
   },
   {
     "id": "inv_250801303",
-    "customerId": "cust_pet_pool_and_home__jeffreysbay",
+    "customerId": "jeffreysbay",
     "invoiceNumber": "250801303",
     "issueDate": "2025-08-01",
     "dueDate": "2025-08-01",
@@ -10214,7 +8625,7 @@
   },
   {
     "id": "inv_250801404",
-    "customerId": "cust_pet_pool_and_home__hermanus",
+    "customerId": "hermanus",
     "invoiceNumber": "250801404",
     "issueDate": "2025-08-01",
     "dueDate": "2025-08-01",
@@ -10237,7 +8648,7 @@
   },
   {
     "id": "inv_250801505",
-    "customerId": "cust_pet_pool_and_home__witbank",
+    "customerId": "witbank",
     "invoiceNumber": "250801505",
     "issueDate": "2025-08-01",
     "dueDate": "2025-08-01",
@@ -10260,7 +8671,7 @@
   },
   {
     "id": "inv_250801606",
-    "customerId": "cust_pet_pool_and_home__knysna",
+    "customerId": "knysna",
     "invoiceNumber": "250801606",
     "issueDate": "2025-08-01",
     "dueDate": "2025-08-01",
@@ -10283,7 +8694,7 @@
   },
   {
     "id": "inv_250801707",
-    "customerId": "cust_pet_pool_and_home__malmesbury",
+    "customerId": "malmesbury",
     "invoiceNumber": "250801707",
     "issueDate": "2025-08-01",
     "dueDate": "2025-08-01",
@@ -10306,7 +8717,7 @@
   },
   {
     "id": "inv_250801808",
-    "customerId": "cust_pet_pool_and_home__george",
+    "customerId": "george",
     "invoiceNumber": "250801808",
     "issueDate": "2025-08-01",
     "dueDate": "2025-08-01",
@@ -10329,7 +8740,7 @@
   },
   {
     "id": "inv_250801909",
-    "customerId": "cust_impala_vleis",
+    "customerId": "impala_vleis_pty_ltd",
     "invoiceNumber": "250801909",
     "issueDate": "2025-08-01",
     "dueDate": "2025-08-01",
@@ -10352,7 +8763,7 @@
   },
   {
     "id": "inv_250804101",
-    "customerId": "cust_soles_for_africa_cc__boet__betty",
+    "customerId": "soles_for_africa_cc",
     "invoiceNumber": "250804101",
     "issueDate": "2025-08-04",
     "dueDate": "2025-08-04",
@@ -10375,7 +8786,7 @@
   },
   {
     "id": "inv_250803101",
-    "customerId": "cust_outdoor_warehouse__bellville",
+    "customerId": "bellville",
     "invoiceNumber": "250803101",
     "issueDate": "2025-08-03",
     "dueDate": "2025-08-03",
@@ -10398,7 +8809,7 @@
   },
   {
     "id": "inv_250803202",
-    "customerId": "cust_outdoor_warehouse__bloem",
+    "customerId": "bloem",
     "invoiceNumber": "250803202",
     "issueDate": "2025-08-03",
     "dueDate": "2025-08-03",
@@ -10421,7 +8832,7 @@
   },
   {
     "id": "inv_250803303",
-    "customerId": "cust_outdoor_warehouse__centurion",
+    "customerId": "centurion",
     "invoiceNumber": "250803303",
     "issueDate": "2025-08-03",
     "dueDate": "2025-08-03",
@@ -10444,7 +8855,7 @@
   },
   {
     "id": "inv_250803404",
-    "customerId": "cust_outdoor_warehouse__east_london",
+    "customerId": "east_london",
     "invoiceNumber": "250803404",
     "issueDate": "2025-08-03",
     "dueDate": "2025-08-03",
@@ -10467,7 +8878,7 @@
   },
   {
     "id": "inv_250803505",
-    "customerId": "cust_outdoor_warehouse__fourways",
+    "customerId": "fourways",
     "invoiceNumber": "250803505",
     "issueDate": "2025-08-03",
     "dueDate": "2025-08-03",
@@ -10490,7 +8901,7 @@
   },
   {
     "id": "inv_250803606",
-    "customerId": "cust_outdoor_warehouse__george",
+    "customerId": "george",
     "invoiceNumber": "250803606",
     "issueDate": "2025-08-03",
     "dueDate": "2025-08-03",
@@ -10513,7 +8924,7 @@
   },
   {
     "id": "inv_250803707",
-    "customerId": "cust_outdoor_warehouse__hillcrest",
+    "customerId": "hillcrest",
     "invoiceNumber": "250803707",
     "issueDate": "2025-08-03",
     "dueDate": "2025-08-03",
@@ -10536,7 +8947,7 @@
   },
   {
     "id": "inv_250803808",
-    "customerId": "cust_outdoor_warehouse__hillcrest",
+    "customerId": "hillcrest",
     "invoiceNumber": "250803808",
     "issueDate": "2025-08-03",
     "dueDate": "2025-08-03",
@@ -10559,7 +8970,7 @@
   },
   {
     "id": "inv_250803909",
-    "customerId": "cust_outdoor_warehouse__nelspruit",
+    "customerId": "nelspruit",
     "invoiceNumber": "250803909",
     "issueDate": "2025-08-03",
     "dueDate": "2025-08-03",
@@ -10582,7 +8993,7 @@
   },
   {
     "id": "inv_2508031010",
-    "customerId": "cust_outdoor_warehouse__nelspruit",
+    "customerId": "nelspruit",
     "invoiceNumber": "2508031010",
     "issueDate": "2025-08-03",
     "dueDate": "2025-08-03",
@@ -10605,7 +9016,7 @@
   },
   {
     "id": "inv_2508031111",
-    "customerId": "cust_outdoor_warehouse__port_elizabeth",
+    "customerId": "port_elizabeth",
     "invoiceNumber": "2508031111",
     "issueDate": "2025-08-03",
     "dueDate": "2025-08-03",
@@ -10628,7 +9039,7 @@
   },
   {
     "id": "inv_2508031212",
-    "customerId": "cust_outdoor_warehouse__pretoria_east",
+    "customerId": "pretoria_east",
     "invoiceNumber": "2508031212",
     "issueDate": "2025-08-03",
     "dueDate": "2025-08-03",
@@ -10651,7 +9062,7 @@
   },
   {
     "id": "inv_2508031313",
-    "customerId": "cust_outdoor_warehouse__randburg",
+    "customerId": "randburg",
     "invoiceNumber": "2508031313",
     "issueDate": "2025-08-03",
     "dueDate": "2025-08-03",
@@ -10674,7 +9085,7 @@
   },
   {
     "id": "inv_2508031414",
-    "customerId": "cust_outdoor_warehouse__rondebosch",
+    "customerId": "rondebosch",
     "invoiceNumber": "2508031414",
     "issueDate": "2025-08-03",
     "dueDate": "2025-08-03",
@@ -10697,7 +9108,7 @@
   },
   {
     "id": "inv_2508031515",
-    "customerId": "cust_outdoor_warehouse__somerset_west",
+    "customerId": "somerset_west",
     "invoiceNumber": "2508031515",
     "issueDate": "2025-08-03",
     "dueDate": "2025-08-03",
@@ -10720,7 +9131,7 @@
   },
   {
     "id": "inv_2508031616",
-    "customerId": "cust_outdoor_warehouse__strubens_valley",
+    "customerId": "strubens_valley",
     "invoiceNumber": "2508031616",
     "issueDate": "2025-08-03",
     "dueDate": "2025-08-03",
@@ -10743,7 +9154,7 @@
   },
   {
     "id": "inv_2508031717",
-    "customerId": "cust_outdoor_warehouse__woodmead",
+    "customerId": "woodmead",
     "invoiceNumber": "2508031717",
     "issueDate": "2025-08-03",
     "dueDate": "2025-08-03",
@@ -10766,7 +9177,7 @@
   },
   {
     "id": "inv_2508031818",
-    "customerId": "cust_outdoor_warehouse__zambezi_drive",
+    "customerId": "zambezi_drive",
     "invoiceNumber": "2508031818",
     "issueDate": "2025-08-03",
     "dueDate": "2025-08-03",
@@ -10789,7 +9200,7 @@
   },
   {
     "id": "inv_250806101",
-    "customerId": "cust_binuns_menlyn_cc",
+    "customerId": "binuns_menlyn_cc",
     "invoiceNumber": "250806101",
     "issueDate": "2025-08-06",
     "dueDate": "2025-08-06",
@@ -10812,7 +9223,7 @@
   },
   {
     "id": "inv_250811101",
-    "customerId": "cust_newco_traders_online",
+    "customerId": "newco_traders_online",
     "invoiceNumber": "250811101",
     "issueDate": "2025-08-11",
     "dueDate": "2025-08-11",
@@ -10840,7 +9251,7 @@
   },
   {
     "id": "inv_250814101",
-    "customerId": "cust_roast_logistics_sa",
+    "customerId": "roast_logistics_sa_pty_ltd",
     "invoiceNumber": "250814101",
     "issueDate": "2025-08-14",
     "dueDate": "2025-08-14",
@@ -10863,7 +9274,7 @@
   },
   {
     "id": "inv_250814202",
-    "customerId": "cust_sentraal_suid_kooperasie__mosselbaai",
+    "customerId": "mosselbaai",
     "invoiceNumber": "250814202",
     "issueDate": "2025-08-14",
     "dueDate": "2025-08-14",
@@ -10886,7 +9297,7 @@
   },
   {
     "id": "inv_250815101",
-    "customerId": "cust_kitchenique",
+    "customerId": "kitchenique",
     "invoiceNumber": "250815101",
     "issueDate": "2025-08-15",
     "dueDate": "2025-08-15",
@@ -10909,7 +9320,7 @@
   },
   {
     "id": "inv_250818101",
-    "customerId": "cust_watko_promotional_branded_image",
+    "customerId": "watko_promotional_cc_t_a_branded_image",
     "invoiceNumber": "250818101",
     "issueDate": "2025-08-18",
     "dueDate": "2025-08-18",
@@ -10937,7 +9348,7 @@
   },
   {
     "id": "inv_250820101",
-    "customerId": "cust_garden_bleu_home",
+    "customerId": "garden_bleu_home",
     "invoiceNumber": "250820101",
     "issueDate": "2025-08-20",
     "dueDate": "2025-08-20",
@@ -10960,7 +9371,7 @@
   },
   {
     "id": "inv_250821101",
-    "customerId": "cust_kings_meat_deli__lynnwoodbridge",
+    "customerId": "lynnwoodbridge",
     "invoiceNumber": "250821101",
     "issueDate": "2025-08-21",
     "dueDate": "2025-08-21",
@@ -10998,7 +9409,7 @@
   },
   {
     "id": "inv_250827101",
-    "customerId": "cust_trans_africa_self_drive_adventures__tours",
+    "customerId": "trans_africa_self_drive_adventures_tours",
     "invoiceNumber": "250827101",
     "issueDate": "2025-08-27",
     "dueDate": "2025-08-27",

@@ -1,9 +1,9 @@
 
-import React, { useState, useMemo, useEffect } from 'react';
-import { useNavigate, Link, useLocation, useOutletContext } from 'react-router-dom';
-import { Invoice, DocumentStatus, Payment, AppContextType } from '../types';
-import { PencilIcon, EyeIcon, PlusIcon, SelectorIcon, SearchIcon, ChevronUpIcon, ChevronDownIcon } from './Icons';
+import React, { useEffect, useMemo, useState } from 'react';
+import { Link, useLocation, useNavigate, useOutletContext } from 'react-router-dom';
+import { AppContextType, DocumentStatus, Invoice } from '../types';
 import { calculateBalanceDue } from '../utils';
+import { ChevronDownIcon, ChevronUpIcon, EyeIcon, PencilIcon, PlusIcon, SearchIcon, SelectorIcon } from './Icons';
 
 type SortConfig = { key: keyof Invoice | 'customerName' | 'balanceDue'; direction: 'ascending' | 'descending'; } | null;
 
@@ -13,7 +13,7 @@ export const InvoiceList: React.FC = () => {
     const location = useLocation();
     const [searchTerm, setSearchTerm] = useState('');
     const [statusFilter, setStatusFilter] = useState<DocumentStatus | 'all' | 'open' | 'overdue'>('all');
-    const [sortConfig, setSortConfig] = useState<SortConfig>({ key: 'date', direction: 'descending' });
+    const [sortConfig, setSortConfig] = useState<SortConfig>({ key: 'issueDate', direction: 'descending' });
     
     useEffect(() => {
         if (location.state?.preFilter) {
@@ -160,7 +160,7 @@ export const InvoiceList: React.FC = () => {
                                 <tr>
                                     <th scope="col" className="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-slate-900 sm:pl-0">Invoice #</th>
                                     <SortableHeader columnKey="customerName" title="Customer" />
-                                    <SortableHeader columnKey="date" title="Date" />
+                                    <SortableHeader columnKey="issueDate" title="Date" />
                                     <SortableHeader columnKey="balanceDue" title="Balance Due" />
                                     <SortableHeader columnKey="status" title="Status" />
                                     <th scope="col" className="relative py-3.5 pl-3 pr-4 sm:pr-0">
@@ -181,7 +181,7 @@ export const InvoiceList: React.FC = () => {
                                                 {customers.find(c => c.id === invoice.customerId)?.name || 'N/A'}
                                             </Link>
                                         </td>
-                                        <td className="whitespace-nowrap px-3 py-4 text-sm text-slate-500">{invoice.date}</td>
+                                        <td className="whitespace-nowrap px-3 py-4 text-sm text-slate-500">{invoice.issueDate}</td>
                                         <td className="whitespace-nowrap px-3 py-4 text-sm text-slate-500">R {calculateBalanceDue(invoice, payments).toFixed(2)}</td>
                                         <td className="whitespace-nowrap px-3 py-4 text-sm text-slate-500">
                                             <span className={`inline-flex items-center rounded-md px-2 py-1 text-xs font-medium ring-1 ring-inset ${getStatusClass(invoice.status)}`}>

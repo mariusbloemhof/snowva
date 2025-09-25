@@ -114,14 +114,18 @@ export interface Invoice {
   id: string;
   invoiceNumber: string;
   customerId: string;
-  date: string;
+  issueDate: string;
   dueDate?: string;
-  orderNumber?: string;
-  quoteId?: string;
-  items: LineItem[];
+  poNumber?: string;
+  type?: string;
+  lineItems: LineItem[];
+  subtotal: number;
+  taxAmount: number;
+  discountAmount: number;
+  shippingAmount: number;
+  totalAmount: number;
   status: DocumentStatus;
   notes?: string;
-  shipping?: number;
 }
 
 export interface Quote {

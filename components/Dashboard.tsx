@@ -1,16 +1,16 @@
 import React from 'react';
 import { Link, useOutletContext } from 'react-router-dom';
+import { AppContextType, DocumentStatus } from '../types';
+import { calculateBalanceDue, calculateTotal } from '../utils';
 import {
+    ArrowDownIcon,
+    ArrowUpIcon,
+    CheckCircleIcon,
     CollectionIcon,
     ExclamationCircleIcon,
-    CheckCircleIcon,
-    UsersIcon,
-    ArrowUpIcon,
-    ArrowDownIcon,
     PlusIcon,
+    UsersIcon,
 } from './Icons';
-import { DocumentStatus, AppContextType } from '../types';
-import { calculateTotal, calculateBalanceDue } from '../utils';
 
 const StatCard: React.FC<{
     title: string;
@@ -77,11 +77,23 @@ export const Dashboard: React.FC = () => {
 
     const formatCurrency = (amount: number) => `R ${amount.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, " ")}`;
     
-    const recentInvoices = [...invoices].sort((a, b) => b.date.localeCompare(a.date)).slice(0, 5);
-    const recentQuotes = [...quotes].sort((a, b) => b.date.localeCompare(a.date)).slice(0, 5);
+    const recentInvoices = [...invoices]
+        .filter(inv => inv.date) // Filter out invoices without dates
+        .sort((a, b) => (b.date || '').localeCompare(a.date || ''))
+        .slice(0, 5);
+    
+    const recentQuotes = [...quotes]
+        .filter(quote => quote.date) // Filter out quotes without dates
+        .sort((a, b) => (b.date || '').localeCompare(a.date || ''))
+        .slice(0, 5);
     
     const atRiskInvoices = overdueInvoices
-        .sort((a, b) => (a.dueDate || a.date).localeCompare(b.dueDate || b.date))
+        .filter(inv => inv.dueDate || inv.date) // Filter out invoices without dates
+        .sort((a, b) => {
+            const aDate = a.dueDate || a.date || '';
+            const bDate = b.dueDate || b.date || '';
+            return aDate.localeCompare(bDate);
+        })
         .slice(0, 5);
         
     const getDaysOverdue = (dueDate?: string) => {
