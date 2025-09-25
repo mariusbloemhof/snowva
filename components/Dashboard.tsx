@@ -1,5 +1,7 @@
+import { Timestamp } from 'firebase/firestore';
 import React from 'react';
 import { Link, useOutletContext } from 'react-router-dom';
+import { dateUtils } from '../dateUtils';
 import { AppContextType, DocumentStatus } from '../types';
 import { calculateBalanceDue, calculateTotal } from '../utils';
 import {
@@ -62,43 +64,39 @@ export const Dashboard: React.FC = () => {
     
     const thirtyDaysAgo = new Date();
     thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
-    const thirtyDaysAgoStr = thirtyDaysAgo.toISOString().split('T')[0];
-    const todayStr = new Date().toISOString().split('T')[0];
+    const thirtyDaysAgoTimestamp = Timestamp.fromDate(thirtyDaysAgo);
+    const todayTimestamp = dateUtils.todayTimestamp();
 
     const openInvoices = invoices.filter(inv => inv.status === DocumentStatus.FINALIZED || inv.status === DocumentStatus.PARTIALLY_PAID);
     
     const totalOutstanding = openInvoices.reduce((sum, inv) => sum + calculateBalanceDue(inv, payments), 0);
-    const overdueInvoices = openInvoices.filter(inv => inv.dueDate && inv.dueDate < todayStr);
+    const overdueInvoices = openInvoices.filter(inv => inv.dueDate && inv.dueDate.seconds < todayTimestamp.seconds);
     const totalOverdue = overdueInvoices.reduce((sum, inv) => sum + calculateBalanceDue(inv, payments), 0);
 
     const paidLast30Days = payments
-        .filter(p => p.date >= thirtyDaysAgoStr)
+        .filter(p => p.date.seconds >= thirtyDaysAgoTimestamp.seconds)
         .reduce((sum, p) => sum + p.totalAmount, 0);
 
     const formatCurrency = (amount: number) => `R ${amount.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, " ")}`;
     
     const recentInvoices = [...invoices]
-        .filter(inv => inv.date) // Filter out invoices without dates
-        .sort((a, b) => (b.date || '').localeCompare(a.date || ''))
+        .filter(inv => inv.issueDate) // Filter out invoices without dates
+        .sort((a, b) => b.issueDate.seconds - a.issueDate.seconds)
         .slice(0, 5);
     
     const recentQuotes = [...quotes]
         .filter(quote => quote.date) // Filter out quotes without dates
-        .sort((a, b) => (b.date || '').localeCompare(a.date || ''))
+        .sort((a, b) => b.date.seconds - a.date.seconds)
         .slice(0, 5);
     
     const atRiskInvoices = overdueInvoices
-        .filter(inv => inv.dueDate || inv.date) // Filter out invoices without dates
-        .sort((a, b) => {
-            const aDate = a.dueDate || a.date || '';
-            const bDate = b.dueDate || b.date || '';
-            return aDate.localeCompare(bDate);
-        })
+        .filter(inv => inv.dueDate) // Filter out invoices without due dates
+        .sort((a, b) => a.dueDate!.seconds - b.dueDate!.seconds)
         .slice(0, 5);
         
-    const getDaysOverdue = (dueDate?: string) => {
+    const getDaysOverdue = (dueDate?: Timestamp) => {
         if (!dueDate) return 0;
-        const due = new Date(dueDate);
+        const due = dueDate.toDate();
         const today = new Date();
         const diffTime = Math.max(0, today.getTime() - due.getTime());
         return Math.ceil(diffTime / (1000 * 60 * 60 * 24));

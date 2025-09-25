@@ -33,9 +33,9 @@ export const StatementViewer: React.FC = () => {
         return billToCustomer.addresses.find(a => a.type === 'billing' && a.isPrimary) || billToCustomer.addresses.find(a => a.isPrimary);
     }, [billToCustomer]);
 
-    const formatDate = (dateString: string) => {
-        if (!dateString) return '';
-        const d = new Date(dateString);
+    const formatDate = (timestamp: any) => {
+        if (!timestamp) return '';
+        const d = timestamp.toDate ? timestamp.toDate() : new Date(timestamp);
         // Correct for timezone offset before formatting
         const userTimezoneOffset = d.getTimezoneOffset() * 60000;
         return new Date(d.getTime() + userTimezoneOffset).toLocaleDateString('en-CA'); // YYYY-MM-DD

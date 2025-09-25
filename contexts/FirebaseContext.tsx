@@ -159,9 +159,18 @@ export const FirebaseProvider: React.FC<{ children: React.ReactNode }> = ({ chil
       const data = await customerService.getAll();
       setCustomers(data);
     } catch (error) {
-      const errorMessage = error instanceof Error ? error.message : 'Failed to load customers';
-      setErrors(prev => ({ ...prev, customers: errorMessage }));
-      console.error('Error loading customers:', error);
+      console.warn('Firebase customers failed, trying local fallback:', error);
+      try {
+        // Fallback to local JSON data
+        const response = await fetch('/data/normalized/customers.json');
+        const customersArray = await response.json();
+        setCustomers(customersArray as Customer[]);
+        setErrors(prev => ({ ...prev, customers: null }));
+      } catch (fallbackError) {
+        const errorMessage = 'Failed to load customers from both Firebase and local data';
+        setErrors(prev => ({ ...prev, customers: errorMessage }));
+        console.error('Error loading customers fallback:', fallbackError);
+      }
     } finally {
       setLoading(prev => ({ ...prev, customers: false }));
     }
@@ -176,9 +185,20 @@ export const FirebaseProvider: React.FC<{ children: React.ReactNode }> = ({ chil
       const data = await productService.getAll();
       setProducts(data);
     } catch (error) {
-      const errorMessage = error instanceof Error ? error.message : 'Failed to load products';
-      setErrors(prev => ({ ...prev, products: errorMessage }));
-      console.error('Error loading products:', error);
+      console.warn('Firebase products failed, trying local fallback:', error);
+      try {
+        // Fallback to local JSON data
+        const response = await fetch('/data/normalized/products.json');
+        const jsonData = await response.json();
+        // Convert nested products object to array
+        const productsArray = jsonData.products ? Object.values(jsonData.products) : [];
+        setProducts(productsArray as Product[]);
+        setErrors(prev => ({ ...prev, products: null }));
+      } catch (fallbackError) {
+        const errorMessage = 'Failed to load products from both Firebase and local data';
+        setErrors(prev => ({ ...prev, products: errorMessage }));
+        console.error('Error loading products fallback:', fallbackError);
+      }
     } finally {
       setLoading(prev => ({ ...prev, products: false }));
     }
@@ -193,9 +213,18 @@ export const FirebaseProvider: React.FC<{ children: React.ReactNode }> = ({ chil
       const data = await invoiceService.getAll();
       setInvoices(data);
     } catch (error) {
-      const errorMessage = error instanceof Error ? error.message : 'Failed to load invoices';
-      setErrors(prev => ({ ...prev, invoices: errorMessage }));
-      console.error('Error loading invoices:', error);
+      console.warn('Firebase invoices failed, trying local fallback:', error);
+      try {
+        // Fallback to local JSON data
+        const response = await fetch('/data/normalized/invoices.json');
+        const invoicesArray = await response.json();
+        setInvoices(invoicesArray as Invoice[]);
+        setErrors(prev => ({ ...prev, invoices: null }));
+      } catch (fallbackError) {
+        const errorMessage = 'Failed to load invoices from both Firebase and local data';
+        setErrors(prev => ({ ...prev, invoices: errorMessage }));
+        console.error('Error loading invoices fallback:', fallbackError);
+      }
     } finally {
       setLoading(prev => ({ ...prev, invoices: false }));
     }
@@ -210,9 +239,18 @@ export const FirebaseProvider: React.FC<{ children: React.ReactNode }> = ({ chil
       const data = await paymentService.getAll();
       setPayments(data);
     } catch (error) {
-      const errorMessage = error instanceof Error ? error.message : 'Failed to load payments';
-      setErrors(prev => ({ ...prev, payments: errorMessage }));
-      console.error('Error loading payments:', error);
+      console.warn('Firebase payments failed, trying local fallback:', error);
+      try {
+        // Fallback to local JSON data
+        const response = await fetch('/data/normalized/payments.json');
+        const paymentsArray = await response.json();
+        setPayments(paymentsArray as Payment[]);
+        setErrors(prev => ({ ...prev, payments: null }));
+      } catch (fallbackError) {
+        const errorMessage = 'Failed to load payments from both Firebase and local data';
+        setErrors(prev => ({ ...prev, payments: errorMessage }));
+        console.error('Error loading payments fallback:', fallbackError);
+      }
     } finally {
       setLoading(prev => ({ ...prev, payments: false }));
     }

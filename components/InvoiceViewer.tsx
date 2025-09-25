@@ -21,12 +21,30 @@ const formatCurrency = (amount: number) => {
 
 export const InvoiceViewer: React.FC = () => {
   const { id } = useParams<{ id: string }>();
-  const { invoices, payments, customers } = useOutletContext<AppContextType>();
+  const { invoices, payments, customers, products } = useOutletContext<AppContextType>();
   const navigate = useNavigate();
   const { addToast } = useToast();
   const [isEmailModalOpen, setIsEmailModalOpen] = useState(false);
 
   const invoice = useMemo(() => invoices.find(inv => inv.id === id), [id, invoices]);
+
+  // Early return if invoice not found
+  if (!invoice) {
+    return (
+      <div className="flex items-center justify-center h-96">
+        <div className="text-center">
+          <h3 className="text-lg font-medium text-slate-900">Invoice not found</h3>
+          <p className="text-slate-500">The invoice you're looking for doesn't exist or is still being created.</p>
+          <button 
+            onClick={() => navigate('/invoices')}
+            className="mt-4 inline-flex items-center rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500"
+          >
+            Back to Invoices
+          </button>
+        </div>
+      </div>
+    );
+  }
 
   const selectedCustomer = useMemo(() => customers.find(c => c.id === invoice?.customerId) || null, [invoice, customers]);
   const isBilledToParent = selectedCustomer?.billToParent && selectedCustomer.parentCompanyId;
@@ -37,13 +55,20 @@ export const InvoiceViewer: React.FC = () => {
   const invoicePaymentAllocations = useMemo(() => {
     if (!invoice) return [];
     return payments
-      .flatMap(p => p.allocations.map(a => ({ ...p, allocationAmount: a.amount, invoiceId: a.invoiceId })))
-      .filter(pa => pa.invoiceId === invoice.id);
+      .filter(p => p.allocations && Array.isArray(p.allocations)) // Ensure allocations exists and is an array
+      .flatMap(p => p.allocations.map(a => {
+        // Handle both old (invoiceId) and new (invoiceNumber) formats
+        const allocRef = (a as any).invoiceNumber || (a as any).invoiceId;
+        // Handle both 'date' and 'paymentDate' fields for compatibility
+        const paymentDate = p.date || (p as any).paymentDate;
+        return { ...p, allocationAmount: a.amount, invoiceId: allocRef, date: paymentDate };
+      }))
+      .filter(pa => pa.invoiceId === invoice.invoiceNumber || pa.invoiceId === invoice.id);
   }, [payments, invoice]);
 
   const subtotal = useMemo(() => {
-    const itemsTotal = invoice?.lineItems.reduce((sum, item) => sum + item.quantity * item.unitPrice, 0) || 0;
-    const shippingCost = invoice?.shipping || 0;
+    const itemsTotal = invoice?.lineItems?.reduce((sum, item) => sum + item.quantity * item.unitPrice, 0) || 0;
+    const shippingCost = invoice?.shippingAmount || 0;
     return itemsTotal + shippingCost;
   }, [invoice]);
   const vatAmount = subtotal * VAT_RATE;
@@ -52,6 +77,7 @@ export const InvoiceViewer: React.FC = () => {
   const formatDate = (dateString?: string) => {
     if (!dateString) return '';
     const d = new Date(dateString);
+    if (isNaN(d.getTime())) return 'Invalid date';
     const userTimezoneOffset = d.getTimezoneOffset() * 60000;
     const correctedDate = new Date(d.getTime() + userTimezoneOffset);
     return correctedDate.toLocaleDateString('en-ZA').replace(/-/g, '/'); // YYYY/MM/DD
@@ -71,6 +97,7 @@ export const InvoiceViewer: React.FC = () => {
           subtotal={subtotal}
           vatAmount={vatAmount}
           total={total}
+          products={products}
         />
       ).toBlob();
       
@@ -117,7 +144,7 @@ export const InvoiceViewer: React.FC = () => {
     pdf.text("Invoice #:", headerDetailsX, 43);
     pdf.text("For:", headerDetailsX, 48);
 
-    pdf.text(formatDate(invoice.issueDate), headerDetailsX + 20, 38);
+    pdf.text(formatDate(invoice.issueDate || (invoice as any).date), headerDetailsX + 20, 38);
     pdf.text(invoice.invoiceNumber, headerDetailsX + 20, 43);
     pdf.text(selectedCustomer?.name || '', headerDetailsX + 20, 48);
 
@@ -162,26 +189,33 @@ export const InvoiceViewer: React.FC = () => {
 
     // --- TABLE ---
     const tableStartY = yPos + 10;
-    const tableBody = invoice.lineItems.map(item => [
-        item.description,
-        item.itemCode,
-        item.quantity,
-        'R',
-        formatCurrency(item.unitPrice),
-        'R',
-        formatCurrency(item.quantity * item.unitPrice)
-    ]);
+    const tableBody = invoice.lineItems.map(item => {
+        // Look up product details
+        const product = products.find(p => p.id === item.productId);
+        const description = item.description || product?.name || 'Unknown Product';
+        const itemCode = item.itemCode || product?.itemCode || '';
+        
+        return [
+            description,
+            itemCode,
+            item.quantity,
+            'R',
+            formatCurrency(item.unitPrice),
+            'R',
+            formatCurrency(item.quantity * item.unitPrice)
+        ];
+    });
     
     // Add Delivery Fee if it exists
-    if (invoice.shipping && invoice.shipping > 0) {
+    if (invoice.shippingAmount && invoice.shippingAmount > 0) {
         tableBody.push([
             'Shipping',
             '',
             1,
             'R',
-            formatCurrency(invoice.shipping),
+            formatCurrency(invoice.shippingAmount),
             'R',
-            formatCurrency(invoice.shipping)
+            formatCurrency(invoice.shippingAmount)
         ]);
     }
 
@@ -347,11 +381,18 @@ export const InvoiceViewer: React.FC = () => {
         icon: <PencilIcon className="h-4 w-4 text-slate-500" />,
         user: 'System',
         text: 'created this invoice.',
-        date: invoice.issueDate,
+        date: invoice.issueDate || (invoice as any).date,
         details: `Total: R ${formatCurrency(total)}`,
     };
 
-    const sentDate = new Date(invoice.issueDate);
+    // Handle both 'issueDate' and 'date' field formats
+    const issueDateValue = invoice.issueDate || (invoice as any).date;
+    const sentDate = new Date(issueDateValue);
+    // Validate the date before proceeding
+    if (isNaN(sentDate.getTime())) {
+        // If invalid date, use current date as fallback
+        sentDate.setTime(Date.now());
+    }
     sentDate.setHours(sentDate.getHours() + 1); // 1 hour after creation
     const sentEvent = {
         icon: <MailIcon className="h-4 w-4 text-slate-500" />,
@@ -362,7 +403,13 @@ export const InvoiceViewer: React.FC = () => {
     };
 
     const paymentEvents = invoicePaymentAllocations.flatMap(payment => {
-        const viewDate = new Date(payment.date);
+        // Handle both 'date' and 'paymentDate' fields for compatibility
+        const paymentDate = payment.date || (payment as any).paymentDate;
+        if (!paymentDate) return []; // Skip if no valid date
+        
+        const viewDate = new Date(paymentDate);
+        if (isNaN(viewDate.getTime())) return []; // Skip if invalid date
+        
         viewDate.setMinutes(viewDate.getMinutes() - 10);
         return [
             {
@@ -375,7 +422,7 @@ export const InvoiceViewer: React.FC = () => {
                 icon: <CheckCircleIcon className="h-4 w-4 text-green-500" />,
                 user: 'System',
                 text: `recorded a payment.`,
-                date: payment.date,
+                date: paymentDate,
                 details: `Payment ${payment.paymentNumber} for R ${formatCurrency(payment.allocationAmount)} via ${payment.method}`,
             }
         ];
@@ -428,10 +475,23 @@ export const InvoiceViewer: React.FC = () => {
                  <div className="p-8 sm:p-10">
                     <div className="flex justify-between items-start">
                         <div>
-                            <p className="text-sm text-slate-500">Issued on {new Date(invoice.issueDate).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}</p>
+                            <p className="text-sm text-slate-500">
+                                Issued on {(() => {
+                                    const dateValue = invoice.issueDate || (invoice as any).date;
+                                    const issueDate = new Date(dateValue);
+                                    return isNaN(issueDate.getTime()) 
+                                        ? 'Invalid date' 
+                                        : issueDate.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
+                                })()}
+                            </p>
                             <p className="text-sm text-slate-500">
                                 {invoice.dueDate
-                                    ? `Due on ${new Date(invoice.dueDate).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}`
+                                    ? (() => {
+                                        const dueDate = invoice.dueDate.toDate();
+                                        return isNaN(dueDate.getTime())
+                                            ? 'Invalid due date'
+                                            : `Due on ${dueDate.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}`;
+                                    })()
                                     : 'No due date specified'
                                 }
                             </p>
@@ -468,16 +528,23 @@ export const InvoiceViewer: React.FC = () => {
                                             </tr>
                                         </thead>
                                         <tbody className="divide-y divide-slate-100">
-                                            {invoice.lineItems.map(item => (
-                                                <tr key={item.id}>
-                                                    <td className="py-4 pl-4 pr-3 text-sm font-medium text-slate-900 sm:pl-6 lg:pl-8">
-                                                        {item.description}
-                                                    </td>
-                                                    <td className="px-3 py-4 text-sm text-slate-500">{item.itemCode}</td>
-                                                    <td className="px-3 py-4 text-sm text-slate-500 text-right">{item.quantity.toFixed(1)}</td>
-                                                    <td className="py-4 pl-3 pr-4 text-sm font-medium text-slate-800 text-right sm:pr-6 lg:pr-8">R {formatCurrency(item.quantity * item.unitPrice)}</td>
-                                                </tr>
-                                            ))}
+                                            {(invoice.lineItems || []).map((item, index) => {
+                                                // Look up product details
+                                                const product = products.find(p => p.id === item.productId);
+                                                const description = item.description || product?.name || 'Unknown Product';
+                                                const itemCode = item.itemCode || product?.itemCode || '';
+                                                
+                                                return (
+                                                    <tr key={`${item.productId}-${index}`}>
+                                                        <td className="py-4 pl-4 pr-3 text-sm font-medium text-slate-900 sm:pl-6 lg:pl-8">
+                                                            {description}
+                                                        </td>
+                                                        <td className="px-3 py-4 text-sm text-slate-500">{itemCode}</td>
+                                                        <td className="px-3 py-4 text-sm text-slate-500 text-right">{item.quantity.toFixed(1)}</td>
+                                                        <td className="py-4 pl-3 pr-4 text-sm font-medium text-slate-800 text-right sm:pr-6 lg:pr-8">R {formatCurrency(item.quantity * item.unitPrice)}</td>
+                                                    </tr>
+                                                );
+                                            })}
                                         </tbody>
                                     </table>
                                 </div>
@@ -489,12 +556,12 @@ export const InvoiceViewer: React.FC = () => {
                         <div className="w-full max-w-sm text-sm text-slate-600">
                              <div className="flex justify-between">
                                 <span>Items Total</span>
-                                <span>R {formatCurrency(subtotal - (invoice.shipping || 0))}</span>
+                                <span>R {formatCurrency(subtotal - (invoice.shippingAmount || 0))}</span>
                             </div>
-                            {invoice.shipping && invoice.shipping > 0 && (
+                            {invoice.shippingAmount && invoice.shippingAmount > 0 && (
                                 <div className="mt-2 flex justify-between">
                                     <span>Shipping</span>
-                                    <span>R {formatCurrency(invoice.shipping)}</span>
+                                    <span>R {formatCurrency(invoice.shippingAmount)}</span>
                                 </div>
                             )}
                             <div className="mt-2 flex justify-between pt-2 border-t border-slate-200">

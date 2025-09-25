@@ -1,8 +1,9 @@
 
 import React, { useState } from 'react';
-import { Product, CustomerProductPrice, Price } from '../types';
-import { PlusIcon } from './Icons';
+import { dateUtils } from '../dateUtils';
+import { CustomerProductPrice, Price, Product } from '../types';
 import { getCurrentPrice } from '../utils';
+import { PlusIcon } from './Icons';
 
 interface CustomPriceEditorModalProps {
     product: Product;
@@ -42,7 +43,8 @@ export const CustomPriceEditorModal: React.FC<CustomPriceEditorModalProps> = ({ 
         }
         const newPriceWithId: Price = {
             ...newPrice,
-            id: `price_${Date.now()}`
+            id: `price_${Date.now()}`,
+            effectiveDate: dateUtils.stringToTimestamp(newPrice.effectiveDate)
         };
         setFormData(prev => ({
             ...prev,
@@ -59,7 +61,7 @@ export const CustomPriceEditorModal: React.FC<CustomPriceEditorModalProps> = ({ 
         onSave(formData);
     };
 
-    const sortedPrices = [...formData.prices].sort((a,b) => b.effectiveDate.localeCompare(a.effectiveDate));
+    const sortedPrices = [...formData.prices].sort((a,b) => b.effectiveDate.seconds - a.effectiveDate.seconds);
     const currentPrice = getCurrentPrice({ prices: formData.prices });
 
     return (
@@ -124,7 +126,7 @@ export const CustomPriceEditorModal: React.FC<CustomPriceEditorModalProps> = ({ 
                                         <tbody className="divide-y divide-slate-200">
                                             {sortedPrices.map(price => (
                                                 <tr key={price.id}>
-                                                    <td className="p-2">{price.effectiveDate}</td>
+                                                    <td className="p-2">{dateUtils.formatForDisplay(price.effectiveDate)}</td>
                                                     <td className="p-2 text-right">R {price.retail.toFixed(2)}</td>
                                                 </tr>
                                             ))}

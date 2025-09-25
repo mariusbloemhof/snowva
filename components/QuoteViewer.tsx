@@ -3,7 +3,7 @@ import { useNavigate, useOutletContext, useParams } from 'react-router-dom';
 import { SNOWVA_DETAILS, VAT_RATE } from '../constants';
 import { useToast } from '../contexts/ToastContext';
 import { Address, AppContextType, Customer, DocumentStatus } from '../types';
-import { formatDistanceToNow } from '../utils';
+import { dateUtils, formatDistanceToNow } from '../utils';
 import { CheckCircleIcon, DownloadIcon, MailIcon, PrintIcon, SwitchHorizontalIcon, UsersIcon, XCircleIcon } from './Icons';
 
 // Declare global libraries loaded from CDN
@@ -72,9 +72,9 @@ export const QuoteViewer: React.FC = () => {
       pdf.text("Quote #:", 150, 40);
       pdf.text("Valid Until:", 150, 45);
       pdf.setFont("helvetica", "normal");
-      pdf.text(new Date(quote.date).toLocaleDateString('en-ZA'), 175, 35);
+      pdf.text(quote.date.toDate().toLocaleDateString('en-ZA'), 175, 35);
       pdf.text(quote.quoteNumber, 175, 40);
-      pdf.text(new Date(quote.validUntil).toLocaleDateString('en-ZA'), 175, 45);
+      pdf.text(quote.validUntil.toDate().toLocaleDateString('en-ZA'), 175, 45);
 
       // Billing info
       pdf.text(`VAT #: ${SNOWVA_DETAILS.vatNo}`, margin, 55);
@@ -228,7 +228,7 @@ export const QuoteViewer: React.FC = () => {
             text: 'created this quote.',
             date: quote.date,
         }
-    ].map(item => ({...item, timeAgo: formatDistanceToNow(item.date)}));
+    ].map(item => ({...item, timeAgo: formatDistanceToNow(item.date.toDate().toISOString())}));
 
     return (
         <>
@@ -268,8 +268,8 @@ export const QuoteViewer: React.FC = () => {
                             <h2 className="text-3xl font-light text-slate-600 uppercase tracking-wider">Quote</h2>
                             <div className="mt-2 text-sm space-y-2">
                                 <p><span className="font-semibold text-slate-700">Quote #:</span> {quote.quoteNumber}</p>
-                                <p><span className="font-semibold text-slate-700">Date:</span> {quote.date}</p>
-                                <p><span className="font-semibold text-slate-700">Valid Until:</span> {quote.validUntil}</p>
+                                <p><span className="font-semibold text-slate-700">Date:</span> {dateUtils.formatTimestamp(quote.date)}</p>
+                                <p><span className="font-semibold text-slate-700">Valid Until:</span> {dateUtils.formatTimestamp(quote.validUntil)}</p>
                             </div>
                         </div>
                     </div>
@@ -350,7 +350,7 @@ export const QuoteViewer: React.FC = () => {
                                         <p className="text-sm leading-5 text-slate-600">
                                             <span className="font-medium text-slate-900">{item.user}</span> {item.text}
                                         </p>
-                                        <time dateTime={item.date} className="flex-none text-xs leading-5 text-slate-500" title={new Date(item.date).toLocaleString()}>
+                                        <time dateTime={item.date.toDate().toISOString()} className="flex-none text-xs leading-5 text-slate-500" title={item.date.toDate().toLocaleString()}>
                                             {item.timeAgo}
                                         </time>
                                     </div>

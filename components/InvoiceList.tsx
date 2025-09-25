@@ -1,6 +1,7 @@
 
 import React, { useEffect, useMemo, useState } from 'react';
 import { Link, useLocation, useNavigate, useOutletContext } from 'react-router-dom';
+import { dateUtils } from '../dateUtils';
 import { AppContextType, DocumentStatus, Invoice } from '../types';
 import { calculateBalanceDue } from '../utils';
 import { ChevronDownIcon, ChevronUpIcon, EyeIcon, PencilIcon, PlusIcon, SearchIcon, SelectorIcon } from './Icons';
@@ -40,7 +41,8 @@ export const InvoiceList: React.FC = () => {
                     return inv.status === DocumentStatus.FINALIZED || inv.status === DocumentStatus.PARTIALLY_PAID;
                 }
                 if (statusFilter === 'overdue') {
-                    return inv.dueDate && inv.dueDate < todayStr && inv.status !== DocumentStatus.PAID;
+                    const today = dateUtils.todayTimestamp();
+                    return inv.dueDate && inv.dueDate.seconds < today.seconds && inv.status !== DocumentStatus.PAID;
                 }
                 return inv.status === statusFilter
             });
@@ -181,7 +183,7 @@ export const InvoiceList: React.FC = () => {
                                                 {customers.find(c => c.id === invoice.customerId)?.name || 'N/A'}
                                             </Link>
                                         </td>
-                                        <td className="whitespace-nowrap px-3 py-4 text-sm text-slate-500">{invoice.issueDate}</td>
+                                        <td className="whitespace-nowrap px-3 py-4 text-small text-slate-500">{dateUtils.formatForDisplay(invoice.issueDate)}</td>
                                         <td className="whitespace-nowrap px-3 py-4 text-sm text-slate-500">R {calculateBalanceDue(invoice, payments).toFixed(2)}</td>
                                         <td className="whitespace-nowrap px-3 py-4 text-sm text-slate-500">
                                             <span className={`inline-flex items-center rounded-md px-2 py-1 text-xs font-medium ring-1 ring-inset ${getStatusClass(invoice.status)}`}>

@@ -1,4 +1,4 @@
-import { orderBy } from 'firebase/firestore';
+import { orderBy, Timestamp } from 'firebase/firestore';
 import { Payment, PaymentMethod } from '../types';
 import { FirebaseService } from './FirebaseService';
 
@@ -8,7 +8,7 @@ class PaymentService extends FirebaseService<Payment> {
   }
 
   protected isDateField(fieldName: string): boolean {
-    return ['date', 'createdAt', 'updatedAt'].includes(fieldName);
+    return ['date', 'paymentDate', 'createdAt', 'updatedAt'].includes(fieldName);
   }
 
   // Get payments by customer
@@ -24,9 +24,12 @@ class PaymentService extends FirebaseService<Payment> {
   // Get payments for a date range
   async getByDateRange(startDate: string, endDate: string): Promise<Payment[]> {
     try {
+      const startTimestamp = Timestamp.fromDate(new Date(startDate));
+      const endTimestamp = Timestamp.fromDate(new Date(endDate));
       const allPayments = await this.getAll([orderBy('date', 'desc')]);
       return allPayments.filter(payment => 
-        payment.date >= startDate && payment.date <= endDate
+        payment.date.seconds >= startTimestamp.seconds && 
+        payment.date.seconds <= endTimestamp.seconds
       );
     } catch (error) {
       console.error('Error getting payments by date range:', error);
@@ -79,7 +82,7 @@ class PaymentService extends FirebaseService<Payment> {
       throw new Error('Customer is required');
     }
 
-    if (data.date && new Date(data.date) > new Date()) {
+    if (data.date && data.date.seconds > Timestamp.now().seconds) {
       throw new Error('Payment date cannot be in the future');
     }
 
@@ -96,7 +99,9 @@ class PaymentService extends FirebaseService<Payment> {
         if (allocation.amount <= 0) {
           throw new Error(`Allocation ${index + 1} amount must be greater than 0`);
         }
-        if (!allocation.invoiceId || allocation.invoiceId.trim().length === 0) {
+        // Check for invoiceNumber (new format) or invoiceId (legacy format for backward compatibility)
+        const invoiceRef = allocation.invoiceNumber || (allocation as any).invoiceId;
+        if (!invoiceRef || invoiceRef.trim().length === 0) {
           throw new Error(`Allocation ${index + 1} must have a valid invoice`);
         }
       });
@@ -136,7 +141,7 @@ class PaymentService extends FirebaseService<Payment> {
   }
 
   // Add allocation to payment
-  async addAllocation(paymentId: string, invoiceId: string, amount: number): Promise<void> {
+  async addAllocation(paymentId: string, invoiceNumber: string, amount: number): Promise<void> {
     try {
       const payment = await this.getById(paymentId);
       if (!payment) {
@@ -149,7 +154,7 @@ class PaymentService extends FirebaseService<Payment> {
       }
 
       const newAllocation = {
-        invoiceId,
+        invoiceNumber,
         amount
       };
 
@@ -161,8 +166,8 @@ class PaymentService extends FirebaseService<Payment> {
     }
   }
 
-  // Remove allocation from payment by invoice ID
-  async removeAllocation(paymentId: string, invoiceId: string): Promise<void> {
+  // Remove allocation from payment by invoice number
+  async removeAllocation(paymentId: string, invoiceNumber: string): Promise<void> {
     try {
       const payment = await this.getById(paymentId);
       if (!payment) {
@@ -170,7 +175,7 @@ class PaymentService extends FirebaseService<Payment> {
       }
 
       const updatedAllocations = payment.allocations.filter(
-        allocation => allocation.invoiceId !== invoiceId
+        allocation => allocation.invoiceNumber !== invoiceNumber
       );
       
       await this.update(paymentId, { allocations: updatedAllocations });

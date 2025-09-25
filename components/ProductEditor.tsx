@@ -3,7 +3,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { useBlocker, useNavigate, useOutletContext, useParams } from 'react-router-dom';
 import { useToast } from '../contexts/ToastContext';
 import { AppContextType, Price, Product } from '../types';
-import { getCurrentPrice } from '../utils';
+import { dateUtils, getCurrentPrice } from '../utils';
 import { PlusIcon, SparklesIcon } from './Icons';
 
 const emptyProduct: Omit<Product, 'id'> = {
@@ -16,7 +16,7 @@ const emptyProduct: Omit<Product, 'id'> = {
 };
 
 const emptyNewPrice = {
-    effectiveDate: new Date().toISOString().split('T')[0],
+    effectiveDate: new Date().toISOString().split('T')[0], // Keep as string for form input
     consumer: 0,
     retail: 0,
 };
@@ -143,6 +143,7 @@ export const ProductEditor: React.FC = () => {
         }
         const newPriceWithId: Price = {
             ...newPrice,
+            effectiveDate: dateUtils.stringToTimestamp(newPrice.effectiveDate), // Convert string to Timestamp
             id: `price_${Date.now()}`
         };
         setFormData(prev => ({
@@ -223,7 +224,7 @@ export const ProductEditor: React.FC = () => {
         }
     };
 
-    const sortedPrices = Array.isArray(formData.prices) ? [...formData.prices].sort((a,b) => b.effectiveDate.localeCompare(a.effectiveDate)) : [];
+    const sortedPrices = Array.isArray(formData.prices) ? [...formData.prices].sort((a,b) => b.effectiveDate.toDate().getTime() - a.effectiveDate.toDate().getTime()) : [];
     const currentPrice = getCurrentPrice(formData as Product);
 
     return (
@@ -341,7 +342,7 @@ export const ProductEditor: React.FC = () => {
                                                     <tbody className="divide-y divide-slate-200">
                                                         {sortedPrices.map(price => (
                                                             <tr key={price.id}>
-                                                                <td className="p-2">{price.effectiveDate}</td>
+                                                                <td className="p-2">{dateUtils.formatTimestamp(price.effectiveDate)}</td>
                                                                 <td className="p-2 text-right">R {price.consumer.toFixed(2)}</td>
                                                                 <td className="p-2 text-right">R {price.retail.toFixed(2)}</td>
                                                             </tr>

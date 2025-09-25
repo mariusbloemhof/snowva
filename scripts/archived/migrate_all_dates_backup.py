@@ -8,7 +8,10 @@
       "prices": [
         {
           "id": "price_borki_001",
-          "effectiveDate": "2025-01-01T02:00:00Z",
+          "effectiveDate": {
+            "_seconds": 1735682400,
+            "_nanoseconds": 0
+          },
           "retail": 145.0,
           "consumer": 200.0
         }
@@ -24,7 +27,10 @@
       "prices": [
         {
           "id": "price_braai_bak_2_5l_001",
-          "effectiveDate": "2025-01-01T02:00:00Z",
+          "effectiveDate": {
+            "_seconds": 1735682400,
+            "_nanoseconds": 0
+          },
           "retail": 285.0,
           "consumer": 450.0
         }
@@ -40,7 +46,10 @@
       "prices": [
         {
           "id": "price_braai_bak_3_8l_001",
-          "effectiveDate": "2025-01-01T02:00:00Z",
+          "effectiveDate": {
+            "_seconds": 1735682400,
+            "_nanoseconds": 0
+          },
           "retail": 410.0,
           "consumer": 550.0
         }
@@ -56,7 +65,10 @@
       "prices": [
         {
           "id": "price_braai_bak_5_2l_001",
-          "effectiveDate": "2025-01-01T02:00:00Z",
+          "effectiveDate": {
+            "_seconds": 1735682400,
+            "_nanoseconds": 0
+          },
           "retail": 510.0,
           "consumer": 650.0
         }
@@ -72,7 +84,10 @@
       "prices": [
         {
           "id": "price_braai_grid_large_001",
-          "effectiveDate": "2025-01-01T02:00:00Z",
+          "effectiveDate": {
+            "_seconds": 1735682400,
+            "_nanoseconds": 0
+          },
           "retail": 820.0,
           "consumer": 1000.0
         }
@@ -88,7 +103,10 @@
       "prices": [
         {
           "id": "price_braai_grid_medium_001",
-          "effectiveDate": "2025-01-01T02:00:00Z",
+          "effectiveDate": {
+            "_seconds": 1735682400,
+            "_nanoseconds": 0
+          },
           "retail": 540.0,
           "consumer": 800.0
         }
@@ -104,7 +122,10 @@
       "prices": [
         {
           "id": "price_braai_grid_small_001",
-          "effectiveDate": "2025-01-01T02:00:00Z",
+          "effectiveDate": {
+            "_seconds": 1735682400,
+            "_nanoseconds": 0
+          },
           "retail": 420.0,
           "consumer": 650.0
         }
@@ -120,7 +141,10 @@
       "prices": [
         {
           "id": "price_braai_tas_001",
-          "effectiveDate": "2025-01-01T02:00:00Z",
+          "effectiveDate": {
+            "_seconds": 1735682400,
+            "_nanoseconds": 0
+          },
           "retail": 1200.0,
           "consumer": 1600.0
         }
@@ -136,7 +160,10 @@
       "prices": [
         {
           "id": "price_makabrai_001",
-          "effectiveDate": "2025-01-01T02:00:00Z",
+          "effectiveDate": {
+            "_seconds": 1735682400,
+            "_nanoseconds": 0
+          },
           "retail": 580.0,
           "consumer": 750.0
         }
@@ -152,7 +179,10 @@
       "prices": [
         {
           "id": "price_outray_001",
-          "effectiveDate": "2025-01-01T02:00:00Z",
+          "effectiveDate": {
+            "_seconds": 1735682400,
+            "_nanoseconds": 0
+          },
           "retail": 375.0,
           "consumer": 400.0
         }
@@ -168,7 +198,10 @@
       "prices": [
         {
           "id": "price_snowva_001",
-          "effectiveDate": "2025-01-01T02:00:00Z",
+          "effectiveDate": {
+            "_seconds": 1735682400,
+            "_nanoseconds": 0
+          },
           "retail": 315.0,
           "consumer": 400.0
         }

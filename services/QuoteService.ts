@@ -1,4 +1,4 @@
-import { orderBy } from 'firebase/firestore';
+import { orderBy, Timestamp } from 'firebase/firestore';
 import { DocumentStatus, Quote } from '../types';
 import { FirebaseService } from './FirebaseService';
 
@@ -24,11 +24,11 @@ class QuoteService extends FirebaseService<Quote> {
   // Get active quotes (not expired)
   async getActiveQuotes(): Promise<Quote[]> {
     try {
-      const today = new Date().toISOString().split('T')[0];
+      const today = Timestamp.now();
       const allQuotes = await this.getAll([orderBy('date', 'desc')]);
       
       return allQuotes.filter(quote => 
-        quote.validUntil >= today && 
+        quote.validUntil.seconds >= today.seconds && 
         quote.status !== DocumentStatus.REJECTED
       );
     } catch (error) {
@@ -40,11 +40,11 @@ class QuoteService extends FirebaseService<Quote> {
   // Get expired quotes
   async getExpiredQuotes(): Promise<Quote[]> {
     try {
-      const today = new Date().toISOString().split('T')[0];
+      const today = Timestamp.now();
       const allQuotes = await this.getAll([orderBy('validUntil')]);
       
       return allQuotes.filter(quote => 
-        quote.validUntil < today && 
+        quote.validUntil.seconds < today.seconds && 
         quote.status !== DocumentStatus.ACCEPTED &&
         quote.status !== DocumentStatus.REJECTED
       );
@@ -57,9 +57,12 @@ class QuoteService extends FirebaseService<Quote> {
   // Get quotes for a date range
   async getByDateRange(startDate: string, endDate: string): Promise<Quote[]> {
     try {
+      const startTimestamp = Timestamp.fromDate(new Date(startDate));
+      const endTimestamp = Timestamp.fromDate(new Date(endDate));
       const allQuotes = await this.getAll([orderBy('date')]);
       return allQuotes.filter(quote => 
-        quote.date >= startDate && quote.date <= endDate
+        quote.date.seconds >= startTimestamp.seconds && 
+        quote.date.seconds <= endTimestamp.seconds
       );
     } catch (error) {
       console.error('Error getting quotes by date range:', error);
@@ -92,11 +95,11 @@ class QuoteService extends FirebaseService<Quote> {
       throw new Error('Customer is required');
     }
 
-    if (data.date && new Date(data.date) > new Date()) {
+    if (data.date && data.date.seconds > Timestamp.now().seconds) {
       throw new Error('Quote date cannot be in the future');
     }
 
-    if (data.validUntil && data.date && new Date(data.validUntil) < new Date(data.date)) {
+    if (data.validUntil && data.date && data.validUntil.seconds < data.date.seconds) {
       throw new Error('Valid until date cannot be before quote date');
     }
 
@@ -136,9 +139,9 @@ class QuoteService extends FirebaseService<Quote> {
 
     // Set default valid until date (30 days from quote date)
     if (!data.validUntil && data.date) {
-      const validUntil = new Date(data.date);
-      validUntil.setDate(validUntil.getDate() + 30);
-      data = { ...data, validUntil: validUntil.toISOString().split('T')[0] };
+      const validUntilDate = data.date.toDate();
+      validUntilDate.setDate(validUntilDate.getDate() + 30);
+      data = { ...data, validUntil: Timestamp.fromDate(validUntilDate) };
     }
 
     return super.create(data);
@@ -180,7 +183,7 @@ class QuoteService extends FirebaseService<Quote> {
       // Return invoice data structure
       return {
         customerId: quote.customerId,
-        date: new Date().toISOString().split('T')[0], // Today's date for invoice
+        issueDate: Timestamp.now(), // Today's date for invoice
         quoteId: quote.id,
         items: quote.items,
         notes: quote.notes,

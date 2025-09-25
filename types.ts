@@ -55,7 +55,7 @@ export interface Customer {
 
 export interface Price {
   id: string;
-  effectiveDate: string;
+  effectiveDate: Timestamp;
   retail: number;
   consumer: number;
 }
@@ -86,7 +86,7 @@ export enum PaymentMethod {
 }
 
 export interface PaymentAllocation {
-  invoiceId: string;
+  invoiceNumber: string;
   amount: number;
 }
 
@@ -94,7 +94,7 @@ export interface Payment {
   id: string;
   paymentNumber: string;
   customerId: string;
-  date: string;
+  date: Timestamp;
   totalAmount: number;
   method: PaymentMethod;
   reference?: string;
@@ -110,19 +110,25 @@ export enum DocumentStatus {
   REJECTED = 'Rejected',
 }
 
+import { Timestamp } from 'firebase/firestore';
+
 export interface Invoice {
   id: string;
   invoiceNumber: string;
   customerId: string;
-  issueDate: string;
-  dueDate?: string;
+  issueDate: Timestamp;
+  dueDate?: Timestamp;
+  date?: Timestamp; // For backward compatibility with components
   poNumber?: string;
+  orderNumber?: string; // For backward compatibility with components
   type?: string;
   lineItems: LineItem[];
+  items?: LineItem[]; // For backward compatibility with components
   subtotal: number;
   taxAmount: number;
   discountAmount: number;
   shippingAmount: number;
+  shipping?: number; // For backward compatibility with components
   totalAmount: number;
   status: DocumentStatus;
   notes?: string;
@@ -132,8 +138,8 @@ export interface Quote {
   id: string;
   quoteNumber: string;
   customerId: string;
-  date: string;
-  validUntil: string;
+  date: Timestamp;
+  validUntil: Timestamp;
   items: LineItem[];
   status: DocumentStatus;
   notes?: string;
@@ -141,7 +147,7 @@ export interface Quote {
 }
 
 export interface StatementTransaction {
-  date: string;
+  date: Timestamp;
   type: 'Invoice' | 'Payment';
   reference: string; // Invoice # or Payment #
   sourceId: string; // The original ID of the invoice or payment

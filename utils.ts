@@ -1,15 +1,79 @@
+import { Timestamp } from 'firebase/firestore';
 import { VAT_RATE } from './constants';
 import { AgingAnalysis, Customer, CustomerProductPrice, CustomerType, DocumentStatus, Invoice, LineItem, Payment, PaymentTerm, Price, Product, StatementTransaction } from './types';
+
+// Firebase Timestamp utility functions
+export const dateUtils = {
+  // Convert string to Timestamp
+  stringToTimestamp: (dateStr: string): Timestamp => {
+    return Timestamp.fromDate(new Date(dateStr));
+  },
+
+  // Format Timestamp for display
+  formatTimestamp: (timestamp: Timestamp, format: 'short' | 'long' = 'short'): string => {
+    const date = timestamp.toDate();
+    return format === 'short' 
+      ? date.toLocaleDateString()
+      : date.toLocaleDateString('en-US', { 
+          year: 'numeric', 
+          month: 'long', 
+          day: 'numeric' 
+        });
+  },
+
+  // For form inputs (HTML date inputs need string values)
+  timestampToInputValue: (timestamp: Timestamp): string => {
+    return timestamp.toDate().toISOString().split('T')[0];
+  },
+
+  // From form inputs
+  inputValueToTimestamp: (inputValue: string): Timestamp => {
+    return Timestamp.fromDate(new Date(inputValue));
+  },
+
+  // Current timestamp
+  now: (): Timestamp => Timestamp.now(),
+
+  // Validation
+  isValidTimestamp: (value: any): value is Timestamp => {
+    return value instanceof Timestamp;
+  },
+
+  // Safe conversion - handles both strings and Timestamps
+  toTimestamp: (dateInput: string | Date | Timestamp): Timestamp => {
+    if (dateInput instanceof Timestamp) {
+      return dateInput;
+    }
+    if (typeof dateInput === 'string') {
+      return Timestamp.fromDate(new Date(dateInput));
+    }
+    return Timestamp.fromDate(dateInput);
+  },
+
+  // Safe display - handles both strings and Timestamps
+  toDisplayString: (dateInput: string | Date | Timestamp | undefined): string => {
+    if (!dateInput) return '';
+    if (typeof dateInput === 'string') {
+      return new Date(dateInput).toLocaleDateString();
+    }
+    if (dateInput instanceof Date) {
+      return dateInput.toLocaleDateString();
+    }
+    if (dateInput instanceof Timestamp) {
+      return dateInput.toDate().toLocaleDateString();
+    }
+    return '';
+  }
+};
 
 export const getCurrentPrice = (product: { prices?: Price[] } | undefined): Price | null => {
     if (!product || !Array.isArray(product.prices) || product.prices.length === 0) {
       return null;
     }
-    const today = new Date().toISOString().split('T')[0];
+    const today = new Date();
     const effectivePrices = product.prices
-      .filter(p => p && p.effectiveDate <= today)
-      // FIX: Corrected localeCompare arguments to compare date strings.
-      .sort((a, b) => b.effectiveDate.localeCompare(a.effectiveDate));
+      .filter(p => p && p.effectiveDate && p.effectiveDate.toDate() <= today)
+      .sort((a, b) => b.effectiveDate.toDate().getTime() - a.effectiveDate.toDate().getTime());
     return effectivePrices.length > 0 ? effectivePrices[0] : null;
 };
 
@@ -102,35 +166,76 @@ export const calculateDueDate = (invoiceDate: string, term: PaymentTerm): string
 
 // --- Centralized Financial Calculations ---
 
+export const getDisplayPaymentNumber = (payment: any): string => {
+    // If payment has a paymentNumber field, use it
+    if (payment.paymentNumber) {
+        return payment.paymentNumber;
+    }
+    
+    // Otherwise, generate from ID by taking a hash/index approach
+    // Convert the ID to a consistent short number
+    const id = payment.id || '';
+    
+    // Simple hash function to convert ID to a number
+    let hash = 0;
+    for (let i = 0; i < id.length; i++) {
+        const char = id.charCodeAt(i);
+        hash = ((hash << 5) - hash) + char;
+        hash = hash & hash; // Convert to 32-bit integer
+    }
+    
+    // Use absolute value and limit to 6 digits
+    const num = Math.abs(hash) % 1000000;
+    return `PAY${num.toString().padStart(6, '0')}`;
+};
+
 export const getNextPaymentNumber = (currentPayments: Payment[]): string => {
     const today = new Date();
     const year = today.getFullYear().toString().slice(-2);
     const prefix = `P${year}-`;
 
     const lastNumForYear = currentPayments
-        .filter(p => p.paymentNumber.startsWith(prefix))
-        .map(p => parseInt(p.paymentNumber.slice(-3), 10))
+        .filter(p => (p as any).paymentNumber && (p as any).paymentNumber.startsWith(prefix))
+        .map(p => parseInt((p as any).paymentNumber.slice(-3), 10))
         .reduce((max, num) => Math.max(max, num), 0);
     
     return `${prefix}${(lastNumForYear + 1).toString().padStart(3, '0')}`;
 };
 
-export const calculateTotal = (doc: { items?: LineItem[], shipping?: number }): number => {
-    if (!doc || !Array.isArray(doc.items)) {
-        return (doc?.shipping || 0) * (1 + VAT_RATE);
+export const calculateTotal = (doc: { items?: LineItem[], lineItems?: LineItem[], shipping?: number, shippingAmount?: number, totalAmount?: number }): number => {
+    const items = doc?.items || doc?.lineItems;
+    const shipping = doc?.shipping || doc?.shippingAmount || 0;
+    
+    if (!doc || !Array.isArray(items)) {
+        return shipping * (1 + VAT_RATE);
     }
-    const itemsTotal = doc.items.reduce((sum, item) => sum + item.quantity * item.unitPrice, 0);
-    const subtotal = itemsTotal + (doc.shipping || 0);
+    const itemsTotal = items.reduce((sum, item) => sum + item.quantity * item.unitPrice, 0);
+    const subtotal = itemsTotal + shipping;
     return subtotal * (1 + VAT_RATE);
 };
 
-export const calculatePaid = (invoiceId: string, allPayments: Payment[]): number => {
+export const calculatePaid = (invoiceId: string, allPayments: Payment[], invoices?: any[]): number => {
     if (!invoiceId || !Array.isArray(allPayments)) return 0;
+    
+    // Find the invoice to get its invoiceNumber
+    let targetInvoiceNumber = invoiceId;
+    if (invoices) {
+        const invoice = invoices.find(inv => inv.id === invoiceId);
+        targetInvoiceNumber = invoice?.invoiceNumber || invoiceId;
+    } else {
+        // Try to extract invoice number from ID format (inv_241002101 -> 241002101)
+        if (invoiceId.startsWith('inv_')) {
+            targetInvoiceNumber = invoiceId.substring(4);
+        }
+    }
+    
     let totalPaid = 0;
     for (const payment of allPayments) {
         if (payment && Array.isArray(payment.allocations)) {
             for (const allocation of payment.allocations) {
-                if (allocation && allocation.invoiceId === invoiceId) {
+                // Handle both old (invoiceId) and new (invoiceNumber) field formats
+                const allocRef = (allocation as any).invoiceNumber || (allocation as any).invoiceId;
+                if (allocation && allocRef === targetInvoiceNumber) {
                     totalPaid += allocation.amount || 0;
                 }
             }
@@ -142,7 +247,7 @@ export const calculatePaid = (invoiceId: string, allPayments: Payment[]): number
 export const calculateBalanceDue = (invoice: Invoice, allPayments: Payment[]): number => {
     if (!invoice) return 0;
     const total = calculateTotal(invoice);
-    const paid = calculatePaid(invoice.id, allPayments);
+    const paid = calculatePaid(invoice.id, allPayments, [invoice]);
     // Return a value rounded to 2 decimal places to avoid floating point issues
     return parseFloat((total - paid).toFixed(2));
 };
@@ -202,7 +307,7 @@ export const getStatementDataForCustomer = (
 
     // 3. Create a unified, sorted list of transactions
     const transactions: (Invoice | Payment)[] = [...relevantInvoices, ...relevantPayments];
-    transactions.sort((a, b) => a.date.localeCompare(b.date));
+    transactions.sort((a, b) => ((a as any).paymentDate || (a as any).issueDate || (a as any).date || '').localeCompare((b as any).paymentDate || (b as any).issueDate || (b as any).date || ''));
 
     // 4. Calculate running balance and format for statement
     let currentBalance = 0;
@@ -211,7 +316,7 @@ export const getStatementDataForCustomer = (
             const invoiceTotal = calculateTotal(tx);
             currentBalance += invoiceTotal;
             return {
-                date: tx.date,
+                date: (tx as any).issueDate || (tx as any).date,
                 type: 'Invoice',
                 reference: tx.invoiceNumber,
                 sourceId: tx.id,
@@ -241,7 +346,7 @@ export const getStatementDataForCustomer = (
     relevantInvoices.forEach(inv => {
         const balanceDue = calculateBalanceDue(inv, allPayments);
         if (balanceDue > 0.01) { // If there is a balance
-            const dueDate = new Date(inv.dueDate || inv.date);
+            const dueDate = new Date(inv.dueDate || (inv as any).issueDate || (inv as any).date);
             dueDate.setHours(0, 0, 0, 0);
             const daysOverdue = Math.floor((today.getTime() - dueDate.getTime()) / (1000 * 60 * 60 * 24));
             

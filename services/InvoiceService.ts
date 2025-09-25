@@ -1,4 +1,4 @@
-import { orderBy } from 'firebase/firestore';
+import { orderBy, Timestamp } from 'firebase/firestore';
 import { DocumentStatus, Invoice } from '../types';
 import { FirebaseService } from './FirebaseService';
 
@@ -8,7 +8,7 @@ class InvoiceService extends FirebaseService<Invoice> {
   }
 
   protected isDateField(fieldName: string): boolean {
-    return ['date', 'dueDate', 'createdAt', 'updatedAt'].includes(fieldName);
+    return ['date', 'dueDate', 'issueDate', 'createdAt', 'updatedAt'].includes(fieldName);
   }
 
   // Get invoices by customer
@@ -37,12 +37,12 @@ class InvoiceService extends FirebaseService<Invoice> {
   // Get overdue invoices
   async getOverdueInvoices(): Promise<Invoice[]> {
     try {
-      const today = new Date().toISOString().split('T')[0];
+      const today = Timestamp.now();
       const allInvoices = await this.getAll([orderBy('dueDate')]);
       
       return allInvoices.filter(invoice => 
         invoice.dueDate && 
-        invoice.dueDate < today && 
+        invoice.dueDate.seconds < today.seconds && 
         invoice.status !== DocumentStatus.PAID
       );
     } catch (error) {
@@ -54,9 +54,12 @@ class InvoiceService extends FirebaseService<Invoice> {
   // Get invoices for a date range
   async getByDateRange(startDate: string, endDate: string): Promise<Invoice[]> {
     try {
-      const allInvoices = await this.getAll([orderBy('date')]);
+      const startTimestamp = Timestamp.fromDate(new Date(startDate));
+      const endTimestamp = Timestamp.fromDate(new Date(endDate));
+      const allInvoices = await this.getAll([orderBy('issueDate')]);
       return allInvoices.filter(invoice => 
-        invoice.date >= startDate && invoice.date <= endDate
+        invoice.issueDate.seconds >= startTimestamp.seconds && 
+        invoice.issueDate.seconds <= endTimestamp.seconds
       );
     } catch (error) {
       console.error('Error getting invoices by date range:', error);
@@ -110,11 +113,11 @@ class InvoiceService extends FirebaseService<Invoice> {
       throw new Error('Customer is required');
     }
 
-    if (data.date && new Date(data.date) > new Date()) {
+    if (data.issueDate && data.issueDate.seconds > Timestamp.now().seconds) {
       throw new Error('Invoice date cannot be in the future');
     }
 
-    if (data.dueDate && data.date && new Date(data.dueDate) < new Date(data.date)) {
+    if (data.dueDate && data.issueDate && data.dueDate.seconds < data.issueDate.seconds) {
       throw new Error('Due date cannot be before invoice date');
     }
 

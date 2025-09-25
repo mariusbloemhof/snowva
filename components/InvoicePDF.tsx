@@ -1,7 +1,8 @@
 import { Document, Page, StyleSheet, Text, View } from '@react-pdf/renderer';
+import { Timestamp } from 'firebase/firestore';
 import React from 'react';
 import { SNOWVA_DETAILS, VAT_RATE } from '../constants';
-import { Customer, Invoice } from '../types';
+import { Customer, Invoice, Product } from '../types';
 
 interface InvoicePDFProps {
   invoice: Invoice;
@@ -10,6 +11,7 @@ interface InvoicePDFProps {
   subtotal: number;
   vatAmount: number;
   total: number;
+  products: Product[];
 }
 
 const formatCurrency = (amount: number) => {
@@ -326,10 +328,11 @@ export const InvoicePDF: React.FC<InvoicePDFProps> = ({
   subtotal,
   vatAmount,
   total,
+  products,
 }) => {
-  const formatDate = (dateString?: string) => {
-    if (!dateString) return '';
-    const d = new Date(dateString);
+  const formatDate = (timestamp?: Timestamp) => {
+    if (!timestamp) return '';
+    const d = timestamp.toDate();
     const userTimezoneOffset = d.getTimezoneOffset() * 60000;
     const correctedDate = new Date(d.getTime() + userTimezoneOffset);
     const day = correctedDate.getDate().toString().padStart(2, '0');
@@ -366,7 +369,7 @@ export const InvoicePDF: React.FC<InvoicePDFProps> = ({
             </View>
             <View style={styles.detailRow}>
               <Text style={styles.detailLabel}>Invoice Date:</Text>
-              <Text style={styles.detailValue}>{formatDate(invoice.date)}</Text>
+              <Text style={styles.detailValue}>{formatDate(invoice.issueDate)}</Text>
             </View>
             <View style={styles.detailRow}>
               <Text style={styles.detailLabel}>Due Date:</Text>
@@ -395,8 +398,8 @@ export const InvoicePDF: React.FC<InvoicePDFProps> = ({
               {billToCustomer.vatNumber && (
                 <Text style={styles.addressLine}>VAT #: {billToCustomer.vatNumber}</Text>
               )}
-              {invoice.orderNumber && (
-                <Text style={styles.addressLine}>Order #: {invoice.orderNumber}</Text>
+              {invoice.poNumber && (
+                <Text style={styles.addressLine}>Order #: {invoice.poNumber}</Text>
               )}
             </View>
           </View>
@@ -424,28 +427,34 @@ export const InvoicePDF: React.FC<InvoicePDFProps> = ({
           </View>
 
           {/* Table Body */}
-          {invoice.items.map((item, index) => (
-            <View key={index} style={styles.tableRow}>
-              <View style={styles.descriptionCol}>
-                <Text style={styles.descriptionText}>{item.description}</Text>
+          {invoice.lineItems.map((item, index) => {
+            const product = products.find(p => p.id === item.productId);
+            const description = item.description || product?.name || 'Unknown Product';
+            const itemCode = item.itemCode || product?.itemCode || '';
+            
+            return (
+              <View key={index} style={styles.tableRow}>
+                <View style={styles.descriptionCol}>
+                  <Text style={styles.descriptionText}>{description}</Text>
+                </View>
+                <View style={styles.itemCodeCol}>
+                  <Text style={styles.centerText}>{itemCode}</Text>
+                </View>
+                <View style={styles.qtyCol}>
+                  <Text style={styles.centerText}>{item.quantity}</Text>
+                </View>
+                <View style={styles.unitPriceCol}>
+                  <Text style={styles.currencyText}>R {formatCurrency(item.unitPrice)}</Text>
+                </View>
+                <View style={styles.totalCol}>
+                  <Text style={styles.currencyText}>R {formatCurrency(item.quantity * item.unitPrice)}</Text>
+                </View>
               </View>
-              <View style={styles.itemCodeCol}>
-                <Text style={styles.centerText}>{item.itemCode}</Text>
-              </View>
-              <View style={styles.qtyCol}>
-                <Text style={styles.centerText}>{item.quantity}</Text>
-              </View>
-              <View style={styles.unitPriceCol}>
-                <Text style={styles.currencyText}>R {formatCurrency(item.unitPrice)}</Text>
-              </View>
-              <View style={styles.totalCol}>
-                <Text style={styles.currencyText}>R {formatCurrency(item.quantity * item.unitPrice)}</Text>
-              </View>
-            </View>
-          ))}
+            );
+          })}
 
           {/* Shipping Row */}
-          {invoice.shipping && invoice.shipping > 0 && (
+          {invoice.shippingAmount && invoice.shippingAmount > 0 && (
             <View style={styles.tableRow}>
               <View style={styles.descriptionCol}>
                 <Text style={styles.descriptionText}>Delivery Fee</Text>
@@ -457,10 +466,10 @@ export const InvoicePDF: React.FC<InvoicePDFProps> = ({
                 <Text style={styles.centerText}>1</Text>
               </View>
               <View style={styles.unitPriceCol}>
-                <Text style={styles.currencyText}>R {formatCurrency(invoice.shipping)}</Text>
+                <Text style={styles.currencyText}>R {formatCurrency(invoice.shippingAmount)}</Text>
               </View>
               <View style={styles.totalCol}>
-                <Text style={styles.currencyText}>R {formatCurrency(invoice.shipping)}</Text>
+                <Text style={styles.currencyText}>R {formatCurrency(invoice.shippingAmount)}</Text>
               </View>
             </View>
           )}

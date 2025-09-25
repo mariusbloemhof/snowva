@@ -66,23 +66,37 @@ export class FirebaseService<T extends { id: string }> {
     }
     result.updatedAt = serverTimestamp();
 
-    // Convert date strings to Timestamp objects if needed
-    Object.keys(result).forEach(key => {
-      if (typeof result[key] === 'string' && this.isDateField(key)) {
-        try {
-          result[key] = Timestamp.fromDate(new Date(result[key]));
-        } catch (error) {
-          // Keep as string if not a valid date
-        }
-      }
-    });
+    // Recursively convert date strings to Timestamp objects
+    this.convertDatesToTimestamps(result);
 
     return result;
   }
 
+  // Recursively convert date strings to Timestamp objects
+  private convertDatesToTimestamps(obj: any): void {
+    if (!obj || typeof obj !== 'object') return;
+
+    if (Array.isArray(obj)) {
+      obj.forEach(item => this.convertDatesToTimestamps(item));
+      return;
+    }
+
+    Object.keys(obj).forEach(key => {
+      if (typeof obj[key] === 'string' && this.isDateField(key)) {
+        try {
+          obj[key] = Timestamp.fromDate(new Date(obj[key]));
+        } catch (error) {
+          // Keep as string if not a valid date
+        }
+      } else if (typeof obj[key] === 'object' && obj[key] !== null) {
+        this.convertDatesToTimestamps(obj[key]);
+      }
+    });
+  }
+
   // Override this in subclasses to define which fields are dates
   protected isDateField(fieldName: string): boolean {
-    return ['date', 'dueDate', 'validUntil', 'createdAt', 'updatedAt'].includes(fieldName);
+    return ['date', 'dueDate', 'validUntil', 'createdAt', 'updatedAt', 'effectiveDate', 'issueDate', 'paymentDate'].includes(fieldName);
   }
 
   // Get all documents

@@ -1,9 +1,10 @@
+import { Timestamp } from 'firebase/firestore';
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { useBlocker, useNavigate, useOutletContext, useParams } from 'react-router-dom';
 import { VAT_RATE } from '../constants';
 import { useToast } from '../contexts/ToastContext';
 import { AppContextType, Customer, DocumentStatus, LineItem, Product, Quote } from '../types';
-import { getResolvedProductDetails } from '../utils';
+import { dateUtils, getResolvedProductDetails } from '../utils';
 import { CheckCircleIcon, PlusIcon, TrashIcon } from './Icons';
 import { ProductSelector } from './ProductSelector';
 
@@ -28,6 +29,12 @@ export const QuoteEditor: React.FC = () => {
   const [quote, setQuote] = useState<Quote | null>(null);
   const [selectedCustomer, setSelectedCustomer] = useState<Customer | null>(null);
   const [errors, setErrors] = useState<FormErrors>({});
+  
+  // Form input values (strings for date inputs)
+  const [formValues, setFormValues] = useState({
+    date: new Date().toISOString().split('T')[0],
+    validUntil: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString().split('T')[0]
+  });
   
   const [isDirty, setIsDirty] = useState(false);
   const initialState = useRef<string>('');
@@ -58,8 +65,8 @@ export const QuoteEditor: React.FC = () => {
         id: `qt_${Date.now()}`,
         quoteNumber: `DRAFT-Q-${Date.now()}`,
         customerId: '',
-        date: new Date().toISOString().split('T')[0],
-        validUntil: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString().split('T')[0],
+        date: Timestamp.fromDate(new Date()),
+        validUntil: Timestamp.fromDate(new Date(Date.now() + 30 * 24 * 60 * 60 * 1000)),
         items: [],
         status: DocumentStatus.DRAFT
       };
@@ -67,6 +74,16 @@ export const QuoteEditor: React.FC = () => {
       setSelectedCustomer(null);
     }
   }, [quoteId, customers, quotes]);
+
+  // Sync form values when quote changes
+  useEffect(() => {
+    if (quote) {
+      setFormValues({
+        date: dateUtils.timestampToInputValue(quote.date),
+        validUntil: dateUtils.timestampToInputValue(quote.validUntil)
+      });
+    }
+  }, [quote]);
 
   useEffect(() => {
     if (quote && !initialDataLoaded.current) {
@@ -102,7 +119,14 @@ export const QuoteEditor: React.FC = () => {
 
   const handleFieldChange = (field: keyof Quote, value: any) => {
     if (quote) {
-      setQuote({ ...quote, [field]: value });
+      if (field === 'date' || field === 'validUntil') {
+        // Update form values for string inputs
+        setFormValues(prev => ({ ...prev, [field]: value }));
+        // Update quote with Timestamp
+        setQuote({ ...quote, [field]: dateUtils.stringToTimestamp(value) });
+      } else {
+        setQuote({ ...quote, [field]: value });
+      }
     }
   };
 
@@ -298,13 +322,13 @@ export const QuoteEditor: React.FC = () => {
                       <div className="sm:col-span-3">
                           <label htmlFor="date" className={labelClasses}>Quote Date</label>
                           <div className="mt-2">
-                              <input type="date" id="date" value={quote.date} onChange={e => handleFieldChange('date', e.target.value)} className={formElementClasses}/>
+                              <input type="date" id="date" value={formValues.date} onChange={e => handleFieldChange('date', e.target.value)} className={formElementClasses}/>
                           </div>
                       </div>
                       <div className="sm:col-span-3">
                           <label htmlFor="validUntil" className={labelClasses}>Valid Until</label>
                           <div className="mt-2">
-                              <input type="date" id="validUntil" value={quote.validUntil} onChange={e => handleFieldChange('validUntil', e.target.value)} className={formElementClasses}/>
+                              <input type="date" id="validUntil" value={formValues.validUntil} onChange={e => handleFieldChange('validUntil', e.target.value)} className={formElementClasses}/>
                           </div>
                       </div>
                   </div>

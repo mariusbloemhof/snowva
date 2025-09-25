@@ -1,7 +1,8 @@
-import React, { useState, useMemo } from 'react';
-import { useNavigate, Link, useOutletContext } from 'react-router-dom';
-import { Payment, Customer, AppContextType } from '../types';
-import { PencilIcon, PlusIcon, SelectorIcon, SearchIcon } from './Icons';
+import React, { useMemo, useState } from 'react';
+import { Link, useNavigate, useOutletContext } from 'react-router-dom';
+import { AppContextType, Payment } from '../types';
+import { getDisplayPaymentNumber } from '../utils';
+import { PencilIcon, PlusIcon, SearchIcon, SelectorIcon } from './Icons';
 
 type SortConfig = { key: keyof Payment | 'customerName'; direction: 'ascending' | 'descending'; } | null;
 
@@ -28,7 +29,7 @@ export const PaymentList: React.FC = () => {
             filteredPayments = filteredPayments.filter(p => {
                 const customer = customers.find(c => c.id === p.customerId);
                 return (
-                    p.paymentNumber.toLowerCase().includes(lowercasedFilter) ||
+                    ((p as any).paymentNumber || p.id).toLowerCase().includes(lowercasedFilter) ||
                     customer?.name.toLowerCase().includes(lowercasedFilter) ||
                     p.reference?.toLowerCase().includes(lowercasedFilter)
                 );
@@ -43,6 +44,15 @@ export const PaymentList: React.FC = () => {
                 if (sortConfig.key === 'customerName') {
                     aValue = customers.find(c => c.id === a.customerId)?.name || '';
                     bValue = customers.find(c => c.id === b.customerId)?.name || '';
+                } else if (sortConfig.key === 'date') {
+                    aValue = (a as any).paymentDate || a.date || '';
+                    bValue = (b as any).paymentDate || b.date || '';
+                } else if (sortConfig.key === 'totalAmount') {
+                    aValue = (a as any).amount || a.totalAmount || 0;
+                    bValue = (b as any).amount || b.totalAmount || 0;
+                } else if (sortConfig.key === 'paymentNumber') {
+                    aValue = (a as any).paymentNumber || a.id || '';
+                    bValue = (b as any).paymentNumber || b.id || '';
                 } else {
                     aValue = a[sortConfig.key as keyof Payment];
                     bValue = b[sortConfig.key as keyof Payment];
@@ -116,16 +126,16 @@ export const PaymentList: React.FC = () => {
                                     <tr key={payment.id} className="hover:bg-slate-50">
                                         <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium sm:pl-0">
                                             <Link to={`/payments/edit/${payment.id}`} className="text-indigo-600 hover:text-indigo-900">
-                                                {payment.paymentNumber}
+                                                {getDisplayPaymentNumber(payment)}
                                             </Link>
                                         </td>
-                                        <td className="whitespace-nowrap px-3 py-4 text-sm text-slate-500">{payment.date}</td>
+                                        <td className="whitespace-nowrap px-3 py-4 text-sm text-slate-500">{(payment as any).paymentDate || payment.date}</td>
                                         <td className="whitespace-nowrap px-3 py-4 text-sm font-medium text-slate-900">
                                             <Link to={`/customers/${payment.customerId}`} className="text-indigo-600 hover:text-indigo-900">
                                                 {customers.find(c => c.id === payment.customerId)?.name || 'N/A'}
                                             </Link>
                                         </td>
-                                        <td className="whitespace-nowrap px-3 py-4 text-sm text-slate-500">R {payment.totalAmount.toFixed(2)}</td>
+                                        <td className="whitespace-nowrap px-3 py-4 text-sm text-slate-500">R {((payment as any).amount || payment.totalAmount || 0).toFixed(2)}</td>
                                         <td className="whitespace-nowrap px-3 py-4 text-sm text-slate-500">{payment.method}</td>
                                         <td className="whitespace-nowrap px-3 py-4 text-sm text-slate-500">{payment.reference || 'N/A'}</td>
                                         <td className="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium">
