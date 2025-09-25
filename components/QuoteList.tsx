@@ -1,9 +1,8 @@
 
 import React from 'react';
 import { Link, useNavigate, useOutletContext } from 'react-router-dom';
-import { dateUtils } from '../dateUtils';
 import { AppContextType, DocumentStatus } from '../types';
-import { calculateTotal } from '../utils';
+import { calculateTotal, dateUtils } from '../utils';
 import { EyeIcon, PencilIcon, PlusIcon } from './Icons';
 
 export const QuoteList: React.FC = () => {
@@ -55,7 +54,7 @@ export const QuoteList: React.FC = () => {
                                                 {customers.find(c => c.id === quote.customerId)?.name}
                                             </Link>
                                         </td>
-                                        <td className="whitespace-nowrap px-3 py-4 text-sm text-slate-500">{dateUtils.formatForDisplay(quote.date)}</td>
+                                        <td className="whitespace-nowrap px-3 py-4 text-sm text-slate-500">{dateUtils.toDisplayString(quote.date)}</td>
                                         <td className="whitespace-nowrap px-3 py-4 text-sm text-slate-500">R {calculateTotal(quote).toFixed(2)}</td>
                                         <td className="whitespace-nowrap px-3 py-4 text-sm text-slate-500">
                                             <span className={`inline-flex items-center rounded-md px-2 py-1 text-xs font-medium ring-1 ring-inset ${

@@ -1,9 +1,8 @@
 import { Timestamp } from 'firebase/firestore';
 import React, { useMemo } from 'react';
 import { Link } from 'react-router-dom';
-import { dateUtils } from '../dateUtils';
 import { Customer, DocumentStatus, Invoice, Payment, Quote } from '../types';
-import { calculateTotal } from '../utils';
+import { calculateTotal, dateUtils } from '../utils';
 import { EyeIcon } from './Icons';
 
 interface CustomerHistoryTabProps {
@@ -113,7 +112,7 @@ export const CustomerHistoryTab: React.FC<CustomerHistoryTabProps> = ({ customer
                             <tbody className="divide-y divide-slate-200">
                                 {transactions.map(tx => (
                                     <tr key={tx.id} className="hover:bg-slate-50">
-                                        <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm text-slate-500 sm:pl-0">{dateUtils.formatForDisplay(tx.date)}</td>
+                                        <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm text-slate-500 sm:pl-0">{dateUtils.toDisplayString(tx.date)}</td>
                                         <td className="whitespace-nowrap px-3 py-4 text-sm text-slate-500">{tx.type}</td>
                                         <td className="whitespace-nowrap px-3 py-4 text-sm font-medium text-slate-900">{tx.reference}</td>
                                         <td className="whitespace-nowrap px-3 py-4 text-sm text-slate-500 text-right">R {tx.amount.toFixed(2)}</td>

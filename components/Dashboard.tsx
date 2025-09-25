@@ -1,9 +1,8 @@
 import { Timestamp } from 'firebase/firestore';
 import React from 'react';
 import { Link, useOutletContext } from 'react-router-dom';
-import { dateUtils } from '../dateUtils';
 import { AppContextType, DocumentStatus } from '../types';
-import { calculateBalanceDue, calculateTotal } from '../utils';
+import { calculateBalanceDue, calculateTotal, dateUtils } from '../utils';
 import {
     ArrowDownIcon,
     ArrowUpIcon,
@@ -65,7 +64,7 @@ export const Dashboard: React.FC = () => {
     const thirtyDaysAgo = new Date();
     thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
     const thirtyDaysAgoTimestamp = Timestamp.fromDate(thirtyDaysAgo);
-    const todayTimestamp = dateUtils.todayTimestamp();
+    const todayTimestamp = dateUtils.now();
 
     const openInvoices = invoices.filter(inv => inv.status === DocumentStatus.FINALIZED || inv.status === DocumentStatus.PARTIALLY_PAID);
     

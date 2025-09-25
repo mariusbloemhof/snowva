@@ -3,7 +3,7 @@ import { useBlocker, useLocation, useNavigate, useOutletContext, useParams } fro
 import { VAT_RATE } from '../constants';
 import { useFirebase } from '../contexts/FirebaseContext';
 import { useToast } from '../contexts/ToastContext';
-import { dateUtils } from '../dateUtils';
+import { dateUtils } from '../utils';
 import { AppContextType, Customer, DocumentStatus, Invoice, LineItem, Product, Quote } from '../types';
 import { getResolvedProductDetails } from '../utils';
 import { CheckCircleIcon, PlusIcon, TrashIcon } from './Icons';

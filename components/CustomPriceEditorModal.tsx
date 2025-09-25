@@ -1,8 +1,7 @@
 
 import React, { useState } from 'react';
-import { dateUtils } from '../dateUtils';
 import { CustomerProductPrice, Price, Product } from '../types';
-import { getCurrentPrice } from '../utils';
+import { getCurrentPrice, dateUtils } from '../utils';
 import { PlusIcon } from './Icons';
 
 interface CustomPriceEditorModalProps {
@@ -126,7 +125,7 @@ export const CustomPriceEditorModal: React.FC<CustomPriceEditorModalProps> = ({ 
                                         <tbody className="divide-y divide-slate-200">
                                             {sortedPrices.map(price => (
                                                 <tr key={price.id}>
-                                                    <td className="p-2">{dateUtils.formatForDisplay(price.effectiveDate)}</td>
+                                                    <td className="p-2">{dateUtils.toDisplayString(price.effectiveDate)}</td>
                                                     <td className="p-2 text-right">R {price.retail.toFixed(2)}</td>
                                                 </tr>
                                             ))}

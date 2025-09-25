@@ -34,6 +34,11 @@ export const dateUtils = {
   // Current timestamp
   now: (): Timestamp => Timestamp.now(),
 
+  // Today as string for form inputs
+  todayString: (): string => {
+    return new Date().toISOString().split('T')[0];
+  },
+
   // Validation
   isValidTimestamp: (value: any): value is Timestamp => {
     return value instanceof Timestamp;
