@@ -1,6 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useBlocker, useNavigate, useOutletContext, useParams } from 'react-router-dom';
-import { products as allProducts } from '../constants';
 import { useToast } from '../contexts/ToastContext';
 import { Address, AppContextType, Customer, CustomerType, PaymentTerm } from '../types';
 import { CustomerHistoryTab } from './CustomerHistoryTab';
@@ -217,7 +216,7 @@ const AddressForm: React.FC<{
 
 export const CustomerEditor: React.FC = () => {
     const { id: customerId } = useParams<{ id: string }>();
-    const { customers, setCustomers, invoices, quotes, payments } = useOutletContext<AppContextType>();
+    const { customers, setCustomers, invoices, quotes, payments, products } = useOutletContext<AppContextType>();
     const navigate = useNavigate();
     const { addToast } = useToast();
     const [formData, setFormData] = useState<Omit<Customer, 'id'> & { id?: string }>(emptyCustomer);
@@ -582,7 +581,7 @@ export const CustomerEditor: React.FC = () => {
                             customer={formData}
                             setCustomer={setFormData}
                             customers={customers}
-                            products={allProducts}
+                            products={products}
                         />
                     </div>
                     <div className={activeTab === 'history' ? 'block' : 'hidden'}>

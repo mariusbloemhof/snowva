@@ -1,13 +1,12 @@
 
 import React from 'react';
 import { useNavigate, Link, useOutletContext } from 'react-router-dom';
-import { customers } from '../constants';
 import { DocumentStatus, Quote, AppContextType } from '../types';
 import { PencilIcon, EyeIcon, PlusIcon } from './Icons';
 import { calculateTotal } from '../utils';
 
 export const QuoteList: React.FC = () => {
-    const { quotes } = useOutletContext<AppContextType>();
+    const { quotes, customers } = useOutletContext<AppContextType>();
     const navigate = useNavigate();
 
     return (

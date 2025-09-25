@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { useBlocker, useNavigate, useOutletContext, useParams } from 'react-router-dom';
-import { products as allProducts, VAT_RATE } from '../constants';
+import { VAT_RATE } from '../constants';
 import { useToast } from '../contexts/ToastContext';
 import { AppContextType, Customer, DocumentStatus, LineItem, Product, Quote } from '../types';
 import { getResolvedProductDetails } from '../utils';
@@ -22,7 +22,7 @@ const getNextQuoteNumber = (currentQuotes: Quote[]) => {
 
 export const QuoteEditor: React.FC = () => {
   const { id: quoteId } = useParams<{ id: string }>();
-  const { customers, quotes, setQuotes } = useOutletContext<AppContextType>();
+  const { customers, quotes, setQuotes, products } = useOutletContext<AppContextType>();
   const navigate = useNavigate();
   const { addToast } = useToast();
   const [quote, setQuote] = useState<Quote | null>(null);
@@ -330,7 +330,7 @@ export const QuoteEditor: React.FC = () => {
                                           <tr key={item.id} className="border-b border-slate-200">
                                               <td className="p-2 sm:pl-6">
                                                   <ProductSelector 
-                                                  products={allProducts}
+                                                  products={products}
                                                   initialProductId={item.productId}
                                                   onSelectProduct={(product) => handleProductSelection(index, product)}
                                                   />

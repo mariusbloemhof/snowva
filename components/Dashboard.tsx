@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useOutletContext } from 'react-router-dom';
 import {
     CollectionIcon,
     ExclamationCircleIcon,
@@ -9,8 +9,7 @@ import {
     ArrowDownIcon,
     PlusIcon,
 } from './Icons';
-import { invoices, quotes, customers, payments } from '../constants';
-import { DocumentStatus } from '../types';
+import { DocumentStatus, AppContextType } from '../types';
 import { calculateTotal, calculateBalanceDue } from '../utils';
 
 const StatCard: React.FC<{
@@ -59,6 +58,8 @@ const StatCard: React.FC<{
 
 
 export const Dashboard: React.FC = () => {
+    const { customers, invoices, quotes, payments } = useOutletContext<AppContextType>();
+    
     const thirtyDaysAgo = new Date();
     thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
     const thirtyDaysAgoStr = thirtyDaysAgo.toISOString().split('T')[0];

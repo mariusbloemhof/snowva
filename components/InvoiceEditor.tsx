@@ -1,8 +1,7 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { useBlocker, useLocation, useNavigate, useOutletContext, useParams } from 'react-router-dom';
 import { AppContextType, Customer, DocumentStatus, Invoice, LineItem, PaymentTerm, Product, Quote } from '../types';
-// FIX: Import VAT_RATE to resolve undefined variable errors.
-import { products as allProducts, VAT_RATE } from '../constants';
+import { VAT_RATE } from '../constants';
 import { useToast } from '../contexts/ToastContext';
 import { calculateDueDate, getResolvedProductDetails } from '../utils';
 import { CheckCircleIcon, PlusIcon, TrashIcon } from './Icons';
@@ -30,7 +29,7 @@ const getNextInvoiceNumber = (currentInvoices: Invoice[]) => {
 
 export const InvoiceEditor: React.FC = () => {
   const { id: invoiceId } = useParams<{ id: string }>();
-  const { invoices, setInvoices, customers } = useOutletContext<AppContextType>();
+  const { invoices, setInvoices, customers, products } = useOutletContext<AppContextType>();
   const navigate = useNavigate();
   const location = useLocation();
   const { addToast } = useToast();
@@ -371,7 +370,7 @@ export const InvoiceEditor: React.FC = () => {
                                           <tr key={item.id} className="border-b border-slate-200">
                                               <td className="p-2 sm:pl-6">
                                                   <ProductSelector 
-                                                  products={allProducts}
+                                                  products={products}
                                                   initialProductId={item.productId}
                                                   onSelectProduct={(product) => handleProductSelection(index, product)}
                                                   />

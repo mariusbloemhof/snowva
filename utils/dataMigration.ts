@@ -12,15 +12,15 @@ import invoicesData from '../data/normalized/invoices.json';
 import paymentsData from '../data/normalized/payments.json';
 import productsData from '../data/normalized/products.json';
 
-// Import quotes from constants (fallback if no normalized quotes file)
-import { quotes as quotesFromConstants } from '../constants';
+// TODO: Add quotes data file when available
+// For now, quotes will be empty until proper data file is created
 
 // Extract data arrays from the JSON structure
 const customers = Object.values(customersData) as any[];
 const products = Object.values(productsData.products) as any[];
 const invoices = invoicesData as any[]; // Already an array
 const payments = paymentsData as any[]; // Already an array  
-const quotes = quotesFromConstants; // Using constants until quotes.json is created
+const quotes: any[] = []; // Empty until quotes data file is available
 
 interface MigrationResult {
   success: boolean;
