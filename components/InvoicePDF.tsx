@@ -366,7 +366,7 @@ export const InvoicePDF: React.FC<InvoicePDFProps> = ({
             </View>
             <View style={styles.detailRow}>
               <Text style={styles.detailLabel}>Invoice Date:</Text>
-              <Text style={styles.detailValue}>{formatDate(invoice.issueDate)}</Text>
+              <Text style={styles.detailValue}>{formatDate(invoice.date)}</Text>
             </View>
             <View style={styles.detailRow}>
               <Text style={styles.detailLabel}>Due Date:</Text>

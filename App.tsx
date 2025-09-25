@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { Outlet, NavLink } from 'react-router-dom';
 import {
   HomeIcon, UsersIcon, CubeIcon, DocumentTextIcon,
-  DocumentReportIcon, MenuIcon, XIcon, CollectionIcon, CashIcon
+  DocumentReportIcon, MenuIcon, XIcon, CollectionIcon, CashIcon, SparklesIcon
 } from './components/Icons';
 import { customers as allCustomers, products as allProducts, invoices as allInvoices, payments as allPayments, quotes as allQuotes } from './constants';
 import { Customer, Product, Invoice, Payment, Quote, AppContextType } from './types';
@@ -24,6 +24,7 @@ const App: React.FC = () => {
     { to: "/invoices", icon: <CollectionIcon className="h-5 w-5" />, label: "Invoices" },
     { to: "/payments", icon: <CashIcon className="h-5 w-5" />, label: "Payments" },
     { to: "/statements", icon: <DocumentReportIcon className="h-5 w-5" />, label: "Statements" },
+    { to: "/firebase-admin", icon: <SparklesIcon className="h-5 w-5" />, label: "Firebase Admin" },
   ];
 
   const outletContext: AppContextType = {

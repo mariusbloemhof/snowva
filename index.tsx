@@ -1,27 +1,28 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import { createHashRouter, RouterProvider, useParams, useOutletContext } from 'react-router-dom';
+import { createHashRouter, RouterProvider, useOutletContext, useParams } from 'react-router-dom';
 import App from './App';
-import { ToastProvider } from './contexts/ToastContext';
-import { ToastContainer } from './components/ToastContainer';
-import { Dashboard } from './components/Dashboard';
+import { CustomerEditor } from './components/CustomerEditor';
 import { CustomerList } from './components/CustomerList';
-import { ProductList } from './components/ProductList';
+import { Dashboard } from './components/Dashboard';
+import { FirebaseAdmin } from './components/FirebaseAdmin';
+import { InvoiceEditor } from './components/InvoiceEditor';
 import { InvoiceList } from './components/InvoiceList';
-import { QuoteList } from './components/QuoteList';
-import { StatementPage } from './components/StatementPage';
+import { InvoiceViewer } from './components/InvoiceViewer';
 import { PaymentList } from './components/PaymentList';
 import { PaymentPage } from './components/PaymentPage';
 import { PaymentRecorder } from './components/PaymentRecorder';
-import { InvoiceEditor } from './components/InvoiceEditor';
-import { InvoiceViewer } from './components/InvoiceViewer';
-import { QuoteEditor } from './components/QuoteEditor';
-import { QuoteViewer } from './components/QuoteViewer';
-import { CustomerEditor } from './components/CustomerEditor';
 import { ProductEditor } from './components/ProductEditor';
+import { ProductList } from './components/ProductList';
+import { QuoteEditor } from './components/QuoteEditor';
+import { QuoteList } from './components/QuoteList';
+import { QuoteViewer } from './components/QuoteViewer';
+import { StatementPage } from './components/StatementPage';
 import { StatementViewer } from './components/StatementViewer';
-import { DocumentStatus } from './types';
-import { AppContextType } from './types';
+import { ToastContainer } from './components/ToastContainer';
+import { FirebaseProvider } from './contexts/FirebaseContext';
+import { ToastProvider } from './contexts/ToastContext';
+import { AppContextType, DocumentStatus } from './types';
 
 const InvoicePageWrapper = () => {
   const { id } = useParams<{ id: string }>();
@@ -69,6 +70,7 @@ const router = createHashRouter([
       { path: "/payments/edit/:id", element: <PaymentRecorder /> },
       { path: "/statements", element: <StatementPage /> },
       { path: "/statements/:id", element: <StatementViewer /> },
+      { path: "/firebase-admin", element: <FirebaseAdmin /> },
     ]
   }
 ]);
@@ -82,8 +84,10 @@ const root = ReactDOM.createRoot(rootElement);
 root.render(
   <React.StrictMode>
     <ToastProvider>
-      <RouterProvider router={router} />
-      <ToastContainer />
+      <FirebaseProvider>
+        <RouterProvider router={router} />
+        <ToastContainer />
+      </FirebaseProvider>
     </ToastProvider>
   </React.StrictMode>
 );
