@@ -1,16 +1,16 @@
 import React, { useMemo, useState } from 'react';
-import { useNavigate, useParams, useOutletContext } from 'react-router-dom';
-import { Quote, Customer, DocumentStatus, Address, AppContextType } from '../types';
-import { VAT_RATE, SNOWVA_DETAILS } from '../constants';
-import { DownloadIcon, UsersIcon, MailIcon, PrintIcon, SwitchHorizontalIcon, CheckCircleIcon, XCircleIcon } from './Icons';
-import { formatDistanceToNow } from '../utils';
+import { useNavigate, useOutletContext, useParams } from 'react-router-dom';
+import { SNOWVA_DETAILS, VAT_RATE } from '../constants';
 import { useToast } from '../contexts/ToastContext';
+import { Address, AppContextType, Customer, DocumentStatus } from '../types';
+import { formatDistanceToNow } from '../utils';
+import { CheckCircleIcon, DownloadIcon, MailIcon, PrintIcon, SwitchHorizontalIcon, UsersIcon, XCircleIcon } from './Icons';
 
 // Declare global libraries loaded from CDN
 declare const jspdf: any;
 
 const getBillingAddress = (customer: Customer | null): Address | undefined => {
-    if (!customer) return undefined;
+    if (!customer || !Array.isArray(customer.addresses)) return undefined;
     return customer.addresses.find(a => a.type === 'billing' && a.isPrimary) || customer.addresses.find(a => a.isPrimary);
 }
 

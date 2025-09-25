@@ -9,7 +9,7 @@ import { CashIcon, CheckCircleIcon, DownloadIcon, EyeIcon, MailIcon, PencilIcon,
 import { InvoicePDF } from './InvoicePDF';
 
 const getPrimaryAddress = (customer: Customer | null | undefined) => {
-    if (!customer) return undefined;
+    if (!customer || !Array.isArray(customer.addresses)) return undefined;
     // B2B primary is billing, B2C is any primary
     return customer.addresses.find(a => a.type === 'billing' && a.isPrimary) || customer.addresses.find(a => a.isPrimary);
 }

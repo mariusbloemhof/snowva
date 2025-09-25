@@ -1,20 +1,61 @@
 
-import React, { useState } from 'react';
-import { Outlet, NavLink } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { NavLink, Outlet } from 'react-router-dom';
 import {
-  HomeIcon, UsersIcon, CubeIcon, DocumentTextIcon,
-  DocumentReportIcon, MenuIcon, XIcon, CollectionIcon, CashIcon, SparklesIcon
+  CashIcon,
+  CollectionIcon,
+  CubeIcon,
+  DocumentReportIcon,
+  DocumentTextIcon,
+  HomeIcon,
+  MenuIcon,
+  SparklesIcon,
+  UsersIcon,
+  XIcon
 } from './components/Icons';
-import { customers as allCustomers, products as allProducts, invoices as allInvoices, payments as allPayments, quotes as allQuotes } from './constants';
-import { Customer, Product, Invoice, Payment, Quote, AppContextType } from './types';
+import { useFirebase } from './contexts/FirebaseContext';
+import { AppContextType, Customer, Invoice, Payment, Product, Quote } from './types';
 
 const App: React.FC = () => {
   const [isSidebarOpen, setSidebarOpen] = useState(true);
-  const [customers, setCustomers] = useState<Customer[]>(allCustomers);
-  const [products, setProducts] = useState<Product[]>(allProducts);
-  const [invoices, setInvoices] = useState<Invoice[]>(allInvoices);
-  const [payments, setPayments] = useState<Payment[]>(allPayments);
-  const [quotes, setQuotes] = useState<Quote[]>(allQuotes);
+  
+  // Get Firebase data - but keep local state for compatibility
+  const {
+    customers: firebaseCustomers, 
+    products: firebaseProducts, 
+    invoices: firebaseInvoices, 
+    payments: firebasePayments, 
+    quotes: firebaseQuotes,
+    loading
+  } = useFirebase();
+
+  // Local state that syncs with Firebase
+  const [customers, setCustomers] = useState<Customer[]>([]);
+  const [products, setProducts] = useState<Product[]>([]);
+  const [invoices, setInvoices] = useState<Invoice[]>([]);
+  const [payments, setPayments] = useState<Payment[]>([]);
+  const [quotes, setQuotes] = useState<Quote[]>([]);
+
+  // Sync Firebase data to local state when it changes
+  useEffect(() => {
+    if (!loading.customers) setCustomers(firebaseCustomers);
+  }, [firebaseCustomers, loading.customers]);
+
+  useEffect(() => {
+    if (!loading.products) setProducts(firebaseProducts);
+  }, [firebaseProducts, loading.products]);
+
+  useEffect(() => {
+    if (!loading.invoices) setInvoices(firebaseInvoices);
+  }, [firebaseInvoices, loading.invoices]);
+
+  useEffect(() => {
+    if (!loading.payments) setPayments(firebasePayments);
+  }, [firebasePayments, loading.payments]);
+
+  useEffect(() => {
+    if (!loading.quotes) setQuotes(firebaseQuotes);
+  }, [firebaseQuotes, loading.quotes]);
 
   const navItems = [
     { to: "/", icon: <HomeIcon className="h-5 w-5" />, label: "Dashboard" },

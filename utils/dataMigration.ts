@@ -40,9 +40,9 @@ class DataMigration {
       for (const customer of customers) {
         try {
           const { id, ...customerData } = customer;
-          await customerService.create(customerData);
+          await customerService.createWithId(id, customerData);
           migrated++;
-          console.log(`Migrated customer: ${customer.name}`);
+          console.log(`Migrated customer: ${customer.name} with ID: ${id}`);
         } catch (error) {
           const errorMsg = `Failed to migrate customer ${customer.name}: ${error instanceof Error ? error.message : 'Unknown error'}`;
           errors.push(errorMsg);
@@ -76,9 +76,9 @@ class DataMigration {
       for (const product of products) {
         try {
           const { id, ...productData } = product;
-          await productService.create(productData);
+          await productService.createWithId(id, productData);
           migrated++;
-          console.log(`Migrated product: ${product.name}`);
+          console.log(`Migrated product: ${product.name} with ID: ${id}`);
         } catch (error) {
           const errorMsg = `Failed to migrate product ${product.name}: ${error instanceof Error ? error.message : 'Unknown error'}`;
           errors.push(errorMsg);
@@ -237,9 +237,64 @@ class DataMigration {
     
     return results;
   }
+
+  // Utility method to get data counts for each collection
+  getDataCounts(): { [key: string]: number } {
+    return {
+      customers: customers.length,
+      products: products.length,
+      invoices: invoices.length,
+      payments: payments.length,
+      quotes: quotes.length
+    };
+  }
 }
 
 export const dataMigration = new DataMigration();
+
+// Helper function to clear a specific collection (use with caution!)
+export async function clearCollection(collectionName: 'customers' | 'products' | 'invoices' | 'payments' | 'quotes'): Promise<void> {
+  console.warn(`WARNING: This will delete all data from the ${collectionName} collection!`);
+  
+  try {
+    let items: any[];
+    let service: any;
+    
+    switch (collectionName) {
+      case 'customers':
+        items = await customerService.getAll();
+        service = customerService;
+        break;
+      case 'products':
+        items = await productService.getAll();
+        service = productService;
+        break;
+      case 'invoices':
+        items = await invoiceService.getAll();
+        service = invoiceService;
+        break;
+      case 'payments':
+        items = await paymentService.getAll();
+        service = paymentService;
+        break;
+      case 'quotes':
+        items = await quoteService.getAll();
+        service = quoteService;
+        break;
+      default:
+        throw new Error(`Unknown collection: ${collectionName}`);
+    }
+    
+    // Delete all items from the specific collection
+    const deletePromises = items.map(item => service.delete(item.id));
+    await Promise.all(deletePromises);
+    
+    console.log(`All data cleared from ${collectionName} collection (${items.length} items deleted)`);
+  } catch (error) {
+    console.error(`Error clearing ${collectionName} collection:`, error);
+    throw error;
+  }
+}
 
 // Helper function to clear all Firebase collections (use with caution!)
 export async function clearAllData(): Promise<void> {

@@ -1,10 +1,10 @@
 import React, { useMemo } from 'react';
-import { useNavigate, useParams, useOutletContext } from 'react-router-dom';
-import { Customer, Invoice, DocumentStatus, Payment, Address, StatementTransaction, AppContextType } from '../types';
-import { getStatementDataForCustomer } from '../utils';
-import { MailIcon, PrintIcon, DownloadIcon } from './Icons';
-import { useToast } from '../contexts/ToastContext';
+import { useNavigate, useOutletContext, useParams } from 'react-router-dom';
 import { SNOWVA_DETAILS } from '../constants';
+import { useToast } from '../contexts/ToastContext';
+import { Address, AppContextType } from '../types';
+import { getStatementDataForCustomer } from '../utils';
+import { DownloadIcon, MailIcon, PrintIcon } from './Icons';
 
 // Declare global libraries
 declare const jspdf: any;
@@ -29,7 +29,7 @@ export const StatementViewer: React.FC = () => {
     }, [customer, customers]);
 
     const billingAddress = useMemo((): Address | undefined => {
-        if (!billToCustomer) return undefined;
+        if (!billToCustomer || !Array.isArray(billToCustomer.addresses)) return undefined;
         return billToCustomer.addresses.find(a => a.type === 'billing' && a.isPrimary) || billToCustomer.addresses.find(a => a.isPrimary);
     }, [billToCustomer]);
 

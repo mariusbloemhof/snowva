@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useFirebase } from '../contexts/FirebaseContext';
-import { clearAllData, dataMigration } from '../utils/dataMigration';
+import { clearAllData, clearCollection, dataMigration } from '../utils/dataMigration';
 import { runFirebaseTests } from '../utils/firebaseTest';
 
 interface MigrationStatus {
@@ -20,6 +20,7 @@ export const FirebaseAdmin: React.FC = () => {
   const [migrationStatus, setMigrationStatus] = useState<MigrationStatus>({ isRunning: false });
   const [testStatus, setTestStatus] = useState<MigrationStatus>({ isRunning: false });
   const [clearStatus, setClearStatus] = useState<MigrationStatus>({ isRunning: false });
+  const [tableOperations, setTableOperations] = useState<{[key: string]: MigrationStatus}>({});
   const [consoleLogs, setConsoleLogs] = useState<ConsoleLog[]>([]);
   const [showConsole, setShowConsole] = useState(false);
   const consoleContainerRef = useRef<HTMLDivElement>(null);
@@ -183,6 +184,115 @@ export const FirebaseAdmin: React.FC = () => {
   const clearConsole = () => {
     setConsoleLogs([]);
     addConsoleLog('info', 'Console cleared');
+  };
+
+  const handleClearCollection = async (collectionName: 'customers' | 'products' | 'invoices' | 'payments' | 'quotes') => {
+    if (!window.confirm(`⚠️ WARNING: This will permanently delete ALL data from the ${collectionName} collection!\n\nThis action cannot be undone. Are you sure you want to continue?`)) {
+      return;
+    }
+
+    setTableOperations(prev => ({ 
+      ...prev, 
+      [`clear_${collectionName}`]: { isRunning: true } 
+    }));
+    setShowConsole(true);
+    addConsoleLog('warn', `⚠️  Starting ${collectionName} collection clear...`);
+    
+    try {
+      await withConsoleCapture(async () => {
+        await clearCollection(collectionName);
+      });
+      
+      addConsoleLog('info', `🗑️  ${collectionName} collection cleared successfully`);
+      setTableOperations(prev => ({ 
+        ...prev, 
+        [`clear_${collectionName}`]: { 
+          isRunning: false, 
+          results: `${collectionName} collection cleared successfully!` 
+        } 
+      }));
+    } catch (error) {
+      const errorMessage = error instanceof Error ? error.message : 'Unknown error';
+      addConsoleLog('error', `❌ ${collectionName} clear failed: ${errorMessage}`);
+      setTableOperations(prev => ({ 
+        ...prev, 
+        [`clear_${collectionName}`]: { 
+          isRunning: false, 
+          error: errorMessage 
+        } 
+      }));
+    }
+  };
+
+  const handleMigrateCollection = async (collectionName: 'customers' | 'products' | 'invoices' | 'payments' | 'quotes') => {
+    setTableOperations(prev => ({ 
+      ...prev, 
+      [`migrate_${collectionName}`]: { isRunning: true } 
+    }));
+    setShowConsole(true);
+    addConsoleLog('info', `🚀 Starting ${collectionName} migration...`);
+    
+    try {
+      let result: any;
+      
+      await withConsoleCapture(async () => {
+        switch (collectionName) {
+          case 'customers':
+            result = await dataMigration.migrateCustomers();
+            break;
+          case 'products':
+            result = await dataMigration.migrateProducts();
+            break;
+          case 'invoices':
+            result = await dataMigration.migrateInvoices();
+            break;
+          case 'payments':
+            result = await dataMigration.migratePayments();
+            break;
+          case 'quotes':
+            result = await dataMigration.migrateQuotes();
+            break;
+          default:
+            throw new Error(`Unknown collection: ${collectionName}`);
+        }
+      });
+      
+      if (result.errors?.length > 0) {
+        addConsoleLog('error', `❌ ${collectionName}: ${result.migrated} migrated, ${result.errors.length} errors`);
+        result.errors.forEach((error: string) => {
+          addConsoleLog('error', `   • ${error}`);
+        });
+      } else {
+        addConsoleLog('info', `✅ ${collectionName}: ${result.migrated} items migrated successfully`);
+      }
+      
+      setTableOperations(prev => ({ 
+        ...prev, 
+        [`migrate_${collectionName}`]: { 
+          isRunning: false, 
+          results: result 
+        } 
+      }));
+    } catch (error) {
+      const errorMessage = error instanceof Error ? error.message : 'Unknown error';
+      addConsoleLog('error', `❌ ${collectionName} migration failed: ${errorMessage}`);
+      setTableOperations(prev => ({ 
+        ...prev, 
+        [`migrate_${collectionName}`]: { 
+          isRunning: false, 
+          error: errorMessage 
+        } 
+      }));
+    }
+  };
+
+  const getDataCount = () => {
+    const counts = dataMigration.getDataCounts();
+    addConsoleLog('info', '📊 Data counts from normalized files:');
+    Object.entries(counts).forEach(([type, count]) => {
+      addConsoleLog('info', `   ${type}: ${count} records`);
+    });
+    setShowConsole(true);
   };
 
   return (
@@ -435,6 +545,86 @@ export const FirebaseAdmin: React.FC = () => {
                   <p className="text-red-800">Error: {migrationStatus.error}</p>
                 </div>
               )}
+            </div>
+
+            {/* Individual Table Management */}
+            <div className="border border-gray-200 rounded-lg p-4">
+              <h2 className="text-lg font-semibold text-gray-900 mb-4">Individual Table Management</h2>
+              <p className="text-sm text-gray-600 mb-4">
+                Clear or migrate specific collections individually for more granular control.
+              </p>
+              
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
+                {['customers', 'products', 'invoices', 'payments', 'quotes'].map((collection) => {
+                  const counts = dataMigration.getDataCounts();
+                  const clearOperation = tableOperations[`clear_${collection}`];
+                  const migrateOperation = tableOperations[`migrate_${collection}`];
+                  
+                  return (
+                    <div key={collection} className="border border-gray-200 rounded-lg p-3">
+                      <h3 className="font-medium text-gray-900 mb-2 capitalize">{collection}</h3>
+                      <div className="text-xs text-gray-500 mb-3">
+                        Available: {counts[collection]} records
+                      </div>
+                      
+                      <div className="space-y-2">
+                        <button
+                          onClick={() => handleClearCollection(collection as any)}
+                          disabled={clearOperation?.isRunning || migrateOperation?.isRunning}
+                          className={`w-full px-2 py-1 text-xs rounded ${
+                            clearOperation?.isRunning 
+                              ? 'bg-gray-400 cursor-not-allowed text-white' 
+                              : 'bg-red-600 hover:bg-red-700 text-white'
+                          }`}
+                        >
+                          {clearOperation?.isRunning ? 'Clearing...' : 'Clear'}
+                        </button>
+                        
+                        <button
+                          onClick={() => handleMigrateCollection(collection as any)}
+                          disabled={clearOperation?.isRunning || migrateOperation?.isRunning}
+                          className={`w-full px-2 py-1 text-xs rounded ${
+                            migrateOperation?.isRunning 
+                              ? 'bg-gray-400 cursor-not-allowed text-white' 
+                              : 'bg-blue-600 hover:bg-blue-700 text-white'
+                          }`}
+                        >
+                          {migrateOperation?.isRunning ? 'Migrating...' : 'Migrate'}
+                        </button>
+                      </div>
+                      
+                      {clearOperation?.results && (
+                        <div className="mt-2 text-xs text-green-600">
+                          ✅ Cleared successfully
+                        </div>
+                      )}
+                      
+                      {clearOperation?.error && (
+                        <div className="mt-2 text-xs text-red-600">
+                          ❌ Error: {clearOperation.error}
+                        </div>
+                      )}
+                      
+                      {migrateOperation?.results && (
+                        <div className="mt-2 text-xs text-green-600">
+                          ✅ {migrateOperation.results.migrated} items migrated
+                          {migrateOperation.results.errors?.length > 0 && (
+                            <div className="text-red-600">
+                              {migrateOperation.results.errors.length} errors
+                            </div>
+                          )}
+                        </div>
+                      )}
+                      
+                      {migrateOperation?.error && (
+                        <div className="mt-2 text-xs text-red-600">
+                          ❌ Error: {migrateOperation.error}
+                        </div>
+                      )}
+                    </div>
+                  );
+                })}
+              </div>
             </div>
 
             {/* Instructions */}

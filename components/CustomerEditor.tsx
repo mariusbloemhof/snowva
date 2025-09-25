@@ -260,8 +260,9 @@ export const CustomerEditor: React.FC = () => {
             const customerToEdit = customers.find(c => c.id === customerId);
             if (customerToEdit) {
                 setFormData(customerToEdit);
-                const primaryBilling = customerToEdit.addresses.find(a => a.type === 'billing' && a.isPrimary);
-                const primaryDelivery = customerToEdit.addresses.find(a => a.type === 'delivery' && a.isPrimary);
+                const addresses = Array.isArray(customerToEdit.addresses) ? customerToEdit.addresses : [];
+                const primaryBilling = addresses.find(a => a.type === 'billing' && a.isPrimary);
+                const primaryDelivery = addresses.find(a => a.type === 'delivery' && a.isPrimary);
                 setBillingAddress(primaryBilling || {});
                 setDeliveryAddress(primaryDelivery || {});
             } else {

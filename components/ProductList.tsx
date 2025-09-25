@@ -1,9 +1,9 @@
 
 import React from 'react';
 import { useNavigate, useOutletContext } from 'react-router-dom';
-import { Product, AppContextType } from '../types';
-import { PencilIcon, TrashIcon, PlusIcon } from './Icons';
+import { AppContextType } from '../types';
 import { getCurrentPrice } from '../utils';
+import { PencilIcon, PlusIcon, TrashIcon } from './Icons';
 
 export const ProductList: React.FC = () => {
   const { products, setProducts } = useOutletContext<AppContextType>();
@@ -50,6 +50,7 @@ export const ProductList: React.FC = () => {
                 <tbody className="divide-y divide-slate-200">
                     {products.map(product => {
                     const currentPrice = getCurrentPrice(product);
+                    console.log('Product:', product.name, 'Prices:', product.prices, 'Current Price:', currentPrice);
                     return (
                     <tr key={product.id} className="hover:bg-slate-50">
                         <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-slate-900 sm:pl-0">

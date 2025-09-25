@@ -1,8 +1,7 @@
-
-import React, { useState, useMemo } from 'react';
-import { useNavigate, Link, useOutletContext } from 'react-router-dom';
-import { Customer, CustomerType, AppContextType } from '../types';
-import { PencilIcon, TrashIcon, PlusIcon, ChevronRightIcon, ChevronDownIcon, SelectorIcon, SearchIcon, CashIcon } from './Icons';
+import React, { useCallback, useMemo, useRef, useState } from 'react';
+import { Link, useNavigate, useOutletContext } from 'react-router-dom';
+import { AppContextType, Customer, CustomerType } from '../types';
+import { CashIcon, ChevronDownIcon, ChevronRightIcon, PencilIcon, PlusIcon, SearchIcon, SelectorIcon, TrashIcon } from './Icons';
 
 type SortConfig = { key: keyof Customer; direction: 'ascending' | 'ascending'; } | null;
 
@@ -38,15 +37,67 @@ export const CustomerList: React.FC = () => {
         navigate(`/customers/${customer.id}`);
     };
     
-    const toggleRow = (customerId: string) => {
-        const newExpandedRows = new Set(expandedRows);
-        if (newExpandedRows.has(customerId)) {
-            newExpandedRows.delete(customerId);
+    const toggleRow = useCallback((customerId: string) => {
+        // Different approach: Use CSS containment to prevent layout shifts
+        const tableBody = document.querySelector('tbody');
+        const buttonElement = document.querySelector(`[data-customer-id="${customerId}"]`);
+        
+        if (tableBody && buttonElement) {
+            // Get current button position relative to viewport
+            const buttonRect = buttonElement.getBoundingClientRect();
+            const beforeTop = buttonRect.top + window.scrollY;
+            
+
+            
+            // Temporarily fix the table height to prevent layout shift
+            const currentHeight = tableBody.scrollHeight;
+            tableBody.style.minHeight = `${currentHeight}px`;
+            
+            setExpandedRows(prev => {
+                const newSet = new Set(prev);
+                if (newSet.has(customerId)) {
+                    newSet.delete(customerId);
+                } else {
+                    newSet.add(customerId);
+                }
+                return newSet;
+            });
+            
+            // After React updates, remove height constraint and adjust scroll
+            requestAnimationFrame(() => {
+                requestAnimationFrame(() => {
+                    // Remove height constraint
+                    tableBody.style.minHeight = '';
+                    
+                    // Check new button position and adjust if needed
+                    const afterRect = buttonElement.getBoundingClientRect();
+                    const afterTop = afterRect.top + window.scrollY;
+                    const diff = afterTop - beforeTop;
+                    
+                    if (Math.abs(diff) > 1) {
+                        const newScrollY = window.scrollY - diff;
+                        window.scrollTo(0, Math.max(0, newScrollY));
+                    }
+                });
+            });
         } else {
-            newExpandedRows.add(customerId);
+            // Fallback if elements not found
+            setExpandedRows(prev => {
+                const newSet = new Set(prev);
+                if (newSet.has(customerId)) {
+                    newSet.delete(customerId);
+                } else {
+                    newSet.add(customerId);
+                }
+                return newSet;
+            });
         }
-        setExpandedRows(newExpandedRows);
-    };
+    }, []);
+
+    // Create a stable toggle handler that doesn't change on re-renders
+    const handleToggle = useCallback((customerId: string) => {
+        toggleRow(customerId);
+    }, []);
 
     const requestSort = (key: keyof Customer) => {
         let direction: 'ascending' | 'ascending' = 'ascending';
@@ -80,9 +131,12 @@ export const CustomerList: React.FC = () => {
             });
         }
         
-        return getNestedCustomers(filteredCustomers);
+        const nested = getNestedCustomers(filteredCustomers);
+        return nested;
 
     }, [customers, searchTerm, filterType, sortConfig]);
+
+
 
     const SortableHeader: React.FC<{ columnKey: keyof Customer, title: string }> = ({ columnKey, title }) => (
         <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-slate-900 cursor-pointer" onClick={() => requestSort(columnKey)}>
@@ -94,19 +148,33 @@ export const CustomerList: React.FC = () => {
         </th>
     );
     
-    const CustomerRow: React.FC<{customer: Customer & { children: Customer[]}, level: number}> = ({ customer, level }) => {
-       const isExpanded = expandedRows.has(customer.id);
-       const hasChildren = customer.children.length > 0;
-       const primaryAddress = customer.addresses.find(a => a.isPrimary);
-       const hasCustomPricing = customer.customProductPricing && customer.customProductPricing.length > 0;
+    // Add render tracking
+    const renderCountRef = useRef(0);
+    renderCountRef.current++;
+
+    const CustomerRow: React.FC<{
+        customer: Customer & { children: Customer[]}, 
+        level: number,
+        isExpanded: boolean,
+        hasChildren: boolean,
+        onToggle: (customerId: string) => void
+    }> = ({ customer, level, isExpanded, hasChildren, onToggle }) => {
+       const primaryAddress = Array.isArray(customer.addresses) ? customer.addresses.find(a => a.isPrimary) : null;
+       const hasCustomPricing = Array.isArray(customer.customProductPricing) && customer.customProductPricing.length > 0;
 
        return (
         <>
-            <tr className="hover:bg-slate-50">
+            <tr 
+                className="hover:bg-slate-50"
+            >
                 <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm">
                     <div className="flex items-center" style={{ paddingLeft: `${level * 24}px` }}>
                        {hasChildren ? (
-                         <button onClick={() => toggleRow(customer.id)} className="mr-2 p-1 rounded-full hover:bg-slate-200">
+                         <button 
+                           onClick={() => onToggle(customer.id)} 
+                           className="mr-2 p-1 rounded-full hover:bg-slate-200"
+                           data-customer-id={customer.id}
+                         >
                             {isExpanded ? <ChevronDownIcon className="w-4 h-4" /> : <ChevronRightIcon className="w-4 h-4" />}
                          </button>
                        ) : (
@@ -132,10 +200,29 @@ export const CustomerList: React.FC = () => {
                   </div>
                 </td>
               </tr>
-              {isExpanded && customer.children.map(child => <CustomerRow key={child.id} customer={child as Customer & { children: Customer[] }} level={level + 1}/>)}
+              {/* Children are now rendered separately in the main table body to avoid nested component issues */}
         </>
-       )
-    }
+       );
+    };
+
+    // Create a flat list of all visible customers
+    const flatCustomers = useMemo(() => {
+        const flat: Array<{customer: Customer & { children: Customer[] }, level: number}> = [];
+        
+        const addCustomersToFlat = (customers: (Customer & { children: Customer[] })[], level: number) => {
+            customers.forEach(customer => {
+                flat.push({customer, level});
+                if (expandedRows.has(customer.id) && customer.children?.length > 0) {
+                    addCustomersToFlat(customer.children as (Customer & { children: Customer[] })[], level + 1);
+                }
+            });
+        };
+        
+        addCustomersToFlat(processedCustomers, 0);
+        return flat;
+    }, [processedCustomers, expandedRows]);
+
+
 
   return (
     <div className="bg-white p-6 rounded-xl border border-slate-200">
@@ -188,8 +275,15 @@ export const CustomerList: React.FC = () => {
                         </tr>
                     </thead>
                     <tbody className="divide-y divide-slate-200">
-                        {processedCustomers.map(customer => (
-                            <CustomerRow key={customer.id} customer={customer} level={0}/>
+                        {flatCustomers.map(({customer, level}) => (
+                            <CustomerRow 
+                                key={customer.id} 
+                                customer={customer} 
+                                level={level} 
+                                isExpanded={expandedRows.has(customer.id)}
+                                hasChildren={Array.isArray(customer.children) && customer.children.length > 0}
+                                onToggle={handleToggle}
+                            />
                         ))}
                     </tbody>
                 </table>

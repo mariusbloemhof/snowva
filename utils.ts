@@ -1,13 +1,13 @@
-import { Product, Price, Customer, CustomerType, CustomerProductPrice, PaymentTerm, StatementTransaction, AgingAnalysis, LineItem, Payment, Invoice, DocumentStatus } from './types';
 import { VAT_RATE } from './constants';
+import { AgingAnalysis, Customer, CustomerProductPrice, CustomerType, DocumentStatus, Invoice, LineItem, Payment, PaymentTerm, Price, Product, StatementTransaction } from './types';
 
 export const getCurrentPrice = (product: { prices?: Price[] } | undefined): Price | null => {
-    if (!product || !product.prices || product.prices.length === 0) {
+    if (!product || !Array.isArray(product.prices) || product.prices.length === 0) {
       return null;
     }
     const today = new Date().toISOString().split('T')[0];
     const effectivePrices = product.prices
-      .filter(p => p.effectiveDate <= today)
+      .filter(p => p && p.effectiveDate <= today)
       // FIX: Corrected localeCompare arguments to compare date strings.
       .sort((a, b) => b.effectiveDate.localeCompare(a.effectiveDate));
     return effectivePrices.length > 0 ? effectivePrices[0] : null;
@@ -19,16 +19,18 @@ export const getCustomerProductPrice = (
   customers: Customer[]
 ): CustomerProductPrice | null => {
   // 1. Check direct customer overrides
-  const localOverride = customer.customProductPricing?.find(p => p.productId === productId);
-  if (localOverride) {
-    return localOverride;
+  if (Array.isArray(customer.customProductPricing)) {
+    const localOverride = customer.customProductPricing.find(p => p.productId === productId);
+    if (localOverride) {
+      return localOverride;
+    }
   }
 
   // 2. Check parent overrides if customer is a child
   if (customer.parentCompanyId) {
     const parent = customers.find(c => c.id === customer.parentCompanyId);
-    if (parent) {
-      const parentOverride = parent.customProductPricing?.find(p => p.productId === productId);
+    if (parent && Array.isArray(parent.customProductPricing)) {
+      const parentOverride = parent.customProductPricing.find(p => p.productId === productId);
       if (parentOverride) {
         return parentOverride;
       }
@@ -52,7 +54,10 @@ export const getResolvedProductDetails = (
     : standardPrice?.consumer ?? 0;
 
   if (customPricing && customer.type === CustomerType.B2B) {
-    const customEffectivePrice = getCurrentPrice({ ...product, prices: customPricing.prices });
+    const customEffectivePrice = getCurrentPrice({ 
+      ...product, 
+      prices: Array.isArray(customPricing.prices) ? customPricing.prices : [] 
+    });
     return {
       description: customPricing.customDescription || product.description,
       itemCode: customPricing.customItemCode || product.itemCode,
@@ -110,18 +115,24 @@ export const getNextPaymentNumber = (currentPayments: Payment[]): string => {
     return `${prefix}${(lastNumForYear + 1).toString().padStart(3, '0')}`;
 };
 
-export const calculateTotal = (doc: { items: LineItem[], shipping?: number }): number => {
+export const calculateTotal = (doc: { items?: LineItem[], shipping?: number }): number => {
+    if (!doc || !Array.isArray(doc.items)) {
+        return (doc?.shipping || 0) * (1 + VAT_RATE);
+    }
     const itemsTotal = doc.items.reduce((sum, item) => sum + item.quantity * item.unitPrice, 0);
     const subtotal = itemsTotal + (doc.shipping || 0);
     return subtotal * (1 + VAT_RATE);
 };
 
 export const calculatePaid = (invoiceId: string, allPayments: Payment[]): number => {
+    if (!invoiceId || !Array.isArray(allPayments)) return 0;
     let totalPaid = 0;
     for (const payment of allPayments) {
-        for (const allocation of payment.allocations) {
-            if (allocation.invoiceId === invoiceId) {
-                totalPaid += allocation.amount;
+        if (payment && Array.isArray(payment.allocations)) {
+            for (const allocation of payment.allocations) {
+                if (allocation && allocation.invoiceId === invoiceId) {
+                    totalPaid += allocation.amount || 0;
+                }
             }
         }
     }
@@ -129,6 +140,7 @@ export const calculatePaid = (invoiceId: string, allPayments: Payment[]): number
 };
 
 export const calculateBalanceDue = (invoice: Invoice, allPayments: Payment[]): number => {
+    if (!invoice) return 0;
     const total = calculateTotal(invoice);
     const paid = calculatePaid(invoice.id, allPayments);
     // Return a value rounded to 2 decimal places to avoid floating point issues

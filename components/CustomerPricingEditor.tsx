@@ -1,9 +1,9 @@
-import React, { useState, useMemo } from 'react';
-import { Customer, Product, CustomerProductPrice, Price } from '../types';
-import { ProductSelector } from './ProductSelector';
-import { PlusIcon, TrashIcon, PencilIcon } from './Icons';
+import React, { useMemo, useState } from 'react';
+import { Customer, CustomerProductPrice, Product } from '../types';
 import { getCurrentPrice } from '../utils';
 import { CustomPriceEditorModal } from './CustomPriceEditorModal';
+import { PencilIcon, PlusIcon, TrashIcon } from './Icons';
+import { ProductSelector } from './ProductSelector';
 
 interface CustomerPricingEditorProps {
     customer: Omit<Customer, 'id'> & { id?: string };
@@ -27,7 +27,7 @@ export const CustomerPricingEditor: React.FC<CustomerPricingEditorProps> = ({ cu
         const parent = customers.find(c => c.id === customer.parentCompanyId);
 
         // 1. Add all parent pricing as 'inherited'
-        if (parent?.customProductPricing) {
+        if (parent && Array.isArray(parent.customProductPricing)) {
             parent.customProductPricing.forEach(parentPrice => {
                 pricingMap.set(parentPrice.productId, {
                     ...parentPrice,
@@ -37,7 +37,7 @@ export const CustomerPricingEditor: React.FC<CustomerPricingEditorProps> = ({ cu
         }
 
         // 2. Add/override with local pricing
-        if (customer.customProductPricing) {
+        if (Array.isArray(customer.customProductPricing)) {
             customer.customProductPricing.forEach(localPrice => {
                 const existing = pricingMap.get(localPrice.productId);
                 if (existing && existing.status === 'inherited') {

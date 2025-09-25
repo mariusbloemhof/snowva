@@ -72,9 +72,7 @@ class CustomerService extends FirebaseService<Customer> {
       throw new Error('Invalid email format');
     }
 
-    if (data.vatNumber && data.vatNumber.length > 0 && data.vatNumber.length < 10) {
-      throw new Error('VAT number must be at least 10 characters');
-    }
+    // VAT number validation removed - allow any format for retail customers
   }
 
   private isValidEmail(email: string): boolean {

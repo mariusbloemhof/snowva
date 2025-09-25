@@ -10,6 +10,7 @@ import {
     onSnapshot,
     query,
     serverTimestamp,
+    setDoc,
     updateDoc,
     where
 } from 'firebase/firestore';
@@ -36,10 +37,17 @@ export class FirebaseService<T extends { id: string }> {
   protected convertTimestamps(data: any): any {
     if (!data) return data;
     
+    // Handle arrays
+    if (Array.isArray(data)) {
+      return data.map(item => this.convertTimestamps(item));
+    }
+    
     const result = { ...data };
     Object.keys(result).forEach(key => {
       if (result[key] instanceof Timestamp) {
         result[key] = result[key].toDate().toISOString();
+      } else if (Array.isArray(result[key])) {
+        result[key] = result[key].map((item: any) => this.convertTimestamps(item));
       } else if (typeof result[key] === 'object' && result[key] !== null) {
         result[key] = this.convertTimestamps(result[key]);
       }
@@ -121,6 +129,17 @@ export class FirebaseService<T extends { id: string }> {
     } catch (error) {
       console.error(`Error creating ${this.collectionName}:`, error);
       throw new Error(`Failed to create ${this.collectionName}`);
+    }
+  }
+
+  // Create document with specific ID (for data migration)
+  async createWithId(id: string, data: Omit<T, 'id'>): Promise<void> {
+    try {
+      const preparedData = this.prepareForFirestore(data);
+      await setDoc(this.getDoc(id), preparedData);
+    } catch (error) {
+      console.error(`Error creating ${this.collectionName} with ID ${id}:`, error);
+      throw new Error(`Failed to create ${this.collectionName} with ID: ${id}`);
     }
   }
 

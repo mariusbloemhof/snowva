@@ -75,7 +75,10 @@ export const ProductEditor: React.FC = () => {
         if (productId) {
             const productToEdit = products.find(p => p.id === productId);
             if (productToEdit) {
-                setFormData(productToEdit);
+                setFormData({
+                    ...productToEdit,
+                    prices: Array.isArray(productToEdit.prices) ? productToEdit.prices : []
+                });
             } else {
                 navigate('/products');
             }
@@ -144,7 +147,7 @@ export const ProductEditor: React.FC = () => {
         };
         setFormData(prev => ({
             ...prev,
-            prices: [...prev.prices, newPriceWithId]
+            prices: [...(Array.isArray(prev.prices) ? prev.prices : []), newPriceWithId]
         }));
         setNewPrice(emptyNewPrice); // Reset for next entry
     };
@@ -163,7 +166,7 @@ export const ProductEditor: React.FC = () => {
             addToast('Please fix the validation errors.', 'error');
             return;
         }
-        if (formData.prices.length === 0) {
+        if (!Array.isArray(formData.prices) || formData.prices.length === 0) {
             addToast('Please add at least one price for the product.', 'error');
             return;
         }
@@ -220,7 +223,7 @@ export const ProductEditor: React.FC = () => {
         }
     };
 
-    const sortedPrices = [...formData.prices].sort((a,b) => b.effectiveDate.localeCompare(a.effectiveDate));
+    const sortedPrices = Array.isArray(formData.prices) ? [...formData.prices].sort((a,b) => b.effectiveDate.localeCompare(a.effectiveDate)) : [];
     const currentPrice = getCurrentPrice(formData as Product);
 
     return (
