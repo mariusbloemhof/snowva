@@ -123,4 +123,31 @@ Uses `importmap` in `index.html` to load React, React Router, and other dependen
 - **Accessibility**: Form labels, keyboard navigation, semantic HTML elements
 - **Performance**: `useMemo` for expensive calculations, `useRef` for DOM access
 
+## Constitutional Requirements (NON-NEGOTIABLE)
+
+### Test-Driven Development
+
+- **ALL code must follow TDD**: Write tests BEFORE implementation
+- **100% test coverage**: No exceptions, all functions/components must be fully tested
+- **Test types required**: Unit, integration, component, end-to-end, accessibility, performance
+
+### Systematic Verification
+
+- **No assumptions**: Every claim must be verified through actual testing
+- **Systematic analysis**: All tasks require methodical checking and validation
+- **Truth & accuracy**: No false claims or hallucinations - all statements must be factually accurate
+
+### Styling Consistency
+
+- **Centralized design system**: Use semantic CSS classes (`.table-row`, `.form-input`, `.button-primary`)
+- **NO scattered utilities**: Avoid hardcoded `py-3`, `px-4` across components
+- **Consistent styling**: Every interface element must follow established design patterns
+
+### Industry Best Practices
+
+- **Security**: Proper input validation, secure authentication, data protection
+- **Performance**: Optimized rendering, efficient queries, proper caching
+- **Accessibility**: WCAG compliance, keyboard navigation, screen reader support
+- **SEO**: Semantic HTML, proper meta tags, structured data where applicable
+
 When adding features, prioritize the hierarchical customer relationship system and ensure proper pricing inheritance flows through the component tree.
