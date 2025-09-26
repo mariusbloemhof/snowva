@@ -97,8 +97,14 @@ if (Test-Path $template) {
     New-Item -ItemType File -Path $specFile | Out-Null 
 }
 
-# Set the SPECIFY_FEATURE environment variable for the current session
+# Set the SPECIFY_FEATURE environment variable for current session and persistently
 $env:SPECIFY_FEATURE = $branchName
+try {
+    Set-ItemProperty -Path 'HKCU:\Environment' -Name 'SPECIFY_FEATURE' -Value $branchName -ErrorAction Stop
+} catch {
+    # Fallback to .NET method if registry method fails
+    [System.Environment]::SetEnvironmentVariable('SPECIFY_FEATURE', $branchName, 'User')
+}
 
 if ($Json) {
     $obj = [PSCustomObject]@{ 
