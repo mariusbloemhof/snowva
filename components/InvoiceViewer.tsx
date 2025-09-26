@@ -4,8 +4,8 @@ import { useNavigate, useOutletContext, useParams } from 'react-router-dom';
 import { SNOWVA_DETAILS, VAT_RATE } from '../constants';
 import { useToast } from '../contexts/ToastContext';
 import { AppContextType, Customer, DocumentStatus } from '../types';
-import { formatDistanceToNow } from '../utils';
-import { CashIcon, CheckCircleIcon, DownloadIcon, EyeIcon, MailIcon, PencilIcon, PrintIcon, UsersIcon } from './Icons';
+import { dateUtils, formatDistanceToNow } from '../utils';
+import { ArrowLeftIcon, CashIcon, CheckCircleIcon, DownloadIcon, EyeIcon, MailIcon, PencilIcon, PrintIcon, UsersIcon } from './Icons';
 import { InvoicePDF } from './InvoicePDF';
 
 const getPrimaryAddress = (customer: Customer | null | undefined) => {
@@ -352,7 +352,7 @@ export const InvoiceViewer: React.FC = () => {
       if (!billToCustomer || !billToCustomer.contactEmail || !invoice) return;
 
       const subject = `Invoice ${invoice.invoiceNumber} from Snowva™ Trading Pty Ltd`;
-      const body = `Dear ${billToCustomer.contactPerson || billToCustomer.name},\n\nPlease find your invoice attached.\n\nTotal Amount: R ${total.toFixed(2)}\nDue Date: ${invoice.dueDate}\n\nTo view your invoice, please download the attached PDF.\n\nKind regards,\nThe Snowva™ Team`;
+      const body = `Dear ${billToCustomer.contactPerson || billToCustomer.name},\n\nPlease find your invoice attached.\n\nTotal Amount: R ${total.toFixed(2)}\nDue Date: ${dateUtils.toDisplayString(invoice.dueDate)}\n\nTo view your invoice, please download the attached PDF.\n\nKind regards,\nThe Snowva™ Team`;
       const mailtoLink = `mailto:${billToCustomer.contactEmail}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
       
       try {
@@ -444,9 +444,17 @@ export const InvoiceViewer: React.FC = () => {
     <>
     <div className="space-y-6">
        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 border-b border-slate-200 pb-4 print:hidden">
-            <div>
-                <h2 className="text-2xl font-semibold leading-6 text-slate-900">Invoice {invoice.invoiceNumber}</h2>
-                <p className="mt-1 text-sm text-slate-600">for <span className="font-medium text-indigo-600">{billToCustomer?.name}</span></p>
+            <div className="flex items-center gap-x-3">
+                <button 
+                    onClick={() => navigate(-1)}
+                    className="inline-flex items-center rounded-md p-2 text-slate-400 hover:text-slate-600 hover:bg-slate-100"
+                >
+                    <ArrowLeftIcon className="w-5 h-5" />
+                </button>
+                <div>
+                    <h2 className="text-2xl font-semibold leading-6 text-slate-900">Invoice {invoice.invoiceNumber}</h2>
+                    <p className="mt-1 text-sm text-slate-600">for <span className="font-medium text-indigo-600">{billToCustomer?.name}</span></p>
+                </div>
             </div>
             <div className="flex items-center justify-end space-x-3 mt-4 sm:mt-0">
                 {invoice.status !== DocumentStatus.PAID && (
@@ -521,10 +529,10 @@ export const InvoiceViewer: React.FC = () => {
                                     <table className="min-w-full">
                                         <thead className="text-sm font-semibold text-slate-900 border-b border-slate-200">
                                             <tr>
-                                                <th scope="col" className="py-3.5 pl-4 pr-3 text-left sm:pl-6 lg:pl-8">Description</th>
-                                                <th scope="col" className="py-3.5 px-3 text-left">Item Code</th>
-                                                <th scope="col" className="py-3.5 px-3 text-right">Qty</th>
-                                                <th scope="col" className="py-3.5 pl-3 pr-4 text-right sm:pr-6 lg:pr-8">Price</th>
+                                                <th scope="col" className="py-3 pl-4 pr-3 text-left sm:pl-6 lg:pl-8">Description</th>
+                                                <th scope="col" className="py-3 px-3 text-left">Item Code</th>
+                                                <th scope="col" className="py-3 px-3 text-right">Qty</th>
+                                                <th scope="col" className="py-3 pl-3 pr-4 text-right sm:pr-6 lg:pr-8">Price</th>
                                             </tr>
                                         </thead>
                                         <tbody className="divide-y divide-slate-100">
@@ -536,12 +544,12 @@ export const InvoiceViewer: React.FC = () => {
                                                 
                                                 return (
                                                     <tr key={`${item.productId}-${index}`}>
-                                                        <td className="py-4 pl-4 pr-3 text-sm font-medium text-slate-900 sm:pl-6 lg:pl-8">
+                                                        <td className="py-3.5 pl-4 pr-3 text-sm font-medium text-slate-900 sm:pl-6 lg:pl-8">
                                                             {description}
                                                         </td>
-                                                        <td className="px-3 py-4 text-sm text-slate-500">{itemCode}</td>
-                                                        <td className="px-3 py-4 text-sm text-slate-500 text-right">{item.quantity.toFixed(1)}</td>
-                                                        <td className="py-4 pl-3 pr-4 text-sm font-medium text-slate-800 text-right sm:pr-6 lg:pr-8">R {formatCurrency(item.quantity * item.unitPrice)}</td>
+                                                        <td className="px-3 py-3.5 text-sm text-slate-500">{itemCode}</td>
+                                                        <td className="px-3 py-3.5 text-sm text-slate-500 text-right">{item.quantity.toFixed(1)}</td>
+                                                        <td className="py-3.5 pl-3 pr-4 text-sm font-medium text-slate-800 text-right sm:pr-6 lg:pr-8">R {formatCurrency(item.quantity * item.unitPrice)}</td>
                                                     </tr>
                                                 );
                                             })}

@@ -31,12 +31,12 @@ export const QuoteList: React.FC = () => {
                         <table className="min-w-full divide-y divide-slate-300">
                             <thead>
                                 <tr>
-                                    <th scope="col" className="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-slate-900 sm:pl-0">Quote #</th>
-                                    <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-slate-900">Customer</th>
-                                    <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-slate-900">Date</th>
-                                    <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-slate-900">Total</th>
-                                    <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-slate-900">Status</th>
-                                    <th scope="col" className="relative py-3.5 pl-3 pr-4 sm:pr-0">
+                                    <th scope="col" className="py-3 pl-4 pr-3 text-left text-sm font-semibold text-slate-900 sm:pl-0">Quote #</th>
+                                    <th scope="col" className="px-3 py-3 text-left text-sm font-semibold text-slate-900">Customer</th>
+                                    <th scope="col" className="px-3 py-3 text-left text-sm font-semibold text-slate-900">Date</th>
+                                    <th scope="col" className="px-3 py-3 text-left text-sm font-semibold text-slate-900">Total</th>
+                                    <th scope="col" className="px-3 py-3 text-left text-sm font-semibold text-slate-900">Status</th>
+                                    <th scope="col" className="relative py-3 pl-3 pr-4 sm:pr-0">
                                         <span className="sr-only">Edit</span>
                                     </th>
                                 </tr>
@@ -44,25 +44,25 @@ export const QuoteList: React.FC = () => {
                             <tbody className="divide-y divide-slate-200">
                                 {quotes.map(quote => (
                                     <tr key={quote.id} className="hover:bg-slate-50">
-                                        <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-slate-900 sm:pl-0">
+                                        <td className="whitespace-nowrap py-3.5 pl-4 pr-3 text-sm font-medium text-slate-900 sm:pl-0">
                                             <Link to={`/quotes/${quote.id}`} className="text-indigo-600 hover:text-indigo-900">
                                                 {quote.quoteNumber}
                                             </Link>
                                         </td>
-                                        <td className="whitespace-nowrap px-3 py-4 text-sm text-slate-500">
+                                        <td className="whitespace-nowrap px-3 py-3.5 text-sm text-slate-500">
                                             <Link to={`/customers/${quote.customerId}`} className="text-slate-500 hover:text-indigo-600">
                                                 {customers.find(c => c.id === quote.customerId)?.name}
                                             </Link>
                                         </td>
-                                        <td className="whitespace-nowrap px-3 py-4 text-sm text-slate-500">{dateUtils.toDisplayString(quote.date)}</td>
-                                        <td className="whitespace-nowrap px-3 py-4 text-sm text-slate-500">R {calculateTotal(quote).toFixed(2)}</td>
-                                        <td className="whitespace-nowrap px-3 py-4 text-sm text-slate-500">
+                                        <td className="whitespace-nowrap px-3 py-3.5 text-sm text-slate-500">{dateUtils.toDisplayString(quote.date)}</td>
+                                        <td className="whitespace-nowrap px-3 py-3.5 text-sm text-slate-500">R {calculateTotal(quote).toFixed(2)}</td>
+                                        <td className="whitespace-nowrap px-3 py-3.5 text-sm text-slate-500">
                                             <span className={`inline-flex items-center rounded-md px-2 py-1 text-xs font-medium ring-1 ring-inset ${
                                                 quote.status === DocumentStatus.ACCEPTED ? 'bg-green-50 text-green-700 ring-green-600/20' :
                                                 quote.status === DocumentStatus.REJECTED ? 'bg-red-50 text-red-700 ring-red-600/20' : 'bg-slate-50 text-slate-600 ring-slate-500/20'
                                             }`}>{quote.status}</span>
                                         </td>
-                                        <td className="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium">
+                                        <td className="relative whitespace-nowrap py-3.5 pl-3 pr-4 text-right text-sm font-medium">
                                             <button onClick={() => navigate(`/quotes/${quote.id}`)} className="text-indigo-600 hover:text-indigo-900">
                                                 {quote.status === DocumentStatus.DRAFT ? <PencilIcon className="w-5 h-5"/> : <EyeIcon className="w-5 h-5"/>}
                                             </button>

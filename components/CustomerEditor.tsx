@@ -4,7 +4,7 @@ import { useToast } from '../contexts/ToastContext';
 import { Address, AppContextType, Customer, CustomerType, PaymentTerm } from '../types';
 import { CustomerHistoryTab } from './CustomerHistoryTab';
 import { CustomerPricingEditor } from './CustomerPricingEditor';
-import { CashIcon, DocumentReportIcon, UsersIcon } from './Icons';
+import { ArrowLeftIcon, CashIcon, DocumentReportIcon, UsersIcon } from './Icons';
 
 const emptyCustomer: Omit<Customer, 'id'> = {
     name: '',
@@ -430,11 +430,30 @@ export const CustomerEditor: React.FC = () => {
             <div className="bg-white p-6 sm:p-8 rounded-xl border border-slate-200">
                 <form onSubmit={handleSubmit} noValidate>
                     <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 border-b border-slate-200 pb-4">
-                        <div>
-                            <h2 className="text-2xl font-semibold leading-6 text-slate-900">{customerId ? 'Edit Customer' : 'Add New Customer'}</h2>
-                            <p className="mt-1 text-sm text-slate-600">Manage customer details, addresses, and billing information.</p>
+                        <div className="flex items-center gap-x-3">
+                            <button 
+                                type="button"
+                                onClick={() => navigate(-1)}
+                                className="inline-flex items-center rounded-md p-2 text-slate-400 hover:text-slate-600 hover:bg-slate-100"
+                            >
+                                <ArrowLeftIcon className="w-5 h-5" />
+                            </button>
+                            <div>
+                                <h2 className="text-2xl font-semibold leading-6 text-slate-900">{customerId ? 'Edit Customer' : 'Add New Customer'}</h2>
+                                <p className="mt-1 text-sm text-slate-600">Manage customer details, addresses, and billing information.</p>
+                            </div>
                         </div>
                         <div className="flex items-center justify-end space-x-3 mt-4 sm:mt-0">
+                            {formData.id && (
+                                <button 
+                                    type="button" 
+                                    onClick={() => navigate('/payments/record', { state: { customerId: formData.id } })}
+                                    className="inline-flex items-center gap-x-2 rounded-md bg-green-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-green-500"
+                                >
+                                    <CashIcon className="w-4 h-4" />
+                                    Record Payment
+                                </button>
+                            )}
                             <button type="button" onClick={handleCancel} className="rounded-md bg-white px-3 py-2 text-sm font-semibold text-slate-900 shadow-sm ring-1 ring-inset ring-slate-300 hover:bg-slate-50">Cancel</button>
                             <button type="submit" className="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Save Customer</button>
                         </div>

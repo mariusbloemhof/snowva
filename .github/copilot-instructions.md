@@ -67,10 +67,12 @@ GEMINI_API_KEY=your_api_key_here
 
 ## UI Components & Styling
 
-### Tailwind Configuration
+### Centralized Design System (CONSTITUTIONAL REQUIREMENT)
 
+- **Semantic CSS Classes**: Use centralized component classes (`.table-row`, `.form-input`, `.button-primary`) instead of scattered Tailwind utilities
+- **Tailwind for Layout Only**: Utility classes permitted only for layout (`flex`, `grid`, `m-*` for margins) and one-off customizations
+- **NO Repeated Utilities**: Avoid hardcoded `py-3`, `px-4` across components - create reusable semantic classes instead
 - **Custom Colors**: Snowva brand colors configured in `index.html` script tag
-- **Design System**: Consistent spacing, rounded corners (rounded-2xl), and shadows
 - **Icons**: Custom SVG components in `Icons.tsx`, no external icon library
 
 ### Component Patterns
@@ -78,6 +80,7 @@ GEMINI_API_KEY=your_api_key_here
 - **Modal Components**: Follow `CustomerFormModal.tsx` pattern with backdrop click handling
 - **List Views**: Use card-based layouts with hover states and custom pricing indicators
 - **Toast Notifications**: Use `useToast()` hook for user feedback
+- **Table Styling**: Use semantic `.table-header`, `.table-row`, `.table-cell` classes for consistent spacing
 
 ## Key Business Logic
 

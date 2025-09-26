@@ -28,7 +28,7 @@ class QuoteService extends FirebaseService<Quote> {
       const allQuotes = await this.getAll([orderBy('date', 'desc')]);
       
       return allQuotes.filter(quote => 
-        quote.validUntil.seconds >= today.seconds && 
+        quote.validUntil.toMillis() >= today.toMillis() && 
         quote.status !== DocumentStatus.REJECTED
       );
     } catch (error) {
@@ -44,7 +44,7 @@ class QuoteService extends FirebaseService<Quote> {
       const allQuotes = await this.getAll([orderBy('validUntil')]);
       
       return allQuotes.filter(quote => 
-        quote.validUntil.seconds < today.seconds && 
+        quote.validUntil.toMillis() < today.toMillis() && 
         quote.status !== DocumentStatus.ACCEPTED &&
         quote.status !== DocumentStatus.REJECTED
       );
@@ -61,8 +61,8 @@ class QuoteService extends FirebaseService<Quote> {
       const endTimestamp = Timestamp.fromDate(new Date(endDate));
       const allQuotes = await this.getAll([orderBy('date')]);
       return allQuotes.filter(quote => 
-        quote.date.seconds >= startTimestamp.seconds && 
-        quote.date.seconds <= endTimestamp.seconds
+        quote.date.toMillis() >= startTimestamp.toMillis() && 
+        quote.date.toMillis() <= endTimestamp.toMillis()
       );
     } catch (error) {
       console.error('Error getting quotes by date range:', error);
@@ -95,11 +95,11 @@ class QuoteService extends FirebaseService<Quote> {
       throw new Error('Customer is required');
     }
 
-    if (data.date && data.date.seconds > Timestamp.now().seconds) {
+    if (data.date && data.date.toMillis() > Timestamp.now().toMillis()) {
       throw new Error('Quote date cannot be in the future');
     }
 
-    if (data.validUntil && data.date && data.validUntil.seconds < data.date.seconds) {
+    if (data.validUntil && data.date && data.validUntil.toMillis() < data.date.toMillis()) {
       throw new Error('Valid until date cannot be before quote date');
     }
 

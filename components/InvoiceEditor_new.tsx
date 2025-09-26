@@ -4,7 +4,7 @@ import { VAT_RATE } from '../constants';
 import { useFirebase } from '../contexts/FirebaseContext';
 import { useToast } from '../contexts/ToastContext';
 import { AppContextType, Customer, DocumentStatus, Invoice, LineItem, Product, Quote } from '../types';
-import { getResolvedProductDetails, dateUtils } from '../utils';
+import { dateUtils, getResolvedProductDetails } from '../utils';
 import { CheckCircleIcon, PlusIcon, TrashIcon } from './Icons';
 import { ProductSelector } from './ProductSelector';
 

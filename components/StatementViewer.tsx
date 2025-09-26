@@ -4,7 +4,7 @@ import { SNOWVA_DETAILS } from '../constants';
 import { useToast } from '../contexts/ToastContext';
 import { Address, AppContextType } from '../types';
 import { getStatementDataForCustomer } from '../utils';
-import { DownloadIcon, MailIcon, PrintIcon } from './Icons';
+import { ArrowLeftIcon, DownloadIcon, MailIcon, PrintIcon } from './Icons';
 
 // Declare global libraries
 declare const jspdf: any;
@@ -226,8 +226,18 @@ export const StatementViewer: React.FC = () => {
             <div className="bg-white p-6 rounded-xl border border-slate-200">
                 <div className="sm:flex sm:items-center sm:justify-between mb-6 border-b border-slate-200 pb-4">
                     <div className="sm:flex-auto">
-                        <h2 className="text-2xl font-semibold leading-6 text-slate-900">Statement for {customer.name}</h2>
-                        <p className="mt-2 text-sm text-slate-700">A transaction history of all invoices and payments.</p>
+                        <div className="flex items-center gap-x-3">
+                            <button 
+                                onClick={() => navigate(-1)}
+                                className="inline-flex items-center rounded-md p-2 text-slate-400 hover:text-slate-600 hover:bg-slate-100"
+                            >
+                                <ArrowLeftIcon className="w-5 h-5" />
+                            </button>
+                            <div>
+                                <h2 className="text-2xl font-semibold leading-6 text-slate-900">Statement for {customer.name}</h2>
+                                <p className="mt-2 text-sm text-slate-700">A transaction history of all invoices and payments.</p>
+                            </div>
+                        </div>
                     </div>
                     <div className="mt-4 sm:ml-16 sm:mt-0 sm:flex-none space-x-2">
                         <button onClick={handleDownload} className="inline-flex items-center gap-x-2 rounded-md bg-white px-3 py-2 text-sm font-semibold text-slate-900 shadow-sm ring-1 ring-inset ring-slate-300 hover:bg-slate-50">
@@ -248,19 +258,19 @@ export const StatementViewer: React.FC = () => {
                             <table className="min-w-full divide-y divide-slate-300">
                                 <thead>
                                     <tr>
-                                        <th scope="col" className="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-slate-900 sm:pl-0">Date</th>
-                                        <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-slate-900">Reference</th>
-                                        <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-slate-900">Type</th>
-                                        <th scope="col" className="px-3 py-3.5 text-right text-sm font-semibold text-slate-900">Debit</th>
-                                        <th scope="col" className="px-3 py-3.5 text-right text-sm font-semibold text-slate-900">Credit</th>
-                                        <th scope="col" className="px-3 py-3.5 text-right text-sm font-semibold text-slate-900">Balance</th>
+                                        <th scope="col" className="py-3 pl-4 pr-3 text-left text-sm font-semibold text-slate-900 sm:pl-0">Date</th>
+                                        <th scope="col" className="px-3 py-3 text-left text-sm font-semibold text-slate-900">Reference</th>
+                                        <th scope="col" className="px-3 py-3 text-left text-sm font-semibold text-slate-900">Type</th>
+                                        <th scope="col" className="px-3 py-3 text-right text-sm font-semibold text-slate-900">Debit</th>
+                                        <th scope="col" className="px-3 py-3 text-right text-sm font-semibold text-slate-900">Credit</th>
+                                        <th scope="col" className="px-3 py-3 text-right text-sm font-semibold text-slate-900">Balance</th>
                                     </tr>
                                 </thead>
                                 <tbody className="divide-y divide-slate-200">
                                     {statementData.transactions.map(tx => (
                                         <tr key={`${tx.type}-${tx.sourceId}`} className="hover:bg-slate-50">
-                                            <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm text-slate-500 sm:pl-0">{formatDate(tx.date)}</td>
-                                            <td className="whitespace-nowrap px-3 py-4 text-sm font-medium">
+                                            <td className="whitespace-nowrap py-3.5 pl-4 pr-3 text-sm text-slate-500 sm:pl-0">{formatDate(tx.date)}</td>
+                                            <td className="whitespace-nowrap px-3 py-3.5 text-sm font-medium">
                                                 {tx.type === 'Invoice' ? (
                                                      <button onClick={() => navigate(`/invoices/${tx.sourceId}`)} className="text-indigo-600 hover:underline">{tx.reference}</button>
                                                 ) : tx.type === 'Payment' ? (
@@ -269,10 +279,10 @@ export const StatementViewer: React.FC = () => {
                                                     <span className="text-slate-700">{tx.reference}</span>
                                                 )}
                                             </td>
-                                            <td className="whitespace-nowrap px-3 py-4 text-sm text-slate-500">{tx.type}</td>
-                                            <td className="whitespace-nowrap px-3 py-4 text-sm text-slate-500 text-right">{tx.debit > 0 ? `R ${formatCurrency(tx.debit)}` : '-'}</td>
-                                            <td className="whitespace-nowrap px-3 py-4 text-sm text-slate-500 text-right">{tx.credit > 0 ? `R ${formatCurrency(tx.credit)}` : '-'}</td>
-                                            <td className="whitespace-nowrap px-3 py-4 text-sm text-slate-700 font-medium text-right">R {formatCurrency(tx.balance)}</td>
+                                            <td className="whitespace-nowrap px-3 py-3.5 text-sm text-slate-500">{tx.type}</td>
+                                            <td className="whitespace-nowrap px-3 py-3.5 text-sm text-slate-500 text-right">{tx.debit > 0 ? `R ${formatCurrency(tx.debit)}` : '-'}</td>
+                                            <td className="whitespace-nowrap px-3 py-3.5 text-sm text-slate-500 text-right">{tx.credit > 0 ? `R ${formatCurrency(tx.credit)}` : '-'}</td>
+                                            <td className="whitespace-nowrap px-3 py-3.5 text-sm text-slate-700 font-medium text-right">R {formatCurrency(tx.balance)}</td>
                                         </tr>
                                     ))}
                                 </tbody>

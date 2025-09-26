@@ -69,28 +69,28 @@ export const Dashboard: React.FC = () => {
     const openInvoices = invoices.filter(inv => inv.status === DocumentStatus.FINALIZED || inv.status === DocumentStatus.PARTIALLY_PAID);
     
     const totalOutstanding = openInvoices.reduce((sum, inv) => sum + calculateBalanceDue(inv, payments), 0);
-    const overdueInvoices = openInvoices.filter(inv => inv.dueDate && inv.dueDate.seconds < todayTimestamp.seconds);
+    const overdueInvoices = openInvoices.filter(inv => inv.dueDate && inv.dueDate.toMillis() < todayTimestamp.toMillis());
     const totalOverdue = overdueInvoices.reduce((sum, inv) => sum + calculateBalanceDue(inv, payments), 0);
 
     const paidLast30Days = payments
-        .filter(p => p.date.seconds >= thirtyDaysAgoTimestamp.seconds)
+        .filter(p => p.date.toMillis() >= thirtyDaysAgoTimestamp.toMillis())
         .reduce((sum, p) => sum + p.totalAmount, 0);
 
     const formatCurrency = (amount: number) => `R ${amount.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, " ")}`;
     
     const recentInvoices = [...invoices]
         .filter(inv => inv.issueDate) // Filter out invoices without dates
-        .sort((a, b) => b.issueDate.seconds - a.issueDate.seconds)
+        .sort((a, b) => b.issueDate.toMillis() - a.issueDate.toMillis())
         .slice(0, 5);
     
     const recentQuotes = [...quotes]
         .filter(quote => quote.date) // Filter out quotes without dates
-        .sort((a, b) => b.date.seconds - a.date.seconds)
+        .sort((a, b) => b.date.toMillis() - a.date.toMillis())
         .slice(0, 5);
     
     const atRiskInvoices = overdueInvoices
         .filter(inv => inv.dueDate) // Filter out invoices without due dates
-        .sort((a, b) => a.dueDate!.seconds - b.dueDate!.seconds)
+        .sort((a, b) => a.dueDate!.toMillis() - b.dueDate!.toMillis())
         .slice(0, 5);
         
     const getDaysOverdue = (dueDate?: Timestamp) => {

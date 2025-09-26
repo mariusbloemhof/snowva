@@ -38,11 +38,11 @@ export const ProductList: React.FC = () => {
                 <table className="min-w-full divide-y divide-slate-300">
                 <thead>
                     <tr>
-                    <th scope="col" className="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-slate-900 sm:pl-0">Image</th>
-                    <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-slate-900">Name</th>
-                    <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-slate-900">Consumer Price (ex. VAT)</th>
-                    <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-slate-900">Retail Price (ex. VAT)</th>
-                    <th scope="col" className="relative py-3.5 pl-3 pr-4 sm:pr-0">
+                    <th scope="col" className="py-3 pl-4 pr-3 text-left text-sm font-semibold text-slate-900 sm:pl-0">Image</th>
+                    <th scope="col" className="px-3 py-3 text-left text-sm font-semibold text-slate-900">Name</th>
+                    <th scope="col" className="px-3 py-3 text-left text-sm font-semibold text-slate-900">Consumer Price (ex. VAT)</th>
+                    <th scope="col" className="px-3 py-3 text-left text-sm font-semibold text-slate-900">Retail Price (ex. VAT)</th>
+                    <th scope="col" className="relative py-3 pl-3 pr-4 sm:pr-0">
                         <span className="sr-only">Edit</span>
                     </th>
                     </tr>
@@ -53,13 +53,13 @@ export const ProductList: React.FC = () => {
                     console.log('Product:', product.name, 'Prices:', product.prices, 'Current Price:', currentPrice);
                     return (
                     <tr key={product.id} className="hover:bg-slate-50">
-                        <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-slate-900 sm:pl-0">
+                        <td className="whitespace-nowrap py-3.5 pl-4 pr-3 text-sm font-medium text-slate-900 sm:pl-0">
                         <img src={product.imageUrl || 'https://picsum.photos/seed/placeholder/50'} alt={product.name} className="w-12 h-12 rounded-md object-cover"/>
                         </td>
-                        <td className="whitespace-nowrap px-3 py-4 text-sm text-slate-900 font-medium">{product.name}</td>
-                        <td className="whitespace-nowrap px-3 py-4 text-sm text-slate-500">R {currentPrice ? currentPrice.consumer.toFixed(2) : 'N/A'}</td>
-                        <td className="whitespace-nowrap px-3 py-4 text-sm text-slate-500">R {currentPrice ? currentPrice.retail.toFixed(2) : 'N/A'}</td>
-                        <td className="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium">
+                        <td className="whitespace-nowrap px-3 py-3.5 text-sm text-slate-900 font-medium">{product.name}</td>
+                        <td className="whitespace-nowrap px-3 py-3.5 text-sm text-slate-500">R {currentPrice ? currentPrice.consumer.toFixed(2) : 'N/A'}</td>
+                        <td className="whitespace-nowrap px-3 py-3.5 text-sm text-slate-500">R {currentPrice ? currentPrice.retail.toFixed(2) : 'N/A'}</td>
+                        <td className="relative whitespace-nowrap py-3.5 pl-3 pr-4 text-right text-sm font-medium">
                         <div className="flex items-center justify-end space-x-4">
                             <button onClick={() => navigate(`/products/${product.id}`)} className="text-indigo-600 hover:text-indigo-900"><PencilIcon className="w-5 h-5"/></button>
                             <button onClick={() => handleDelete(product.id)} className="text-slate-400 hover:text-red-600"><TrashIcon className="w-5 h-5"/></button>

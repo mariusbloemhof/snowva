@@ -41,7 +41,7 @@ export const InvoiceList: React.FC = () => {
                 }
                 if (statusFilter === 'overdue') {
                     const today = dateUtils.now();
-                    return inv.dueDate && inv.dueDate.seconds < today.seconds && inv.status !== DocumentStatus.PAID;
+                    return inv.dueDate && inv.dueDate.toMillis() < today.toMillis() && inv.status !== DocumentStatus.PAID;
                 }
                 return inv.status === statusFilter
             });
@@ -87,7 +87,7 @@ export const InvoiceList: React.FC = () => {
         const isActive = sortConfig?.key === columnKey;
 
         return (
-            <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-slate-900 cursor-pointer group" onClick={() => requestSort(columnKey)}>
+            <th scope="col" className="px-3 py-3 text-left text-sm font-semibold text-slate-900 cursor-pointer group" onClick={() => requestSort(columnKey)}>
                  <div className="flex items-center">
                     <span className={isActive ? 'text-indigo-600' : 'text-slate-900 group-hover:text-slate-700'}>{title}</span>
                     {isActive ? (
@@ -159,12 +159,12 @@ export const InvoiceList: React.FC = () => {
                         <table className="min-w-full divide-y divide-slate-300">
                             <thead>
                                 <tr>
-                                    <th scope="col" className="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-slate-900 sm:pl-0">Invoice #</th>
+                                    <th scope="col" className="py-3 pl-4 pr-3 text-left text-sm font-semibold text-slate-900 sm:pl-0">Invoice #</th>
                                     <SortableHeader columnKey="customerName" title="Customer" />
                                     <SortableHeader columnKey="issueDate" title="Date" />
                                     <SortableHeader columnKey="balanceDue" title="Balance Due" />
                                     <SortableHeader columnKey="status" title="Status" />
-                                    <th scope="col" className="relative py-3.5 pl-3 pr-4 sm:pr-0">
+                                    <th scope="col" className="relative py-3 pl-3 pr-4 sm:pr-0">
                                         <span className="sr-only">Edit</span>
                                     </th>
                                 </tr>
@@ -173,23 +173,23 @@ export const InvoiceList: React.FC = () => {
                                 {processedInvoices.map(invoice => (
                                     <tr key={invoice.id} className="hover:bg-slate-50">
                                         <td className="whitespace-nowrap p-0">
-                                            <Link to={`/invoices/${invoice.id}`} className="block py-4 pl-4 pr-3 text-sm font-medium text-indigo-600 hover:text-indigo-900 sm:pl-0">
+                                            <Link to={`/invoices/${invoice.id}`} className="block py-3.5 pl-4 pr-3 text-sm font-medium text-indigo-600 hover:text-indigo-900 sm:pl-0">
                                                 {invoice.invoiceNumber}
                                             </Link>
                                         </td>
                                         <td className="whitespace-nowrap p-0">
-                                            <Link to={`/customers/${invoice.customerId}`} className="block px-3 py-4 text-sm text-slate-500 hover:text-indigo-600">
+                                            <Link to={`/customers/${invoice.customerId}`} className="block px-3 py-3.5 text-sm text-slate-500 hover:text-indigo-600">
                                                 {customers.find(c => c.id === invoice.customerId)?.name || 'N/A'}
                                             </Link>
                                         </td>
-                                        <td className="whitespace-nowrap px-3 py-4 text-small text-slate-500">{dateUtils.toDisplayString(invoice.issueDate)}</td>
-                                        <td className="whitespace-nowrap px-3 py-4 text-sm text-slate-500">R {calculateBalanceDue(invoice, payments).toFixed(2)}</td>
-                                        <td className="whitespace-nowrap px-3 py-4 text-sm text-slate-500">
+                                        <td className="whitespace-nowrap px-3 py-3.5 text-small text-slate-500">{dateUtils.toDisplayString(invoice.issueDate)}</td>
+                                        <td className="whitespace-nowrap px-3 py-3.5 text-sm text-slate-500">R {calculateBalanceDue(invoice, payments).toFixed(2)}</td>
+                                        <td className="whitespace-nowrap px-3 py-3.5 text-sm text-slate-500">
                                             <span className={`inline-flex items-center rounded-md px-2 py-1 text-xs font-medium ring-1 ring-inset ${getStatusClass(invoice.status)}`}>
                                                 {invoice.status}
                                             </span>
                                         </td>
-                                        <td className="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium">
+                                        <td className="relative whitespace-nowrap py-3.5 pl-3 pr-4 text-right text-sm font-medium">
                                             <Link to={`/invoices/${invoice.id}`} className="text-indigo-600 hover:text-indigo-900">
                                                 {invoice.status === DocumentStatus.DRAFT ? <PencilIcon className="w-5 h-5"/> : <EyeIcon className="w-5 h-5"/>}
                                             </Link>

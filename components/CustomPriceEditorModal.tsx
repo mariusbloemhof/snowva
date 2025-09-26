@@ -1,7 +1,7 @@
 
 import React, { useState } from 'react';
 import { CustomerProductPrice, Price, Product } from '../types';
-import { getCurrentPrice, dateUtils } from '../utils';
+import { dateUtils, getCurrentPrice } from '../utils';
 import { PlusIcon } from './Icons';
 
 interface CustomPriceEditorModalProps {
@@ -60,7 +60,7 @@ export const CustomPriceEditorModal: React.FC<CustomPriceEditorModalProps> = ({ 
         onSave(formData);
     };
 
-    const sortedPrices = [...formData.prices].sort((a,b) => b.effectiveDate.seconds - a.effectiveDate.seconds);
+    const sortedPrices = [...formData.prices].sort((a,b) => b.effectiveDate.toMillis() - a.effectiveDate.toMillis());
     const currentPrice = getCurrentPrice({ prices: formData.prices });
 
     return (

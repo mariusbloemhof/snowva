@@ -196,18 +196,30 @@ export const getDisplayPaymentNumber = (payment: any): string => {
 
 export const getNextPaymentNumber = (currentPayments: Payment[]): string => {
     const today = new Date();
-    const year = today.getFullYear().toString().slice(-2);
-    const prefix = `P${year}-`;
+    const year = today.getFullYear();
+    const month = (today.getMonth() + 1).toString().padStart(2, '0');
+    const day = today.getDate().toString().padStart(2, '0');
+    const datePrefix = `PAY-${year}${month}${day}`;
 
-    const lastNumForYear = currentPayments
-        .filter(p => (p as any).paymentNumber && (p as any).paymentNumber.startsWith(prefix))
-        .map(p => parseInt((p as any).paymentNumber.slice(-3), 10))
+    // Find the highest number for today's date
+    const lastNumForDate = currentPayments
+        .filter(p => (p as any).paymentNumber && (p as any).paymentNumber.startsWith(datePrefix))
+        .map(p => {
+            const numPart = (p as any).paymentNumber.slice(datePrefix.length);
+            return parseInt(numPart, 10) || 0;
+        })
         .reduce((max, num) => Math.max(max, num), 0);
     
-    return `${prefix}${(lastNumForYear + 1).toString().padStart(3, '0')}`;
+    // Generate next number with 3-digit padding
+    return `${datePrefix}${(lastNumForDate + 1).toString().padStart(3, '0')}`;
 };
 
 export const calculateTotal = (doc: { items?: LineItem[], lineItems?: LineItem[], shipping?: number, shippingAmount?: number, totalAmount?: number }): number => {
+    // If totalAmount is already provided, use it directly (for imported data)
+    if (doc?.totalAmount && doc.totalAmount > 0) {
+        return doc.totalAmount;
+    }
+    
     const items = doc?.items || doc?.lineItems;
     const shipping = doc?.shipping || doc?.shippingAmount || 0;
     

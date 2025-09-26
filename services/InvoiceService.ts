@@ -42,7 +42,7 @@ class InvoiceService extends FirebaseService<Invoice> {
       
       return allInvoices.filter(invoice => 
         invoice.dueDate && 
-        invoice.dueDate.seconds < today.seconds && 
+        invoice.dueDate.toMillis() < today.toMillis() && 
         invoice.status !== DocumentStatus.PAID
       );
     } catch (error) {
@@ -58,8 +58,8 @@ class InvoiceService extends FirebaseService<Invoice> {
       const endTimestamp = Timestamp.fromDate(new Date(endDate));
       const allInvoices = await this.getAll([orderBy('issueDate')]);
       return allInvoices.filter(invoice => 
-        invoice.issueDate.seconds >= startTimestamp.seconds && 
-        invoice.issueDate.seconds <= endTimestamp.seconds
+        invoice.issueDate.toMillis() >= startTimestamp.toMillis() && 
+        invoice.issueDate.toMillis() <= endTimestamp.toMillis()
       );
     } catch (error) {
       console.error('Error getting invoices by date range:', error);
@@ -113,11 +113,11 @@ class InvoiceService extends FirebaseService<Invoice> {
       throw new Error('Customer is required');
     }
 
-    if (data.issueDate && data.issueDate.seconds > Timestamp.now().seconds) {
+    if (data.issueDate && data.issueDate.toMillis() > Timestamp.now().toMillis()) {
       throw new Error('Invoice date cannot be in the future');
     }
 
-    if (data.dueDate && data.issueDate && data.dueDate.seconds < data.issueDate.seconds) {
+    if (data.dueDate && data.issueDate && data.dueDate.toMillis() < data.issueDate.toMillis()) {
       throw new Error('Due date cannot be before invoice date');
     }
 

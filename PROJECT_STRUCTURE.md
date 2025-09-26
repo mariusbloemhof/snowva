@@ -15,6 +15,9 @@ snowva-gemini/
 │   ├── migration/           # Current migration scripts
 │   └── archived/            # Old/deprecated scripts
 ├── services/                # Firebase service classes
+├── utils/                   # Active utility functions
+│   ├── dataMigration.ts     # Firebase admin utilities
+│   └── firebaseTest.ts      # Firebase testing utilities
 ├── App.tsx                  # Main app component
 ├── constants.ts             # App constants
 ├── firebase.config.ts       # Firebase configuration
@@ -45,8 +48,7 @@ snowva-gemini/
 - `remigrate.js`
 - `test-firebase.js`
 - `upload_to_firebase.js`
-- `dataMigration.ts`
-- `firebaseTest.ts`
+
 
 ### Documentation (moved to `/docs/`)
 - `FIREBASE_SETUP.md`

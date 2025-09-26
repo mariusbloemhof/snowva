@@ -1,13 +1,15 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react';
-import { useBlocker, useLocation, useNavigate, useOutletContext, useParams } from 'react-router-dom';
+import { Link, useBlocker, useLocation, useNavigate, useOutletContext, useParams } from 'react-router-dom';
+import { useFirebase } from '../contexts/FirebaseContext';
 import { useToast } from '../contexts/ToastContext';
 import { AppContextType, DocumentStatus, Invoice, Payment, PaymentMethod } from '../types';
 import { calculateBalanceDue, calculatePaid, calculateTotal, dateUtils, getDisplayPaymentNumber, getNextPaymentNumber } from '../utils';
-import { CheckCircleIcon } from './Icons';
+import { ArrowLeftIcon, CheckCircleIcon } from './Icons';
 
 export const PaymentRecorder: React.FC = () => {
     const { id: paymentId } = useParams<{ id: string }>();
     const { customers, invoices, setInvoices, payments, setPayments } = useOutletContext<AppContextType>();
+    const { paymentOperations, invoiceOperations } = useFirebase();
     const location = useLocation();
     const navigate = useNavigate();
     const { addToast } = useToast();
@@ -56,11 +58,22 @@ export const PaymentRecorder: React.FC = () => {
     const customer = useMemo(() => {
         if (isEditMode && existingPayment) {
             const customerIdFromPayment = (existingPayment as any).customerId || (existingPayment as any).customer_id || existingPayment.customerId;
-            return customers.find(c => c.id === customerIdFromPayment);
+            const foundCustomer = customers.find(c => c.id === customerIdFromPayment);
+            return foundCustomer;
         }
+        
         const targetCustomer = customers.find(c => c.id === customerId);
+        if (targetCustomer) {
+            return targetCustomer;
+        }
+        
         const targetInvoice = invoices.find(i => i.id === invoiceId);
-        return targetCustomer || (targetInvoice ? customers.find(c => c.id === targetInvoice.customerId) : null);
+        if (targetInvoice) {
+            const invoiceCustomer = customers.find(c => c.id === targetInvoice.customerId);
+            return invoiceCustomer;
+        }
+        
+        return null;
     }, [isEditMode, existingPayment, customerId, invoiceId, customers, invoices]);
 
     useEffect(() => {
@@ -100,7 +113,11 @@ export const PaymentRecorder: React.FC = () => {
             if (targetInvoice) {
                 const balance = calculateBalanceDue(targetInvoice, payments);
                 const finalBalance = parseFloat(balance.toFixed(2));
-                const newDetails = {...paymentDetails, amount: finalBalance};
+                const newDetails = {
+                    ...paymentDetails, 
+                    amount: finalBalance,
+                    reference: `Payment for invoice ${targetInvoice.invoiceNumber}`
+                };
                 const newAllocations = { [targetInvoice.id]: finalBalance };
                 setPaymentDetails(newDetails);
                 setAllocations(newAllocations);
@@ -164,30 +181,66 @@ export const PaymentRecorder: React.FC = () => {
     const openInvoices = useMemo(() => {
         if (!customer) return [];
 
-        const isOutstanding = (inv: Invoice) => 
-            inv.status === DocumentStatus.FINALIZED || 
-            inv.status === DocumentStatus.PARTIALLY_PAID || 
-            (isEditMode && (allocations[inv.id] || 0) > 0);
+        // Filter invoices for this customer
+
+        const isOutstanding = (inv: Invoice) => {
+            // Don't show DRAFT or PAID invoices for new payments
+            const excludedStatuses = [DocumentStatus.DRAFT, DocumentStatus.PAID];
+            
+            // For quotes, exclude REJECTED status as well
+            if (excludedStatuses.includes(inv.status)) {
+                return false;
+            }
+            
+            // In edit mode, always show invoices that already have allocations
+            if (isEditMode && (allocations[inv.id] || 0) > 0) {
+                return true;
+            }
+            
+            // Show all other statuses: FINALIZED, PARTIALLY_PAID, ACCEPTED, etc.
+            return true;
+        };
 
         // Start with the direct customer's invoices
         let relevantInvoices = invoices.filter(inv => 
             inv.customerId === customer.id && isOutstanding(inv)
         );
-
-        // If the selected customer is a parent company, find invoices from children who bill to parent
+        
+        // Show all customer invoices if none pass the status filter (fallback for payment allocation)
+        if (relevantInvoices.length === 0) {
+            const allCustomerInvoicesIgnoringStatus = invoices.filter(inv => inv.customerId === customer.id);
+            if (allCustomerInvoicesIgnoringStatus.length > 0) {
+                relevantInvoices = allCustomerInvoicesIgnoringStatus;
+            }
+        }        // If the selected customer is a parent company, find invoices from children who bill to parent
         const childCustomers = customers.filter(c => c.parentCompanyId === customer.id && c.billToParent);
         if (childCustomers.length > 0) {
             const childCustomerIds = new Set(childCustomers.map(c => c.id));
             const childInvoices = invoices.filter(inv => 
                 childCustomerIds.has(inv.customerId) && isOutstanding(inv)
             );
+
             relevantInvoices = [...relevantInvoices, ...childInvoices];
         }
         
         // Use a Set to remove duplicates in case an invoice is somehow included twice
         const uniqueInvoices = Array.from(new Map(relevantInvoices.map(item => [item.id, item])).values());
         
-        return uniqueInvoices.sort((a: Invoice, b: Invoice) => ((a as any).invoiceDate || a.issueDate || '').localeCompare((b as any).invoiceDate || b.issueDate || ''));
+        return uniqueInvoices.sort((a: Invoice, b: Invoice) => {
+            // Convert dates to strings for comparison, handling both string and Timestamp types
+            const getDateString = (inv: Invoice) => {
+                const date = (inv as any).invoiceDate || inv.issueDate;
+                if (!date) return '';
+                // Handle Firebase Timestamp objects
+                if (date && typeof date === 'object' && date.toDate) {
+                    return date.toDate().toISOString();
+                }
+                // Handle string dates
+                return String(date);
+            };
+            
+            return getDateString(a).localeCompare(getDateString(b));
+        });
     }, [customer, invoices, isEditMode, allocations, customers]);
 
     const handleDetailChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
@@ -217,7 +270,7 @@ export const PaymentRecorder: React.FC = () => {
     const totalAllocated = useMemo<number>(() => Object.values(allocations).reduce((sum: number, val: number) => sum + (val || 0), 0), [allocations]);
     const unallocatedAmount = paymentDetails.amount - totalAllocated;
 
-    const handleSubmit = () => {
+    const handleSubmit = async () => {
         if (!customer) { addToast('Error: No customer identified for this payment.', 'error'); return; }
         if (paymentDetails.amount <= 0) { addToast('Payment amount must be positive.', 'error'); return; }
         if (Math.abs(unallocatedAmount) > 0.005) { addToast('The total allocated amount must equal the payment amount.', 'error'); return; }
@@ -238,100 +291,226 @@ export const PaymentRecorder: React.FC = () => {
         });
         if (validationError) { addToast(validationError, 'error'); return; }
 
-        const newAllocations = Object.entries(allocations)
-            .filter(([, amount]) => amount > 0)
-            .map(([invoiceId, amount]) => {
-                // Find invoice to get its invoiceNumber
-                const invoice = invoices.find(inv => inv.id === invoiceId);
-                return { invoiceNumber: invoice?.invoiceNumber || invoiceId, amount };
-            });
+        // Disable button and show loading state
+        isSaving.current = true;
 
-        let finalPayment: Payment;
-        let newPayments: Payment[];
+        try {
+            const newAllocations = Object.entries(allocations)
+                .filter(([, amount]) => amount > 0)
+                .map(([invoiceId, amount]) => {
+                    // Find invoice to get its invoiceNumber
+                    const invoice = invoices.find(inv => inv.id === invoiceId);
+                    return { invoiceNumber: invoice?.invoiceNumber || invoiceId, amount };
+                });
 
-        if (isEditMode && existingPayment) {
-            finalPayment = { 
-                ...existingPayment, 
-                ...paymentDetails, 
-                date: dateUtils.stringToTimestamp(paymentDetails.date),
-                totalAmount: paymentDetails.amount, 
-                reference: paymentDetails.reference || undefined, 
-                allocations: newAllocations 
-            };
-            newPayments = payments.map(p => p.id === paymentId ? finalPayment : p);
-        } else {
-            finalPayment = { 
-                id: `pay_${Date.now()}`, 
-                paymentNumber: getNextPaymentNumber(payments), 
-                customerId: customer.id, 
-                ...paymentDetails, 
-                date: dateUtils.stringToTimestamp(paymentDetails.date),
-                totalAmount: paymentDetails.amount, 
-                reference: paymentDetails.reference || undefined, 
-                allocations: newAllocations 
-            };
-            newPayments = [...payments, finalPayment];
-        }
-        setPayments(newPayments);
+            let finalPayment: Payment;
 
-        const affectedInvoiceIds = new Set<string>();
-        if(isEditMode && existingPayment) {
-            existingPayment.allocations.forEach(a => {
-                const allocRef = (a as any).invoiceNumber || (a as any).invoiceId;
-                const invoice = invoices.find(inv => inv.invoiceNumber === allocRef || inv.id === allocRef);
+            if (isEditMode && existingPayment) {
+                // Update existing payment
+                const paymentData: any = { 
+                    ...paymentDetails, 
+                    date: dateUtils.stringToTimestamp(paymentDetails.date),
+                    totalAmount: paymentDetails.amount, 
+                    allocations: newAllocations 
+                };
+                
+                // Only include reference if it has a value
+                if (paymentDetails.reference && paymentDetails.reference.trim()) {
+                    paymentData.reference = paymentDetails.reference;
+                }
+                
+                await paymentOperations.update(paymentId!, paymentData);
+                finalPayment = { ...existingPayment, ...paymentData };
+            } else {
+                // Create new payment
+                const paymentData: any = { 
+                    paymentNumber: getNextPaymentNumber(payments), 
+                    customerId: customer.id, 
+                    ...paymentDetails, 
+                    date: dateUtils.stringToTimestamp(paymentDetails.date),
+                    totalAmount: paymentDetails.amount, 
+                    allocations: newAllocations 
+                };
+                
+                // Only include reference if it has a value
+                if (paymentDetails.reference && paymentDetails.reference.trim()) {
+                    paymentData.reference = paymentDetails.reference;
+                }
+                
+                const paymentId = await paymentOperations.create(paymentData);
+                finalPayment = { id: paymentId, ...paymentData };
+            }
+
+            // Update local state for immediate UI feedback
+            const newPayments = isEditMode 
+                ? payments.map(p => p.id === paymentId ? finalPayment : p)
+                : [...payments, finalPayment];
+            setPayments(newPayments);
+
+            // Update invoice statuses based on payment allocations
+            const affectedInvoiceIds = new Set<string>();
+            if(isEditMode && existingPayment) {
+                existingPayment.allocations.forEach(a => {
+                    const allocRef = (a as any).invoiceNumber || (a as any).invoiceId;
+                    const invoice = invoices.find(inv => inv.invoiceNumber === allocRef || inv.id === allocRef);
+                    if (invoice) affectedInvoiceIds.add(invoice.id);
+                });
+            }
+            newAllocations.forEach(a => {
+                const invoice = invoices.find(inv => inv.invoiceNumber === a.invoiceNumber);
                 if (invoice) affectedInvoiceIds.add(invoice.id);
             });
+
+            // Update affected invoices in Firebase
+            const invoiceUpdatePromises: Promise<void>[] = [];
+            const updatedInvoices = invoices.map((inv: Invoice) => {
+                if (affectedInvoiceIds.has(inv.id)) {
+                    const paid: number = calculatePaid(inv.id, newPayments, invoices);
+                    const total: number = calculateTotal(inv);
+                    const balance: number = total - paid;
+                    let newStatus = inv.status;
+
+                    if (balance <= 0.005 && paid > 0) newStatus = DocumentStatus.PAID;
+                    else if (paid > 0) newStatus = DocumentStatus.PARTIALLY_PAID;
+                    else if (inv.status !== DocumentStatus.DRAFT) newStatus = DocumentStatus.FINALIZED;
+                    
+                    console.log(`Invoice ${inv.invoiceNumber} (ID: ${inv.id}): Total=${total}, Paid=${paid}, Balance=${balance}, Status: ${inv.status} → ${newStatus}`);
+                    
+                    // Debug: Log payment allocations for this invoice
+                    console.log('Payment allocations for this invoice:');
+                    newPayments.forEach(payment => {
+                        payment.allocations.forEach(allocation => {
+                            const allocRef = (allocation as any).invoiceNumber || (allocation as any).invoiceId;
+                            if (allocRef === inv.invoiceNumber || allocRef === inv.id) {
+                                console.log(`  - Payment ${payment.paymentNumber}: ${allocation.amount} allocated to ${allocRef}`);
+                            }
+                        });
+                    });
+                    
+                    if (newStatus !== inv.status) {
+                        console.log(`🔄 Updating invoice ${inv.invoiceNumber} status from "${inv.status}" to "${newStatus}"`);
+                        // Update invoice status in Firebase
+                        invoiceUpdatePromises.push(
+                            invoiceOperations.update(inv.id, { status: newStatus })
+                                .then(() => console.log(`✅ Successfully updated invoice ${inv.invoiceNumber} to ${newStatus}`))
+                                .catch(err => console.error(`❌ Failed to update invoice ${inv.invoiceNumber}:`, err))
+                        );
+                    }
+                    
+                    return { ...inv, status: newStatus };
+                }
+                return inv;
+            });
+            
+            // Wait for all invoice updates to complete
+            await Promise.all(invoiceUpdatePromises);
+            setInvoices(updatedInvoices);
+            
+            addToast(`Payment ${isEditMode ? 'updated' : 'recorded'} successfully!`, 'success');
+
+            const finalPaymentDetails = {
+                date: finalPayment.date,
+                amount: finalPayment.totalAmount,
+                method: finalPayment.method,
+                reference: finalPayment.reference || '',
+            };
+            const finalAllocations = finalPayment.allocations.reduce((acc, alloc) => {
+                // Handle both old (invoiceId) and new (invoiceNumber) formats
+                const allocRef = (alloc as any).invoiceNumber || (alloc as any).invoiceId;
+                const invoice = invoices.find(inv => inv.invoiceNumber === allocRef || inv.id === allocRef);
+                if (invoice) {
+                    acc[invoice.id] = alloc.amount;
+                }
+                return acc;
+            }, {} as Record<string, number>);
+
+            initialState.current = JSON.stringify({ paymentDetails: finalPaymentDetails, allocations: finalAllocations });
+            setIsDirty(false);
+            
+            // Navigate after a brief delay to ensure state is updated
+            setTimeout(() => {
+                navigateAfterSave();
+            }, 0);
+            
+        } catch (error) {
+            console.error('Error saving payment:', error);
+            addToast(`Failed to ${isEditMode ? 'update' : 'record'} payment. Please try again.`, 'error');
+        } finally {
+            isSaving.current = false;
         }
-        newAllocations.forEach(a => {
-            const invoice = invoices.find(inv => inv.invoiceNumber === a.invoiceNumber);
-            if (invoice) affectedInvoiceIds.add(invoice.id);
-        });
-
-        const updatedInvoices = invoices.map((inv: Invoice) => {
-            if (affectedInvoiceIds.has(inv.id)) {
-                const paid: number = calculatePaid(inv.id, newPayments);
-                const total: number = calculateTotal(inv);
-                const balance: number = total - paid;
-                let newStatus = inv.status;
-
-                if (balance <= 0.005 && paid > 0) newStatus = DocumentStatus.PAID;
-                else if (paid > 0) newStatus = DocumentStatus.PARTIALLY_PAID;
-                else if (inv.status !== DocumentStatus.DRAFT) newStatus = DocumentStatus.FINALIZED;
-                
-                return { ...inv, status: newStatus };
-            }
-            return inv;
-        });
-        setInvoices(updatedInvoices);
-        
-        addToast(`Payment ${isEditMode ? 'updated' : 'recorded'} successfully!`, 'success');
-
-        const finalPaymentDetails = {
-            date: finalPayment.date,
-            amount: finalPayment.totalAmount,
-            method: finalPayment.method,
-            reference: finalPayment.reference || '',
-        };
-        const finalAllocations = finalPayment.allocations.reduce((acc, alloc) => {
-            // Handle both old (invoiceId) and new (invoiceNumber) formats
-            const allocRef = (alloc as any).invoiceNumber || (alloc as any).invoiceId;
-            const invoice = invoices.find(inv => inv.invoiceNumber === allocRef || inv.id === allocRef);
-            if (invoice) {
-                acc[invoice.id] = alloc.amount;
-            }
-            return acc;
-        }, {} as Record<string, number>);
-
-        initialState.current = JSON.stringify({ paymentDetails: finalPaymentDetails, allocations: finalAllocations });
-        setIsDirty(false);
-        
-        // Navigate after a brief delay to ensure state is updated
-        setTimeout(() => {
-            navigateAfterSave();
-        }, 0);
     };
 
-    if (!customer) return <div className="bg-white p-6 rounded-lg shadow-md">Loading or invalid selection...</div>;
+    // Temporary customer selector state
+    const [selectedCustomerId, setSelectedCustomerId] = useState<string>('');
+    const [showCustomerSelector, setShowCustomerSelector] = useState(false);
+
+    // Handle manual customer selection
+    const handleCustomerSelect = (custId: string) => {
+        // Navigate with the selected customer ID
+        navigate('/payments/record', { 
+            state: { customerId: custId },
+            replace: true 
+        });
+    };
+
+    if (!customer) {
+        return (
+            <div className="bg-white p-6 rounded-lg shadow-md max-w-2xl mx-auto">
+                <h2 className="text-xl font-semibold text-slate-900 mb-4">No Customer Selected</h2>
+                <p className="text-slate-600 mb-4">
+                    To record a payment, you need to select a customer first. 
+                    {customerId && ` (Customer ID: ${customerId} not found)`}
+                    {invoiceId && ` (Invoice ID: ${invoiceId} not found or customer not found)`}
+                </p>
+                
+                {!showCustomerSelector ? (
+                    <div className="space-y-3">
+                        <button 
+                            onClick={() => navigate('/payments/new')} 
+                            className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 mr-3"
+                        >
+                            Go to Payment Search
+                        </button>
+                        <button 
+                            onClick={() => setShowCustomerSelector(true)} 
+                            className="inline-flex items-center px-4 py-2 border border-slate-300 text-sm font-medium rounded-md text-slate-700 bg-white hover:bg-slate-50"
+                        >
+                            Select Customer Manually
+                        </button>
+                    </div>
+                ) : (
+                    <div className="space-y-3">
+                        <label className="block text-sm font-medium text-slate-700">Select Customer:</label>
+                        <select 
+                            value={selectedCustomerId} 
+                            onChange={(e) => setSelectedCustomerId(e.target.value)}
+                            className="block w-full rounded-md border-slate-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+                        >
+                            <option value="">Choose a customer...</option>
+                            {customers.map(c => (
+                                <option key={c.id} value={c.id}>{c.name}</option>
+                            ))}
+                        </select>
+                        <div className="flex space-x-2">
+                            <button 
+                                onClick={() => selectedCustomerId && handleCustomerSelect(selectedCustomerId)}
+                                disabled={!selectedCustomerId}
+                                className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-green-600 hover:bg-green-700 disabled:bg-slate-400"
+                            >
+                                Select Customer
+                            </button>
+                            <button 
+                                onClick={() => setShowCustomerSelector(false)} 
+                                className="inline-flex items-center px-4 py-2 border border-slate-300 text-sm font-medium rounded-md text-slate-700 bg-white hover:bg-slate-50"
+                            >
+                                Cancel
+                            </button>
+                        </div>
+                    </div>
+                )}
+            </div>
+        );
+    }
     
     const formElementClasses = "block w-full rounded-md border-0 py-1.5 px-3 text-slate-900 shadow-sm ring-1 ring-inset ring-slate-300 placeholder:text-slate-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6";
     const labelClasses = "block text-sm font-medium leading-6 text-slate-900";
@@ -355,9 +534,18 @@ export const PaymentRecorder: React.FC = () => {
             )}
             <div className="bg-white p-6 sm:p-8 rounded-xl border border-slate-200 max-w-5xl mx-auto space-y-8">
                 <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center border-b border-slate-200 pb-4">
-                    <div>
-                        <h2 className="text-2xl font-semibold leading-6 text-slate-900">{isEditMode ? `Edit Payment ${getDisplayPaymentNumber(existingPayment)}` : 'Record Payment'}</h2>
-                        <p className="mt-1 text-sm text-slate-600">For: <span className="font-medium text-indigo-600">{customer.name}</span></p>
+                    <div className="flex items-center gap-x-3">
+                        <button 
+                            type="button"
+                            onClick={() => navigate(-1)}
+                            className="inline-flex items-center rounded-md p-2 text-slate-400 hover:text-slate-600 hover:bg-slate-100"
+                        >
+                            <ArrowLeftIcon className="w-5 h-5" />
+                        </button>
+                        <div>
+                            <h2 className="text-2xl font-semibold leading-6 text-slate-900">{isEditMode ? `Edit Payment ${getDisplayPaymentNumber(existingPayment)}` : 'Record Payment'}</h2>
+                            <p className="mt-1 text-sm text-slate-600">For: <span className="font-medium text-indigo-600">{customer.name}</span></p>
+                        </div>
                     </div>
                     <div className="flex items-center justify-end space-x-3 mt-4 sm:mt-0">
                         <button type="button" onClick={handleCancel} className="rounded-md bg-white px-3 py-2 text-sm font-semibold text-slate-900 shadow-sm ring-1 ring-inset ring-slate-300 hover:bg-slate-50">Cancel</button>
@@ -409,10 +597,10 @@ export const PaymentRecorder: React.FC = () => {
                                 <table className="min-w-full">
                                     <thead className="text-sm text-slate-600">
                                         <tr>
-                                            <th className="py-2 text-left font-semibold">Invoice #</th>
-                                            <th className="py-2 text-left font-semibold">Date</th>
-                                            <th className="py-2 text-right font-semibold">Balance Due</th>
-                                            <th className="py-2 text-right font-semibold w-48">Allocation Amount</th>
+                                            <th className="py-1.5 text-left font-semibold">Invoice #</th>
+                                            <th className="py-1.5 text-left font-semibold">Date</th>
+                                            <th className="py-1.5 text-right font-semibold">Balance Due</th>
+                                            <th className="py-1.5 text-right font-semibold w-48">Allocation Amount</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -421,10 +609,14 @@ export const PaymentRecorder: React.FC = () => {
                                             const balance = calculateBalanceDue(invoice, otherPayments);
                                             return (
                                                 <tr key={invoice.id} className="border-t border-slate-200">
-                                                    <td className="py-3 text-sm font-medium text-indigo-600">{invoice.invoiceNumber}</td>
-                                                    <td className="py-3 text-sm text-slate-500">{(invoice as any).invoiceDate || invoice.issueDate}</td>
-                                                    <td className="py-3 text-sm text-slate-500 text-right">R {balance.toFixed(2)}</td>
-                                                    <td className="py-3 text-right">
+                                                    <td className="py-2.5 text-sm font-medium">
+                                                        <Link to={`/invoices/${invoice.id}`} className="text-indigo-600 hover:text-indigo-900">
+                                                            {invoice.invoiceNumber}
+                                                        </Link>
+                                                    </td>
+                                                    <td className="py-2.5 text-sm text-slate-500">{dateUtils.toDisplayString((invoice as any).invoiceDate || invoice.issueDate)}</td>
+                                                    <td className="py-2.5 text-sm text-slate-500 text-right">R {balance.toFixed(2)}</td>
+                                                    <td className="py-2.5 text-right">
                                                         <input 
                                                             type="number" 
                                                             value={allocations[invoice.id] || ''} 
@@ -442,7 +634,15 @@ export const PaymentRecorder: React.FC = () => {
                                 </table>
                             </div>
                         ) : (
-                            <p className="text-center text-slate-500 p-4">No open invoices for this customer.</p>
+                            <div className="text-center text-slate-500 p-4">
+                                <p className="mb-2">No open invoices found for {customer?.name}.</p>
+                                <div className="text-sm text-slate-400 mb-4">
+                                    <p>Customer has {invoices.filter(inv => inv.customerId === customer?.id).length} total invoice(s).</p>
+                                </div>
+                                <p className="text-sm text-slate-400">
+                                    Invoices with status DRAFT or PAID cannot receive payments.
+                                </p>
+                            </div>
                         )}
                     </div>
                 </div>

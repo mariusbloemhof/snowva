@@ -45,3 +45,4 @@ export const CashIcon = ({ className, ...rest }: IconProps) => <Icon className={
 export const SwitchHorizontalIcon = ({ className, ...rest }: IconProps) => <Icon className={className} {...rest}><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4" /></Icon>;
 export const ArrowUpIcon = ({ className, ...rest }: IconProps) => <Icon className={className} {...rest}><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 19V5m0 0l-7 7m7-7l7 7" /></Icon>;
 export const ArrowDownIcon = ({ className, ...rest }: IconProps) => <Icon className={className} {...rest}><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 5v14m0 0l-7-7m7 7l7-7" /></Icon>;
+export const ArrowLeftIcon = ({ className, ...rest }: IconProps) => <Icon className={className} {...rest}><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 12H5m0 0l7 7m-7-7l7-7" /></Icon>;

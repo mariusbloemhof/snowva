@@ -28,8 +28,8 @@ class PaymentService extends FirebaseService<Payment> {
       const endTimestamp = Timestamp.fromDate(new Date(endDate));
       const allPayments = await this.getAll([orderBy('date', 'desc')]);
       return allPayments.filter(payment => 
-        payment.date.seconds >= startTimestamp.seconds && 
-        payment.date.seconds <= endTimestamp.seconds
+        payment.date.toMillis() >= startTimestamp.toMillis() && 
+        payment.date.toMillis() <= endTimestamp.toMillis()
       );
     } catch (error) {
       console.error('Error getting payments by date range:', error);
@@ -82,7 +82,7 @@ class PaymentService extends FirebaseService<Payment> {
       throw new Error('Customer is required');
     }
 
-    if (data.date && data.date.seconds > Timestamp.now().seconds) {
+    if (data.date && data.date.toMillis() > Timestamp.now().toMillis()) {
       throw new Error('Payment date cannot be in the future');
     }
 

@@ -4,7 +4,7 @@ import { useBlocker, useNavigate, useOutletContext, useParams } from 'react-rout
 import { useToast } from '../contexts/ToastContext';
 import { AppContextType, Price, Product } from '../types';
 import { dateUtils, getCurrentPrice } from '../utils';
-import { PlusIcon, SparklesIcon } from './Icons';
+import { ArrowLeftIcon, PlusIcon, SparklesIcon } from './Icons';
 
 const emptyProduct: Omit<Product, 'id'> = {
     name: '',
@@ -246,9 +246,18 @@ export const ProductEditor: React.FC = () => {
             <div className="bg-white p-6 sm:p-8 rounded-xl border border-slate-200">
                 <form onSubmit={handleSubmit} noValidate>
                     <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 border-b border-slate-200 pb-4">
-                        <div>
-                            <h2 className="text-2xl font-semibold leading-6 text-slate-900">{productId ? 'Edit Product' : 'Add New Product'}</h2>
-                            <p className="mt-1 text-sm text-slate-600">Manage product details, pricing, and media.</p>
+                        <div className="flex items-center gap-x-3">
+                            <button 
+                                type="button"
+                                onClick={() => navigate(-1)}
+                                className="inline-flex items-center rounded-md p-2 text-slate-400 hover:text-slate-600 hover:bg-slate-100"
+                            >
+                                <ArrowLeftIcon className="w-5 h-5" />
+                            </button>
+                            <div>
+                                <h2 className="text-2xl font-semibold leading-6 text-slate-900">{productId ? 'Edit Product' : 'Add New Product'}</h2>
+                                <p className="mt-1 text-sm text-slate-600">Manage product details, pricing, and media.</p>
+                            </div>
                         </div>
                         <div className="flex items-center justify-end space-x-3 mt-4 sm:mt-0">
                             <button type="button" onClick={handleCancel} className="rounded-md bg-white px-3 py-2 text-sm font-semibold text-slate-900 shadow-sm ring-1 ring-inset ring-slate-300 hover:bg-slate-50">Cancel</button>

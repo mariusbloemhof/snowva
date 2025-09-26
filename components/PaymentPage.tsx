@@ -1,8 +1,8 @@
 
-import React, { useState, useMemo } from 'react';
+import React, { useMemo, useState } from 'react';
 import { useNavigate, useOutletContext } from 'react-router-dom';
-import { Invoice, Customer, DocumentStatus, AppContextType } from '../types';
-import { SearchIcon } from './Icons';
+import { AppContextType, Customer, DocumentStatus, Invoice } from '../types';
+import { ArrowLeftIcon, SearchIcon } from './Icons';
 
 interface SearchResult {
     type: 'customer' | 'invoice';
@@ -44,9 +44,17 @@ export const PaymentPage: React.FC = () => {
 
     return (
         <div className="bg-white p-6 sm:p-8 rounded-xl border border-slate-200 max-w-4xl mx-auto">
-            <div className="text-center">
-                <h2 className="text-2xl font-semibold leading-6 text-slate-900">Record Payment</h2>
-                <p className="mt-2 text-sm text-slate-700">Search for a customer or an open invoice number to record and allocate a new payment.</p>
+            <div className="flex items-center gap-x-4 mb-6">
+                <button 
+                    onClick={() => navigate(-1)}
+                    className="inline-flex items-center rounded-md p-2 text-slate-400 hover:text-slate-600 hover:bg-slate-100"
+                >
+                    <ArrowLeftIcon className="w-5 h-5" />
+                </button>
+                <div className="text-center flex-1">
+                    <h2 className="text-2xl font-semibold leading-6 text-slate-900">Record Payment</h2>
+                    <p className="mt-2 text-sm text-slate-700">Search for a customer or an open invoice number to record and allocate a new payment.</p>
+                </div>
             </div>
             
             <div className="mt-6 max-w-xl mx-auto">

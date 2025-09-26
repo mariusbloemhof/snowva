@@ -4,7 +4,7 @@ import { SNOWVA_DETAILS, VAT_RATE } from '../constants';
 import { useToast } from '../contexts/ToastContext';
 import { Address, AppContextType, Customer, DocumentStatus } from '../types';
 import { dateUtils, formatDistanceToNow } from '../utils';
-import { CheckCircleIcon, DownloadIcon, MailIcon, PrintIcon, SwitchHorizontalIcon, UsersIcon, XCircleIcon } from './Icons';
+import { ArrowLeftIcon, CheckCircleIcon, DownloadIcon, MailIcon, PrintIcon, SwitchHorizontalIcon, UsersIcon, XCircleIcon } from './Icons';
 
 // Declare global libraries loaded from CDN
 declare const jspdf: any;
@@ -234,9 +234,17 @@ export const QuoteViewer: React.FC = () => {
         <>
         <div className="space-y-6">
             <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 border-b border-slate-200 pb-4 print:hidden">
-                <div>
-                    <h2 className="text-2xl font-semibold leading-6 text-slate-900">Quote {quote.quoteNumber}</h2>
-                    <p className="mt-1 text-sm text-slate-600">for <span className="font-medium text-indigo-600">{selectedCustomer.name}</span></p>
+                <div className="flex items-center gap-x-3">
+                    <button 
+                        onClick={() => navigate(-1)}
+                        className="inline-flex items-center rounded-md p-2 text-slate-400 hover:text-slate-600 hover:bg-slate-100"
+                    >
+                        <ArrowLeftIcon className="w-5 h-5" />
+                    </button>
+                    <div>
+                        <h2 className="text-2xl font-semibold leading-6 text-slate-900">Quote {quote.quoteNumber}</h2>
+                        <p className="mt-1 text-sm text-slate-600">for <span className="font-medium text-indigo-600">{selectedCustomer.name}</span></p>
+                    </div>
                 </div>
                 <div className="flex items-center justify-end space-x-3 mt-4 sm:mt-0">
                     {quote.status === DocumentStatus.ACCEPTED && (

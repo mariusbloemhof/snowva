@@ -39,7 +39,7 @@ export const CustomerHistoryTab: React.FC<CustomerHistoryTabProps> = ({ customer
             .filter(i => relevantCustomerIds.has(i.customerId))
             .map(i => ({
                 id: i.id,
-                date: i.date,
+                date: i.issueDate,
                 type: 'Invoice',
                 reference: i.invoiceNumber,
                 amount: calculateTotal(i),
@@ -72,7 +72,23 @@ export const CustomerHistoryTab: React.FC<CustomerHistoryTabProps> = ({ customer
             }));
 
         const allTransactions = [...customerInvoices, ...customerPayments, ...customerQuotes];
-        return allTransactions.sort((a, b) => b.date.seconds - a.date.seconds);
+        return allTransactions.sort((a, b) => {
+            if (!a.date || !b.date) return 0;
+            // Robust Timestamp comparison with fallback
+            try {
+                if (typeof a.date.toMillis === 'function' && typeof b.date.toMillis === 'function') {
+                    return b.date.toMillis() - a.date.toMillis();
+                }
+                // Fallback for edge cases
+                if (a.date && b.date) {
+                    return b.date.toMillis() - a.date.toMillis();
+                }
+                return 0;
+            } catch (error) {
+                console.warn('Error comparing dates in CustomerHistoryTab:', error);
+                return 0;
+            }
+        });
     }, [customer, customers, invoices, payments, quotes]);
 
     const getStatusClass = (status: string) => {
@@ -114,7 +130,11 @@ export const CustomerHistoryTab: React.FC<CustomerHistoryTabProps> = ({ customer
                                     <tr key={tx.id} className="hover:bg-slate-50">
                                         <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm text-slate-500 sm:pl-0">{dateUtils.toDisplayString(tx.date)}</td>
                                         <td className="whitespace-nowrap px-3 py-4 text-sm text-slate-500">{tx.type}</td>
-                                        <td className="whitespace-nowrap px-3 py-4 text-sm font-medium text-slate-900">{tx.reference}</td>
+                                        <td className="whitespace-nowrap px-3 py-4 text-sm font-medium">
+                                            <Link to={tx.link} className="text-indigo-600 hover:text-indigo-900">
+                                                {tx.reference}
+                                            </Link>
+                                        </td>
                                         <td className="whitespace-nowrap px-3 py-4 text-sm text-slate-500 text-right">R {tx.amount.toFixed(2)}</td>
                                         <td className="whitespace-nowrap px-3 py-4 text-sm text-center">
                                             <span className={`inline-flex items-center rounded-md px-2 py-1 text-xs font-medium ring-1 ring-inset ${getStatusClass(tx.status)}`}>

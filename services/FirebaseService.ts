@@ -107,7 +107,7 @@ export class FirebaseService<T extends { id: string }> {
       
       return querySnapshot.docs.map(doc => ({
         id: doc.id,
-        ...this.convertTimestamps(doc.data())
+        ...doc.data()
       })) as T[];
     } catch (error) {
       console.error(`Error getting ${this.collectionName}:`, error);
@@ -123,7 +123,7 @@ export class FirebaseService<T extends { id: string }> {
       if (docSnap.exists()) {
         return {
           id: docSnap.id,
-          ...this.convertTimestamps(docSnap.data())
+          ...docSnap.data()
         } as T;
       }
       
@@ -186,7 +186,7 @@ export class FirebaseService<T extends { id: string }> {
       
       return querySnapshot.docs.map(doc => ({
         id: doc.id,
-        ...this.convertTimestamps(doc.data())
+        ...doc.data()
       })) as T[];
     } catch (error) {
       console.error(`Error getting ${this.collectionName} by ${fieldName}:`, error);
@@ -207,7 +207,7 @@ export class FirebaseService<T extends { id: string }> {
       (querySnapshot) => {
         const data = querySnapshot.docs.map(doc => ({
           id: doc.id,
-          ...this.convertTimestamps(doc.data())
+          ...doc.data()
         })) as T[];
         callback(data);
       },

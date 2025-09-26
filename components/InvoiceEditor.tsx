@@ -3,10 +3,9 @@ import { useBlocker, useLocation, useNavigate, useOutletContext, useParams } fro
 import { VAT_RATE } from '../constants';
 import { useFirebase } from '../contexts/FirebaseContext';
 import { useToast } from '../contexts/ToastContext';
-import { dateUtils } from '../utils';
 import { AppContextType, Customer, DocumentStatus, Invoice, LineItem, Product, Quote } from '../types';
-import { getResolvedProductDetails } from '../utils';
-import { CheckCircleIcon, PlusIcon, TrashIcon } from './Icons';
+import { dateUtils, getResolvedProductDetails } from '../utils';
+import { ArrowLeftIcon, CheckCircleIcon, PlusIcon, TrashIcon } from './Icons';
 import { ProductSelector } from './ProductSelector';
 
 interface FormErrors {
@@ -372,11 +371,20 @@ export const InvoiceEditor: React.FC = () => {
 
       <div className="bg-white p-6 sm:p-8 rounded-xl border border-slate-200">
         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 border-b border-slate-200 pb-4">
-          <div>
-            <h2 className="text-2xl font-semibold leading-6 text-slate-900">
-              {invoiceId ? 'Edit Invoice' : 'Create Invoice'}
-            </h2>
-            <p className="mt-1 text-sm text-slate-600">Fill in the details below to create or update an invoice.</p>
+          <div className="flex items-center gap-x-3">
+            <button 
+              type="button"
+              onClick={() => navigate(-1)}
+              className="inline-flex items-center rounded-md p-2 text-slate-400 hover:text-slate-600 hover:bg-slate-100"
+            >
+              <ArrowLeftIcon className="w-5 h-5" />
+            </button>
+            <div>
+              <h2 className="text-2xl font-semibold leading-6 text-slate-900">
+                {invoiceId ? 'Edit Invoice' : 'Create Invoice'}
+              </h2>
+              <p className="mt-1 text-sm text-slate-600">Fill in the details below to create or update an invoice.</p>
+            </div>
           </div>
           <div className="flex items-center justify-end space-x-3 mt-4 sm:mt-0">
             <button type="button" onClick={handleCancel} className="rounded-md bg-white px-3 py-2 text-sm font-semibold text-slate-900 shadow-sm ring-1 ring-inset ring-slate-300 hover:bg-slate-50">Cancel</button>
@@ -425,10 +433,10 @@ export const InvoiceEditor: React.FC = () => {
                 <table className="min-w-full">
                   <thead className="sr-only sm:table-header-group">
                     <tr>
-                      <th className="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-slate-900 sm:pl-6 w-1/2">Product</th>
-                      <th className="px-3 py-3.5 text-right text-sm font-semibold text-slate-900 w-[15%]">Quantity</th>
-                      <th className="px-3 py-3.5 text-right text-sm font-semibold text-slate-900 w-1/4">Unit Price</th>
-                      <th className="py-3.5 pl-3 pr-4 text-right text-sm font-semibold text-slate-900 sm:pr-6">Total</th>
+                      <th className="py-3 pl-4 pr-3 text-left text-sm font-semibold text-slate-900 sm:pl-6 w-1/2">Product</th>
+                      <th className="px-3 py-3 text-right text-sm font-semibold text-slate-900 w-[15%]">Quantity</th>
+                      <th className="px-3 py-3 text-right text-sm font-semibold text-slate-900 w-1/4">Unit Price</th>
+                      <th className="py-3 pl-3 pr-4 text-right text-sm font-semibold text-slate-900 sm:pr-6">Total</th>
                       <th><span className="sr-only">Actions</span></th>
                     </tr>
                   </thead>

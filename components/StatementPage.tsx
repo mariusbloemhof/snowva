@@ -1,9 +1,9 @@
 
-import React, { useState, useMemo } from 'react';
-import { Link, useOutletContext } from 'react-router-dom';
-import { Customer, CustomerType, Invoice, Payment, AppContextType } from '../types';
+import React, { useMemo, useState } from 'react';
+import { Link, useNavigate, useOutletContext } from 'react-router-dom';
+import { AppContextType, CustomerType } from '../types';
 import { getStatementDataForCustomer } from '../utils';
-import { EyeIcon, SearchIcon, CollectionIcon, UsersIcon, CheckCircleIcon, ExclamationCircleIcon, ArrowUpIcon, ArrowDownIcon } from './Icons';
+import { ArrowDownIcon, ArrowLeftIcon, ArrowUpIcon, CheckCircleIcon, CollectionIcon, ExclamationCircleIcon, EyeIcon, SearchIcon, UsersIcon } from './Icons';
 
 const StatCard: React.FC<{
     title: string;
@@ -45,6 +45,7 @@ const StatCard: React.FC<{
 
 export const StatementPage: React.FC = () => {
     const { customers, invoices, payments } = useOutletContext<AppContextType>();
+    const navigate = useNavigate();
     const [searchTerm, setSearchTerm] = useState('');
 
     const statementCustomers = useMemo(() => {
@@ -100,8 +101,18 @@ export const StatementPage: React.FC = () => {
         <div className="bg-white p-6 rounded-2xl border border-slate-200/80 shadow-sm">
             <div className="sm:flex sm:items-center sm:justify-between mb-6">
                 <div className="sm:flex-auto">
-                    <h2 className="text-2xl font-semibold leading-6 text-slate-900">Customer Statements</h2>
-                    <p className="mt-2 text-sm text-slate-700">A summary of all customers with outstanding balances.</p>
+                    <div className="flex items-center gap-x-3">
+                        <button 
+                            onClick={() => navigate(-1)}
+                            className="inline-flex items-center rounded-md p-2 text-slate-400 hover:text-slate-600 hover:bg-slate-100"
+                        >
+                            <ArrowLeftIcon className="w-5 h-5" />
+                        </button>
+                        <div>
+                            <h2 className="text-2xl font-semibold leading-6 text-slate-900">Customer Statements</h2>
+                            <p className="mt-2 text-sm text-slate-700">A summary of all customers with outstanding balances.</p>
+                        </div>
+                    </div>
                 </div>
                  <div className="relative mt-4 sm:mt-0 w-full md:w-80">
                     <span className="absolute inset-y-0 left-0 flex items-center pl-3"><SearchIcon className="w-5 h-5 text-slate-400"/></span>
@@ -128,13 +139,13 @@ export const StatementPage: React.FC = () => {
                         <table className="min-w-full divide-y divide-slate-200">
                             <thead className="bg-slate-50">
                                 <tr>
-                                    <th scope="col" className="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-slate-900 sm:pl-0">Customer</th>
-                                    <th scope="col" className="px-3 py-3.5 text-right text-sm font-semibold text-slate-900">Total Due</th>
-                                    <th scope="col" className="px-3 py-3.5 text-right text-sm font-semibold text-slate-900">Current</th>
-                                    <th scope="col" className="px-3 py-3.5 text-right text-sm font-semibold text-slate-900">30 Days</th>
-                                    <th scope="col" className="px-3 py-3.5 text-right text-sm font-semibold text-slate-900">60 Days</th>
-                                    <th scope="col" className="px-3 py-3.5 text-right text-sm font-semibold text-slate-900">90+ Days</th>
-                                    <th scope="col" className="relative py-3.5 pl-3 pr-4 sm:pr-0 text-center">
+                                    <th scope="col" className="py-3 pl-4 pr-3 text-left text-sm font-semibold text-slate-900 sm:pl-0">Customer</th>
+                                    <th scope="col" className="px-3 py-3 text-right text-sm font-semibold text-slate-900">Total Due</th>
+                                    <th scope="col" className="px-3 py-3 text-right text-sm font-semibold text-slate-900">Current</th>
+                                    <th scope="col" className="px-3 py-3 text-right text-sm font-semibold text-slate-900">30 Days</th>
+                                    <th scope="col" className="px-3 py-3 text-right text-sm font-semibold text-slate-900">60 Days</th>
+                                    <th scope="col" className="px-3 py-3 text-right text-sm font-semibold text-slate-900">90+ Days</th>
+                                    <th scope="col" className="relative py-3 pl-3 pr-4 sm:pr-0 text-center">
                                         Actions
                                     </th>
                                 </tr>
@@ -142,17 +153,17 @@ export const StatementPage: React.FC = () => {
                             <tbody className="divide-y divide-slate-200">
                                 {filteredStatements.map(data => (
                                     <tr key={data.customer.id} className="hover:bg-slate-50">
-                                        <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-slate-900 sm:pl-0">
+                                        <td className="whitespace-nowrap py-3.5 pl-4 pr-3 text-sm font-medium text-slate-900 sm:pl-0">
                                             <Link to={`/customers/${data.customer.id}`} className="text-indigo-600 hover:text-indigo-900">
                                                 {data.customer.name}
                                             </Link>
                                         </td>
-                                        <td className="whitespace-nowrap px-3 py-4 text-sm text-slate-500 text-right font-bold">{formatCurrency(data.totalBalance)}</td>
-                                        <td className="whitespace-nowrap px-3 py-4 text-sm text-slate-500 text-right">{formatCurrency(data.aging.current)}</td>
-                                        <td className="whitespace-nowrap px-3 py-4 text-sm text-orange-600 text-right">{formatCurrency(data.aging.days30)}</td>
-                                        <td className="whitespace-nowrap px-3 py-4 text-sm text-red-600 text-right">{formatCurrency(data.aging.days60)}</td>
-                                        <td className="whitespace-nowrap px-3 py-4 text-sm text-red-800 font-bold text-right">{formatCurrency(data.aging.days90 + data.aging.days120plus)}</td>
-                                        <td className="whitespace-nowrap py-4 pl-3 pr-4 text-center text-sm font-medium">
+                                        <td className="whitespace-nowrap px-3 py-3.5 text-sm text-slate-500 text-right font-bold">{formatCurrency(data.totalBalance)}</td>
+                                        <td className="whitespace-nowrap px-3 py-3.5 text-sm text-slate-500 text-right">{formatCurrency(data.aging.current)}</td>
+                                        <td className="whitespace-nowrap px-3 py-3.5 text-sm text-orange-600 text-right">{formatCurrency(data.aging.days30)}</td>
+                                        <td className="whitespace-nowrap px-3 py-3.5 text-sm text-red-600 text-right">{formatCurrency(data.aging.days60)}</td>
+                                        <td className="whitespace-nowrap px-3 py-3.5 text-sm text-red-800 font-bold text-right">{formatCurrency(data.aging.days90 + data.aging.days120plus)}</td>
+                                        <td className="whitespace-nowrap py-3.5 pl-3 pr-4 text-center text-sm font-medium">
                                             <Link to={`/statements/${data.customer.id}`} className="text-indigo-600 hover:text-indigo-900" title="View Statement">
                                                 <EyeIcon className="w-5 h-5"/>
                                             </Link>

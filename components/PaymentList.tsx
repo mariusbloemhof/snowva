@@ -1,7 +1,7 @@
 import React, { useMemo, useState } from 'react';
 import { Link, useNavigate, useOutletContext } from 'react-router-dom';
 import { AppContextType, Payment } from '../types';
-import { getDisplayPaymentNumber } from '../utils';
+import { dateUtils, getDisplayPaymentNumber } from '../utils';
 import { PencilIcon, PlusIcon, SearchIcon, SelectorIcon } from './Icons';
 
 type SortConfig = { key: keyof Payment | 'customerName'; direction: 'ascending' | 'descending'; } | null;
@@ -68,7 +68,7 @@ export const PaymentList: React.FC = () => {
     }, [payments, searchTerm, sortConfig, customers]);
 
     const SortableHeader: React.FC<{ columnKey: SortConfig['key'], title: string }> = ({ columnKey, title }) => (
-        <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-slate-900 cursor-pointer" onClick={() => requestSort(columnKey)}>
+        <th scope="col" className="px-3 py-3 text-left text-sm font-semibold text-slate-900 cursor-pointer" onClick={() => requestSort(columnKey)}>
             <div className="flex items-center">
                 <span>{title}</span>
                 {sortConfig?.key === columnKey ? (sortConfig.direction === 'ascending' ? ' ▲' : ' ▼') : <SelectorIcon />}
@@ -115,8 +115,8 @@ export const PaymentList: React.FC = () => {
                                     <SortableHeader columnKey="customerName" title="Customer" />
                                     <SortableHeader columnKey="totalAmount" title="Amount" />
                                     <SortableHeader columnKey="method" title="Method" />
-                                    <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-slate-900">Reference</th>
-                                    <th scope="col" className="relative py-3.5 pl-3 pr-4 sm:pr-0">
+                                    <th scope="col" className="px-3 py-3 text-left text-sm font-semibold text-slate-900">Reference</th>
+                                    <th scope="col" className="relative py-3 pl-3 pr-4 sm:pr-0">
                                         <span className="sr-only">Edit</span>
                                     </th>
                                 </tr>
@@ -124,21 +124,21 @@ export const PaymentList: React.FC = () => {
                             <tbody className="divide-y divide-slate-200">
                                 {processedPayments.map(payment => (
                                     <tr key={payment.id} className="hover:bg-slate-50">
-                                        <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium sm:pl-0">
+                                        <td className="whitespace-nowrap py-3.5 pl-4 pr-3 text-sm font-medium sm:pl-0">
                                             <Link to={`/payments/edit/${payment.id}`} className="text-indigo-600 hover:text-indigo-900">
                                                 {getDisplayPaymentNumber(payment)}
                                             </Link>
                                         </td>
-                                        <td className="whitespace-nowrap px-3 py-4 text-sm text-slate-500">{(payment as any).paymentDate || payment.date}</td>
-                                        <td className="whitespace-nowrap px-3 py-4 text-sm font-medium text-slate-900">
+                                        <td className="whitespace-nowrap px-3 py-3.5 text-sm text-slate-500">{dateUtils.toDisplayString((payment as any).paymentDate || payment.date)}</td>
+                                        <td className="whitespace-nowrap px-3 py-3.5 text-sm font-medium text-slate-900">
                                             <Link to={`/customers/${payment.customerId}`} className="text-indigo-600 hover:text-indigo-900">
                                                 {customers.find(c => c.id === payment.customerId)?.name || 'N/A'}
                                             </Link>
                                         </td>
-                                        <td className="whitespace-nowrap px-3 py-4 text-sm text-slate-500">R {((payment as any).amount || payment.totalAmount || 0).toFixed(2)}</td>
-                                        <td className="whitespace-nowrap px-3 py-4 text-sm text-slate-500">{payment.method}</td>
-                                        <td className="whitespace-nowrap px-3 py-4 text-sm text-slate-500">{payment.reference || 'N/A'}</td>
-                                        <td className="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium">
+                                        <td className="whitespace-nowrap px-3 py-3.5 text-sm text-slate-500">R {((payment as any).amount || payment.totalAmount || 0).toFixed(2)}</td>
+                                        <td className="whitespace-nowrap px-3 py-3.5 text-sm text-slate-500">{payment.method}</td>
+                                        <td className="whitespace-nowrap px-3 py-3.5 text-sm text-slate-500">{payment.reference || 'N/A'}</td>
+                                        <td className="relative whitespace-nowrap py-3.5 pl-3 pr-4 text-right text-sm font-medium">
                                             <button onClick={() => navigate(`/payments/edit/${payment.id}`)} className="text-indigo-600 hover:text-indigo-900">
                                                 <PencilIcon className="w-5 h-5"/>
                                             </button>
