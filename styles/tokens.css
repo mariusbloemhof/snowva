@@ -1,0 +1,288 @@
+/* ================================
+   DESIGN TOKENS - CSS CUSTOM PROPERTIES
+   Centralized Theming System Foundation
+   ================================ */
+
+:root {
+  /* ================================
+     PRIMITIVE TOKENS (Raw Values)
+     ================================ */
+  
+  /* Color Scales */
+  /* Gray Scale */
+  --color-white: #ffffff;
+  --color-black: #000000;
+  --color-gray-50: #f9fafb;
+  --color-gray-100: #f3f4f6;
+  --color-gray-200: #e5e7eb;
+  --color-gray-300: #d1d5db;
+  --color-gray-400: #9ca3af;
+  --color-gray-500: #6b7280;
+  --color-gray-600: #4b5563;
+  --color-gray-700: #374151;
+  --color-gray-800: #1f2937;
+  --color-gray-900: #111827;
+  --color-gray-950: #030712;
+
+  /* Blue Scale (Primary Brand) */
+  --color-blue-50: #eff6ff;
+  --color-blue-100: #dbeafe;
+  --color-blue-200: #bfdbfe;
+  --color-blue-300: #93c5fd;
+  --color-blue-400: #60a5fa;
+  --color-blue-500: #3b82f6;
+  --color-blue-600: #2563eb;
+  --color-blue-700: #1d4ed8;
+  --color-blue-800: #1e40af;
+  --color-blue-900: #1e3a8a;
+  --color-blue-950: #172554;
+
+  /* Green Scale (Success) */
+  --color-green-50: #f0fdf4;
+  --color-green-100: #dcfce7;
+  --color-green-200: #bbf7d0;
+  --color-green-300: #86efac;
+  --color-green-400: #4ade80;
+  --color-green-500: #22c55e;
+  --color-green-600: #16a34a;
+  --color-green-700: #15803d;
+  --color-green-800: #166534;
+  --color-green-900: #14532d;
+  --color-green-950: #052e16;
+
+  /* Red Scale (Error) */
+  --color-red-50: #fef2f2;
+  --color-red-100: #fee2e2;
+  --color-red-200: #fecaca;
+  --color-red-300: #fca5a5;
+  --color-red-400: #f87171;
+  --color-red-500: #ef4444;
+  --color-red-600: #dc2626;
+  --color-red-700: #b91c1c;
+  --color-red-800: #991b1b;
+  --color-red-900: #7f1d1d;
+  --color-red-950: #450a0a;
+
+  /* Yellow Scale (Warning) */
+  --color-yellow-50: #fefce8;
+  --color-yellow-100: #fef9c3;
+  --color-yellow-200: #fef08a;
+  --color-yellow-300: #fde047;
+  --color-yellow-400: #facc15;
+  --color-yellow-500: #eab308;
+  --color-yellow-600: #ca8a04;
+  --color-yellow-700: #a16207;
+  --color-yellow-800: #854d0e;
+  --color-yellow-900: #713f12;
+  --color-yellow-950: #422006;
+
+  /* Indigo Scale (Secondary Brand) */
+  --color-indigo-50: #eef2ff;
+  --color-indigo-100: #e0e7ff;
+  --color-indigo-200: #c7d2fe;
+  --color-indigo-300: #a5b4fc;
+  --color-indigo-400: #818cf8;
+  --color-indigo-500: #6366f1;
+  --color-indigo-600: #4f46e5;
+  --color-indigo-700: #4338ca;
+  --color-indigo-800: #3730a3;
+  --color-indigo-900: #312e81;
+  --color-indigo-950: #1e1b4b;
+
+  /* Typography Scales */
+  /* Font Families */
+  --font-family-sans: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  --font-family-mono: ui-monospace, SFMono-Regular, "SF Mono", Consolas, "Liberation Mono", Menlo, monospace;
+
+  /* Font Sizes */
+  --font-size-xs: 0.75rem;    /* 12px */
+  --font-size-sm: 0.875rem;   /* 14px */
+  --font-size-base: 1rem;     /* 16px */
+  --font-size-lg: 1.125rem;   /* 18px */
+  --font-size-xl: 1.25rem;    /* 20px */
+  --font-size-2xl: 1.5rem;    /* 24px */
+  --font-size-3xl: 1.875rem;  /* 30px */
+  --font-size-4xl: 2.25rem;   /* 36px */
+
+  /* Font Weights */
+  --font-weight-light: 300;
+  --font-weight-normal: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+  --font-weight-bold: 700;
+
+  /* Line Heights */
+  --line-height-tight: 1.25;
+  --line-height-normal: 1.5;
+  --line-height-relaxed: 1.75;
+
+  /* Spacing Scale */
+  --spacing-0: 0;
+  --spacing-0_5: 0.125rem;    /* 2px */
+  --spacing-1: 0.25rem;       /* 4px */
+  --spacing-1_5: 0.375rem;    /* 6px */
+  --spacing-2: 0.5rem;        /* 8px */
+  --spacing-2_5: 0.625rem;    /* 10px */
+  --spacing-3: 0.75rem;       /* 12px */
+  --spacing-3_5: 0.875rem;    /* 14px */
+  --spacing-4: 1rem;          /* 16px */
+  --spacing-5: 1.25rem;       /* 20px */
+  --spacing-6: 1.5rem;        /* 24px */
+  --spacing-7: 1.75rem;       /* 28px */
+  --spacing-8: 2rem;          /* 32px */
+  --spacing-9: 2.25rem;       /* 36px */
+  --spacing-10: 2.5rem;       /* 40px */
+  --spacing-11: 2.75rem;      /* 44px */
+  --spacing-12: 3rem;         /* 48px */
+  --spacing-14: 3.5rem;       /* 56px */
+  --spacing-16: 4rem;         /* 64px */
+  --spacing-20: 5rem;         /* 80px */
+  --spacing-24: 6rem;         /* 96px */
+  --spacing-28: 7rem;         /* 112px */
+  --spacing-32: 8rem;         /* 128px */
+
+  /* Border Radius Scale */
+  --border-radius-none: 0;
+  --border-radius-sm: 0.125rem;    /* 2px */
+  --border-radius-base: 0.25rem;   /* 4px */
+  --border-radius-md: 0.375rem;    /* 6px */
+  --border-radius-lg: 0.5rem;      /* 8px */
+  --border-radius-xl: 0.75rem;     /* 12px */
+  --border-radius-2xl: 1rem;       /* 16px */
+  --border-radius-3xl: 1.5rem;     /* 24px */
+  --border-radius-full: 9999px;
+
+  /* Box Shadow Scale */
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  --shadow-base: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px -1px rgba(0, 0, 0, 0.1);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.1);
+  --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+  --shadow-2xl: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+  --shadow-inner: inset 0 2px 4px 0 rgba(0, 0, 0, 0.06);
+  --shadow-none: none;
+
+  /* Transition Timing */
+  --transition-fast: 150ms ease-in-out;
+  --transition-base: 250ms ease-in-out;
+  --transition-slow: 350ms ease-in-out;
+  --transition-theme: 300ms cubic-bezier(0.4, 0, 0.2, 1);
+
+  /* Z-Index Scale */
+  --z-index-dropdown: 1000;
+  --z-index-sticky: 1020;
+  --z-index-fixed: 1030;
+  --z-index-modal-backdrop: 1040;
+  --z-index-modal: 1050;
+  --z-index-popover: 1060;
+  --z-index-tooltip: 1070;
+
+  /* ================================
+     SEMANTIC TOKENS (Contextual Usage)
+     These are mapped per theme in theme files
+     ================================ */
+  
+  /* Text Colors */
+  --color-text-primary: var(--color-gray-900);
+  --color-text-secondary: var(--color-gray-600);
+  --color-text-tertiary: var(--color-gray-500);
+  --color-text-inverse: var(--color-white);
+  --color-text-disabled: var(--color-gray-400);
+  --color-text-label: var(--color-gray-700);
+  --color-text-error: var(--color-red-600);
+  --color-text-success: var(--color-green-600);
+  --color-text-warning: var(--color-yellow-600);
+  --color-text-info: var(--color-blue-600);
+
+  /* Background Colors */
+  --color-background-primary: var(--color-white);
+  --color-background-secondary: var(--color-gray-50);
+  --color-background-tertiary: var(--color-gray-100);
+  --color-background-overlay: rgba(0, 0, 0, 0.5);
+  --color-background-elevated: var(--color-white);
+  --color-background-input: var(--color-white);
+  --color-background-card: var(--color-white);
+  --color-background-table-header: var(--color-gray-50);
+  --color-background-table-row-hover: var(--color-gray-50);
+
+  /* Border Colors */
+  --color-border-default: var(--color-gray-300);
+  --color-border-subtle: var(--color-gray-200);
+  --color-border-strong: var(--color-gray-400);
+  --color-border-focus: var(--color-blue-500);
+  --color-border-error: var(--color-red-500);
+  --color-border-card: var(--color-gray-200);
+
+  /* Interactive Colors */
+  --color-primary: var(--color-blue-500);
+  --color-primary-hover: var(--color-blue-600);
+  --color-primary-contrast: var(--color-white);
+  --color-primary-focus: rgba(59, 130, 246, 0.3);
+  --color-secondary: var(--color-gray-500);
+  --color-secondary-hover: var(--color-gray-600);
+  --color-secondary-contrast: var(--color-white);
+  --color-interactive-disabled: var(--color-gray-300);
+
+  /* Status Colors */
+  --color-status-success: var(--color-green-500);
+  --color-status-warning: var(--color-yellow-500);
+  --color-status-error: var(--color-red-500);
+  --color-status-info: var(--color-blue-500);
+
+  /* ================================
+     COMPONENT TOKENS
+     ================================ */
+  
+  /* Button Tokens */
+  --button-padding-y-sm: var(--spacing-1);
+  --button-padding-x-sm: var(--spacing-2);
+  --button-padding-y-md: var(--spacing-2);
+  --button-padding-x-md: var(--spacing-4);
+  --button-padding-y-lg: var(--spacing-3);
+  --button-padding-x-lg: var(--spacing-6);
+  --button-font-size-sm: var(--font-size-sm);
+  --button-font-size-md: var(--font-size-base);
+  --button-font-size-lg: var(--font-size-lg);
+  --button-border-radius: var(--border-radius-md);
+  --button-font-weight: var(--font-weight-medium);
+  --button-min-height-sm: 2rem;
+  --button-min-height-md: 2.5rem;
+  --button-min-height-lg: 3rem;
+
+  /* Form Tokens */
+  --form-input-padding: var(--spacing-3);
+  --form-input-font-size: var(--font-size-base);
+  --form-input-border-radius: var(--border-radius-md);
+  --form-input-border-width: 1px;
+  --form-input-min-height: 2.5rem;
+  --form-label-font-size: var(--font-size-sm);
+  --form-label-font-weight: var(--font-weight-medium);
+  --form-label-margin-bottom: var(--spacing-2);
+  --form-error-font-size: var(--font-size-sm);
+  --form-error-margin-top: var(--spacing-1);
+
+  /* Table Tokens */
+  --table-cell-padding: var(--spacing-3);
+  --table-cell-font-size: var(--font-size-sm);
+  --table-cell-line-height: var(--line-height-normal);
+  --table-header-padding: var(--spacing-3);
+  --table-header-font-size: var(--font-size-sm);
+  --table-header-font-weight: var(--font-weight-semibold);
+  --table-header-border-bottom: 1px solid var(--color-border-default);
+  --table-row-min-height: 3rem;
+  --table-row-border-bottom: 1px solid var(--color-border-subtle);
+
+  /* Card Tokens */
+  --card-padding: var(--spacing-6);
+  --card-border-radius: var(--border-radius-lg);
+  --card-border-width: 1px;
+  --card-box-shadow: var(--shadow-base);
+  --card-header-padding: var(--spacing-4);
+  --card-header-border-bottom: 1px solid var(--color-border-subtle);
+  --card-content-padding: var(--spacing-4);
+
+  /* Navigation Tokens */
+  --navigation-padding: var(--spacing-4);
+  --navigation-font-size: var(--font-size-base);
+  --navigation-font-weight: var(--font-weight-medium);
+}

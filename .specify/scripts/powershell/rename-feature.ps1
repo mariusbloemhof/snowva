@@ -303,7 +303,8 @@ try {
             # Set persistently in user registry
             try {
                 Set-ItemProperty -Path 'HKCU:\Environment' -Name 'SPECIFY_FEATURE' -Value $NewName -ErrorAction Stop
-            } catch {
+            }
+            catch {
                 # Fallback to .NET method if registry method fails
                 [System.Environment]::SetEnvironmentVariable('SPECIFY_FEATURE', $NewName, 'User')
             }

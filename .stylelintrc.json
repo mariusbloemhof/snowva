@@ -1,0 +1,31 @@
+{
+  "extends": ["stylelint-config-standard"],
+  "rules": {
+    "selector-class-pattern": "^([a-z][a-z0-9]*)(-[a-z0-9]+)*(__[a-z0-9]+(-[a-z0-9]+)*)?(--[a-z0-9]+(-[a-z0-9]+)*)?$",
+    "declaration-property-value-allowed-list": {
+      "color": [
+        "/var\\(--color-.+\\)$/",
+        "transparent",
+        "inherit",
+        "currentColor"
+      ],
+      "background-color": ["/var\\(--color-.+\\)$/", "transparent", "inherit"],
+      "border-color": [
+        "/var\\(--color-.+\\)$/",
+        "transparent",
+        "inherit",
+        "currentColor"
+      ],
+      "padding": ["/var\\(--spacing-.+\\)$/", "0", "auto", "/\\d+px$/"],
+      "margin": ["/var\\(--spacing-.+\\)$/", "0", "auto", "/\\d+px$/"]
+    },
+    "color-no-hex": null,
+    "length-zero-no-unit": true,
+    "declaration-no-important": true,
+    "property-no-vendor-prefix": null,
+    "value-no-vendor-prefix": null,
+    "at-rule-no-vendor-prefix": null,
+    "selector-no-vendor-prefix": null
+  },
+  "ignoreFiles": ["**/*.js", "**/*.jsx", "**/*.ts", "**/*.tsx"]
+}
