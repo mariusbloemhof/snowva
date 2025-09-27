@@ -1,0 +1,709 @@
+/**
+ * Card Component Styles
+ * 
+ * Snowva Business Hub - Centralized Design System
+ * Semantic card classes replacing Tailwind utilities
+ * 
+ * Constitutional requirement: Centralized design system with semantic classes
+ */
+
+/* ========================================
+   BASE CARD STYLES
+   ======================================== */
+
+.card {
+  background: var(--color-background);
+  border: var(--border-width-1) solid var(--color-border-light);
+  border-radius: var(--border-radius-lg);
+  box-shadow: var(--shadow-sm);
+  overflow: hidden;
+  transition: var(--transition-shadow);
+}
+
+.card:hover {
+  box-shadow: var(--shadow-md);
+}
+
+.card-simple {
+  border: none;
+  box-shadow: none;
+  border-radius: var(--border-radius-md);
+  background: var(--color-background-secondary);
+}
+
+.card-bordered {
+  border: var(--border-width-2) solid var(--color-border-medium);
+}
+
+.card-elevated {
+  box-shadow: var(--shadow-lg);
+}
+
+.card-elevated:hover {
+  box-shadow: var(--shadow-xl);
+  transform: translateY(-2px);
+}
+
+.card-flush {
+  border: none;
+  border-radius: 0;
+  box-shadow: none;
+}
+
+/* ========================================
+   CARD LAYOUT COMPONENTS
+   ======================================== */
+
+.card-header {
+  padding: var(--spacing-6) var(--spacing-6) var(--spacing-4);
+  border-bottom: var(--border-width-1) solid var(--color-border-light);
+  background: var(--color-background-tertiary);
+}
+
+.card-header-compact {
+  padding: var(--spacing-4) var(--spacing-6) var(--spacing-3);
+}
+
+.card-header-spacious {
+  padding: var(--spacing-8) var(--spacing-6) var(--spacing-6);
+}
+
+.card-body {
+  padding: var(--spacing-6);
+}
+
+.card-body-compact {
+  padding: var(--spacing-4);
+}
+
+.card-body-spacious {
+  padding: var(--spacing-8);
+}
+
+.card-footer {
+  padding: var(--spacing-4) var(--spacing-6) var(--spacing-6);
+  border-top: var(--border-width-1) solid var(--color-border-light);
+  background: var(--color-background-secondary);
+}
+
+.card-footer-flush {
+  border-top: none;
+  background: transparent;
+}
+
+/* ========================================
+   CARD TITLES & CONTENT
+   ======================================== */
+
+.card-title {
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text);
+  line-height: var(--line-height-tight);
+  margin: 0 0 var(--spacing-2) 0;
+}
+
+.card-title-xl {
+  font-size: var(--font-size-xl);
+  font-weight: var(--font-weight-bold);
+}
+
+.card-title-sm {
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-medium);
+}
+
+.card-subtitle {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-secondary);
+  line-height: var(--line-height-normal);
+  margin: 0 0 var(--spacing-4) 0;
+}
+
+.card-description {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-secondary);
+  line-height: var(--line-height-relaxed);
+  margin: 0;
+}
+
+.card-content {
+  font-size: var(--font-size-sm);
+  line-height: var(--line-height-normal);
+  color: var(--color-text);
+}
+
+/* ========================================
+   CARD MEDIA
+   ======================================== */
+
+.card-media {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  background: var(--color-background-secondary);
+  border-bottom: var(--border-width-1) solid var(--color-border-light);
+}
+
+.card-media-tall {
+  height: 300px;
+}
+
+.card-media-short {
+  height: 120px;
+}
+
+.card-media-square {
+  height: auto;
+  aspect-ratio: 1;
+}
+
+.card-media-wide {
+  height: auto;
+  aspect-ratio: 16/9;
+}
+
+.card-avatar {
+  width: var(--spacing-16);
+  height: var(--spacing-16);
+  border-radius: 50%;
+  object-fit: cover;
+  border: var(--border-width-2) solid var(--color-border-light);
+  margin-right: var(--spacing-4);
+}
+
+.card-avatar-sm {
+  width: var(--spacing-12);
+  height: var(--spacing-12);
+}
+
+.card-avatar-lg {
+  width: var(--spacing-20);
+  height: var(--spacing-20);
+}
+
+/* ========================================
+   CARD ACTIONS
+   ======================================== */
+
+.card-actions {
+  display: flex;
+  gap: var(--spacing-3);
+  align-items: center;
+  margin-top: var(--spacing-4);
+}
+
+.card-actions-right {
+  justify-content: flex-end;
+}
+
+.card-actions-center {
+  justify-content: center;
+}
+
+.card-actions-spread {
+  justify-content: space-between;
+}
+
+.card-actions-full {
+  flex-direction: column;
+}
+
+.card-actions-compact {
+  gap: var(--spacing-2);
+  margin-top: var(--spacing-3);
+}
+
+/* ========================================
+   INTERACTIVE CARD STATES
+   ======================================== */
+
+.card-clickable {
+  cursor: pointer;
+  transition: var(--transition-all);
+}
+
+.card-clickable:hover {
+  box-shadow: var(--shadow-md);
+  border-color: var(--color-primary-300);
+  transform: translateY(-1px);
+}
+
+.card-clickable:active {
+  transform: translateY(0);
+  box-shadow: var(--shadow-sm);
+}
+
+.card-selected {
+  border-color: var(--color-primary-500);
+  box-shadow: var(--shadow-focus-ring);
+  background: var(--color-primary-50);
+}
+
+.card-disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  filter: grayscale(0.3);
+}
+
+.card-disabled:hover {
+  transform: none;
+  box-shadow: var(--shadow-sm);
+  border-color: var(--color-border-light);
+}
+
+/* ========================================
+   CARD VARIANTS
+   ======================================== */
+
+.card-primary {
+  border-color: var(--color-primary-300);
+  background: var(--color-primary-50);
+}
+
+.card-primary .card-header {
+  background: var(--color-primary-100);
+  border-color: var(--color-primary-200);
+}
+
+.card-success {
+  border-color: var(--color-success-300);
+  background: var(--color-success-50);
+}
+
+.card-success .card-header {
+  background: var(--color-success-100);
+  border-color: var(--color-success-200);
+}
+
+.card-warning {
+  border-color: var(--color-warning-300);
+  background: var(--color-warning-50);
+}
+
+.card-warning .card-header {
+  background: var(--color-warning-100);
+  border-color: var(--color-warning-200);
+}
+
+.card-danger {
+  border-color: var(--color-danger-300);
+  background: var(--color-danger-50);
+}
+
+.card-danger .card-header {
+  background: var(--color-danger-100);
+  border-color: var(--color-danger-200);
+}
+
+/* ========================================
+   CARD LAYOUTS
+   ======================================== */
+
+.card-horizontal {
+  display: flex;
+  align-items: stretch;
+}
+
+.card-horizontal .card-media {
+  width: 200px;
+  height: auto;
+  border-right: var(--border-width-1) solid var(--color-border-light);
+  border-bottom: none;
+  flex-shrink: 0;
+}
+
+.card-horizontal .card-content-wrapper {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.card-compact {
+  padding: var(--spacing-4);
+}
+
+.card-compact .card-header,
+.card-compact .card-body,
+.card-compact .card-footer {
+  padding: 0;
+  border: none;
+  background: transparent;
+}
+
+/* ========================================
+   CARD GROUPS & LAYOUTS
+   ======================================== */
+
+.card-grid {
+  display: grid;
+  gap: var(--spacing-6);
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+}
+
+.card-grid-2 {
+  grid-template-columns: repeat(2, 1fr);
+}
+
+.card-grid-3 {
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.card-grid-4 {
+  grid-template-columns: repeat(4, 1fr);
+}
+
+@media (max-width: 1024px) {
+  .card-grid-4 {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 640px) {
+  .card-grid-2,
+  .card-grid-3,
+  .card-grid-4 {
+    grid-template-columns: 1fr;
+  }
+}
+
+.card-stack {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-4);
+}
+
+.card-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-1);
+}
+
+.card-list .card {
+  border-radius: 0;
+  border-bottom: none;
+}
+
+.card-list .card:first-child {
+  border-top-left-radius: var(--border-radius-lg);
+  border-top-right-radius: var(--border-radius-lg);
+}
+
+.card-list .card:last-child {
+  border-bottom-left-radius: var(--border-radius-lg);
+  border-bottom-right-radius: var(--border-radius-lg);
+  border-bottom: var(--border-width-1) solid var(--color-border-light);
+}
+
+/* ========================================
+   BUSINESS-SPECIFIC CARD STYLES
+   ======================================== */
+
+/* Customer Card */
+.card-customer {
+  position: relative;
+}
+
+.card-customer .customer-status {
+  position: absolute;
+  top: var(--spacing-4);
+  right: var(--spacing-4);
+  padding: var(--spacing-1) var(--spacing-2);
+  border-radius: var(--border-radius-full);
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-medium);
+  text-transform: uppercase;
+  letter-spacing: 0.025em;
+}
+
+.card-customer .customer-status-active {
+  background: var(--color-success-100);
+  color: var(--color-success-700);
+}
+
+.card-customer .customer-status-inactive {
+  background: var(--color-gray-100);
+  color: var(--color-gray-600);
+}
+
+/* Invoice Card */
+.card-invoice {
+  border-left: var(--border-width-4) solid transparent;
+}
+
+.card-invoice.status-draft {
+  border-left-color: var(--color-gray-400);
+}
+
+.card-invoice.status-finalized {
+  border-left-color: var(--color-primary-500);
+}
+
+.card-invoice.status-paid {
+  border-left-color: var(--color-success-500);
+}
+
+.card-invoice.status-overdue {
+  border-left-color: var(--color-danger-500);
+}
+
+.card-invoice .invoice-number {
+  font-family: var(--font-family-mono);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-primary-700);
+}
+
+.card-invoice .invoice-amount {
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-text);
+}
+
+/* Product Card */
+.card-product .product-sku {
+  font-family: var(--font-family-mono);
+  font-size: var(--font-size-xs);
+  color: var(--color-text-secondary);
+  margin-bottom: var(--spacing-2);
+}
+
+.card-product .product-price {
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-success-600);
+}
+
+.card-product .product-price-b2b {
+  font-size: var(--font-size-sm);
+  color: var(--color-primary-600);
+  margin-left: var(--spacing-2);
+}
+
+/* Payment Card */
+.card-payment {
+  background: var(--color-success-50);
+  border-color: var(--color-success-200);
+}
+
+.card-payment .payment-method {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-2);
+  padding: var(--spacing-1) var(--spacing-3);
+  background: var(--color-success-100);
+  border-radius: var(--border-radius-full);
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-success-700);
+}
+
+/* Dashboard Stat Card */
+.card-stat {
+  text-align: center;
+  padding: var(--spacing-8) var(--spacing-6);
+}
+
+.card-stat .stat-value {
+  font-size: var(--font-size-3xl);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-primary-600);
+  line-height: 1;
+  margin-bottom: var(--spacing-2);
+}
+
+.card-stat .stat-label {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-secondary);
+  font-weight: var(--font-weight-medium);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.card-stat .stat-change {
+  font-size: var(--font-size-xs);
+  margin-top: var(--spacing-2);
+}
+
+.card-stat .stat-change-positive {
+  color: var(--color-success-600);
+}
+
+.card-stat .stat-change-negative {
+  color: var(--color-danger-600);
+}
+
+/* ========================================
+   CARD LOADING STATES
+   ======================================== */
+
+.card-loading {
+  position: relative;
+  pointer-events: none;
+}
+
+.card-loading::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: rgba(255, 255, 255, 0.8);
+  z-index: 10;
+  border-radius: inherit;
+}
+
+.card-loading-spinner {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: var(--spacing-8);
+  height: var(--spacing-8);
+  border: 2px solid var(--color-border-light);
+  border-top: 2px solid var(--color-primary-500);
+  border-radius: 50%;
+  animation: card-spin 1s linear infinite;
+  z-index: 11;
+}
+
+@keyframes card-spin {
+  to {
+    transform: translate(-50%, -50%) rotate(360deg);
+  }
+}
+
+.card-skeleton {
+  background: var(--color-background-secondary);
+  border: var(--border-width-1) solid var(--color-border-light);
+}
+
+.card-skeleton .skeleton-line {
+  height: var(--spacing-4);
+  background: linear-gradient(90deg, 
+    var(--color-background-secondary) 25%, 
+    var(--color-border-light) 50%, 
+    var(--color-background-secondary) 75%
+  );
+  background-size: 200% 100%;
+  border-radius: var(--border-radius-sm);
+  animation: card-shimmer 1.5s infinite;
+}
+
+@keyframes card-shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+/* ========================================
+   RESPONSIVE BEHAVIOR
+   ======================================== */
+
+@media (max-width: 640px) {
+  .card {
+    border-radius: var(--border-radius-md);
+  }
+  
+  .card-header,
+  .card-body,
+  .card-footer {
+    padding: var(--spacing-4);
+  }
+  
+  .card-horizontal {
+    flex-direction: column;
+  }
+  
+  .card-horizontal .card-media {
+    width: 100%;
+    height: 200px;
+    border-right: none;
+    border-bottom: var(--border-width-1) solid var(--color-border-light);
+  }
+  
+  .card-actions {
+    flex-direction: column;
+    gap: var(--spacing-2);
+  }
+  
+  .card-actions .button-base {
+    width: 100%;
+  }
+}
+
+/* ========================================
+   ACCESSIBILITY ENHANCEMENTS  
+   ======================================== */
+
+@media (prefers-contrast: high) {
+  .card {
+    border-width: var(--border-width-2);
+  }
+  
+  .card-selected {
+    border-width: var(--border-width-3);
+  }
+  
+  .card-clickable:focus-visible {
+    outline: var(--border-width-3) solid var(--color-focus-ring);
+    outline-offset: 2px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .card,
+  .card-clickable,
+  .card-elevated {
+    transition: none;
+  }
+  
+  .card-clickable:hover,
+  .card-elevated:hover {
+    transform: none;
+  }
+  
+  .card-loading-spinner {
+    animation: none;
+    border: 2px solid var(--color-primary-500);
+  }
+  
+  .card-skeleton .skeleton-line {
+    animation: none;
+    background: var(--color-border-light);
+  }
+}
+
+/* Focus Management */
+.card-clickable:focus-visible {
+  outline: var(--border-width-2) solid var(--color-focus-ring);
+  outline-offset: 2px;
+}
+
+/* ========================================
+   PRINT STYLES
+   ======================================== */
+
+@media print {
+  .card {
+    border: var(--border-width-1) solid var(--color-black) !important;
+    box-shadow: none !important;
+    background: var(--color-white) !important;
+    page-break-inside: avoid;
+  }
+  
+  .card-header,
+  .card-footer {
+    background: transparent !important;
+    border-color: var(--color-black) !important;
+  }
+  
+  .card-actions {
+    display: none;
+  }
+  
+  .card-loading-spinner,
+  .card-skeleton {
+    display: none;
+  }
+}

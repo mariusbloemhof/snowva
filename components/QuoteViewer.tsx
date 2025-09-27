@@ -296,7 +296,7 @@ export const QuoteViewer: React.FC = () => {
                         </div>
                     </div>
 
-                     <table className="w-full text-sm">
+                     <table className="table-base table-compact">
                         <thead>
                             <tr className="bg-slate-100 text-slate-800">
                                 <th className="p-3 text-left font-semibold">Description</th>
@@ -337,7 +337,7 @@ export const QuoteViewer: React.FC = () => {
                     <div className="bg-white p-6 rounded-2xl border border-slate-200/80 shadow-sm">
                         <div className="flex justify-between items-center">
                             <p className="text-sm font-semibold text-slate-800">Amount</p>
-                            <span className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium ${statusInfo.className}`}>{statusInfo.text}</span>
+                            <span className={`status-badge ${statusInfo.className}`}>{statusInfo.text}</span>
                         </div>
                         <p className="mt-1 text-3xl font-bold text-slate-900">R {formatCurrency(total)}</p>
                     </div>
@@ -371,7 +371,7 @@ export const QuoteViewer: React.FC = () => {
             </div>
         </div>
          {isEmailModalOpen && selectedCustomer && (
-            <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50 p-4">
+            <div className="modal-backdrop">
                 <div className="bg-white p-6 rounded-lg shadow-xl w-full max-w-lg">
                     <h3 className="text-lg font-bold mb-2 text-slate-900">Confirm Email</h3>
                     <p className="text-sm text-slate-600 mb-4">

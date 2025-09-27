@@ -255,7 +255,7 @@ export const StatementViewer: React.FC = () => {
                 <div className="mt-8 flow-root">
                     <div className="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
                         <div className="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8">
-                            <table className="min-w-full divide-y divide-slate-300">
+                            <table className="table-base">
                                 <thead>
                                     <tr>
                                         <th scope="col" className="py-3 pl-4 pr-3 text-left text-sm font-semibold text-slate-900 sm:pl-0">Date</th>
@@ -272,9 +272,9 @@ export const StatementViewer: React.FC = () => {
                                             <td className="whitespace-nowrap py-3.5 pl-4 pr-3 text-sm text-slate-500 sm:pl-0">{formatDate(tx.date)}</td>
                                             <td className="whitespace-nowrap px-3 py-3.5 text-sm font-medium">
                                                 {tx.type === 'Invoice' ? (
-                                                     <button onClick={() => navigate(`/invoices/${tx.sourceId}`)} className="text-indigo-600 hover:underline">{tx.reference}</button>
+                                                     <button onClick={() => navigate(`/invoices/${tx.sourceId}`)} className="button-ghost button-small">{tx.reference}</button>
                                                 ) : tx.type === 'Payment' ? (
-                                                     <button onClick={() => navigate(`/payments/edit/${tx.sourceId}`)} className="text-indigo-600 hover:underline">{tx.reference}</button>
+                                                     <button onClick={() => navigate(`/payments/edit/${tx.sourceId}`)} className="button-ghost button-small">{tx.reference}</button>
                                                 ) : (
                                                     <span className="text-slate-700">{tx.reference}</span>
                                                 )}

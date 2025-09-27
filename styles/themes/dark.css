@@ -1,0 +1,450 @@
+/**
+ * Dark Theme Definition
+ * 
+ * Snowva Business Hub - Centralized Design System
+ * Complete dark theme with token overrides
+ * 
+ * Provides accessible dark color palette optimized for low-light usage
+ */
+
+/* ========================================
+   DARK THEME ROOT VARIABLES
+   Applied when [data-theme="dark"] is set
+   ======================================== */
+
+[data-theme="dark"] {
+  /* ========================================
+     BACKGROUND COLORS
+     Rich, dark backgrounds for comfortable night usage
+     ======================================== */
+  
+  --color-background: #0f172a;
+  --color-background-secondary: #1e293b;
+  --color-background-tertiary: #334155;
+  --color-background-quaternary: #475569;
+  --color-background-inverted: #f8fafc;
+  --color-background-overlay: rgba(15, 23, 42, 0.9);
+  --color-background-hover: rgba(248, 250, 252, 0.05);
+  --color-background-active: rgba(248, 250, 252, 0.1);
+  --color-background-selected: rgba(59, 130, 246, 0.15);
+  --color-background-disabled: #1e293b;
+
+  /* ========================================
+     TEXT COLORS
+     High contrast text optimized for dark backgrounds
+     ======================================== */
+  
+  --color-text: #f8fafc;
+  --color-text-secondary: #e2e8f0;
+  --color-text-tertiary: #cbd5e1;
+  --color-text-quaternary: #94a3b8;
+  --color-text-inverted: #0f172a;
+  --color-text-muted: #94a3b8;
+  --color-text-placeholder: #64748b;
+  --color-text-disabled: #475569;
+  --color-text-on-primary: #ffffff;
+  --color-text-on-secondary: #f8fafc;
+  --color-text-link: #60a5fa;
+  --color-text-link-hover: #93c5fd;
+
+  /* ========================================
+     BORDER COLORS
+     Subtle borders that provide structure without harshness
+     ======================================== */
+  
+  --color-border-light: #334155;
+  --color-border-medium: #475569;
+  --color-border-dark: #64748b;
+  --color-border-strong: #94a3b8;
+  --color-border-interactive: #475569;
+  --color-border-hover: #64748b;
+  --color-border-focus: #60a5fa;
+  --color-border-selected: #60a5fa;
+  --color-border-disabled: #334155;
+
+  /* ========================================
+     COMPONENT-SPECIFIC OVERRIDES
+     Optimized component colors for dark theme
+     ======================================== */
+
+  /* Button color adjustments */
+  --color-button-primary-bg: #3b82f6;
+  --color-button-primary-bg-hover: #60a5fa;
+  --color-button-primary-bg-active: #2563eb;
+  --color-button-primary-text: #ffffff;
+  --color-button-primary-border: transparent;
+
+  --color-button-secondary-bg: transparent;
+  --color-button-secondary-bg-hover: #334155;
+  --color-button-secondary-bg-active: #475569;
+  --color-button-secondary-text: #e2e8f0;
+  --color-button-secondary-text-hover: #f8fafc;
+  --color-button-secondary-border: #475569;
+  --color-button-secondary-border-hover: #64748b;
+
+  --color-button-ghost-bg: transparent;
+  --color-button-ghost-bg-hover: rgba(248, 250, 252, 0.08);
+  --color-button-ghost-bg-active: rgba(248, 250, 252, 0.15);
+  --color-button-ghost-text: #e2e8f0;
+  --color-button-ghost-text-hover: #f8fafc;
+
+  /* Form input color adjustments */
+  --color-input-bg: #1e293b;
+  --color-input-bg-hover: #334155;
+  --color-input-bg-focus: #1e293b;
+  --color-input-bg-disabled: #0f172a;
+  --color-input-text: #f8fafc;
+  --color-input-text-placeholder: #64748b;
+  --color-input-text-disabled: #475569;
+  --color-input-border: #475569;
+  --color-input-border-hover: #64748b;
+  --color-input-border-focus: #60a5fa;
+  --color-input-border-disabled: #334155;
+
+  /* Card color adjustments */
+  --color-card-bg: #1e293b;
+  --color-card-bg-hover: #334155;
+  --color-card-bg-selected: rgba(59, 130, 246, 0.1);
+  --color-card-border: #334155;
+  --color-card-border-hover: #475569;
+  --color-card-border-selected: #60a5fa;
+
+  /* Table color adjustments */
+  --color-table-header-bg: #334155;
+  --color-table-header-text: #e2e8f0;
+  --color-table-row-bg: #1e293b;
+  --color-table-row-bg-hover: #334155;
+  --color-table-row-bg-selected: rgba(59, 130, 246, 0.1);
+  --color-table-border: #334155;
+
+  /* Navigation color adjustments */
+  --color-nav-bg: #1e293b;
+  --color-nav-text: #e2e8f0;
+  --color-nav-text-active: #f8fafc;
+  --color-nav-text-hover: #f8fafc;
+  --color-nav-border: #334155;
+  --color-nav-item-bg-hover: #334155;
+  --color-nav-item-bg-active: #475569;
+
+  /* Modal and overlay color adjustments */
+  --color-modal-bg: #1e293b;
+  --color-modal-border: #334155;
+  --color-modal-backdrop: rgba(15, 23, 42, 0.8);
+  --color-dropdown-bg: #1e293b;
+  --color-dropdown-border: #334155;
+  --color-dropdown-item-hover: #334155;
+
+  /* ========================================
+     ENHANCED SHADOWS FOR DARK THEME
+     Stronger shadows for better depth perception
+     ======================================== */
+
+  --shadow-card: 0 2px 4px rgba(0, 0, 0, 0.3), 0 1px 2px rgba(0, 0, 0, 0.15);
+  --shadow-card-hover: 0 4px 6px -1px rgba(0, 0, 0, 0.4), 0 2px 4px -1px rgba(0, 0, 0, 0.2);
+  --shadow-card-elevated: 0 10px 15px -3px rgba(0, 0, 0, 0.4), 0 4px 6px -2px rgba(0, 0, 0, 0.2);
+
+  --shadow-button: 0 1px 2px rgba(0, 0, 0, 0.2);
+  --shadow-button-hover: 0 2px 4px rgba(0, 0, 0, 0.3);
+  --shadow-button-active: inset 0 2px 4px rgba(0, 0, 0, 0.3);
+
+  --shadow-modal: 0 25px 50px -12px rgba(0, 0, 0, 0.6);
+  --shadow-dropdown: 0 10px 15px -3px rgba(0, 0, 0, 0.4), 0 4px 6px -2px rgba(0, 0, 0, 0.2);
+  --shadow-tooltip: 0 4px 6px -1px rgba(0, 0, 0, 0.4), 0 2px 4px -1px rgba(0, 0, 0, 0.2);
+
+  --shadow-input: inset 0 1px 2px rgba(0, 0, 0, 0.15);
+  --shadow-input-focus: 0 0 0 3px rgba(96, 165, 250, 0.3);
+
+  --shadow-header: 0 1px 3px rgba(0, 0, 0, 0.3);
+
+  /* ========================================
+     STATUS COLORS FOR DARK THEME
+     Adjusted for better contrast on dark backgrounds
+     ======================================== */
+
+  /* Success colors */
+  --color-success-50: #0f2419;
+  --color-success-100: #16a34a;
+  --color-success-500: #22c55e;
+  --color-success-600: #4ade80;
+  --color-success-bg: rgba(34, 197, 94, 0.1);
+  --color-success-text: #4ade80;
+  --color-success-border: #22c55e;
+
+  /* Warning colors */
+  --color-warning-50: #2d1b0e;
+  --color-warning-100: #ca8a04;
+  --color-warning-500: #eab308;
+  --color-warning-600: #fbbf24;
+  --color-warning-bg: rgba(234, 179, 8, 0.1);
+  --color-warning-text: #fbbf24;
+  --color-warning-border: #eab308;
+
+  /* Error colors */
+  --color-error-50: #2d1516;
+  --color-error-100: #dc2626;
+  --color-error-500: #ef4444;
+  --color-error-600: #f87171;
+  --color-error-bg: rgba(239, 68, 68, 0.1);
+  --color-error-text: #f87171;
+  --color-error-border: #ef4444;
+
+  /* Info colors */
+  --color-info-50: #0c1629;
+  --color-info-100: #2563eb;
+  --color-info-500: #3b82f6;
+  --color-info-600: #60a5fa;
+  --color-info-bg: rgba(59, 130, 246, 0.1);
+  --color-info-text: #60a5fa;
+  --color-info-border: #3b82f6;
+
+  /* ========================================
+     BUSINESS STATUS INDICATORS
+     Dark theme variations for better visibility
+     ======================================== */
+
+  /* Document statuses */
+  --color-status-draft-bg: rgba(100, 116, 139, 0.1);
+  --color-status-draft-text: #94a3b8;
+  --color-status-draft-border: #64748b;
+
+  --color-status-finalized-bg: rgba(59, 130, 246, 0.1);
+  --color-status-finalized-text: #60a5fa;
+  --color-status-finalized-border: #3b82f6;
+
+  --color-status-paid-bg: rgba(34, 197, 94, 0.1);
+  --color-status-paid-text: #4ade80;
+  --color-status-paid-border: #22c55e;
+
+  --color-status-overdue-bg: rgba(239, 68, 68, 0.1);
+  --color-status-overdue-text: #f87171;
+  --color-status-overdue-border: #ef4444;
+
+  --color-status-partially-paid-bg: rgba(234, 179, 8, 0.1);
+  --color-status-partially-paid-text: #fbbf24;
+  --color-status-partially-paid-border: #eab308;
+
+  /* Customer statuses */
+  --color-status-active-bg: rgba(34, 197, 94, 0.1);
+  --color-status-active-text: #4ade80;
+  --color-status-active-border: #22c55e;
+
+  --color-status-inactive-bg: rgba(100, 116, 139, 0.1);
+  --color-status-inactive-text: #94a3b8;
+  --color-status-inactive-border: #64748b;
+
+  --color-status-prospect-bg: rgba(14, 165, 233, 0.1);
+  --color-status-prospect-text: #38bdf8;
+  --color-status-prospect-border: #0ea5e9;
+
+  /* ========================================
+     BRAND INTEGRATION
+     Snowva corporate colors adapted for dark theme
+     ======================================== */
+
+  --color-brand-primary: #60a5fa;
+  --color-brand-primary-light: rgba(96, 165, 250, 0.1);
+  --color-brand-primary-dark: #3b82f6;
+  --color-brand-secondary: #94a3b8;
+  --color-brand-accent: #4ade80;
+
+  /* Brand color usage in components */
+  --color-logo: var(--color-brand-primary);
+  --color-link-brand: var(--color-brand-primary);
+  --color-link-brand-hover: #93c5fd;
+  --color-cta-primary: var(--color-brand-primary);
+  --color-cta-primary-hover: #93c5fd;
+
+  /* ========================================
+     ACCESSIBILITY ENHANCEMENTS
+     Enhanced focus and contrast for dark theme
+     ======================================== */
+
+  /* Focus indicators */
+  --color-focus-ring: #60a5fa;
+  --color-focus-ring-offset: #1e293b;
+  --shadow-focus-ring: 0 0 0 2px var(--color-focus-ring-offset), 0 0 0 4px var(--color-focus-ring);
+
+  /* High contrast mode adjustments */
+  --color-outline-high-contrast: #ffffff;
+  --border-width-high-contrast: 2px;
+
+  /* Screen reader and accessibility utilities */
+  --color-skip-link-bg: #ffffff;
+  --color-skip-link-text: #000000;
+
+  /* ========================================
+     PRINT OPTIMIZATIONS
+     Dark theme print fallbacks
+     ======================================== */
+
+  --color-print-text: #000000;
+  --color-print-background: #ffffff;
+  --color-print-border: #000000;
+  --shadow-print: none;
+}
+
+/* ========================================
+   DARK THEME COMPONENT OVERRIDES
+   Specific component adjustments for optimal dark theme experience
+   ======================================== */
+
+[data-theme="dark"] .toast {
+  background-color: var(--color-background-secondary);
+  border: 1px solid var(--color-border-medium);
+  box-shadow: var(--shadow-dropdown);
+  color: var(--color-text);
+}
+
+[data-theme="dark"] .loading-spinner {
+  border-color: var(--color-border-light);
+  border-top-color: #60a5fa;
+}
+
+[data-theme="dark"] .code-block {
+  background-color: var(--color-background-tertiary);
+  border: 1px solid var(--color-border-light);
+  color: var(--color-text-secondary);
+}
+
+[data-theme="dark"] .scrollbar::-webkit-scrollbar-track {
+  background: var(--color-background);
+}
+
+[data-theme="dark"] .scrollbar::-webkit-scrollbar-thumb {
+  background: var(--color-border-medium);
+  border-radius: var(--border-radius-sm);
+}
+
+[data-theme="dark"] .scrollbar::-webkit-scrollbar-thumb:hover {
+  background: var(--color-border-dark);
+}
+
+/* Dark theme syntax highlighting */
+[data-theme="dark"] .syntax-keyword {
+  color: #c792ea;
+}
+
+[data-theme="dark"] .syntax-string {
+  color: #a9dc76;
+}
+
+[data-theme="dark"] .syntax-number {
+  color: #fd9353;
+}
+
+[data-theme="dark"] .syntax-comment {
+  color: #5c6370;
+  font-style: italic;
+}
+
+/* ========================================
+   DARK THEME SPECIFIC ANIMATIONS
+   Enhanced visual feedback for dark environment
+   ======================================== */
+
+[data-theme="dark"] .button:hover {
+  box-shadow: var(--shadow-button-hover), 0 0 0 1px rgba(96, 165, 250, 0.1);
+}
+
+[data-theme="dark"] .card:hover {
+  box-shadow: var(--shadow-card-hover), 0 0 0 1px rgba(96, 165, 250, 0.05);
+}
+
+[data-theme="dark"] .input:focus {
+  box-shadow: var(--shadow-input-focus), 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+/* ========================================
+   RESPONSIVE ADJUSTMENTS FOR DARK THEME
+   Mobile-first responsive considerations
+   ======================================== */
+
+@media (max-width: 768px) {
+  [data-theme="dark"] {
+    /* Enhanced shadows for better depth perception on small screens */
+    --shadow-card: 0 2px 4px rgba(0, 0, 0, 0.4), 0 1px 2px rgba(0, 0, 0, 0.2);
+    --shadow-modal: 0 20px 25px -5px rgba(0, 0, 0, 0.7);
+    
+    /* Improved touch targets */
+    --color-button-secondary-bg-hover: #475569;
+    --color-nav-item-bg-hover: #475569;
+    
+    /* Slightly brighter text for better mobile readability */
+    --color-text-secondary: #f1f5f9;
+    --color-text-tertiary: #e2e8f0;
+  }
+}
+
+/* ========================================
+   DARK THEME BLUE LIGHT REDUCTION
+   Optional blue light filter for late night usage
+   ======================================== */
+
+@media (prefers-color-scheme: dark) {
+  [data-theme="dark"].reduce-blue-light {
+    /* Warmer color temperature variants */
+    --color-primary-500: #ffa726; /* Warmer orange instead of blue */
+    --color-text-link: #ffb74d;
+    --color-text-link-hover: #ffc947;
+    --color-button-primary-bg: #ff9800;
+    --color-button-primary-bg-hover: #ffb74d;
+    --color-focus-ring: #ffb74d;
+    --color-info-text: #ffb74d;
+    --color-brand-primary: #ffb74d;
+  }
+}
+
+/* ========================================
+   HIGH CONTRAST MODE SUPPORT
+   ======================================== */
+
+@media (prefers-contrast: high) {
+  [data-theme="dark"] {
+    --color-text: #ffffff;
+    --color-text-secondary: #ffffff;
+    --color-background: #000000;
+    --color-background-secondary: #1a1a1a;
+    --color-border-medium: #ffffff;
+    --color-border-dark: #ffffff;
+    --color-button-primary-bg: #ffffff;
+    --color-button-primary-text: #000000;
+    --color-button-secondary-border: #ffffff;
+    --color-input-border: #ffffff;
+    --color-input-text: #ffffff;
+  }
+}
+
+/* ========================================
+   DARK THEME PERFORMANCE OPTIMIZATIONS
+   GPU acceleration for smooth dark theme rendering
+   ======================================== */
+
+[data-theme="dark"] .gpu-accelerated {
+  transform: translateZ(0);
+  will-change: transform;
+}
+
+[data-theme="dark"] .smooth-shadows {
+  backface-visibility: hidden;
+  transform: translate3d(0, 0, 0);
+}
+
+/* ========================================
+   DARK THEME ERROR STATES
+   Enhanced visibility for error conditions
+   ======================================== */
+
+[data-theme="dark"] .error-text {
+  color: #fca5a5;
+  text-shadow: 0 0 2px rgba(252, 165, 165, 0.3);
+}
+
+[data-theme="dark"] .success-text {
+  color: #86efac;
+  text-shadow: 0 0 2px rgba(134, 239, 172, 0.3);
+}
+
+[data-theme="dark"] .warning-text {
+  color: #fcd34d;
+  text-shadow: 0 0 2px rgba(252, 211, 77, 0.3);
+}

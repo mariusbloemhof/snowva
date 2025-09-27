@@ -1,0 +1,252 @@
+/**
+ * Shadow Design Tokens
+ * 
+ * Snowva Business Hub - Centralized Design System
+ * Follows Design Tokens Community Group (DTCG) specification
+ * 
+ * Structure:
+ * 1. Base Shadow Scale (layered depth system)
+ * 2. Semantic Shadows (component-specific)
+ * 3. Interactive Shadows (hover/focus states)
+ * 4. Accessibility & Performance Considerations
+ */
+
+:root {
+  /* ========================================
+     SHADOW COLOR VALUES
+     Base colors for shadow composition
+     ======================================== */
+  
+  --shadow-color-light: rgba(0, 0, 0, 0.1);      /* Light shadow base */
+  --shadow-color-medium: rgba(0, 0, 0, 0.15);    /* Medium shadow base */
+  --shadow-color-dark: rgba(0, 0, 0, 0.2);       /* Dark shadow base */
+  --shadow-color-intense: rgba(0, 0, 0, 0.25);   /* Intense shadow base */
+  
+  /* Colored shadows for focus states */
+  --shadow-color-primary: rgba(59, 130, 246, 0.25);   /* Blue focus shadow */
+  --shadow-color-success: rgba(34, 197, 94, 0.25);    /* Green success shadow */
+  --shadow-color-warning: rgba(251, 191, 36, 0.25);   /* Yellow warning shadow */
+  --shadow-color-error: rgba(239, 68, 68, 0.25);      /* Red error shadow */
+
+  /* ========================================
+     BASE SHADOW SCALE
+     Elevation system for layered interfaces
+     ======================================== */
+  
+  /* No shadow */
+  --shadow-none: none;
+  
+  /* Subtle elevation (1-2dp) */
+  --shadow-xs: 0 1px 2px var(--shadow-color-light);
+  --shadow-sm: 0 1px 3px var(--shadow-color-light), 0 1px 2px var(--shadow-color-light);
+  
+  /* Standard elevation (3-6dp) */
+  --shadow-base: 0 1px 3px var(--shadow-color-light), 0 1px 2px var(--shadow-color-light);
+  --shadow-md: 0 4px 6px -1px var(--shadow-color-medium), 0 2px 4px -1px var(--shadow-color-light);
+  
+  /* Elevated elements (8-12dp) */
+  --shadow-lg: 0 10px 15px -3px var(--shadow-color-medium), 0 4px 6px -2px var(--shadow-color-light);
+  --shadow-xl: 0 20px 25px -5px var(--shadow-color-medium), 0 10px 10px -5px var(--shadow-color-light);
+  
+  /* High elevation (16-24dp) */
+  --shadow-2xl: 0 25px 50px -12px var(--shadow-color-dark);
+  
+  /* Maximum elevation (24dp+) */
+  --shadow-inner: inset 0 2px 4px 0 var(--shadow-color-light);
+
+  /* ========================================
+     SEMANTIC SHADOWS
+     Component-specific shadow assignments
+     ======================================== */
+  
+  /* Card shadows */
+  --shadow-card: var(--shadow-sm);              /* Default card shadow */
+  --shadow-card-hover: var(--shadow-md);       /* Hovered card shadow */
+  --shadow-card-active: var(--shadow-xs);      /* Active/pressed card shadow */
+  --shadow-card-elevated: var(--shadow-lg);    /* Important card shadow */
+
+  /* Button shadows */
+  --shadow-button: var(--shadow-xs);           /* Default button shadow */
+  --shadow-button-hover: var(--shadow-sm);     /* Hovered button shadow */
+  --shadow-button-active: var(--shadow-inner); /* Active/pressed button shadow */
+  --shadow-button-primary: var(--shadow-sm);   /* Primary button shadow */
+  --shadow-button-primary-hover: var(--shadow-md); /* Primary button hover shadow */
+
+  /* Modal and overlay shadows */
+  --shadow-modal: var(--shadow-2xl);           /* Modal backdrop shadow */
+  --shadow-dropdown: var(--shadow-lg);         /* Dropdown menu shadow */
+  --shadow-tooltip: var(--shadow-md);          /* Tooltip shadow */
+  --shadow-popover: var(--shadow-xl);          /* Popover shadow */
+
+  /* Navigation shadows */
+  --shadow-header: var(--shadow-sm);           /* Header/navigation bar shadow */
+  --shadow-sidebar: var(--shadow-md);          /* Sidebar shadow */
+  --shadow-nav-item: var(--shadow-none);       /* Navigation item shadow */
+  --shadow-nav-item-active: var(--shadow-xs);  /* Active nav item shadow */
+
+  /* Form element shadows */
+  --shadow-input: var(--shadow-inner);         /* Default input shadow */
+  --shadow-input-focus: 0 0 0 3px var(--shadow-color-primary); /* Focus ring shadow */
+  --shadow-input-error: 0 0 0 3px var(--shadow-color-error);   /* Error state shadow */
+  --shadow-input-success: 0 0 0 3px var(--shadow-color-success); /* Success state shadow */
+
+  /* Table shadows */
+  --shadow-table: var(--shadow-none);          /* Default table shadow */
+  --shadow-table-header: var(--shadow-xs);     /* Table header shadow */
+  --shadow-table-row-hover: var(--shadow-xs);  /* Hovered table row shadow */
+
+  /* Status and feedback shadows */
+  --shadow-badge: var(--shadow-xs);            /* Badge shadow */
+  --shadow-alert: var(--shadow-sm);            /* Alert/notification shadow */
+  --shadow-toast: var(--shadow-lg);            /* Toast notification shadow */
+  --shadow-loading: var(--shadow-xs);          /* Loading indicator shadow */
+
+  /* ========================================
+     FOCUS SHADOWS
+     Accessibility-focused shadow definitions
+     ======================================== */
+  
+  /* Primary focus shadow (blue) */
+  --shadow-focus: 0 0 0 2px var(--color-background), 0 0 0 4px var(--color-primary-500);
+  --shadow-focus-thin: 0 0 0 1px var(--color-background), 0 0 0 3px var(--color-primary-500);
+  --shadow-focus-thick: 0 0 0 3px var(--color-background), 0 0 0 5px var(--color-primary-500);
+
+  /* State-specific focus shadows */
+  --shadow-focus-error: 0 0 0 2px var(--color-background), 0 0 0 4px var(--color-error-500);
+  --shadow-focus-success: 0 0 0 2px var(--color-background), 0 0 0 4px var(--color-success-500);
+  --shadow-focus-warning: 0 0 0 2px var(--color-background), 0 0 0 4px var(--color-warning-500);
+
+  /* High contrast focus */
+  --shadow-focus-high-contrast: 0 0 0 2px var(--color-background), 0 0 0 4px var(--color-text);
+
+  /* ========================================
+     INTERACTIVE STATE SHADOWS
+     Hover, active, and pressed states
+     ======================================== */
+  
+  /* Hover state shadows */
+  --shadow-hover-subtle: var(--shadow-sm);     /* Subtle hover elevation */
+  --shadow-hover-medium: var(--shadow-md);     /* Medium hover elevation */
+  --shadow-hover-strong: var(--shadow-lg);     /* Strong hover elevation */
+
+  /* Active/pressed state shadows */
+  --shadow-active-inset: var(--shadow-inner);  /* Inset shadow for pressed state */
+  --shadow-active-reduce: var(--shadow-xs);    /* Reduced shadow for pressed state */
+
+  /* Disabled state shadows */
+  --shadow-disabled: var(--shadow-none);       /* No shadow for disabled elements */
+
+  /* ========================================
+     LAYERED SHADOWS
+     Complex multi-layer shadows for depth
+     ======================================== */
+  
+  /* Floating action button */
+  --shadow-fab: 
+    0 3px 5px -1px var(--shadow-color-medium),
+    0 6px 10px 0 var(--shadow-color-light),
+    0 1px 18px 0 var(--shadow-color-light);
+  
+  --shadow-fab-hover:
+    0 5px 5px -3px var(--shadow-color-medium),
+    0 8px 10px 1px var(--shadow-color-light),
+    0 3px 14px 2px var(--shadow-color-light);
+
+  /* Raised card */
+  --shadow-raised:
+    0 2px 1px -1px var(--shadow-color-light),
+    0 1px 1px 0 var(--shadow-color-light),
+    0 1px 3px 0 var(--shadow-color-light);
+
+  --shadow-raised-hover:
+    0 3px 3px -2px var(--shadow-color-medium),
+    0 3px 4px 0 var(--shadow-color-light),
+    0 1px 8px 0 var(--shadow-color-light);
+
+  /* Dialog/modal complex shadow */
+  --shadow-dialog:
+    0 11px 15px -7px var(--shadow-color-medium),
+    0 24px 38px 3px var(--shadow-color-light),
+    0 9px 46px 8px var(--shadow-color-light);
+}
+
+/* ========================================
+   THEME-SPECIFIC SHADOW ADJUSTMENTS
+   Different shadow styles per theme
+   ======================================== */
+
+[data-theme="light"] {
+  --shadow-color-light: rgba(0, 0, 0, 0.08);
+  --shadow-color-medium: rgba(0, 0, 0, 0.12);
+  --shadow-color-dark: rgba(0, 0, 0, 0.16);
+  --shadow-color-intense: rgba(0, 0, 0, 0.2);
+}
+
+[data-theme="dark"] {
+  --shadow-color-light: rgba(0, 0, 0, 0.2);
+  --shadow-color-medium: rgba(0, 0, 0, 0.3);
+  --shadow-color-dark: rgba(0, 0, 0, 0.4);
+  --shadow-color-intense: rgba(0, 0, 0, 0.5);
+  
+  /* Enhanced shadows for dark theme depth */
+  --shadow-card: 0 2px 4px var(--shadow-color-medium), 0 1px 2px var(--shadow-color-light);
+  --shadow-modal: 0 25px 50px -12px var(--shadow-color-intense);
+  --shadow-dropdown: 0 10px 15px -3px var(--shadow-color-dark), 0 4px 6px -2px var(--shadow-color-medium);
+}
+
+[data-theme="high-contrast"] {
+  /* Simplified shadows for high contrast */
+  --shadow-color-light: rgba(0, 0, 0, 0.3);
+  --shadow-color-medium: rgba(0, 0, 0, 0.5);
+  --shadow-color-dark: rgba(0, 0, 0, 0.7);
+  --shadow-color-intense: rgba(0, 0, 0, 0.8);
+  
+  /* Stronger shadows for better definition */
+  --shadow-card: var(--shadow-md);
+  --shadow-button: var(--shadow-sm);
+  --shadow-modal: var(--shadow-2xl);
+}
+
+/* ========================================
+   REDUCED MOTION ADJUSTMENTS
+   Simplified shadows for motion sensitivity
+   ======================================== */
+
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    /* Reduce complex multi-layer shadows */
+    --shadow-fab: var(--shadow-lg);
+    --shadow-fab-hover: var(--shadow-xl);
+    --shadow-raised: var(--shadow-sm);
+    --shadow-raised-hover: var(--shadow-md);
+    --shadow-dialog: var(--shadow-2xl);
+  }
+}
+
+/* ========================================
+   PRINT ADJUSTMENTS
+   Remove shadows for print optimization
+   ======================================== */
+
+@media print {
+  :root {
+    --shadow-card: var(--shadow-none);
+    --shadow-button: var(--shadow-none);
+    --shadow-modal: var(--shadow-none);
+    --shadow-dropdown: var(--shadow-none);
+    --shadow-header: var(--shadow-none);
+    --shadow-input: var(--shadow-none);
+    --shadow-focus: var(--shadow-none);
+  }
+}
+
+/* ========================================
+   PERFORMANCE OPTIMIZATION
+   GPU-accelerated shadow rendering hints
+   ======================================== */
+
+.shadow-optimized {
+  /* Promote elements with shadows to their own layer for better performance */
+  will-change: box-shadow;
+  transform: translateZ(0);
+}

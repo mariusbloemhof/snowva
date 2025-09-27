@@ -2,18 +2,21 @@
 import React, { useEffect, useState } from 'react';
 import { NavLink, Outlet } from 'react-router-dom';
 import {
-  CashIcon,
-  CollectionIcon,
-  CubeIcon,
-  DocumentReportIcon,
-  DocumentTextIcon,
-  HomeIcon,
-  MenuIcon,
-  SparklesIcon,
-  UsersIcon,
-  XIcon
+    CashIcon,
+    CollectionIcon,
+    CubeIcon,
+    DocumentReportIcon,
+    DocumentTextIcon,
+    HomeIcon,
+    MenuIcon,
+    SparklesIcon,
+    UsersIcon,
+    XIcon
 } from './components/Icons';
+import ThemeToggle from './components/ThemeToggle';
 import { useFirebase } from './contexts/FirebaseContext';
+import { ThemeProvider } from './contexts/ThemeContext';
+import './styles/index.css';
 import { AppContextType, Customer, Invoice, Payment, Product, Quote } from './types';
 
 const App: React.FC = () => {
@@ -85,7 +88,7 @@ const App: React.FC = () => {
             {isSidebarOpen ? <XIcon /> : <MenuIcon />}
           </button>
         </div>
-        <nav className="mt-4 px-2">
+        <nav className="nav-primary">
           {navItems.map(item => (
             <NavLink
               key={item.to}
@@ -106,6 +109,7 @@ const App: React.FC = () => {
         <header className="flex items-center justify-between h-16 px-6 bg-white border-b border-slate-200">
           <h1 className="text-xl font-semibold text-slate-900">Business Hub</h1>
            <div className="flex items-center space-x-4">
+              <ThemeToggle variant="icon" size="medium" />
               <div className="relative">
                   <img className="h-10 w-10 rounded-full object-cover" src="https://picsum.photos/100" alt="User"/>
               </div>
@@ -120,4 +124,13 @@ const App: React.FC = () => {
   );
 };
 
-export default App;
+// Wrap App with ThemeProvider
+const ThemedApp: React.FC = () => {
+  return (
+    <ThemeProvider>
+      <App />
+    </ThemeProvider>
+  );
+};
+
+export default ThemedApp;

@@ -348,7 +348,7 @@ export const QuoteEditor: React.FC = () => {
                   <p className="mt-1 text-sm leading-6 text-slate-600">Add products to the quote. The price will be determined based on the selected customer.</p>
                   <div className="mt-10">
                       <div className={`-mx-4 ring-1 ${errors.items ? 'ring-red-500' : 'ring-slate-200'} sm:mx-0 sm:rounded-lg`}>
-                              <table className="min-w-full">
+                              <table className="table-base">
                                   <thead className="sr-only sm:table-header-group">
                                       <tr>
                                           <th className="py-3 pl-4 pr-3 text-left text-sm font-semibold text-slate-900 sm:pl-6 w-1/2">Product</th>

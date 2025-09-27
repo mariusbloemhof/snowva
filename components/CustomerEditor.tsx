@@ -461,7 +461,7 @@ export const CustomerEditor: React.FC = () => {
 
                     {formData.id && (
                         <div className="mb-8 border-b border-slate-200">
-                            <nav className="-mb-px flex space-x-8" aria-label="Tabs">
+                            <nav className="nav-tabs" aria-label="Tabs">
                                 <TabButton tab="details" label="Customer Details" icon={<UsersIcon />} />
                                 {formData.type === CustomerType.B2B && (
                                     <TabButton tab="pricing" label="Custom Product Pricing" icon={<CashIcon />} />

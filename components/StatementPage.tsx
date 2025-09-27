@@ -121,7 +121,7 @@ export const StatementPage: React.FC = () => {
                         placeholder="Search customers..."
                         value={searchTerm}
                         onChange={(e) => setSearchTerm(e.target.value)}
-                        className="block w-full rounded-md border-0 py-1.5 pl-10 pr-3 text-slate-900 ring-1 ring-inset ring-slate-300 placeholder:text-slate-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                        className="form-input pl-10"
                     />
                 </div>
             </div>
@@ -136,8 +136,8 @@ export const StatementPage: React.FC = () => {
             <div className="mt-8 flow-root">
                 <div className="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
                     <div className="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8">
-                        <table className="min-w-full divide-y divide-slate-200">
-                            <thead className="bg-slate-50">
+                        <table className="table-base">
+                            <thead className="table-header">
                                 <tr>
                                     <th scope="col" className="py-3 pl-4 pr-3 text-left text-sm font-semibold text-slate-900 sm:pl-0">Customer</th>
                                     <th scope="col" className="px-3 py-3 text-right text-sm font-semibold text-slate-900">Total Due</th>

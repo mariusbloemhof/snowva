@@ -1,0 +1,518 @@
+/**
+ * Button Component Styles
+ * 
+ * Snowva Business Hub - Centralized Design System
+ * Semantic button classes replacing Tailwind utilities
+ * 
+ * Constitutional requirement: Centralized design system with semantic classes
+ */
+
+/* ========================================
+   BASE BUTTON STYLES
+   ======================================== */
+
+.button-base {
+  /* Layout & Structure */
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-2);
+  
+  /* Sizing */
+  min-height: var(--spacing-11);
+  padding: var(--spacing-3) var(--spacing-4);
+  
+  /* Typography */
+  font-family: var(--font-family-base);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+  line-height: var(--line-height-tight);
+  text-decoration: none;
+  white-space: nowrap;
+  
+  /* Visual Styling */
+  border: var(--border-width-1) solid;
+  border-radius: var(--border-radius-md);
+  background: var(--color-background);
+  color: var(--color-text);
+  border-color: var(--color-border-medium);
+  
+  /* Interactive States */
+  cursor: pointer;
+  transition: var(--transition-colors);
+  
+  /* Accessibility */
+  outline: none;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+.button-base:focus-visible {
+  box-shadow: var(--shadow-focus-ring);
+  border-color: var(--color-focus-ring);
+}
+
+.button-base:disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+  filter: grayscale(0.3);
+}
+
+/* ========================================
+   BUTTON VARIANTS
+   ======================================== */
+
+/* Primary Button - Main action button */
+.button-primary {
+  background: var(--color-primary-500);
+  color: var(--color-white);
+  border-color: var(--color-primary-500);
+  box-shadow: var(--shadow-sm);
+}
+
+.button-primary:hover:not(:disabled) {
+  background: var(--color-primary-600);
+  border-color: var(--color-primary-600);
+  box-shadow: var(--shadow-md);
+  transform: translateY(-1px);
+}
+
+.button-primary:active:not(:disabled) {
+  background: var(--color-primary-700);
+  border-color: var(--color-primary-700);
+  transform: translateY(0);
+  box-shadow: var(--shadow-sm);
+}
+
+.button-primary:focus-visible {
+  box-shadow: var(--shadow-focus-ring), var(--shadow-md);
+}
+
+/* Secondary Button - Supporting actions */
+.button-secondary {
+  background: var(--color-background);
+  color: var(--color-primary-600);
+  border-color: var(--color-primary-300);
+}
+
+.button-secondary:hover:not(:disabled) {
+  background: var(--color-primary-50);
+  border-color: var(--color-primary-400);
+  color: var(--color-primary-700);
+}
+
+.button-secondary:active:not(:disabled) {
+  background: var(--color-primary-100);
+  border-color: var(--color-primary-500);
+}
+
+/* Success Button - Positive actions */
+.button-success {
+  background: var(--color-success-500);
+  color: var(--color-white);
+  border-color: var(--color-success-500);
+}
+
+.button-success:hover:not(:disabled) {
+  background: var(--color-success-600);
+  border-color: var(--color-success-600);
+  transform: translateY(-1px);
+}
+
+.button-success:active:not(:disabled) {
+  background: var(--color-success-700);
+  border-color: var(--color-success-700);
+  transform: translateY(0);
+}
+
+/* Warning Button - Caution actions */
+.button-warning {
+  background: var(--color-warning-500);
+  color: var(--color-white);
+  border-color: var(--color-warning-500);
+}
+
+.button-warning:hover:not(:disabled) {
+  background: var(--color-warning-600);
+  border-color: var(--color-warning-600);
+  transform: translateY(-1px);
+}
+
+.button-warning:active:not(:disabled) {
+  background: var(--color-warning-700);
+  border-color: var(--color-warning-700);
+  transform: translateY(0);
+}
+
+/* Danger Button - Destructive actions */
+.button-danger {
+  background: var(--color-danger-500);
+  color: var(--color-white);
+  border-color: var(--color-danger-500);
+}
+
+.button-danger:hover:not(:disabled) {
+  background: var(--color-danger-600);
+  border-color: var(--color-danger-600);
+  transform: translateY(-1px);
+}
+
+.button-danger:active:not(:disabled) {
+  background: var(--color-danger-700);
+  border-color: var(--color-danger-700);
+  transform: translateY(0);
+}
+
+/* Ghost Button - Minimal styling */
+.button-ghost {
+  background: transparent;
+  color: var(--color-text-secondary);
+  border-color: transparent;
+}
+
+.button-ghost:hover:not(:disabled) {
+  background: var(--color-background-secondary);
+  color: var(--color-text);
+}
+
+.button-ghost:active:not(:disabled) {
+  background: var(--color-border-light);
+}
+
+/* Link Button - Text-like appearance */
+.button-link {
+  background: transparent;
+  color: var(--color-primary-600);
+  border-color: transparent;
+  padding: var(--spacing-1) var(--spacing-2);
+  min-height: auto;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.button-link:hover:not(:disabled) {
+  color: var(--color-primary-700);
+  text-decoration: none;
+}
+
+.button-link:active:not(:disabled) {
+  color: var(--color-primary-800);
+}
+
+/* ========================================
+   BUTTON SIZES
+   ======================================== */
+
+.button-xs {
+  min-height: var(--spacing-7);
+  padding: var(--spacing-1) var(--spacing-3);
+  font-size: var(--font-size-xs);
+  gap: var(--spacing-1);
+}
+
+.button-sm {
+  min-height: var(--spacing-9);
+  padding: var(--spacing-2) var(--spacing-3);
+  font-size: var(--font-size-sm);
+  gap: var(--spacing-1-5);
+}
+
+.button-md {
+  min-height: var(--spacing-11);
+  padding: var(--spacing-3) var(--spacing-4);
+  font-size: var(--font-size-sm);
+  gap: var(--spacing-2);
+}
+
+.button-lg {
+  min-height: var(--spacing-12);
+  padding: var(--spacing-3) var(--spacing-6);
+  font-size: var(--font-size-base);
+  gap: var(--spacing-2);
+}
+
+.button-xl {
+  min-height: var(--spacing-14);
+  padding: var(--spacing-4) var(--spacing-8);
+  font-size: var(--font-size-lg);
+  gap: var(--spacing-3);
+}
+
+/* ========================================
+   BUTTON STATES & MODIFIERS
+   ======================================== */
+
+/* Loading State */
+.button-loading {
+  position: relative;
+  color: transparent !important;
+}
+
+.button-loading::before {
+  content: '';
+  position: absolute;
+  width: 16px;
+  height: 16px;
+  border: 2px solid transparent;
+  border-top: 2px solid currentColor;
+  border-radius: 50%;
+  animation: button-spin 1s linear infinite;
+  color: var(--color-white);
+}
+
+.button-secondary.button-loading::before,
+.button-ghost.button-loading::before,
+.button-link.button-loading::before {
+  color: var(--color-primary-500);
+}
+
+@keyframes button-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Full Width */
+.button-full {
+  width: 100%;
+}
+
+/* Icon Only Buttons */
+.button-icon-only {
+  padding: var(--spacing-3);
+  min-width: var(--spacing-11);
+}
+
+.button-icon-only.button-xs {
+  padding: var(--spacing-1);
+  min-width: var(--spacing-7);
+}
+
+.button-icon-only.button-sm {
+  padding: var(--spacing-2);
+  min-width: var(--spacing-9);
+}
+
+.button-icon-only.button-lg {
+  padding: var(--spacing-3);
+  min-width: var(--spacing-12);
+}
+
+.button-icon-only.button-xl {
+  padding: var(--spacing-4);
+  min-width: var(--spacing-14);
+}
+
+/* Button with Icon */
+.button-with-icon-left .button-icon {
+  margin-right: var(--spacing-2);
+  margin-left: calc(var(--spacing-1) * -1);
+}
+
+.button-with-icon-right .button-icon {
+  margin-left: var(--spacing-2);
+  margin-right: calc(var(--spacing-1) * -1);
+}
+
+/* ========================================
+   BUTTON GROUPS
+   ======================================== */
+
+.button-group {
+  display: inline-flex;
+  border-radius: var(--border-radius-md);
+  box-shadow: var(--shadow-sm);
+}
+
+.button-group .button-base {
+  border-radius: 0;
+  border-right-width: 0;
+  box-shadow: none;
+}
+
+.button-group .button-base:first-child {
+  border-top-left-radius: var(--border-radius-md);
+  border-bottom-left-radius: var(--border-radius-md);
+}
+
+.button-group .button-base:last-child {
+  border-top-right-radius: var(--border-radius-md);
+  border-bottom-right-radius: var(--border-radius-md);
+  border-right-width: var(--border-width-1);
+}
+
+.button-group .button-base:only-child {
+  border-radius: var(--border-radius-md);
+  border-right-width: var(--border-width-1);
+}
+
+/* Vertical Button Group */
+.button-group-vertical {
+  display: inline-flex;
+  flex-direction: column;
+  border-radius: var(--border-radius-md);
+}
+
+.button-group-vertical .button-base {
+  border-radius: 0;
+  border-bottom-width: 0;
+}
+
+.button-group-vertical .button-base:first-child {
+  border-top-left-radius: var(--border-radius-md);
+  border-top-right-radius: var(--border-radius-md);
+}
+
+.button-group-vertical .button-base:last-child {
+  border-bottom-left-radius: var(--border-radius-md);
+  border-bottom-right-radius: var(--border-radius-md);
+  border-bottom-width: var(--border-width-1);
+}
+
+/* ========================================
+   BUSINESS-SPECIFIC BUTTON STYLES
+   ======================================== */
+
+/* Snowva Brand Buttons */
+.button-snowva {
+  background: linear-gradient(135deg, var(--color-primary-500) 0%, var(--color-primary-600) 100%);
+  color: var(--color-white);
+  border-color: var(--color-primary-500);
+  box-shadow: var(--shadow-md);
+}
+
+.button-snowva:hover:not(:disabled) {
+  background: linear-gradient(135deg, var(--color-primary-600) 0%, var(--color-primary-700) 100%);
+  box-shadow: var(--shadow-lg);
+  transform: translateY(-2px);
+}
+
+/* Payment Button */
+.button-payment {
+  background: var(--color-success-500);
+  color: var(--color-white);
+  border-color: var(--color-success-500);
+  font-weight: var(--font-weight-semibold);
+}
+
+.button-payment:hover:not(:disabled) {
+  background: var(--color-success-600);
+  border-color: var(--color-success-600);
+}
+
+/* Status Action Buttons */
+.button-finalize {
+  background: var(--color-warning-500);
+  color: var(--color-white);
+  border-color: var(--color-warning-500);
+}
+
+.button-void {
+  background: var(--color-gray-500);
+  color: var(--color-white);
+  border-color: var(--color-gray-500);
+}
+
+/* ========================================
+   RESPONSIVE BEHAVIOR
+   ======================================== */
+
+@media (max-width: 640px) {
+  .button-responsive {
+    width: 100%;
+    margin-bottom: var(--spacing-2);
+  }
+  
+  .button-group-responsive {
+    flex-direction: column;
+  }
+  
+  .button-group-responsive .button-base {
+    border-radius: 0;
+    border-right-width: var(--border-width-1);
+    border-bottom-width: 0;
+  }
+  
+  .button-group-responsive .button-base:first-child {
+    border-radius: var(--border-radius-md) var(--border-radius-md) 0 0;
+  }
+  
+  .button-group-responsive .button-base:last-child {
+    border-radius: 0 0 var(--border-radius-md) var(--border-radius-md);
+    border-bottom-width: var(--border-width-1);
+  }
+}
+
+/* ========================================
+   ACCESSIBILITY ENHANCEMENTS
+   ======================================== */
+
+/* High Contrast Mode */
+@media (prefers-contrast: high) {
+  .button-base {
+    border-width: var(--border-width-2);
+    font-weight: var(--font-weight-semibold);
+  }
+  
+  .button-ghost {
+    border-color: var(--color-border-medium);
+  }
+  
+  .button-link {
+    text-decoration: underline;
+    text-decoration-thickness: 2px;
+  }
+}
+
+/* Reduced Motion */
+@media (prefers-reduced-motion: reduce) {
+  .button-base {
+    transition: none;
+  }
+  
+  .button-primary:hover:not(:disabled),
+  .button-success:hover:not(:disabled),
+  .button-warning:hover:not(:disabled),
+  .button-danger:hover:not(:disabled),
+  .button-snowva:hover:not(:disabled) {
+    transform: none;
+  }
+  
+  .button-loading::before {
+    animation: none;
+    content: '⏳';
+    border: none;
+    width: auto;
+    height: auto;
+  }
+}
+
+/* Focus Visible Enhancement */
+@media (prefers-reduced-motion: no-preference) {
+  .button-base:focus-visible {
+    transition: box-shadow var(--transition-fast);
+  }
+}
+
+/* ========================================
+   PRINT STYLES
+   ======================================== */
+
+@media print {
+  .button-base {
+    color: var(--color-black) !important;
+    background: transparent !important;
+    border: var(--border-width-1) solid var(--color-black) !important;
+    box-shadow: none !important;
+  }
+  
+  .button-primary::after {
+    content: " [Primary Action]";
+    font-size: var(--font-size-xs);
+  }
+  
+  .button-danger::after {
+    content: " [Destructive Action]";
+    font-size: var(--font-size-xs);
+  }
+}

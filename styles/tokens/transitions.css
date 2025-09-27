@@ -1,0 +1,404 @@
+/**
+ * Transition Design Tokens
+ * 
+ * Snowva Business Hub - Centralized Design System
+ * Follows Design Tokens Community Group (DTCG) specification
+ * 
+ * Structure:
+ * 1. Duration Scale (standardized timing)
+ * 2. Easing Functions (animation curves)
+ * 3. Semantic Transitions (component-specific)
+ * 4. Performance & Accessibility Considerations
+ */
+
+:root {
+  /* ========================================
+     DURATION SCALE
+     Standardized animation timing values
+     ======================================== */
+  
+  --duration-instant: 0ms;
+  --duration-fastest: 50ms;
+  --duration-faster: 100ms;
+  --duration-fast: 150ms;
+  --duration-base: 200ms;
+  --duration-slow: 300ms;
+  --duration-slower: 500ms;
+  --duration-slowest: 1000ms;
+
+  /* Semantic duration assignments */
+  --duration-micro: var(--duration-fastest);     /* Micro-interactions (hover states) */
+  --duration-quick: var(--duration-fast);        /* Quick transitions (focus, active) */
+  --duration-standard: var(--duration-base);     /* Standard transitions (most UI) */
+  --duration-deliberate: var(--duration-slow);   /* Deliberate transitions (modals) */
+  --duration-loading: var(--duration-slower);    /* Loading states */
+  --duration-entrance: var(--duration-slow);     /* Element entrance animations */
+  --duration-exit: var(--duration-fast);         /* Element exit animations */
+
+  /* ========================================
+     EASING FUNCTIONS
+     Animation timing curves for natural motion
+     ======================================== */
+  
+  /* Standard easing curves */
+  --easing-linear: linear;
+  --easing-ease: ease;
+  --easing-ease-in: ease-in;
+  --easing-ease-out: ease-out;
+  --easing-ease-in-out: ease-in-out;
+
+  /* Custom cubic-bezier curves */
+  --easing-smooth: cubic-bezier(0.4, 0.0, 0.2, 1);           /* Material Design standard */
+  --easing-sharp: cubic-bezier(0.4, 0.0, 0.6, 1);            /* Material Design sharp */
+  --easing-bounce: cubic-bezier(0.68, -0.55, 0.265, 1.55);   /* Bounce effect */
+  --easing-back: cubic-bezier(0.175, 0.885, 0.32, 1.275);    /* Back easing */
+  --easing-elastic: cubic-bezier(0.68, -0.6, 0.32, 1.6);     /* Elastic effect */
+
+  /* Semantic easing assignments */
+  --easing-default: var(--easing-smooth);        /* Default easing for most transitions */
+  --easing-enter: var(--easing-ease-out);        /* Element entrance easing */
+  --easing-exit: var(--easing-ease-in);          /* Element exit easing */
+  --easing-interactive: var(--easing-sharp);     /* Interactive element easing */
+  --easing-emphasis: var(--easing-bounce);       /* Emphasis/attention easing */
+
+  /* ========================================
+     SEMANTIC TRANSITIONS
+     Component-specific transition definitions
+     ======================================== */
+  
+  /* Button transitions */
+  --transition-button: 
+    background-color var(--duration-micro) var(--easing-default),
+    border-color var(--duration-micro) var(--easing-default),
+    color var(--duration-micro) var(--easing-default),
+    box-shadow var(--duration-quick) var(--easing-default),
+    transform var(--duration-micro) var(--easing-sharp);
+
+  --transition-button-hover: 
+    transform var(--duration-micro) var(--easing-smooth);
+
+  --transition-button-active: 
+    transform var(--duration-fastest) var(--easing-sharp);
+
+  /* Input and form transitions */
+  --transition-input: 
+    border-color var(--duration-quick) var(--easing-default),
+    box-shadow var(--duration-quick) var(--easing-default),
+    background-color var(--duration-micro) var(--easing-default);
+
+  --transition-input-focus: 
+    border-color var(--duration-fast) var(--easing-sharp),
+    box-shadow var(--duration-fast) var(--easing-sharp);
+
+  --transition-input-error: 
+    border-color var(--duration-quick) var(--easing-sharp),
+    box-shadow var(--duration-quick) var(--easing-sharp);
+
+  /* Card and container transitions */
+  --transition-card: 
+    box-shadow var(--duration-standard) var(--easing-default),
+    transform var(--duration-quick) var(--easing-smooth),
+    border-color var(--duration-micro) var(--easing-default);
+
+  --transition-card-hover: 
+    transform var(--duration-quick) var(--easing-smooth),
+    box-shadow var(--duration-standard) var(--easing-smooth);
+
+  --transition-card-active: 
+    transform var(--duration-fastest) var(--easing-sharp);
+
+  /* Navigation transitions */
+  --transition-nav: 
+    background-color var(--duration-micro) var(--easing-default),
+    color var(--duration-micro) var(--easing-default),
+    border-color var(--duration-micro) var(--easing-default);
+
+  --transition-nav-item: 
+    background-color var(--duration-micro) var(--easing-default),
+    color var(--duration-micro) var(--easing-default),
+    transform var(--duration-micro) var(--easing-smooth);
+
+  --transition-nav-dropdown: 
+    opacity var(--duration-standard) var(--easing-enter),
+    transform var(--duration-standard) var(--easing-enter);
+
+  /* Modal and overlay transitions */
+  --transition-modal-backdrop: 
+    opacity var(--duration-deliberate) var(--easing-default);
+
+  --transition-modal-content: 
+    opacity var(--duration-entrance) var(--easing-enter),
+    transform var(--duration-entrance) var(--easing-enter);
+
+  --transition-modal-exit: 
+    opacity var(--duration-exit) var(--easing-exit),
+    transform var(--duration-exit) var(--easing-exit);
+
+  --transition-dropdown: 
+    opacity var(--duration-quick) var(--easing-enter),
+    transform var(--duration-quick) var(--easing-enter);
+
+  --transition-tooltip: 
+    opacity var(--duration-fast) var(--easing-default);
+
+  /* Table transitions */
+  --transition-table-row: 
+    background-color var(--duration-micro) var(--easing-default);
+
+  --transition-table-sort: 
+    transform var(--duration-standard) var(--easing-smooth);
+
+  /* Status and feedback transitions */
+  --transition-alert: 
+    opacity var(--duration-entrance) var(--easing-enter),
+    transform var(--duration-entrance) var(--easing-enter);
+
+  --transition-toast: 
+    opacity var(--duration-standard) var(--easing-enter),
+    transform var(--duration-standard) var(--easing-bounce);
+
+  --transition-badge: 
+    background-color var(--duration-micro) var(--easing-default),
+    color var(--duration-micro) var(--easing-default);
+
+  --transition-loading: 
+    opacity var(--duration-loading) var(--easing-default);
+
+  /* ========================================
+     FOCUS TRANSITIONS
+     Accessibility-focused transition timing
+     ======================================== */
+  
+  --transition-focus: 
+    box-shadow var(--duration-fast) var(--easing-sharp),
+    outline var(--duration-fast) var(--easing-sharp);
+
+  --transition-focus-ring: 
+    box-shadow var(--duration-quick) var(--easing-sharp);
+
+  --transition-focus-visible: 
+    outline-color var(--duration-fast) var(--easing-sharp),
+    outline-width var(--duration-fast) var(--easing-sharp);
+
+  /* ========================================
+     STATE TRANSITIONS
+     Interactive state change timing
+     ======================================== */
+  
+  /* Hover state transitions */
+  --transition-hover: 
+    transform var(--duration-micro) var(--easing-smooth),
+    background-color var(--duration-micro) var(--easing-default),
+    color var(--duration-micro) var(--easing-default);
+
+  /* Active state transitions */
+  --transition-active: 
+    transform var(--duration-fastest) var(--easing-sharp);
+
+  /* Disabled state transitions */
+  --transition-disabled: 
+    opacity var(--duration-standard) var(--easing-default),
+    background-color var(--duration-standard) var(--easing-default),
+    color var(--duration-standard) var(--easing-default);
+
+  /* Loading state transitions */
+  --transition-loading-enter: 
+    opacity var(--duration-loading) var(--easing-enter);
+
+  --transition-loading-exit: 
+    opacity var(--duration-quick) var(--easing-exit);
+
+  /* ========================================
+     LAYOUT TRANSITIONS
+     Geometric and positioning changes
+     ======================================== */
+  
+  /* Size changes */
+  --transition-size: 
+    width var(--duration-standard) var(--easing-smooth),
+    height var(--duration-standard) var(--easing-smooth);
+
+  /* Position changes */
+  --transition-position: 
+    transform var(--duration-standard) var(--easing-smooth);
+
+  /* Collapse/expand transitions */
+  --transition-collapse: 
+    height var(--duration-deliberate) var(--easing-smooth),
+    opacity var(--duration-standard) var(--easing-default);
+
+  --transition-expand: 
+    height var(--duration-deliberate) var(--easing-smooth),
+    opacity var(--duration-standard) var(--easing-default);
+
+  /* Slide transitions */
+  --transition-slide-left: 
+    transform var(--duration-standard) var(--easing-smooth);
+
+  --transition-slide-right: 
+    transform var(--duration-standard) var(--easing-smooth);
+
+  --transition-slide-up: 
+    transform var(--duration-standard) var(--easing-smooth);
+
+  --transition-slide-down: 
+    transform var(--duration-standard) var(--easing-smooth);
+
+  /* ========================================
+     THEME TRANSITIONS
+     Theme switching and color changes
+     ======================================== */
+  
+  --transition-theme: 
+    background-color var(--duration-deliberate) var(--easing-default),
+    color var(--duration-deliberate) var(--easing-default),
+    border-color var(--duration-deliberate) var(--easing-default);
+
+  --transition-color-scheme: 
+    background-color var(--duration-slow) var(--easing-default),
+    color var(--duration-slow) var(--easing-default);
+
+  /* ========================================
+     PERFORMANCE OPTIMIZATIONS
+     GPU-accelerated properties preference
+     ======================================== */
+  
+  /* Preferred properties for smooth animations */
+  --transition-transform: transform var(--duration-standard) var(--easing-smooth);
+  --transition-opacity: opacity var(--duration-standard) var(--easing-default);
+  --transition-scale: transform var(--duration-quick) var(--easing-bounce);
+  --transition-rotate: transform var(--duration-standard) var(--easing-smooth);
+
+  /* Composite transitions for complex animations */
+  --transition-entrance: 
+    opacity var(--duration-entrance) var(--easing-enter),
+    transform var(--duration-entrance) var(--easing-enter);
+
+  --transition-exit: 
+    opacity var(--duration-exit) var(--easing-exit),
+    transform var(--duration-exit) var(--easing-exit);
+}
+
+/* ========================================
+   REDUCED MOTION ADJUSTMENTS
+   Respect user motion preferences
+   ======================================== */
+
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    /* Drastically reduce or eliminate animation durations */
+    --duration-fastest: 0ms;
+    --duration-faster: 0ms;
+    --duration-fast: 0ms;
+    --duration-base: 0ms;
+    --duration-slow: 0ms;
+    --duration-slower: 0ms;
+    --duration-slowest: 0ms;
+    
+    /* Keep only essential micro-interactions */
+    --duration-micro: 50ms;
+    --duration-quick: 50ms;
+    --duration-standard: 50ms;
+    
+    /* Simplify easing to linear or ease */
+    --easing-default: var(--easing-ease);
+    --easing-enter: var(--easing-ease);
+    --easing-exit: var(--easing-ease);
+    --easing-interactive: var(--easing-ease);
+    --easing-emphasis: var(--easing-ease);
+    
+    /* Override all complex transitions */
+    --transition-modal-content: opacity 50ms ease;
+    --transition-dropdown: opacity 50ms ease;
+    --transition-toast: opacity 50ms ease;
+    --transition-entrance: opacity 50ms ease;
+    --transition-exit: opacity 50ms ease;
+  }
+}
+
+/* ========================================
+   PRINT ADJUSTMENTS
+   Remove transitions for print output
+   ======================================== */
+
+@media print {
+  :root {
+    /* Eliminate all transitions for print */
+    --duration-instant: 0ms;
+    --duration-fastest: 0ms;
+    --duration-faster: 0ms;
+    --duration-fast: 0ms;
+    --duration-base: 0ms;
+    --duration-slow: 0ms;
+    --duration-slower: 0ms;
+    --duration-slowest: 0ms;
+  }
+  
+  *, *::before, *::after {
+    transition: none !important;
+    animation: none !important;
+  }
+}
+
+/* ========================================
+   HIGH CONTRAST ADJUSTMENTS
+   Enhanced transitions for high contrast
+   ======================================== */
+
+@media (prefers-contrast: high) {
+  :root {
+    /* Slightly faster transitions for better responsiveness */
+    --duration-micro: var(--duration-fastest);
+    --duration-quick: var(--duration-faster);
+    --duration-standard: var(--duration-fast);
+    
+    /* Sharper easing for clearer state changes */
+    --easing-default: var(--easing-sharp);
+    --easing-interactive: var(--easing-sharp);
+  }
+}
+
+/* ========================================
+   UTILITY CLASSES
+   Common transition patterns
+   ======================================== */
+
+.transition-all {
+  transition: all var(--duration-standard) var(--easing-default);
+}
+
+.transition-colors {
+  transition: 
+    background-color var(--duration-micro) var(--easing-default),
+    border-color var(--duration-micro) var(--easing-default),
+    color var(--duration-micro) var(--easing-default);
+}
+
+.transition-transform {
+  transition: var(--transition-transform);
+}
+
+.transition-opacity {
+  transition: var(--transition-opacity);
+}
+
+.transition-shadow {
+  transition: box-shadow var(--duration-standard) var(--easing-default);
+}
+
+.transition-none {
+  transition: none;
+}
+
+/* Animation performance optimization */
+.will-change-transform {
+  will-change: transform;
+}
+
+.will-change-opacity {
+  will-change: opacity;
+}
+
+.will-change-auto {
+  will-change: auto;
+}

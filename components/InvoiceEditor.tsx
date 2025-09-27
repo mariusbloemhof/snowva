@@ -355,15 +355,15 @@ export const InvoiceEditor: React.FC = () => {
   return (
     <>
       {blocker.state === "blocked" && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50 p-4">
-          <div className="bg-white p-6 rounded-lg shadow-xl w-full max-w-lg">
+        <div className="modal-backdrop">
+          <div className="card card-elevated w-full max-w-lg">
             <h3 className="text-lg font-bold mb-2 text-slate-900">Unsaved Changes</h3>
             <p className="text-sm text-slate-600 mb-4">
               You have unsaved changes. Are you sure you want to leave without saving?
             </p>
             <div className="mt-6 flex justify-end space-x-4">
-              <button onClick={() => blocker.reset?.()} className="rounded-md bg-white px-3 py-2 text-sm font-semibold text-slate-900 shadow-sm ring-1 ring-inset ring-slate-300 hover:bg-slate-50">Stay</button>
-              <button onClick={() => blocker.proceed?.()} className="rounded-md bg-red-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-red-500">Leave</button>
+              <button onClick={() => blocker.reset?.()} className="button-secondary">Stay</button>
+              <button onClick={() => blocker.proceed?.()} className="button-danger">Leave</button>
             </div>
           </div>
         </div>
@@ -387,8 +387,8 @@ export const InvoiceEditor: React.FC = () => {
             </div>
           </div>
           <div className="flex items-center justify-end space-x-3 mt-4 sm:mt-0">
-            <button type="button" onClick={handleCancel} className="rounded-md bg-white px-3 py-2 text-sm font-semibold text-slate-900 shadow-sm ring-1 ring-inset ring-slate-300 hover:bg-slate-50">Cancel</button>
-            <button type="button" onClick={saveInvoice} className="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Save Draft</button>
+            <button type="button" onClick={handleCancel} className="button-secondary">Cancel</button>
+            <button type="button" onClick={saveInvoice} className="button-primary">Save Draft</button>
             <button type="button" onClick={finalizeInvoice} className="inline-flex items-center gap-x-2 rounded-md bg-green-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-green-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-green-600">
               <CheckCircleIcon className="w-5 h-5"/> <span>Finalize Invoice</span>
             </button>
@@ -430,13 +430,13 @@ export const InvoiceEditor: React.FC = () => {
             <p className="mt-1 text-sm leading-6 text-slate-600">Add products to the invoice. The price will be determined based on the selected customer.</p>
             <div className="mt-10">
               <div className={`-mx-4 ring-1 ${errors.items ? 'ring-red-500' : 'ring-slate-200'} sm:mx-0 sm:rounded-lg`}>
-                <table className="min-w-full">
-                  <thead className="sr-only sm:table-header-group">
+                <table className="table-base">
+                  <thead className="table-header sr-only sm:table-header-group">
                     <tr>
-                      <th className="py-3 pl-4 pr-3 text-left text-sm font-semibold text-slate-900 sm:pl-6 w-1/2">Product</th>
-                      <th className="px-3 py-3 text-right text-sm font-semibold text-slate-900 w-[15%]">Quantity</th>
-                      <th className="px-3 py-3 text-right text-sm font-semibold text-slate-900 w-1/4">Unit Price</th>
-                      <th className="py-3 pl-3 pr-4 text-right text-sm font-semibold text-slate-900 sm:pr-6">Total</th>
+                      <th className="table-cell table-cell-header text-left w-1/2">Product</th>
+                      <th className="table-cell table-cell-header text-right w-[15%]">Quantity</th>
+                      <th className="table-cell table-cell-header text-right w-1/4">Unit Price</th>
+                      <th className="table-cell table-cell-header text-right">Total</th>
                       <th><span className="sr-only">Actions</span></th>
                     </tr>
                   </thead>
@@ -460,7 +460,7 @@ export const InvoiceEditor: React.FC = () => {
                           <span className="text-sm text-slate-700">R {(item.quantity * item.unitPrice).toFixed(2)}</span>
                         </td>
                         <td className="p-2 text-center">
-                          <button type="button" onClick={() => removeLineItem(index)} className="text-slate-400 hover:text-red-600 p-2"><TrashIcon className="w-5 h-5" /></button>
+                          <button type="button" onClick={() => removeLineItem(index)} className="button-ghost button-danger"><TrashIcon className="w-5 h-5" /></button>
                         </td>
                       </tr>
                     ))}

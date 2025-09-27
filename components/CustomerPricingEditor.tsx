@@ -102,9 +102,9 @@ export const CustomerPricingEditor: React.FC<CustomerPricingEditorProps> = ({ cu
 
     const getStatusBadge = (status: MergedPriceInfo['status']) => {
         switch (status) {
-            case 'inherited': return <span className="inline-flex items-center rounded-md bg-slate-50 px-2 py-1 text-xs font-medium text-slate-600 ring-1 ring-inset ring-slate-500/10">Inherited</span>;
-            case 'overridden': return <span className="inline-flex items-center rounded-md bg-yellow-50 px-2 py-1 text-xs font-medium text-yellow-800 ring-1 ring-inset ring-yellow-600/20">Overridden</span>;
-            case 'local': return <span className="inline-flex items-center rounded-md bg-blue-50 px-2 py-1 text-xs font-medium text-blue-700 ring-1 ring-inset ring-blue-700/10">Custom</span>;
+            case 'inherited': return <span className="status-badge status-neutral">Inherited</span>;
+            case 'overridden': return <span className="status-badge status-warning">Overridden</span>;
+            case 'local': return <span className="status-badge status-info">Custom</span>;
         }
     };
     
@@ -115,7 +115,7 @@ export const CustomerPricingEditor: React.FC<CustomerPricingEditorProps> = ({ cu
              <div className="flow-root">
                 <div className="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
                     <div className="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8">
-                        <table className="min-w-full divide-y divide-slate-300">
+                        <table className="table-base">
                             <thead>
                                 <tr>
                                     <th scope="col" className="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-slate-900 sm:pl-0">Product</th>

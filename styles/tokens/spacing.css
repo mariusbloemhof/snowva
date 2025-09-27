@@ -1,0 +1,197 @@
+/**
+ * Spacing Design Tokens
+ * 
+ * Snowva Business Hub - Centralized Design System
+ * Follows Design Tokens Community Group (DTCG) specification
+ * 
+ * Structure:
+ * 1. Base Scale (4px increment system)
+ * 2. Semantic Spacing (component-specific)
+ * 3. Layout Spacing (page-level layout)
+ * 4. Responsive Adjustments
+ */
+
+:root {
+  /* ========================================
+     BASE SPACING SCALE
+     4px base increment system for consistency
+     ======================================== */
+  
+  --space-0: 0;
+  --space-1: 0.25rem;  /* 4px */
+  --space-2: 0.5rem;   /* 8px */
+  --space-3: 0.75rem;  /* 12px */
+  --space-4: 1rem;     /* 16px */
+  --space-5: 1.25rem;  /* 20px */
+  --space-6: 1.5rem;   /* 24px */
+  --space-8: 2rem;     /* 32px */
+  --space-10: 2.5rem;  /* 40px */
+  --space-12: 3rem;    /* 48px */
+  --space-16: 4rem;    /* 64px */
+  --space-20: 5rem;    /* 80px */
+  --space-24: 6rem;    /* 96px */
+  --space-32: 8rem;    /* 128px */
+  --space-40: 10rem;   /* 160px */
+  --space-48: 12rem;   /* 192px */
+  --space-56: 14rem;   /* 224px */
+  --space-64: 16rem;   /* 256px */
+
+  /* ========================================
+     SEMANTIC SPACING
+     Component-specific spacing assignments
+     ======================================== */
+  
+  /* Button spacing */
+  --button-padding-x: var(--space-4);      /* 16px horizontal */
+  --button-padding-y: var(--space-3);      /* 12px vertical */
+  --button-padding-x-sm: var(--space-3);   /* 12px small button horizontal */
+  --button-padding-y-sm: var(--space-2);   /* 8px small button vertical */
+  --button-padding-x-lg: var(--space-6);   /* 24px large button horizontal */
+  --button-padding-y-lg: var(--space-4);   /* 16px large button vertical */
+  --button-gap: var(--space-2);            /* 8px gap between buttons */
+
+  /* Form spacing */
+  --form-field-gap: var(--space-4);        /* 16px between form fields */
+  --form-label-gap: var(--space-2);        /* 8px label to input */
+  --form-input-padding-x: var(--space-3);  /* 12px input horizontal padding */
+  --form-input-padding-y: var(--space-3);  /* 12px input vertical padding */
+  --form-group-gap: var(--space-6);        /* 24px between form groups */
+  --form-section-gap: var(--space-8);      /* 32px between form sections */
+
+  /* Card spacing */
+  --card-padding: var(--space-6);          /* 24px card internal padding */
+  --card-padding-sm: var(--space-4);       /* 16px small card padding */
+  --card-padding-lg: var(--space-8);       /* 32px large card padding */
+  --card-gap: var(--space-4);              /* 16px between cards */
+  --card-header-gap: var(--space-4);       /* 16px header to content */
+
+  /* Table spacing */
+  --table-cell-padding-x: var(--space-3);  /* 12px table cell horizontal */
+  --table-cell-padding-y: var(--space-3);  /* 12px table cell vertical */
+  --table-header-padding-y: var(--space-4); /* 16px table header vertical */
+  --table-row-gap: var(--space-2);         /* 8px between table rows */
+
+  /* Modal spacing */
+  --modal-padding: var(--space-6);         /* 24px modal content padding */
+  --modal-header-gap: var(--space-4);      /* 16px modal header to body */
+  --modal-footer-gap: var(--space-6);      /* 24px modal body to footer */
+  --modal-button-gap: var(--space-3);      /* 12px between modal buttons */
+
+  /* Navigation spacing */
+  --nav-item-padding-x: var(--space-4);    /* 16px nav item horizontal */
+  --nav-item-padding-y: var(--space-3);    /* 12px nav item vertical */
+  --nav-item-gap: var(--space-2);          /* 8px between nav items */
+  --breadcrumb-gap: var(--space-2);        /* 8px between breadcrumb items */
+
+  /* ========================================
+     LAYOUT SPACING
+     Page and section level spacing
+     ======================================== */
+  
+  /* Page layout */
+  --page-padding: var(--space-6);          /* 24px page edges */
+  --page-padding-mobile: var(--space-4);   /* 16px mobile page edges */
+  --page-header-gap: var(--space-8);       /* 32px page header to content */
+  --page-section-gap: var(--space-12);     /* 48px between page sections */
+  --page-content-gap: var(--space-6);      /* 24px general content spacing */
+
+  /* Container spacing */
+  --container-padding: var(--space-4);     /* 16px container internal padding */
+  --container-gap: var(--space-6);         /* 24px between containers */
+  --container-margin: var(--space-8);      /* 32px container external margins */
+
+  /* List spacing */
+  --list-item-gap: var(--space-3);         /* 12px between list items */
+  --list-item-padding: var(--space-4);     /* 16px list item internal padding */
+  --list-section-gap: var(--space-6);      /* 24px between list sections */
+
+  /* Grid spacing */
+  --grid-gap: var(--space-4);              /* 16px grid gap */
+  --grid-gap-sm: var(--space-2);           /* 8px small grid gap */
+  --grid-gap-lg: var(--space-6);           /* 24px large grid gap */
+
+  /* ========================================
+     COMPONENT STATE SPACING
+     Hover, focus, active state adjustments
+     ======================================== */
+  
+  /* Focus ring spacing */
+  --focus-ring-offset: var(--space-1);     /* 4px focus ring offset */
+  --focus-ring-width: 2px;                 /* 2px focus ring width */
+
+  /* Loading state spacing */
+  --loading-spinner-gap: var(--space-3);   /* 12px spinner to text gap */
+  
+  /* Status indicator spacing */
+  --status-badge-padding-x: var(--space-2); /* 8px status badge horizontal */
+  --status-badge-padding-y: var(--space-1); /* 4px status badge vertical */
+  --status-icon-gap: var(--space-2);        /* 8px status icon to text */
+
+  /* ========================================
+     NEGATIVE SPACING
+     For overlapping elements and adjustments
+     ======================================== */
+  
+  --space-n1: -0.25rem;  /* -4px */
+  --space-n2: -0.5rem;   /* -8px */
+  --space-n3: -0.75rem;  /* -12px */
+  --space-n4: -1rem;     /* -16px */
+  --space-n6: -1.5rem;   /* -24px */
+  --space-n8: -2rem;     /* -32px */
+
+  /* ========================================
+     RESPONSIVE SPACING ADJUSTMENTS
+     Mobile-first responsive spacing
+     ======================================== */
+  
+  /* Mobile spacing reductions */
+  --space-responsive-xs: var(--space-2);   /* 8px on mobile */
+  --space-responsive-sm: var(--space-3);   /* 12px on mobile */
+  --space-responsive-md: var(--space-4);   /* 16px on mobile */
+  --space-responsive-lg: var(--space-6);   /* 24px on mobile */
+}
+
+/* ========================================
+   RESPONSIVE BREAKPOINT ADJUSTMENTS
+   Increase spacing on larger screens
+   ======================================== */
+
+@media (min-width: 768px) {
+  :root {
+    --page-padding: var(--space-8);        /* 32px on tablet+ */
+    --page-header-gap: var(--space-12);    /* 48px on tablet+ */
+    --page-section-gap: var(--space-16);   /* 64px on tablet+ */
+    
+    --space-responsive-xs: var(--space-3); /* 12px on tablet+ */
+    --space-responsive-sm: var(--space-4); /* 16px on tablet+ */
+    --space-responsive-md: var(--space-6); /* 24px on tablet+ */
+    --space-responsive-lg: var(--space-8); /* 32px on tablet+ */
+  }
+}
+
+@media (min-width: 1024px) {
+  :root {
+    --page-padding: var(--space-12);       /* 48px on desktop+ */
+    --page-header-gap: var(--space-16);    /* 64px on desktop+ */
+    --page-section-gap: var(--space-20);   /* 80px on desktop+ */
+    
+    --space-responsive-xs: var(--space-4); /* 16px on desktop+ */
+    --space-responsive-sm: var(--space-6); /* 24px on desktop+ */
+    --space-responsive-md: var(--space-8); /* 32px on desktop+ */
+    --space-responsive-lg: var(--space-12);/* 48px on desktop+ */
+  }
+}
+
+/* ========================================
+   PRINT SPACING ADJUSTMENTS
+   Optimize spacing for print layouts
+   ======================================== */
+
+@media print {
+  :root {
+    --page-padding: var(--space-4);        /* 16px print margins */
+    --page-section-gap: var(--space-6);    /* 24px print section gaps */
+    --card-padding: var(--space-4);        /* 16px print card padding */
+    --table-cell-padding-y: var(--space-2); /* 8px print table cells */
+  }
+}

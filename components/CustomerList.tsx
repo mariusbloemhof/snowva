@@ -185,7 +185,7 @@ export const CustomerList: React.FC = () => {
                     </div>
                 </td>
                 <td className="whitespace-nowrap px-3 py-4 text-sm text-slate-500">
-                    <span className={`inline-flex items-center rounded-md px-2 py-1 text-xs font-medium ring-1 ring-inset ${
+                    <span className={`status-badge ${
                         customer.type === CustomerType.B2B ? 'bg-blue-50 text-blue-700 ring-blue-600/20' : 'bg-green-50 text-green-700 ring-green-600/20'
                     }`}>
                         {customer.type}
@@ -195,8 +195,8 @@ export const CustomerList: React.FC = () => {
                 <td className="whitespace-nowrap px-3 py-4 text-sm text-slate-500">{customer.contactEmail || 'N/A'}</td>
                 <td className="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium">
                   <div className="flex items-center justify-end space-x-4">
-                    <button onClick={() => handleEdit(customer)} className="text-indigo-600 hover:text-indigo-900"><PencilIcon className="w-5 h-5" /></button>
-                    <button className="text-slate-400 hover:text-red-600"><TrashIcon className="w-5 h-5" /></button>
+                    <button onClick={() => handleEdit(customer)} className="button-ghost"><PencilIcon className="w-5 h-5" /></button>
+                    <button className="button-danger button-ghost"><TrashIcon className="w-5 h-5" /></button>
                   </div>
                 </td>
               </tr>
@@ -246,13 +246,13 @@ export const CustomerList: React.FC = () => {
                 placeholder="Search customers..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                className="block w-full rounded-md border-0 py-1.5 pl-10 pr-3 text-slate-900 ring-1 ring-inset ring-slate-300 placeholder:text-slate-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                className="form-input pl-10"
             />
         </div>
         <select
             value={filterType}
             onChange={(e) => setFilterType(e.target.value as CustomerType | 'all')}
-            className="block w-full md:w-auto rounded-md border-0 py-1.5 px-3 text-slate-900 ring-1 ring-inset ring-slate-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+            className="form-input w-full md:w-auto"
         >
             <option value="all">All Types</option>
             <option value={CustomerType.B2B}>Retail</option>
@@ -262,7 +262,7 @@ export const CustomerList: React.FC = () => {
       <div className="mt-8 flow-root">
         <div className="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
             <div className="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8">
-                <table className="min-w-full divide-y divide-slate-300">
+                <table className="table-base">
                     <thead>
                         <tr>
                         <SortableHeader columnKey="name" title="Name" />

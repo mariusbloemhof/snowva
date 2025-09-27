@@ -156,7 +156,7 @@ export const InvoiceList: React.FC = () => {
             <div className="mt-8 flow-root">
                 <div className="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
                     <div className="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8">
-                        <table className="min-w-full divide-y divide-slate-300">
+                        <table className="table-base">
                             <thead>
                                 <tr>
                                     <th scope="col" className="py-3 pl-4 pr-3 text-left text-sm font-semibold text-slate-900 sm:pl-0">Invoice #</th>
@@ -185,7 +185,7 @@ export const InvoiceList: React.FC = () => {
                                         <td className="whitespace-nowrap px-3 py-3.5 text-small text-slate-500">{dateUtils.toDisplayString(invoice.issueDate)}</td>
                                         <td className="whitespace-nowrap px-3 py-3.5 text-sm text-slate-500">R {calculateBalanceDue(invoice, payments).toFixed(2)}</td>
                                         <td className="whitespace-nowrap px-3 py-3.5 text-sm text-slate-500">
-                                            <span className={`inline-flex items-center rounded-md px-2 py-1 text-xs font-medium ring-1 ring-inset ${getStatusClass(invoice.status)}`}>
+                                            <span className={`status-badge ${getStatusClass(invoice.status)}`}>
                                                 {invoice.status}
                                             </span>
                                         </td>

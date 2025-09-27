@@ -1,0 +1,369 @@
+/**
+ * Theme Toggle Component Styles
+ * 
+ * Snowva Business Hub - Centralized Design System
+ * Styles for theme switching UI components
+ * 
+ * Components:
+ * - .theme-toggle (icon button)
+ * - .theme-toggle-text (text button)
+ * - .theme-selector (dropdown)
+ * - .theme-indicator (status dot)
+ * - .auto-theme-toggle (auto mode switch)
+ */
+
+/* ========================================
+   THEME TOGGLE BUTTON
+   ======================================== */
+
+.theme-toggle {
+  /* Base styles */
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  border-radius: var(--border-radius-md);
+  transition: var(--transition-button);
+  
+  /* Focus styles */
+  &:focus-visible {
+    outline: var(--border-width-thick) solid var(--color-accent-primary);
+    outline-offset: var(--spacing-xs);
+  }
+  
+  /* Hover styles */
+  &:hover {
+    background-color: var(--color-background-hover);
+  }
+  
+  /* Active styles */
+  &:active {
+    background-color: var(--color-background-active);
+    transform: translateY(1px);
+  }
+  
+  /* Disabled styles */
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+}
+
+/* Theme toggle sizes */
+.theme-toggle-small {
+  padding: var(--spacing-xs);
+  
+  .theme-toggle-icon {
+    width: var(--spacing-md);
+    height: var(--spacing-md);
+  }
+}
+
+.theme-toggle-medium {
+  padding: var(--spacing-sm);
+  
+  .theme-toggle-icon {
+    width: var(--spacing-lg);
+    height: var(--spacing-lg);
+  }
+}
+
+.theme-toggle-large {
+  padding: var(--spacing-md);
+  
+  .theme-toggle-icon {
+    width: var(--spacing-xl);
+    height: var(--spacing-xl);
+  }
+}
+
+/* Theme toggle icon */
+.theme-toggle-icon {
+  color: var(--color-text-secondary);
+  transition: var(--transition-fast);
+  
+  .theme-toggle:hover & {
+    color: var(--color-text-primary);
+  }
+}
+
+/* ========================================
+   THEME TOGGLE TEXT BUTTON
+   ======================================== */
+
+.theme-toggle-text {
+  /* Inherits from button-secondary */
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  
+  .theme-toggle-icon {
+    width: var(--spacing-md);
+    height: var(--spacing-md);
+  }
+}
+
+/* ========================================
+   THEME SELECTOR DROPDOWN
+   ======================================== */
+
+.theme-selector {
+  position: relative;
+  display: inline-block;
+}
+
+.theme-selector-small {
+  font-size: var(--font-size-sm);
+}
+
+.theme-selector-medium {
+  font-size: var(--font-size-base);
+}
+
+.theme-selector-large {
+  font-size: var(--font-size-lg);
+}
+
+.theme-selector-input {
+  /* Inherits from form-input */
+  min-width: 120px;
+  padding-right: var(--spacing-xl); /* Space for dropdown arrow */
+  
+  /* Custom dropdown arrow */
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='m6 8 4 4 4-4'/%3e%3c/svg%3e");
+  background-position: right var(--spacing-sm) center;
+  background-repeat: no-repeat;
+  background-size: 1.5em 1.5em;
+  
+  /* Remove default arrow */
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+}
+
+/* ========================================
+   THEME INDICATOR
+   ======================================== */
+
+.theme-indicator {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+}
+
+.theme-indicator-dot {
+  width: var(--spacing-sm);
+  height: var(--spacing-sm);
+  border-radius: var(--border-radius-full);
+  transition: var(--transition-fast);
+  border: var(--border-width-thin) solid var(--color-border-secondary);
+}
+
+.theme-indicator-light {
+  background-color: var(--color-warning-500);
+}
+
+.theme-indicator-dark {
+  background-color: var(--color-neutral-700);
+}
+
+.theme-indicator-high-contrast {
+  background-color: var(--color-text-primary);
+}
+
+.theme-indicator-auto {
+  background: linear-gradient(45deg, var(--color-warning-500) 50%, var(--color-neutral-700) 50%);
+}
+
+.theme-indicator-label {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-secondary);
+  font-weight: var(--font-weight-medium);
+  text-transform: capitalize;
+}
+
+/* ========================================
+   AUTO THEME TOGGLE SWITCH
+   ======================================== */
+
+.auto-theme-toggle {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xs);
+}
+
+.auto-theme-label {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  cursor: pointer;
+  font-size: var(--font-size-sm);
+  color: var(--color-text-primary);
+}
+
+.auto-theme-checkbox {
+  /* Screen reader only - handled by custom switch */
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.auto-theme-switch {
+  position: relative;
+  width: 44px;
+  height: 24px;
+  background-color: var(--color-neutral-200);
+  border-radius: var(--border-radius-full);
+  transition: var(--transition-base);
+  border: var(--border-width-thin) solid var(--color-border-secondary);
+  
+  /* Focus styles */
+  .auto-theme-checkbox:focus-visible + & {
+    outline: var(--border-width-thick) solid var(--color-accent-primary);
+    outline-offset: var(--spacing-xs);
+  }
+  
+  /* Checked state */
+  .auto-theme-checkbox:checked + & {
+    background-color: var(--color-primary-500);
+    border-color: var(--color-primary-500);
+  }
+  
+  /* Hover state */
+  .auto-theme-label:hover & {
+    background-color: var(--color-neutral-300);
+  }
+  
+  .auto-theme-checkbox:checked + .auto-theme-label:hover & {
+    background-color: var(--color-primary-600);
+  }
+}
+
+.auto-theme-switch-handle {
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 18px;
+  height: 18px;
+  background-color: var(--color-background-primary);
+  border-radius: var(--border-radius-full);
+  transition: var(--transition-base);
+  box-shadow: var(--shadow-sm);
+  
+  /* Checked state */
+  .auto-theme-checkbox:checked + .auto-theme-switch & {
+    transform: translateX(20px);
+  }
+}
+
+.auto-theme-text {
+  font-weight: var(--font-weight-medium);
+  user-select: none;
+}
+
+.auto-theme-description {
+  font-size: var(--font-size-xs);
+  color: var(--color-text-secondary);
+  margin-top: var(--spacing-xs);
+}
+
+/* ========================================
+   THEME TRANSITION EFFECTS
+   ======================================== */
+
+/* Smooth theme transitions */
+.theme-provider {
+  transition: 
+    background-color var(--transition-theme),
+    color var(--transition-theme),
+    border-color var(--transition-theme);
+}
+
+/* Theme-specific styles */
+.theme-provider[data-theme="light"] {
+  .theme-toggle-icon {
+    color: var(--color-warning-600);
+  }
+}
+
+.theme-provider[data-theme="dark"] {
+  .theme-toggle-icon {
+    color: var(--color-warning-400);
+  }
+  
+  .theme-selector-input {
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%9ca3af' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='m6 8 4 4 4-4'/%3e%3c/svg%3e");
+  }
+}
+
+/* ========================================
+   ACCESSIBILITY ENHANCEMENTS
+   ======================================== */
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  .theme-toggle,
+  .theme-selector-input {
+    border: var(--border-width-thick) solid var(--color-border-primary);
+  }
+  
+  .theme-indicator-dot {
+    border-width: var(--border-width-thick);
+  }
+  
+  .auto-theme-switch {
+    border-width: var(--border-width-thick);
+  }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  .theme-toggle,
+  .theme-toggle-icon,
+  .theme-indicator-dot,
+  .auto-theme-switch,
+  .auto-theme-switch-handle {
+    transition: none;
+  }
+}
+
+/* ========================================
+   RESPONSIVE DESIGN
+   ======================================== */
+
+@media (max-width: 640px) {
+  .theme-toggle-text {
+    .theme-toggle-icon {
+      display: none;
+    }
+  }
+  
+  .theme-selector-input {
+    min-width: 100px;
+    font-size: var(--font-size-sm);
+  }
+  
+  .auto-theme-label {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--spacing-xs);
+  }
+}
+
+/* ========================================
+   PRINT STYLES
+   ======================================== */
+
+@media print {
+  .theme-toggle,
+  .theme-selector,
+  .auto-theme-toggle {
+    display: none;
+  }
+  
+  .theme-indicator-label::after {
+    content: " Theme";
+  }
+}

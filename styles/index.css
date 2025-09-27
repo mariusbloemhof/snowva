@@ -1,0 +1,554 @@
+/**
+ * Snowva Business Hub - Main Stylesheet
+ * 
+ * Centralized Design System Implementation
+ * Following DTCG specification and constitutional requirements
+ * 
+ * Architecture:
+ * - Design tokens (CSS custom properties)
+ * - Theme system (light/dark mode)
+ * - Component system (semantic classes)
+ * - Status system (accessible colors)
+ * - Utility classes (layout only)
+ * 
+ * Performance: <20KB bundle size requirement
+ * Accessibility: WCAG AA compliance
+ * Browser Support: Modern browsers with CSS custom properties
+ */
+
+/* ========================================
+   ALL IMPORTS MUST COME FIRST
+   ======================================== */
+
+/* Import foundational design tokens */
+@import './tokens/colors.css';
+@import './tokens/spacing.css';
+@import './tokens/typography.css';
+@import './tokens/shadows.css';
+@import './tokens/borders.css';
+@import './tokens/transitions.css';
+
+/* Import theme configurations */
+@import './themes/light.css';
+@import './themes/dark.css';
+
+/* Import component styles */
+@import './components/buttons.css';
+@import './components/forms.css';
+@import './components/tables.css';
+@import './components/cards.css';
+@import './components/status-badges.css';
+@import './components/navigation.css';
+@import './components/modals.css';
+@import './components/layouts.css';
+@import './components/theme-toggle.css';
+
+/* ========================================
+   THEME SYSTEM
+   ======================================== */
+
+/* Theme provider base styles */
+.theme-provider {
+  /* Ensure smooth theme transitions */
+  transition: 
+    background-color var(--transition-theme),
+    color var(--transition-theme),
+    border-color var(--transition-theme);
+  
+  /* Apply theme colors */
+  background-color: var(--color-background-primary);
+  color: var(--color-text-primary);
+  
+  /* Full viewport coverage */
+  min-height: 100vh;
+  
+  /* Typography base */
+  font-family: var(--font-family-base);
+  font-size: var(--font-size-base);
+  line-height: var(--line-height-base);
+  
+  /* Smooth font rendering */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ========================================
+   GLOBAL RESET & BASE STYLES
+   ======================================== */
+
+/* Modern CSS reset */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  /* Prevent font size inflation */
+  -webkit-text-size-adjust: 100%;
+  /* Smooth scrolling */
+  scroll-behavior: smooth;
+}
+
+body {
+  /* Remove default margins */
+  margin: 0;
+  /* Prevent horizontal overflow */
+  overflow-x: hidden;
+  /* Better text rendering */
+  text-rendering: optimizeSpeed;
+}
+
+/* Remove list styles on ul, ol elements with a list role */
+ul[role='list'],
+ol[role='list'] {
+  list-style: none;
+}
+
+/* Set core body defaults */
+body {
+  min-height: 100vh;
+  line-height: 1.5;
+}
+
+/* Make images easier to work with */
+img,
+picture {
+  max-width: 100%;
+  display: block;
+}
+
+/* Inherit fonts for inputs and buttons */
+input,
+button,
+textarea,
+select {
+  font: inherit;
+}
+
+/* Remove default button styles */
+button {
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+/* Remove default link styles */
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+/* Focus styles */
+:focus-visible {
+  outline: var(--border-width-thick) solid var(--color-accent-primary);
+  outline-offset: var(--spacing-xs);
+}
+
+/* ========================================
+   STATUS SYSTEM
+   ======================================== */
+
+/* Status color CSS custom properties */
+:root {
+  /* Document Status Colors */
+  --status-draft-text: #374151;
+  --status-draft-bg: #f3f4f6;
+  --status-draft-border: #d1d5db;
+  --status-draft-text-hover: #111827;
+  --status-draft-bg-hover: #e5e7eb;
+  --status-draft-border-hover: #9ca3af;
+
+  --status-finalized-text: #1d4ed8;
+  --status-finalized-bg: #dbeafe;
+  --status-finalized-border: #93c5fd;
+  --status-finalized-text-hover: #1e3a8a;
+  --status-finalized-bg-hover: #bfdbfe;
+  --status-finalized-border-hover: #60a5fa;
+
+  --status-partially-paid-text: #b45309;
+  --status-partially-paid-bg: #fef3c7;
+  --status-partially-paid-border: #fcd34d;
+  --status-partially-paid-text-hover: #92400e;
+  --status-partially-paid-bg-hover: #fde68a;
+  --status-partially-paid-border-hover: #f59e0b;
+
+  --status-paid-text: #15803d;
+  --status-paid-bg: #dcfce7;
+  --status-paid-border: #86efac;
+  --status-paid-text-hover: #166534;
+  --status-paid-bg-hover: #bbf7d0;
+  --status-paid-border-hover: #4ade80;
+
+  --status-overdue-text: #b91c1c;
+  --status-overdue-bg: #fee2e2;
+  --status-overdue-border: #fca5a5;
+  --status-overdue-text-hover: #991b1b;
+  --status-overdue-bg-hover: #fecaca;
+  --status-overdue-border-hover: #f87171;
+
+  --status-void-text: #4b5563;
+  --status-void-bg: #f3f4f6;
+  --status-void-border: #d1d5db;
+  --status-void-text-hover: #374151;
+  --status-void-bg-hover: #e5e7eb;
+  --status-void-border-hover: #9ca3af;
+
+  /* Priority Status Colors */
+  --status-priority-low-text: #4b5563;
+  --status-priority-low-bg: #f3f4f6;
+  --status-priority-low-border: #d1d5db;
+
+  --status-priority-medium-text: #1d4ed8;
+  --status-priority-medium-bg: #dbeafe;
+  --status-priority-medium-border: #93c5fd;
+
+  --status-priority-high-text: #b45309;
+  --status-priority-high-bg: #fef3c7;
+  --status-priority-high-border: #fcd34d;
+
+  --status-priority-urgent-text: #b91c1c;
+  --status-priority-urgent-bg: #fee2e2;
+  --status-priority-urgent-border: #fca5a5;
+
+  /* Processing Status Colors */
+  --status-processing-text: #1d4ed8;
+  --status-processing-bg: #dbeafe;
+  --status-processing-border: #93c5fd;
+
+  --status-completed-text: #15803d;
+  --status-completed-bg: #dcfce7;
+  --status-completed-border: #86efac;
+
+  --status-error-text: #b91c1c;
+  --status-error-bg: #fee2e2;
+  --status-error-border: #fca5a5;
+}
+
+/* Dark theme status color overrides */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --status-draft-text: rgb(168, 187, 208);
+    --status-draft-bg: rgb(73, 80, 87);
+    --status-draft-border: rgb(108, 117, 125);
+
+    --status-finalized-text: rgb(176, 196, 222);
+    --status-finalized-bg: rgb(66, 103, 178);
+    --status-finalized-border: rgb(99, 137, 187);
+
+    --status-partially-paid-text: rgb(255, 193, 7);
+    --status-partially-paid-bg: rgb(180, 83, 9);
+    --status-partially-paid-border: rgb(252, 211, 77);
+
+    --status-paid-text: rgb(144, 238, 144);
+    --status-paid-bg: rgb(21, 128, 61);
+    --status-paid-border: rgb(134, 239, 172);
+
+    --status-overdue-text: rgb(248, 113, 113);
+    --status-overdue-bg: rgb(185, 28, 28);
+    --status-overdue-border: rgb(252, 165, 165);
+
+    --status-void-text: rgb(156, 163, 175);
+    --status-void-bg: rgb(75, 85, 99);
+    --status-void-border: rgb(107, 114, 128);
+  }
+}
+
+/* ========================================
+   UTILITY CLASSES (LAYOUT ONLY)
+   ======================================== */
+
+/* Flexbox utilities */
+.flex { display: flex; }
+.flex-col { flex-direction: column; }
+.flex-row { flex-direction: row; }
+.flex-wrap { flex-wrap: wrap; }
+.flex-nowrap { flex-wrap: nowrap; }
+
+.justify-start { justify-content: flex-start; }
+.justify-center { justify-content: center; }
+.justify-end { justify-content: flex-end; }
+.justify-between { justify-content: space-between; }
+.justify-around { justify-content: space-around; }
+
+.items-start { align-items: flex-start; }
+.items-center { align-items: center; }
+.items-end { align-items: flex-end; }
+.items-stretch { align-items: stretch; }
+
+.flex-1 { flex: 1 1 0%; }
+.flex-auto { flex: 1 1 auto; }
+.flex-none { flex: none; }
+
+/* Grid utilities */
+.grid { display: grid; }
+.grid-cols-1 { grid-template-columns: repeat(1, minmax(0, 1fr)); }
+.grid-cols-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.grid-cols-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.grid-cols-4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+.grid-cols-12 { grid-template-columns: repeat(12, minmax(0, 1fr)); }
+
+.gap-1 { gap: var(--spacing-xs); }
+.gap-2 { gap: var(--spacing-sm); }
+.gap-3 { gap: var(--spacing-md); }
+.gap-4 { gap: var(--spacing-lg); }
+.gap-6 { gap: var(--spacing-xl); }
+.gap-8 { gap: var(--spacing-2xl); }
+
+/* Spacing utilities */
+.m-0 { margin: 0; }
+.m-1 { margin: var(--spacing-xs); }
+.m-2 { margin: var(--spacing-sm); }
+.m-3 { margin: var(--spacing-md); }
+.m-4 { margin: var(--spacing-lg); }
+.m-6 { margin: var(--spacing-xl); }
+.m-8 { margin: var(--spacing-2xl); }
+
+.mt-0 { margin-top: 0; }
+.mt-1 { margin-top: var(--spacing-xs); }
+.mt-2 { margin-top: var(--spacing-sm); }
+.mt-3 { margin-top: var(--spacing-md); }
+.mt-4 { margin-top: var(--spacing-lg); }
+.mt-6 { margin-top: var(--spacing-xl); }
+.mt-8 { margin-top: var(--spacing-2xl); }
+
+.mr-0 { margin-right: 0; }
+.mr-1 { margin-right: var(--spacing-xs); }
+.mr-2 { margin-right: var(--spacing-sm); }
+.mr-3 { margin-right: var(--spacing-md); }
+.mr-4 { margin-right: var(--spacing-lg); }
+.mr-6 { margin-right: var(--spacing-xl); }
+.mr-8 { margin-right: var(--spacing-2xl); }
+
+.mb-0 { margin-bottom: 0; }
+.mb-1 { margin-bottom: var(--spacing-xs); }
+.mb-2 { margin-bottom: var(--spacing-sm); }
+.mb-3 { margin-bottom: var(--spacing-md); }
+.mb-4 { margin-bottom: var(--spacing-lg); }
+.mb-6 { margin-bottom: var(--spacing-xl); }
+.mb-8 { margin-bottom: var(--spacing-2xl); }
+
+.ml-0 { margin-left: 0; }
+.ml-1 { margin-left: var(--spacing-xs); }
+.ml-2 { margin-left: var(--spacing-sm); }
+.ml-3 { margin-left: var(--spacing-md); }
+.ml-4 { margin-left: var(--spacing-lg); }
+.ml-6 { margin-left: var(--spacing-xl); }
+.ml-8 { margin-left: var(--spacing-2xl); }
+
+.p-0 { padding: 0; }
+.p-1 { padding: var(--spacing-xs); }
+.p-2 { padding: var(--spacing-sm); }
+.p-3 { padding: var(--spacing-md); }
+.p-4 { padding: var(--spacing-lg); }
+.p-6 { padding: var(--spacing-xl); }
+.p-8 { padding: var(--spacing-2xl); }
+
+.pt-0 { padding-top: 0; }
+.pt-1 { padding-top: var(--spacing-xs); }
+.pt-2 { padding-top: var(--spacing-sm); }
+.pt-3 { padding-top: var(--spacing-md); }
+.pt-4 { padding-top: var(--spacing-lg); }
+.pt-6 { padding-top: var(--spacing-xl); }
+.pt-8 { padding-top: var(--spacing-2xl); }
+
+.pr-0 { padding-right: 0; }
+.pr-1 { padding-right: var(--spacing-xs); }
+.pr-2 { padding-right: var(--spacing-sm); }
+.pr-3 { padding-right: var(--spacing-md); }
+.pr-4 { padding-right: var(--spacing-lg); }
+.pr-6 { padding-right: var(--spacing-xl); }
+.pr-8 { padding-right: var(--spacing-2xl); }
+
+.pb-0 { padding-bottom: 0; }
+.pb-1 { padding-bottom: var(--spacing-xs); }
+.pb-2 { padding-bottom: var(--spacing-sm); }
+.pb-3 { padding-bottom: var(--spacing-md); }
+.pb-4 { padding-bottom: var(--spacing-lg); }
+.pb-6 { padding-bottom: var(--spacing-xl); }
+.pb-8 { padding-bottom: var(--spacing-2xl); }
+
+.pl-0 { padding-left: 0; }
+.pl-1 { padding-left: var(--spacing-xs); }
+.pl-2 { padding-left: var(--spacing-sm); }
+.pl-3 { padding-left: var(--spacing-md); }
+.pl-4 { padding-left: var(--spacing-lg); }
+.pl-6 { padding-left: var(--spacing-xl); }
+.pl-8 { padding-left: var(--spacing-2xl); }
+
+/* Positioning utilities */
+.relative { position: relative; }
+.absolute { position: absolute; }
+.fixed { position: fixed; }
+.sticky { position: sticky; }
+
+.top-0 { top: 0; }
+.right-0 { right: 0; }
+.bottom-0 { bottom: 0; }
+.left-0 { left: 0; }
+
+/* Display utilities */
+.block { display: block; }
+.inline { display: inline; }
+.inline-block { display: inline-block; }
+.hidden { display: none; }
+
+/* Overflow utilities */
+.overflow-hidden { overflow: hidden; }
+.overflow-auto { overflow: auto; }
+.overflow-scroll { overflow: scroll; }
+
+/* Width utilities */
+.w-full { width: 100%; }
+.w-auto { width: auto; }
+.w-fit { width: fit-content; }
+
+/* Height utilities */
+.h-full { height: 100%; }
+.h-auto { height: auto; }
+.h-fit { height: fit-content; }
+.min-h-screen { min-height: 100vh; }
+
+/* Text utilities */
+.text-center { text-align: center; }
+.text-left { text-align: left; }
+.text-right { text-align: right; }
+
+/* ========================================
+   ACCESSIBILITY IMPROVEMENTS
+   ======================================== */
+
+/* Screen reader only content */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* Skip link for keyboard navigation */
+.skip-link {
+  position: absolute;
+  top: -40px;
+  left: 6px;
+  background: var(--color-background-primary);
+  color: var(--color-text-primary);
+  padding: var(--spacing-sm) var(--spacing-md);
+  border-radius: var(--border-radius-sm);
+  z-index: 1000;
+  text-decoration: none;
+  border: var(--border-width-thin) solid var(--color-border-primary);
+}
+
+.skip-link:focus {
+  top: 6px;
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  :root {
+    --color-text-primary: #000000;
+    --color-background-primary: #ffffff;
+    --color-border-primary: #000000;
+  }
+  
+  .theme-provider[data-theme="dark"] {
+    --color-text-primary: #ffffff;
+    --color-background-primary: #000000;
+    --color-border-primary: #ffffff;
+  }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* ========================================
+   PRINT STYLES
+   ======================================== */
+
+@media print {
+  /* Reset colors for print */
+  * {
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+  
+  /* Hide non-essential elements */
+  .no-print,
+  .button-primary,
+  .button-secondary,
+  .navigation,
+  .modal-backdrop {
+    display: none !important;
+  }
+  
+  /* Ensure page breaks */
+  .page-break {
+    page-break-before: always;
+  }
+  
+  /* Typography for print */
+  body {
+    font-size: 12pt;
+    line-height: 1.4;
+  }
+  
+  h1 { font-size: 18pt; }
+  h2 { font-size: 16pt; }
+  h3 { font-size: 14pt; }
+  h4 { font-size: 12pt; }
+}
+
+/* ========================================
+   RESPONSIVE DESIGN
+   ======================================== */
+
+/* Mobile first approach */
+@media (min-width: 640px) {
+  /* Small screens and up */
+  .sm\:flex { display: flex; }
+  .sm\:grid { display: grid; }
+  .sm\:hidden { display: none; }
+  .sm\:block { display: block; }
+}
+
+@media (min-width: 768px) {
+  /* Medium screens and up */
+  .md\:flex { display: flex; }
+  .md\:grid { display: grid; }
+  .md\:hidden { display: none; }
+  .md\:block { display: block; }
+  
+  .md\:grid-cols-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .md\:grid-cols-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
+
+@media (min-width: 1024px) {
+  /* Large screens and up */
+  .lg\:flex { display: flex; }
+  .lg\:grid { display: grid; }
+  .lg\:hidden { display: none; }
+  .lg\:block { display: block; }
+  
+  .lg\:grid-cols-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .lg\:grid-cols-4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+}

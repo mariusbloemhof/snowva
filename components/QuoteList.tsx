@@ -28,7 +28,7 @@ export const QuoteList: React.FC = () => {
             <div className="mt-8 flow-root">
                 <div className="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
                     <div className="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8">
-                        <table className="min-w-full divide-y divide-slate-300">
+                        <table className="table-base">
                             <thead>
                                 <tr>
                                     <th scope="col" className="py-3 pl-4 pr-3 text-left text-sm font-semibold text-slate-900 sm:pl-0">Quote #</th>
@@ -57,7 +57,7 @@ export const QuoteList: React.FC = () => {
                                         <td className="whitespace-nowrap px-3 py-3.5 text-sm text-slate-500">{dateUtils.toDisplayString(quote.date)}</td>
                                         <td className="whitespace-nowrap px-3 py-3.5 text-sm text-slate-500">R {calculateTotal(quote).toFixed(2)}</td>
                                         <td className="whitespace-nowrap px-3 py-3.5 text-sm text-slate-500">
-                                            <span className={`inline-flex items-center rounded-md px-2 py-1 text-xs font-medium ring-1 ring-inset ${
+                                            <span className={`status-badge ${
                                                 quote.status === DocumentStatus.ACCEPTED ? 'bg-green-50 text-green-700 ring-green-600/20' :
                                                 quote.status === DocumentStatus.REJECTED ? 'bg-red-50 text-red-700 ring-red-600/20' : 'bg-slate-50 text-slate-600 ring-slate-500/20'
                                             }`}>{quote.status}</span>

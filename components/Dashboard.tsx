@@ -28,7 +28,7 @@ const StatCard: React.FC<{
     const changeColor = changeType === 'up' ? 'text-green-500' : 'text-red-500';
 
     return (
-        <div className="bg-white p-5 rounded-2xl border border-slate-200/80 shadow-sm flex flex-col">
+        <div className="card flex flex-col">
             <div className="flex-1">
                 <div className="flex items-center gap-3">
                     <div className={`flex items-center justify-center h-11 w-11 rounded-lg ${iconBgColor}`}>
@@ -157,7 +157,7 @@ export const Dashboard: React.FC = () => {
                                         </div>
                                         <div className="text-right flex-shrink-0">
                                             <p className="font-medium text-slate-800">{formatCurrency(calculateTotal(inv))}</p>
-                                             <span className={`mt-1 inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium ${getStatusClass(inv.status)}`}>
+                                             <span className={`status-badge ${getStatusClass(inv.status)}`}>
                                                 {inv.status}
                                             </span>
                                         </div>
@@ -181,7 +181,7 @@ export const Dashboard: React.FC = () => {
                                         </div>
                                         <div className="text-right flex-shrink-0">
                                             <p className="font-medium text-slate-800">{formatCurrency(calculateTotal(q))}</p>
-                                             <span className={`mt-1 inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium ${getStatusClass(q.status)}`}>
+                                             <span className={`status-badge ${getStatusClass(q.status)}`}>
                                                 {q.status}
                                             </span>
                                         </div>

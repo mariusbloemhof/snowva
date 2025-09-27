@@ -90,7 +90,7 @@ export const PaymentPage: React.FC = () => {
                                             {result.type === 'invoice' && `Customer: ${customers.find(c => c.id === (result.data as Invoice).customerId)?.name}`}
                                         </p>
                                     </div>
-                                    <span className={`inline-flex items-center rounded-md px-2 py-1 text-xs font-medium ring-1 ring-inset ${result.type === 'customer' ? 'bg-blue-50 text-blue-700 ring-blue-600/20' : 'bg-green-50 text-green-700 ring-green-600/20'}`}>
+                                    <span className={`status-badge ${result.type === 'customer' ? 'status-info' : 'status-success'}`}>
                                         {result.type === 'customer' ? 'Customer' : 'Invoice'}
                                     </span>
                                 </li>

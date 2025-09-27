@@ -1,0 +1,671 @@
+/**
+ * Status Badge Component Styles
+ * 
+ * Snowva Business Hub - Centralized Design System
+ * Status badge classes for business entity indicators
+ * 
+ * Constitutional requirement: Centralized design system with semantic classes
+ */
+
+/* ========================================
+   BASE STATUS BADGE STYLES
+   ======================================== */
+
+.status-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-1);
+  padding: var(--spacing-1) var(--spacing-3);
+  border-radius: var(--border-radius-full);
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-medium);
+  text-transform: uppercase;
+  letter-spacing: 0.025em;
+  line-height: var(--line-height-tight);
+  border: var(--border-width-1) solid;
+  white-space: nowrap;
+  transition: var(--transition-colors);
+}
+
+.status-badge-sm {
+  padding: var(--spacing-0-5) var(--spacing-2);
+  font-size: var(--font-size-2xs);
+  gap: var(--spacing-0-5);
+}
+
+.status-badge-lg {
+  padding: var(--spacing-2) var(--spacing-4);
+  font-size: var(--font-size-sm);
+  gap: var(--spacing-1-5);
+}
+
+.status-badge-outline {
+  background: transparent;
+  border-width: var(--border-width-1);
+}
+
+.status-badge-solid {
+  border-color: transparent;
+}
+
+.status-badge-with-icon {
+  padding-left: var(--spacing-2);
+}
+
+/* ========================================
+   STATUS BADGE ICONS
+   ======================================== */
+
+.status-badge-icon {
+  width: var(--spacing-3);
+  height: var(--spacing-3);
+  flex-shrink: 0;
+}
+
+.status-badge-sm .status-badge-icon {
+  width: var(--spacing-2-5);
+  height: var(--spacing-2-5);
+}
+
+.status-badge-lg .status-badge-icon {
+  width: var(--spacing-4);
+  height: var(--spacing-4);
+}
+
+.status-badge-pulse .status-badge-icon {
+  animation: status-pulse 2s infinite;
+}
+
+@keyframes status-pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+/* ========================================
+   DOCUMENT STATUS BADGES (DocumentStatus enum)
+   ======================================== */
+
+/* Draft Status */
+.status-draft {
+  background: var(--color-gray-100);
+  color: var(--color-gray-700);
+  border-color: var(--color-gray-300);
+}
+
+.status-draft.status-badge-outline {
+  background: transparent;
+  color: var(--color-gray-600);
+  border-color: var(--color-gray-400);
+}
+
+.status-draft.status-badge-solid {
+  background: var(--color-gray-500);
+  color: var(--color-white);
+}
+
+/* Finalized Status */
+.status-finalized {
+  background: var(--color-primary-100);
+  color: var(--color-primary-700);
+  border-color: var(--color-primary-300);
+}
+
+.status-finalized.status-badge-outline {
+  background: transparent;
+  color: var(--color-primary-600);
+  border-color: var(--color-primary-400);
+}
+
+.status-finalized.status-badge-solid {
+  background: var(--color-primary-500);
+  color: var(--color-white);
+}
+
+/* Paid Status */
+.status-paid {
+  background: var(--color-success-100);
+  color: var(--color-success-700);
+  border-color: var(--color-success-300);
+}
+
+.status-paid.status-badge-outline {
+  background: transparent;
+  color: var(--color-success-600);
+  border-color: var(--color-success-400);
+}
+
+.status-paid.status-badge-solid {
+  background: var(--color-success-500);
+  color: var(--color-white);
+}
+
+/* Partially Paid Status */
+.status-partially-paid {
+  background: var(--color-warning-100);
+  color: var(--color-warning-700);
+  border-color: var(--color-warning-300);
+}
+
+.status-partially-paid.status-badge-outline {
+  background: transparent;
+  color: var(--color-warning-600);
+  border-color: var(--color-warning-400);
+}
+
+.status-partially-paid.status-badge-solid {
+  background: var(--color-warning-500);
+  color: var(--color-white);
+}
+
+/* Overdue Status */
+.status-overdue {
+  background: var(--color-danger-100);
+  color: var(--color-danger-700);
+  border-color: var(--color-danger-300);
+}
+
+.status-overdue.status-badge-outline {
+  background: transparent;
+  color: var(--color-danger-600);
+  border-color: var(--color-danger-400);
+}
+
+.status-overdue.status-badge-solid {
+  background: var(--color-danger-500);
+  color: var(--color-white);
+}
+
+/* Void Status */
+.status-void {
+  background: var(--color-gray-100);
+  color: var(--color-gray-600);
+  border-color: var(--color-gray-300);
+  text-decoration: line-through;
+  opacity: 0.7;
+}
+
+.status-void.status-badge-outline {
+  background: transparent;
+  color: var(--color-gray-500);
+  border-color: var(--color-gray-400);
+}
+
+.status-void.status-badge-solid {
+  background: var(--color-gray-400);
+  color: var(--color-white);
+}
+
+/* ========================================
+   CUSTOMER STATUS BADGES
+   ======================================== */
+
+.status-customer-active {
+  background: var(--color-success-100);
+  color: var(--color-success-700);
+  border-color: var(--color-success-300);
+}
+
+.status-customer-inactive {
+  background: var(--color-gray-100);
+  color: var(--color-gray-600);
+  border-color: var(--color-gray-300);
+}
+
+.status-customer-suspended {
+  background: var(--color-warning-100);
+  color: var(--color-warning-700);
+  border-color: var(--color-warning-300);
+}
+
+.status-customer-archived {
+  background: var(--color-gray-100);
+  color: var(--color-gray-500);
+  border-color: var(--color-gray-300);
+  opacity: 0.8;
+}
+
+/* ========================================
+   PAYMENT STATUS BADGES
+   ======================================== */
+
+.status-payment-pending {
+  background: var(--color-warning-100);
+  color: var(--color-warning-700);
+  border-color: var(--color-warning-300);
+}
+
+.status-payment-processing {
+  background: var(--color-primary-100);
+  color: var(--color-primary-700);
+  border-color: var(--color-primary-300);
+}
+
+.status-payment-completed {
+  background: var(--color-success-100);
+  color: var(--color-success-700);
+  border-color: var(--color-success-300);
+}
+
+.status-payment-failed {
+  background: var(--color-danger-100);
+  color: var(--color-danger-700);
+  border-color: var(--color-danger-300);
+}
+
+.status-payment-refunded {
+  background: var(--color-gray-100);
+  color: var(--color-gray-700);
+  border-color: var(--color-gray-300);
+}
+
+/* ========================================
+   PRODUCT STATUS BADGES
+   ======================================== */
+
+.status-product-active {
+  background: var(--color-success-100);
+  color: var(--color-success-700);
+  border-color: var(--color-success-300);
+}
+
+.status-product-discontinued {
+  background: var(--color-warning-100);
+  color: var(--color-warning-700);
+  border-color: var(--color-warning-300);
+}
+
+.status-product-out-of-stock {
+  background: var(--color-danger-100);
+  color: var(--color-danger-700);
+  border-color: var(--color-danger-300);
+}
+
+.status-product-low-stock {
+  background: var(--color-warning-100);
+  color: var(--color-warning-700);
+  border-color: var(--color-warning-300);
+}
+
+/* ========================================
+   QUOTE STATUS BADGES  
+   ======================================== */
+
+.status-quote-draft {
+  background: var(--color-gray-100);
+  color: var(--color-gray-700);
+  border-color: var(--color-gray-300);
+}
+
+.status-quote-sent {
+  background: var(--color-primary-100);
+  color: var(--color-primary-700);
+  border-color: var(--color-primary-300);
+}
+
+.status-quote-accepted {
+  background: var(--color-success-100);
+  color: var(--color-success-700);
+  border-color: var(--color-success-300);
+}
+
+.status-quote-rejected {
+  background: var(--color-danger-100);
+  color: var(--color-danger-700);
+  border-color: var(--color-danger-300);
+}
+
+.status-quote-expired {
+  background: var(--color-gray-100);
+  color: var(--color-gray-600);
+  border-color: var(--color-gray-300);
+  opacity: 0.7;
+}
+
+/* ========================================
+   PRIORITY STATUS BADGES
+   ======================================== */
+
+.status-priority-low {
+  background: var(--color-gray-100);
+  color: var(--color-gray-600);
+  border-color: var(--color-gray-300);
+}
+
+.status-priority-medium {
+  background: var(--color-primary-100);
+  color: var(--color-primary-700);
+  border-color: var(--color-primary-300);
+}
+
+.status-priority-high {
+  background: var(--color-warning-100);
+  color: var(--color-warning-700);
+  border-color: var(--color-warning-300);
+}
+
+.status-priority-urgent {
+  background: var(--color-danger-100);
+  color: var(--color-danger-700);
+  border-color: var(--color-danger-300);
+}
+
+/* ========================================
+   PROCESSING STATUS BADGES
+   ======================================== */
+
+.status-processing {
+  background: var(--color-primary-100);
+  color: var(--color-primary-700);
+  border-color: var(--color-primary-300);
+}
+
+.status-processing.status-badge-pulse {
+  animation: status-processing-pulse 1.5s infinite;
+}
+
+@keyframes status-processing-pulse {
+  0%, 100% {
+    background: var(--color-primary-100);
+    border-color: var(--color-primary-300);
+  }
+  50% {
+    background: var(--color-primary-200);
+    border-color: var(--color-primary-400);
+  }
+}
+
+.status-queued {
+  background: var(--color-gray-100);
+  color: var(--color-gray-700);
+  border-color: var(--color-gray-300);
+}
+
+.status-completed {
+  background: var(--color-success-100);
+  color: var(--color-success-700);
+  border-color: var(--color-success-300);
+}
+
+.status-error {
+  background: var(--color-danger-100);
+  color: var(--color-danger-700);
+  border-color: var(--color-danger-300);
+}
+
+/* ========================================
+   NUMERICAL STATUS BADGES
+   ======================================== */
+
+.status-badge-with-count {
+  background: var(--color-primary-100);
+  color: var(--color-primary-700);
+  border-color: var(--color-primary-300);
+  font-variant-numeric: tabular-nums;
+  font-weight: var(--font-weight-semibold);
+}
+
+.status-badge-count {
+  background: var(--color-primary-500);
+  color: var(--color-white);
+  font-size: var(--font-size-2xs);
+  padding: var(--spacing-0-5) var(--spacing-1-5);
+  border-radius: var(--border-radius-full);
+  margin-left: var(--spacing-1);
+  min-width: var(--spacing-5);
+  text-align: center;
+}
+
+.status-badge-count-danger {
+  background: var(--color-danger-500);
+}
+
+.status-badge-count-warning {
+  background: var(--color-warning-500);
+}
+
+.status-badge-count-success {
+  background: var(--color-success-500);
+}
+
+/* ========================================
+   INTERACTIVE STATUS BADGES
+   ======================================== */
+
+.status-badge-clickable {
+  cursor: pointer;
+  transition: var(--transition-all);
+}
+
+.status-badge-clickable:hover {
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-sm);
+}
+
+.status-badge-clickable:active {
+  transform: translateY(0);
+  box-shadow: none;
+}
+
+.status-badge-clickable:focus-visible {
+  outline: var(--border-width-2) solid var(--color-focus-ring);
+  outline-offset: 2px;
+}
+
+/* ========================================
+   STATUS BADGE GROUPS
+   ======================================== */
+
+.status-badge-group {
+  display: inline-flex;
+  gap: var(--spacing-2);
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.status-badge-stack {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-1);
+  align-items: flex-start;
+}
+
+.status-badge-list {
+  display: flex;
+  gap: var(--spacing-1);
+  flex-wrap: wrap;
+}
+
+/* ========================================
+   CONDITIONAL STATUS STYLING
+   ======================================== */
+
+.status-badge-conditional {
+  position: relative;
+}
+
+.status-badge-conditional::before {
+  content: '';
+  position: absolute;
+  top: -2px;
+  right: -2px;
+  width: var(--spacing-2);
+  height: var(--spacing-2);
+  border-radius: 50%;
+  border: var(--border-width-1) solid var(--color-background);
+}
+
+.status-badge-conditional.has-alert::before {
+  background: var(--color-danger-500);
+}
+
+.status-badge-conditional.has-warning::before {
+  background: var(--color-warning-500);
+}
+
+.status-badge-conditional.has-update::before {
+  background: var(--color-primary-500);
+}
+
+/* ========================================
+   DATE-BASED STATUS STYLING
+   ======================================== */
+
+.status-badge-due-soon {
+  background: var(--color-warning-100);
+  color: var(--color-warning-700);
+  border-color: var(--color-warning-300);
+  position: relative;
+}
+
+.status-badge-due-today {
+  background: var(--color-warning-200);
+  color: var(--color-warning-800);
+  border-color: var(--color-warning-400);
+  font-weight: var(--font-weight-semibold);
+}
+
+.status-badge-past-due {
+  background: var(--color-danger-100);
+  color: var(--color-danger-700);
+  border-color: var(--color-danger-300);
+}
+
+/* ========================================
+   BUSINESS-SPECIFIC STATUS COMBINATIONS
+   ======================================== */
+
+/* Invoice + Payment Status */
+.status-group-invoice {
+  display: flex;
+  gap: var(--spacing-1-5);
+  align-items: center;
+}
+
+.status-group-invoice .status-badge:first-child {
+  font-weight: var(--font-weight-semibold);
+}
+
+/* Customer + Account Status */
+.status-group-customer {
+  display: flex;
+  gap: var(--spacing-2);
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.status-group-customer .status-customer-type {
+  background: var(--color-primary-100);
+  color: var(--color-primary-700);
+  border-color: var(--color-primary-300);
+}
+
+.status-group-customer .status-customer-tier {
+  background: var(--color-purple-100);
+  color: var(--color-purple-700);
+  border-color: var(--color-purple-300);
+}
+
+/* ========================================
+   RESPONSIVE BEHAVIOR
+   ======================================== */
+
+@media (max-width: 640px) {
+  .status-badge {
+    font-size: var(--font-size-2xs);
+    padding: var(--spacing-1) var(--spacing-2);
+  }
+  
+  .status-badge-lg {
+    font-size: var(--font-size-xs);
+    padding: var(--spacing-1-5) var(--spacing-3);
+  }
+  
+  .status-badge-group {
+    gap: var(--spacing-1);
+  }
+  
+  .status-badge-list {
+    gap: var(--spacing-0-5);
+  }
+  
+  .status-group-invoice,
+  .status-group-customer {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--spacing-1);
+  }
+}
+
+/* ========================================
+   ACCESSIBILITY ENHANCEMENTS
+   ======================================== */
+
+@media (prefers-contrast: high) {
+  .status-badge {
+    border-width: var(--border-width-2);
+    font-weight: var(--font-weight-semibold);
+  }
+  
+  .status-badge-outline {
+    border-width: var(--border-width-2);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .status-badge-pulse,
+  .status-processing.status-badge-pulse {
+    animation: none;
+  }
+  
+  .status-badge-clickable:hover {
+    transform: none;
+  }
+  
+  .status-badge {
+    transition: none;
+  }
+}
+
+/* Screen Reader Support */
+.status-badge-sr-text {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* ========================================
+   PRINT STYLES
+   ======================================== */
+
+@media print {
+  .status-badge {
+    border: var(--border-width-1) solid var(--color-black) !important;
+    color: var(--color-black) !important;
+    background: transparent !important;
+    box-shadow: none !important;
+  }
+  
+  .status-badge-solid {
+    background: var(--color-gray-200) !important;
+  }
+  
+  .status-badge::after {
+    content: " (" attr(title) ")";
+    font-size: var(--font-size-2xs);
+  }
+  
+  .status-badge-pulse,
+  .status-processing.status-badge-pulse {
+    animation: none !important;
+  }
+}

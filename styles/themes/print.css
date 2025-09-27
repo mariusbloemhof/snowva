@@ -1,0 +1,606 @@
+/**
+ * T083: Print-friendly CSS Implementation
+ * CSS optimized for PDF documents with brand identity preservation
+ * Constitutional TDD compliance - print styling requirements
+ */
+
+/* Print Media Queries */
+@media print {
+  /* === Print Reset === */
+  * {
+    box-shadow: none !important;
+    text-shadow: none !important;
+  }
+
+  /* === Page Setup === */
+  @page {
+    size: A4;
+    margin: 1in 0.75in;
+    color: #000000;
+    background: #ffffff;
+  }
+
+  @page :first {
+    margin-top: 1.5in; /* Extra space for letterhead */
+  }
+
+  /* === Global Print Styles === */
+  html {
+    font-size: 12pt;
+    line-height: 1.4;
+    color: #000000;
+    background: #ffffff;
+  }
+
+  body {
+    font-family: 'Times New Roman', serif;
+    color: #000000;
+    background: #ffffff;
+    margin: 0;
+    padding: 0;
+  }
+
+  /* === Typography === */
+  h1, h2, h3, h4, h5, h6 {
+    color: #000000;
+    font-weight: bold;
+    margin: 1em 0 0.5em 0;
+    page-break-after: avoid;
+  }
+
+  h1 {
+    font-size: 18pt;
+    border-bottom: 2pt solid var(--color-primary-print, #0066cc);
+    padding-bottom: 0.25em;
+    margin-top: 0;
+  }
+
+  h2 {
+    font-size: 16pt;
+    color: var(--color-primary-print, #0066cc);
+  }
+
+  h3 {
+    font-size: 14pt;
+  }
+
+  h4, h5, h6 {
+    font-size: 12pt;
+  }
+
+  p {
+    margin: 0.5em 0;
+    orphans: 3;
+    widows: 3;
+  }
+
+  /* === Brand Identity Preservation === */
+  
+  /* Snowva Brand Colors for Print */
+  :root {
+    --color-primary-print: #0066cc;
+    --color-secondary-print: #333333;
+    --color-success-print: #006600;
+    --color-warning-print: #cc6600;
+    --color-danger-print: #cc0000;
+    --color-text-print: #000000;
+    --color-text-muted-print: #666666;
+    --border-color-print: #cccccc;
+  }
+
+  /* Company Logo and Header */
+  .print-header {
+    display: block !important;
+    text-align: center;
+    margin-bottom: 2em;
+    border-bottom: 1pt solid var(--border-color-print);
+    padding-bottom: 1em;
+  }
+
+  .print-logo {
+    max-height: 60pt;
+    width: auto;
+    margin-bottom: 0.5em;
+  }
+
+  .company-details {
+    font-size: 10pt;
+    color: var(--color-text-muted-print);
+    line-height: 1.2;
+  }
+
+  /* === Invoice/Document Specific Styles === */
+  
+  /* Invoice Header */
+  .invoice-header {
+    display: table;
+    width: 100%;
+    margin-bottom: 1.5em;
+  }
+
+  .invoice-header .company-info,
+  .invoice-header .invoice-info {
+    display: table-cell;
+    vertical-align: top;
+    width: 50%;
+  }
+
+  .invoice-header .invoice-info {
+    text-align: right;
+  }
+
+  .invoice-number {
+    font-size: 16pt;
+    font-weight: bold;
+    color: var(--color-primary-print);
+    margin-bottom: 0.5em;
+  }
+
+  .invoice-date,
+  .due-date {
+    font-size: 11pt;
+    margin: 0.25em 0;
+  }
+
+  /* Customer Information */
+  .customer-details {
+    background: #f8f9fa;
+    border: 1pt solid var(--border-color-print);
+    padding: 1em;
+    margin: 1em 0;
+    page-break-inside: avoid;
+  }
+
+  .customer-details h3 {
+    margin-top: 0;
+    color: var(--color-primary-print);
+  }
+
+  /* === Table Styles === */
+  
+  .table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 1em 0;
+    font-size: 11pt;
+  }
+
+  .table-header {
+    background: var(--color-primary-print) !important;
+    color: #ffffff !important;
+    font-weight: bold;
+  }
+
+  .table-cell {
+    border: 1pt solid var(--border-color-print);
+    padding: 0.5em;
+    text-align: left;
+  }
+
+  .table-cell[data-type="number"] {
+    text-align: right;
+    font-family: 'Courier New', monospace;
+  }
+
+  .table-row:nth-child(even) {
+    background: #f8f9fa;
+  }
+
+  /* Table totals */
+  .table-totals {
+    margin-top: 1em;
+    width: 50%;
+    margin-left: auto;
+  }
+
+  .table-totals .table-row {
+    background: none;
+  }
+
+  .table-totals .total-final {
+    font-weight: bold;
+    border-top: 2pt solid var(--color-primary-print);
+    background: #f0f0f0;
+  }
+
+  /* === Status Indicators === */
+  
+  .status-badge {
+    display: inline-block;
+    padding: 0.25em 0.5em;
+    border: 1pt solid;
+    border-radius: 0;
+    font-size: 10pt;
+    font-weight: bold;
+    text-transform: uppercase;
+  }
+
+  .status-paid {
+    background: #e6ffe6;
+    border-color: var(--color-success-print);
+    color: var(--color-success-print);
+  }
+
+  .status-pending {
+    background: #fff3e6;
+    border-color: var(--color-warning-print);
+    color: var(--color-warning-print);
+  }
+
+  .status-overdue {
+    background: #ffe6e6;
+    border-color: var(--color-danger-print);
+    color: var(--color-danger-print);
+  }
+
+  .status-draft {
+    background: #f0f0f0;
+    border-color: var(--color-text-muted-print);
+    color: var(--color-text-muted-print);
+  }
+
+  .status-finalized {
+    background: #e6f3ff;
+    border-color: var(--color-primary-print);
+    color: var(--color-primary-print);
+  }
+
+  .status-cancelled {
+    background: #f0f0f0;
+    border-color: var(--color-text-muted-print);
+    color: var(--color-text-muted-print);
+    text-decoration: line-through;
+  }
+
+  /* === Form Elements (for printed forms) === */
+  
+  .form-input,
+  .form-select,
+  .form-textarea {
+    border: 1pt solid var(--border-color-print);
+    background: #ffffff;
+    color: var(--color-text-print);
+    font-size: 11pt;
+    padding: 0.25em;
+  }
+
+  .form-label {
+    font-weight: bold;
+    color: var(--color-text-print);
+    font-size: 11pt;
+  }
+
+  /* === Buttons (print as text) === */
+  
+  .btn-primary,
+  .btn-secondary,
+  .btn-danger,
+  .btn-ghost {
+    display: none !important; /* Hide interactive buttons in print */
+  }
+
+  /* Print-specific action indicators */
+  .print-action::after {
+    content: " [Action Required]";
+    font-weight: bold;
+    color: var(--color-primary-print);
+  }
+
+  /* === Cards and Containers === */
+  
+  .card {
+    border: 1pt solid var(--border-color-print);
+    margin: 1em 0;
+    page-break-inside: avoid;
+    background: #ffffff;
+  }
+
+  .card-header {
+    background: #f8f9fa;
+    border-bottom: 1pt solid var(--border-color-print);
+    padding: 0.75em;
+    font-weight: bold;
+    color: var(--color-primary-print);
+  }
+
+  .card-body {
+    padding: 1em;
+  }
+
+  .card-footer {
+    background: #f8f9fa;
+    border-top: 1pt solid var(--border-color-print);
+    padding: 0.5em 1em;
+    font-size: 10pt;
+    color: var(--color-text-muted-print);
+  }
+
+  /* === Navigation (breadcrumbs, etc.) === */
+  
+  .nav-primary,
+  .nav-secondary {
+    display: none !important; /* Hide navigation in print */
+  }
+
+  .breadcrumb {
+    font-size: 10pt;
+    color: var(--color-text-muted-print);
+    margin-bottom: 1em;
+  }
+
+  .breadcrumb-item::after {
+    content: " > ";
+    color: var(--color-text-muted-print);
+  }
+
+  .breadcrumb-item:last-child::after {
+    content: "";
+  }
+
+  /* === Footer Information === */
+  
+  .print-footer {
+    position: fixed;
+    bottom: 0.5in;
+    left: 0;
+    right: 0;
+    text-align: center;
+    font-size: 10pt;
+    color: var(--color-text-muted-print);
+    border-top: 1pt solid var(--border-color-print);
+    padding-top: 0.5em;
+  }
+
+  .page-number::after {
+    content: "Page " counter(page) " of " counter(pages);
+  }
+
+  /* === Utility Classes === */
+  
+  .print-only {
+    display: block !important;
+  }
+
+  .no-print,
+  .screen-only {
+    display: none !important;
+  }
+
+  .page-break-before {
+    page-break-before: always;
+  }
+
+  .page-break-after {
+    page-break-after: always;
+  }
+
+  .page-break-inside-avoid {
+    page-break-inside: avoid;
+  }
+
+  .print-landscape {
+    page-break-before: always;
+    page-break-after: always;
+  }
+
+  .print-landscape::before {
+    content: "";
+    display: block;
+    transform: rotate(90deg);
+  }
+
+  /* === Specific Document Types === */
+  
+  /* Invoice Summary */
+  .invoice-summary {
+    background: #f0f8ff;
+    border: 2pt solid var(--color-primary-print);
+    padding: 1em;
+    margin: 1.5em 0;
+    page-break-inside: avoid;
+  }
+
+  .invoice-summary h3 {
+    color: var(--color-primary-print);
+    margin-top: 0;
+  }
+
+  .amount-due {
+    font-size: 16pt;
+    font-weight: bold;
+    color: var(--color-primary-print);
+    text-align: right;
+  }
+
+  /* Payment Terms */
+  .payment-terms {
+    background: #fffef0;
+    border: 1pt solid var(--color-warning-print);
+    padding: 1em;
+    margin: 1em 0;
+    font-size: 10pt;
+  }
+
+  .payment-terms h4 {
+    color: var(--color-warning-print);
+    margin-top: 0;
+  }
+
+  /* Notes and Comments */
+  .notes-section {
+    background: #f8f9fa;
+    border-left: 4pt solid var(--color-primary-print);
+    padding: 1em;
+    margin: 1.5em 0;
+    font-style: italic;
+  }
+
+  .notes-section h4 {
+    color: var(--color-primary-print);
+    margin-top: 0;
+    font-style: normal;
+  }
+
+  /* === Accessibility in Print === */
+  
+  .sr-only {
+    position: static !important;
+    width: auto !important;
+    height: auto !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    overflow: visible !important;
+    clip: auto !important;
+    white-space: normal !important;
+    font-size: 10pt;
+    color: var(--color-text-muted-print);
+  }
+
+  /* === High Contrast Mode Support === */
+  
+  @media print and (prefers-contrast: high) {
+    :root {
+      --color-primary-print: #000000;
+      --color-secondary-print: #000000;
+      --border-color-print: #000000;
+    }
+
+    .table-header {
+      background: #000000 !important;
+      color: #ffffff !important;
+    }
+
+    .status-badge {
+      background: #ffffff;
+      border: 2pt solid #000000;
+      color: #000000;
+    }
+  }
+
+  /* === Reduced Motion in Print === */
+  
+  @media print and (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+
+  /* === Color Print Optimizations === */
+  
+  @media print and (color) {
+    /* Preserve brand colors in color printing */
+    .status-paid { background: #d4edda; }
+    .status-pending { background: #fff3cd; }
+    .status-overdue { background: #f8d7da; }
+    .invoice-summary { background: #e3f2fd; }
+    .payment-terms { background: #fffde7; }
+  }
+
+  /* === Monochrome Print Optimizations === */
+  
+  @media print and (monochrome) {
+    /* Optimize for black and white printing */
+    .status-badge,
+    .invoice-summary,
+    .payment-terms,
+    .customer-details {
+      background: #ffffff !important;
+      border-style: solid !important;
+      border-width: 1pt !important;
+      border-color: #000000 !important;
+    }
+
+    .table-header {
+      background: #000000 !important;
+      color: #ffffff !important;
+    }
+
+    .table-row:nth-child(even) {
+      background: #f0f0f0 !important;
+    }
+  }
+
+  /* === Economy Print Mode === */
+  
+  @media print and (color-gamut: srgb) {
+    /* Reduce ink usage for economy printing */
+    .card,
+    .customer-details,
+    .notes-section {
+      background: #ffffff !important;
+      border-color: #999999 !important;
+    }
+
+    .table-row:nth-child(even) {
+      background: #ffffff !important;
+    }
+  }
+}
+
+/* === Print Preview Styles (Screen) === */
+
+@media screen {
+  .print-preview {
+    background: #ffffff;
+    color: #000000;
+    font-family: 'Times New Roman', serif;
+    font-size: 12pt;
+    line-height: 1.4;
+    max-width: 8.5in;
+    min-height: 11in;
+    margin: 2rem auto;
+    padding: 1in 0.75in;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+    border: 1px solid #ddd;
+  }
+
+  .print-preview .no-print {
+    display: none;
+  }
+
+  .print-preview .print-only {
+    display: block;
+  }
+}
+
+/* === Print Quality Improvements === */
+
+@media print {
+  /* Improve text rendering */
+  * {
+    -webkit-print-color-adjust: exact !important;
+    color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
+  /* Optimize images for print */
+  img {
+    max-width: 100% !important;
+    height: auto !important;
+    page-break-inside: avoid;
+  }
+
+  /* Optimize tables for page breaks */
+  .table {
+    table-layout: fixed;
+  }
+
+  .table thead {
+    display: table-header-group;
+  }
+
+  .table tfoot {
+    display: table-footer-group;
+  }
+
+  /* Optimize long content */
+  .long-content {
+    orphans: 3;
+    widows: 3;
+  }
+}

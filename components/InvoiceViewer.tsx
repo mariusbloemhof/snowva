@@ -479,7 +479,7 @@ export const InvoiceViewer: React.FC = () => {
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
             {/* Left Column: Invoice UI */}
-            <div className="lg:col-span-2 bg-white rounded-2xl border border-slate-200/80 shadow-sm">
+            <div className="card lg:col-span-2">
                  <div className="p-8 sm:p-10">
                     <div className="flex justify-between items-start">
                         <div>
@@ -526,8 +526,8 @@ export const InvoiceViewer: React.FC = () => {
                         <div className="flow-root">
                             <div className="-mx-4 -my-2 sm:-mx-6 lg:-mx-8">
                                 <div className="inline-block min-w-full py-2 align-middle">
-                                    <table className="min-w-full">
-                                        <thead className="text-sm font-semibold text-slate-900 border-b border-slate-200">
+                                    <table className="table-base">
+                                        <thead className="table-header">
                                             <tr>
                                                 <th scope="col" className="py-3 pl-4 pr-3 text-left sm:pl-6 lg:pl-8">Description</th>
                                                 <th scope="col" className="py-3 px-3 text-left">Item Code</th>
@@ -591,10 +591,10 @@ export const InvoiceViewer: React.FC = () => {
 
             {/* Right Column: Sidebar */}
             <div className="lg:col-span-1 space-y-6">
-                <div className="bg-white p-6 rounded-2xl border border-slate-200/80 shadow-sm">
+                <div className="card">
                     <div className="flex justify-between items-center">
                         <p className="text-sm font-semibold text-slate-800">Amount</p>
-                        <span className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium ${statusInfo.className}`}>{statusInfo.text}</span>
+                        <span className={`status-badge ${statusInfo.className}`}>{statusInfo.text}</span>
                     </div>
                     <p className="mt-1 text-3xl font-bold text-slate-900">R {formatCurrency(total)}</p>
                     
@@ -610,7 +610,7 @@ export const InvoiceViewer: React.FC = () => {
                     </div>
                 </div>
 
-                <div className="bg-white p-6 rounded-2xl border border-slate-200/80 shadow-sm">
+                <div className="card">
                     <h3 className="text-sm font-semibold text-slate-800 mb-4">Activity</h3>
                     <ul className="space-y-6">
                         {activityFeed.map((item, index) => (
@@ -642,20 +642,20 @@ export const InvoiceViewer: React.FC = () => {
                     </ul>
                     <div className="mt-6">
                         <div className="relative">
-                            <textarea rows={3} placeholder="Add your comment..." className="block w-full rounded-lg border-0 bg-slate-50 py-2.5 pr-10 text-slate-900 ring-1 ring-inset ring-slate-200 placeholder:text-slate-400 focus:ring-2 focus:ring-inset focus:ring-indigo-500 sm:text-sm sm:leading-6"></textarea>
+                            <textarea rows={3} placeholder="Add your comment..." className="form-input pr-10"></textarea>
                              <div className="absolute bottom-2 right-2 flex gap-2">
-                                <button className="text-slate-400 hover:text-indigo-600"><PencilIcon className="w-5 h-5"/></button>
+                                <button className="button-ghost"><PencilIcon className="w-5 h-5"/></button>
                             </div>
                         </div>
                         <div className="flex justify-end pt-3">
-                            <button className="rounded-lg bg-indigo-600 px-3 py-1.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500">Comment</button>
+                            <button className="button-primary button-small">Comment</button>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
         {isEmailModalOpen && billToCustomer && (
-            <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50 p-4">
+            <div className="modal-backdrop">
                 <div className="bg-white p-6 rounded-lg shadow-xl w-full max-w-lg">
                     <h3 className="text-lg font-bold mb-2 text-slate-900">Confirm Email</h3>
                     <p className="text-sm text-slate-600 mb-4">
@@ -665,8 +665,8 @@ export const InvoiceViewer: React.FC = () => {
                         Recipient: <span className="font-semibold text-indigo-600">{billToCustomer.contactEmail}</span>
                     </p>
                     <div className="mt-6 flex justify-end space-x-4">
-                        <button onClick={() => setIsEmailModalOpen(false)} className="rounded-md bg-white px-3 py-2 text-sm font-semibold text-slate-900 shadow-sm ring-1 ring-inset ring-slate-300 hover:bg-slate-50">Cancel</button>
-                        <button onClick={handleProceedWithEmail} className="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500">Proceed</button>
+                        <button onClick={() => setIsEmailModalOpen(false)} className="button-secondary">Cancel</button>
+                        <button onClick={handleProceedWithEmail} className="button-primary">Proceed</button>
                     </div>
                 </div>
             </div>

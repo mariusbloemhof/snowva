@@ -230,15 +230,15 @@ export const ProductEditor: React.FC = () => {
     return (
         <>
             {showUnsavedChangesPrompt && (
-                <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50 p-4">
-                    <div className="bg-white p-6 rounded-lg shadow-xl w-full max-w-lg">
+                <div className="modal-backdrop">
+                    <div className="card card-elevated w-full max-w-lg">
                         <h3 className="text-lg font-bold mb-2 text-slate-900">Unsaved Changes</h3>
                         <p className="text-sm text-slate-600 mb-4">
                             You have unsaved changes. Are you sure you want to leave? Your changes will be lost.
                         </p>
                         <div className="mt-6 flex justify-end space-x-4">
-                            <button onClick={() => blocker.reset?.()} className="rounded-md bg-white px-3 py-2 text-sm font-semibold text-slate-900 shadow-sm ring-1 ring-inset ring-slate-300 hover:bg-slate-50">Stay</button>
-                            <button onClick={() => blocker.proceed?.()} className="rounded-md bg-red-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-red-500">Leave</button>
+                            <button onClick={() => blocker.reset?.()} className="button-secondary">Stay</button>
+                            <button onClick={() => blocker.proceed?.()} className="button-danger">Leave</button>
                         </div>
                     </div>
                 </div>
@@ -260,8 +260,8 @@ export const ProductEditor: React.FC = () => {
                             </div>
                         </div>
                         <div className="flex items-center justify-end space-x-3 mt-4 sm:mt-0">
-                            <button type="button" onClick={handleCancel} className="rounded-md bg-white px-3 py-2 text-sm font-semibold text-slate-900 shadow-sm ring-1 ring-inset ring-slate-300 hover:bg-slate-50">Cancel</button>
-                            <button type="submit" className="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Save Product</button>
+                            <button type="button" onClick={handleCancel} className="button-secondary">Cancel</button>
+                            <button type="submit" className="button-primary">Save Product</button>
                         </div>
                     </div>
 
@@ -340,8 +340,8 @@ export const ProductEditor: React.FC = () => {
                                         <div>
                                             <h4 className="font-semibold text-slate-800 mb-2 mt-4">Price History</h4>
                                             <div className="overflow-x-auto max-h-60 border rounded-md">
-                                                <table className="w-full text-left text-sm">
-                                                    <thead className="bg-slate-100 sticky top-0">
+                                                <table className="table-base table-compact">
+                                                    <thead className="table-header table-header-sticky">
                                                         <tr>
                                                             <th className="p-2 font-semibold">Effective Date</th>
                                                             <th className="p-2 font-semibold text-right">Consumer Price</th>

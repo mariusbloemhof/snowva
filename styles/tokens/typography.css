@@ -1,0 +1,303 @@
+/**
+ * Typography Design Tokens
+ * 
+ * Snowva Business Hub - Centralized Design System
+ * Follows Design Tokens Community Group (DTCG) specification
+ * 
+ * Structure:
+ * 1. Base Typography Scale (modular scale)
+ * 2. Font Families (system fonts)
+ * 3. Semantic Typography (component-specific)
+ * 4. Responsive Typography
+ */
+
+:root {
+  /* ========================================
+     FONT FAMILIES
+     System font stack for performance
+     ======================================== */
+  
+  --font-family-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  --font-family-serif: Georgia, Cambria, "Times New Roman", Times, serif;
+  --font-family-mono: Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  
+  /* Primary font assignments */
+  --font-family-base: var(--font-family-sans);     /* Base application font */
+  --font-family-heading: var(--font-family-sans);  /* Heading font */
+  --font-family-code: var(--font-family-mono);     /* Code/monospace font */
+  --font-family-ui: var(--font-family-sans);       /* UI element font */
+
+  /* ========================================
+     FONT WEIGHTS
+     Standardized weight scale
+     ======================================== */
+  
+  --font-weight-thin: 100;
+  --font-weight-light: 300;
+  --font-weight-normal: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+  --font-weight-bold: 700;
+  --font-weight-extrabold: 800;
+  --font-weight-black: 900;
+
+  /* Semantic weight assignments */
+  --font-weight-base: var(--font-weight-normal);     /* Base text weight */
+  --font-weight-heading: var(--font-weight-semibold); /* Heading weight */
+  --font-weight-strong: var(--font-weight-bold);      /* Strong/bold text */
+  --font-weight-emphasis: var(--font-weight-medium);  /* Emphasis text */
+
+  /* ========================================
+     FONT SIZES
+     Modular scale based on 16px base
+     1.250 (Major Third) scale ratio
+     ======================================== */
+  
+  /* Base scale */
+  --font-size-xs: 0.75rem;     /* 12px */
+  --font-size-sm: 0.875rem;    /* 14px */
+  --font-size-base: 1rem;      /* 16px */
+  --font-size-lg: 1.125rem;    /* 18px */
+  --font-size-xl: 1.25rem;     /* 20px */
+  --font-size-2xl: 1.5rem;     /* 24px */
+  --font-size-3xl: 1.875rem;   /* 30px */
+  --font-size-4xl: 2.25rem;    /* 36px */
+  --font-size-5xl: 3rem;       /* 48px */
+  --font-size-6xl: 3.75rem;    /* 60px */
+  --font-size-7xl: 4.5rem;     /* 72px */
+  --font-size-8xl: 6rem;       /* 96px */
+
+  /* ========================================
+     LINE HEIGHTS
+     Relative line heights for readability
+     ======================================== */
+  
+  --line-height-none: 1;
+  --line-height-tight: 1.25;
+  --line-height-snug: 1.375;
+  --line-height-normal: 1.5;
+  --line-height-relaxed: 1.625;
+  --line-height-loose: 2;
+
+  /* Semantic line height assignments */
+  --line-height-base: var(--line-height-normal);    /* Base text line height */
+  --line-height-heading: var(--line-height-tight);  /* Heading line height */
+  --line-height-ui: var(--line-height-snug);        /* UI element line height */
+
+  /* ========================================
+     LETTER SPACING
+     Tracking adjustments for different sizes
+     ======================================== */
+  
+  --letter-spacing-tighter: -0.05em;
+  --letter-spacing-tight: -0.025em;
+  --letter-spacing-normal: 0;
+  --letter-spacing-wide: 0.025em;
+  --letter-spacing-wider: 0.05em;
+  --letter-spacing-widest: 0.1em;
+
+  /* Semantic tracking assignments */
+  --letter-spacing-base: var(--letter-spacing-normal);     /* Base text tracking */
+  --letter-spacing-heading: var(--letter-spacing-tight);   /* Heading tracking */
+  --letter-spacing-ui: var(--letter-spacing-normal);       /* UI element tracking */
+  --letter-spacing-caps: var(--letter-spacing-wider);      /* All caps tracking */
+
+  /* ========================================
+     SEMANTIC TYPOGRAPHY SCALE
+     Component-specific typography definitions
+     ======================================== */
+  
+  /* Heading scale */
+  --text-h1-size: var(--font-size-4xl);
+  --text-h1-weight: var(--font-weight-bold);
+  --text-h1-line-height: var(--line-height-tight);
+  --text-h1-letter-spacing: var(--letter-spacing-tight);
+
+  --text-h2-size: var(--font-size-3xl);
+  --text-h2-weight: var(--font-weight-semibold);
+  --text-h2-line-height: var(--line-height-tight);
+  --text-h2-letter-spacing: var(--letter-spacing-tight);
+
+  --text-h3-size: var(--font-size-2xl);
+  --text-h3-weight: var(--font-weight-semibold);
+  --text-h3-line-height: var(--line-height-snug);
+  --text-h3-letter-spacing: var(--letter-spacing-normal);
+
+  --text-h4-size: var(--font-size-xl);
+  --text-h4-weight: var(--font-weight-medium);
+  --text-h4-line-height: var(--line-height-snug);
+  --text-h4-letter-spacing: var(--letter-spacing-normal);
+
+  --text-h5-size: var(--font-size-lg);
+  --text-h5-weight: var(--font-weight-medium);
+  --text-h5-line-height: var(--line-height-normal);
+  --text-h5-letter-spacing: var(--letter-spacing-normal);
+
+  --text-h6-size: var(--font-size-base);
+  --text-h6-weight: var(--font-weight-semibold);
+  --text-h6-line-height: var(--line-height-normal);
+  --text-h6-letter-spacing: var(--letter-spacing-normal);
+
+  /* Body text variations */
+  --text-body-size: var(--font-size-base);
+  --text-body-weight: var(--font-weight-normal);
+  --text-body-line-height: var(--line-height-relaxed);
+  --text-body-letter-spacing: var(--letter-spacing-normal);
+
+  --text-body-sm-size: var(--font-size-sm);
+  --text-body-sm-weight: var(--font-weight-normal);
+  --text-body-sm-line-height: var(--line-height-normal);
+  --text-body-sm-letter-spacing: var(--letter-spacing-normal);
+
+  --text-body-lg-size: var(--font-size-lg);
+  --text-body-lg-weight: var(--font-weight-normal);
+  --text-body-lg-line-height: var(--line-height-relaxed);
+  --text-body-lg-letter-spacing: var(--letter-spacing-normal);
+
+  /* UI component text */
+  --text-button-size: var(--font-size-sm);
+  --text-button-weight: var(--font-weight-medium);
+  --text-button-line-height: var(--line-height-none);
+  --text-button-letter-spacing: var(--letter-spacing-wide);
+
+  --text-label-size: var(--font-size-sm);
+  --text-label-weight: var(--font-weight-medium);
+  --text-label-line-height: var(--line-height-normal);
+  --text-label-letter-spacing: var(--letter-spacing-normal);
+
+  --text-input-size: var(--font-size-base);
+  --text-input-weight: var(--font-weight-normal);
+  --text-input-line-height: var(--line-height-normal);
+  --text-input-letter-spacing: var(--letter-spacing-normal);
+
+  --text-caption-size: var(--font-size-xs);
+  --text-caption-weight: var(--font-weight-normal);
+  --text-caption-line-height: var(--line-height-normal);
+  --text-caption-letter-spacing: var(--letter-spacing-normal);
+
+  --text-code-size: var(--font-size-sm);
+  --text-code-weight: var(--font-weight-normal);
+  --text-code-line-height: var(--line-height-snug);
+  --text-code-letter-spacing: var(--letter-spacing-normal);
+
+  /* Navigation text */
+  --text-nav-size: var(--font-size-base);
+  --text-nav-weight: var(--font-weight-medium);
+  --text-nav-line-height: var(--line-height-snug);
+  --text-nav-letter-spacing: var(--letter-spacing-normal);
+
+  --text-nav-sm-size: var(--font-size-sm);
+  --text-nav-sm-weight: var(--font-weight-normal);
+  --text-nav-sm-line-height: var(--line-height-snug);
+  --text-nav-sm-letter-spacing: var(--letter-spacing-normal);
+
+  /* Status and badge text */
+  --text-badge-size: var(--font-size-xs);
+  --text-badge-weight: var(--font-weight-semibold);
+  --text-badge-line-height: var(--line-height-none);
+  --text-badge-letter-spacing: var(--letter-spacing-wider);
+
+  --text-status-size: var(--font-size-sm);
+  --text-status-weight: var(--font-weight-medium);
+  --text-status-line-height: var(--line-height-snug);
+  --text-status-letter-spacing: var(--letter-spacing-normal);
+
+  /* ========================================
+     TABLE TYPOGRAPHY
+     Specific typography for data tables
+     ======================================== */
+  
+  --text-table-header-size: var(--font-size-sm);
+  --text-table-header-weight: var(--font-weight-semibold);
+  --text-table-header-line-height: var(--line-height-snug);
+  --text-table-header-letter-spacing: var(--letter-spacing-wide);
+
+  --text-table-cell-size: var(--font-size-sm);
+  --text-table-cell-weight: var(--font-weight-normal);
+  --text-table-cell-line-height: var(--line-height-snug);
+  --text-table-cell-letter-spacing: var(--letter-spacing-normal);
+
+  --text-table-numeric-size: var(--font-size-sm);
+  --text-table-numeric-weight: var(--font-weight-medium);
+  --text-table-numeric-line-height: var(--line-height-snug);
+  --text-table-numeric-letter-spacing: var(--letter-spacing-normal);
+
+  /* ========================================
+     TEXT TRANSFORM UTILITIES
+     ======================================== */
+  
+  --text-transform-none: none;
+  --text-transform-uppercase: uppercase;
+  --text-transform-lowercase: lowercase;
+  --text-transform-capitalize: capitalize;
+
+  /* ========================================
+     TEXT DECORATION
+     ======================================== */
+  
+  --text-decoration-none: none;
+  --text-decoration-underline: underline;
+  --text-decoration-line-through: line-through;
+
+  --text-underline-offset: 0.125em;
+  --text-decoration-thickness: 0.0625em;
+}
+
+/* ========================================
+   RESPONSIVE TYPOGRAPHY ADJUSTMENTS
+   Scale typography for different screen sizes
+   ======================================== */
+
+@media (min-width: 640px) {
+  :root {
+    --text-h1-size: var(--font-size-5xl);
+    --text-h2-size: var(--font-size-4xl);
+    --text-h3-size: var(--font-size-3xl);
+    --text-body-lg-size: var(--font-size-xl);
+  }
+}
+
+@media (min-width: 1024px) {
+  :root {
+    --text-h1-size: var(--font-size-6xl);
+    --text-h2-size: var(--font-size-5xl);
+    --text-h3-size: var(--font-size-4xl);
+  }
+}
+
+/* ========================================
+   REDUCED MOTION PREFERENCES
+   Respect user motion preferences
+   ======================================== */
+
+@media (prefers-reduced-motion: reduce) {
+  /* No typography-specific motion adjustments needed for this token file */
+}
+
+/* ========================================
+   PRINT TYPOGRAPHY ADJUSTMENTS
+   Optimize typography for print
+   ======================================== */
+
+@media print {
+  :root {
+    --text-h1-size: var(--font-size-3xl);
+    --text-h2-size: var(--font-size-2xl);
+    --text-h3-size: var(--font-size-xl);
+    --text-body-line-height: var(--line-height-normal);
+    --text-table-cell-size: var(--font-size-xs);
+  }
+}
+
+/* ========================================
+   HIGH CONTRAST ADJUSTMENTS
+   Enhanced typography for high contrast mode
+   ======================================== */
+
+@media (prefers-contrast: high) {
+  :root {
+    --font-weight-base: var(--font-weight-medium);
+    --font-weight-heading: var(--font-weight-bold);
+    --text-decoration-thickness: 0.125em;
+  }
+}
